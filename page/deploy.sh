@@ -214,7 +214,7 @@ commit+push() {
   if [ $GH_TOKEN ]; then
     # deploy by Travis CI
     # add github token
-    repo="https://"$GH_TOKEN"@github.com/Binance-docs/apidocs.git"
+    repo="https://"$GH_TOKEN"@github.com/BinanceAPItest/Delivery_Contract_API.git"
     git remote add origin-pages $repo
     git push --quiet origin-pages $deploy_branch
   else
