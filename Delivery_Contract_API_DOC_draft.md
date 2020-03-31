@@ -2670,11 +2670,16 @@ GET /dfapi/v1/positionRisk (HMAC SHA256)
 
    名称    | 类型 | 是否必需 | 描述
 ---------- | ---- | -------- | ----
+marginAsset | STRING | NO	  | 
+pair     | STRING | NO     |
 recvWindow | LONG | NO       |
 timestamp  | LONG | YES      |
 
-**注意**    
-请与账户推送信息`ACCOUNT_UPDATE`配合使用，以满足您的及时性和准确性需求。
+**注意**  
+
+* marginAsset 和 pair 不要同时提供
+* marginAsset 和 pair 均不提供则返回所有上市状态和结算中的symbol   
+* 请与账户推送信息`ACCOUNT_UPDATE`配合使用，以满足您的及时性和准确性需求。
 
 
 
@@ -2764,7 +2769,7 @@ GET /dfapi/v1/income (HMAC SHA256)
    名称    |  类型  | 是否必需 |                                              描述
 ---------- | ------ | -------- | -----------------------------------------------------------------------------------------------
 symbol     | STRING | NO       | 交易对
-incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL"，"FUNDING_FEE", "COMMISSION", and "INSURANCE_CLEAR"
+incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL"，"FUNDING_FEE", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 limit      | INT    | NO       | 返回的结果集数量 默认值:100 最大值:1000
@@ -2952,7 +2957,7 @@ timestamp | LONG | YES |
     "c":"TEST",						// 客户端自定订单ID
       // 特殊的自定义订单ID:
       // "autoclose-"开头的字符串: 系统强平订单
-      //
+      // "delivery-"开头的字符串: 系统交割平仓单
     "S":"SELL",						// 订单方向
     "o":"LIMIT",					// 订单类型
     "f":"GTC",						// 有效方式
