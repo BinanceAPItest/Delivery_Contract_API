@@ -3728,6 +3728,18 @@ GET /dfapi/v1/positionRisk (HMAC SHA256)
 </tr>
 </thead><tbody>
 <tr>
+<td>marginAsset</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
 <td>recvWindow</td>
 <td>LONG</td>
 <td>NO</td>
@@ -3741,8 +3753,13 @@ GET /dfapi/v1/positionRisk (HMAC SHA256)
 </tr>
 </tbody></table>
 
-<p><strong>注意</strong><br>
-请与账户推送信息<code>ACCOUNT_UPDATE</code>配合使用，以满足您的及时性和准确性需求。</p>
+<p><strong>注意</strong>  </p>
+
+<ul>
+<li>marginAsset 和 pair 不要同时提供</li>
+<li>marginAsset 和 pair 均不提供则返回所有上市状态和结算中的symbol<br></li>
+<li>请与账户推送信息<code>ACCOUNT_UPDATE</code>配合使用，以满足您的及时性和准确性需求。</li>
+</ul>
 <h2 id='user_data-6'>账户成交历史 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -3878,7 +3895,7 @@ GET /dfapi/v1/income (HMAC SHA256)
 <td>incomeType</td>
 <td>STRING</td>
 <td>NO</td>
-<td>收益类型 &quot;TRANSFER&quot;，&quot;WELCOME_BONUS&quot;, &quot;REALIZED_PNL&quot;，&quot;FUNDING_FEE&quot;, &quot;COMMISSION&quot;, and &quot;INSURANCE_CLEAR&quot;</td>
+<td>收益类型 &quot;TRANSFER&quot;，&quot;WELCOME_BONUS&quot;, &quot;REALIZED_PNL&quot;，&quot;FUNDING_FEE&quot;, &quot;COMMISSION&quot;, &quot;INSURANCE_CLEAR&quot;, <strong>&quot;DELIVERED_SETTELMENT&quot;</strong></td>
 </tr>
 <tr>
 <td>startTime</td>
@@ -4121,7 +4138,7 @@ DELETE /dfapi/v1/listenKey (HMAC SHA256)
     <span class="s2">"c"</span><span class="p">:</span><span class="s2">"TEST"</span><span class="p">,</span>                     <span class="c1">// 客户端自定订单ID</span>
       <span class="c1">// 特殊的自定义订单ID:</span>
       <span class="c1">// "autoclose-"开头的字符串: 系统强平订单</span>
-      <span class="c1">//</span>
+      <span class="c1">// "delivery-"开头的字符串: 系统交割平仓单</span>
     <span class="s2">"S"</span><span class="p">:</span><span class="s2">"SELL"</span><span class="p">,</span>                     <span class="c1">// 订单方向</span>
     <span class="s2">"o"</span><span class="p">:</span><span class="s2">"LIMIT"</span><span class="p">,</span>                    <span class="c1">// 订单类型</span>
     <span class="s2">"f"</span><span class="p">:</span><span class="s2">"GTC"</span><span class="p">,</span>                      <span class="c1">// 有效方式</span>
