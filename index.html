@@ -312,6 +312,12 @@
                     <a href="#1e66c0284e" class="toc-h2 toc-link" data-title="归集交易">归集交易</a>
                   </li>
                   <li>
+                    <a href="#19e9d7d682" class="toc-h2 toc-link" data-title="最新现货指数价格">最新现货指数价格</a>
+                  </li>
+                  <li>
+                    <a href="#7ed4a99db6" class="toc-h2 toc-link" data-title="最新现货指数价格和基差">最新现货指数价格和基差</a>
+                  </li>
+                  <li>
                     <a href="#k-3" class="toc-h2 toc-link" data-title="K线">K线</a>
                   </li>
                   <li>
@@ -1999,6 +2005,80 @@ GET /dfapi/v1/leverageBracket
 <code>&lt;symbol&gt;@aggTrade</code></p>
 
 <p><strong>Update Speed:</strong> 100ms</p>
+<h2 id='19e9d7d682'>最新现货指数价格</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"indexPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>          <span class="c1">// 标的交易对</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 指数价格</span>
+  <span class="p">}</span>
+</code></pre>
+<p><strong>Stream Name:</strong><br>
+<code>&lt;pair&gt;@indexPrice</code></p>
+
+<p><strong>Update Speed:</strong> 3000ms</p>
+<h2 id='7ed4a99db6'>最新现货指数价格和基差</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                       <span class="c1">// 标的</span>
+    <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span>     <span class="c1">// 指数价格</span>
+    <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
+    <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>                  <span class="c1">// 基差=合约价格-指数价格</span>
+    <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>         <span class="c1">// 基差率=基差/指数价格</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p><strong>当指定pair或symbol、pair均未指定时 响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
+        <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
+        <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
+        <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>              <span class="c1">// 基差=合约价格-指数价格</span>
+        <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>     <span class="c1">// 基差率=基差/指数价格</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /dfapi/v1/premiumIndex
+</code></p>
+
+<p><strong>权重:</strong>
+1</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>NO</td>
+<td>交易对</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
+</tbody></table>
 <h2 id='k-3'>K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
