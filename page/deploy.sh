@@ -158,6 +158,7 @@ main() {
       disable_expanded_output
       git fetch --force $repo $deploy_branch:$deploy_branch
       enable_expanded_output
+      echo "repo $deploy_branch:$deploy_branch"
     fi
     incremental_deploy
   else initial_deploy
@@ -186,6 +187,7 @@ check_diff() {
 
 initial_deploy() {
   echo "initial_deploy..."
+  echo "$repo:$deploy_branch"
   git fetch origin $deploy_branch
   git --work-tree "$gh_pages_directory" fetch --force $repo $deploy_branch:$deploy_branch
   git --work-tree "$gh_pages_directory" checkout $deploy_branch
