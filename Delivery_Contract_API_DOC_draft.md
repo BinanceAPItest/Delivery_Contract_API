@@ -2438,15 +2438,15 @@ timestamp  | LONG   | YES      |
 		   	"positionSide": "SHORT", // 持仓方向
 		 }
 	 ],
-	 // 以下跨资产总额是否需要？
-	 "totalInitialMargin": "0.33683000", // 起始保证金总额（存在逐仓请忽略）
-	 "totalMaintMargin": "0.02695000", // 维持保证金总额
-	 "totalMarginBalance": "8.74947592", // 保证金总余额
-	 "totalOpenOrderInitialMargin": "0.00000000", // 挂单起始保证金总额
-	 "totalPositionInitialMargin": "0.33683000", // 持仓起始保证金总额
-	 "totalUnrealizedProfit": "-0.44537584", // 持仓未实现盈亏总额
-	 "totalWalletBalance": "9.19485176", // 账户总余额
-	 // 以上跨资产总额是否需要？
+	 // 以下跨资产总额不需要了吧？
+	 //"totalInitialMargin": "0.33683000", // 起始保证金总额（存在逐仓请忽略）
+	 //"totalMaintMargin": "0.02695000", // 维持保证金总额
+	 //"totalMarginBalance": "8.74947592", // 保证金总余额
+	 //"totalOpenOrderInitialMargin": "0.00000000", // 挂单起始保证金总额
+	 //"totalPositionInitialMargin": "0.33683000", // 持仓起始保证金总额
+	 //"totalUnrealizedProfit": "-0.44537584", // 持仓未实现盈亏总额
+	 //"totalWalletBalance": "9.19485176", // 账户总余额
+	 // 以上跨资产总额不需要了吧？
 	 "updateTime": 0
  }
 
