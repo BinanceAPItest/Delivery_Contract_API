@@ -315,7 +315,7 @@
                     <a href="#19e9d7d682" class="toc-h2 toc-link" data-title="最新现货指数价格">最新现货指数价格</a>
                   </li>
                   <li>
-                    <a href="#7ed4a99db6" class="toc-h2 toc-link" data-title="最新现货指数价格和基差">最新现货指数价格和基差</a>
+                    <a href="#mark-price" class="toc-h2 toc-link" data-title="最新现货指数价格,基差,和Mark Price">最新现货指数价格,基差,和Mark Price</a>
                   </li>
                   <li>
                     <a href="#k-3" class="toc-h2 toc-link" data-title="K线">K线</a>
@@ -2020,7 +2020,7 @@ GET /dfapi/v1/leverageBracket
 <code>&lt;pair&gt;@indexPrice</code></p>
 
 <p><strong>Update Speed:</strong> 3000ms</p>
-<h2 id='7ed4a99db6'>最新现货指数价格和基差</h2>
+<h2 id='mark-price'>最新现货指数价格,基差,和Mark Price</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -2031,6 +2031,7 @@ GET /dfapi/v1/leverageBracket
     <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
     <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>                  <span class="c1">// 基差=合约价格-指数价格</span>
     <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>         <span class="c1">// 基差率=基差/指数价格</span>
+    <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
 <span class="p">}</span>
 </code></pre>
@@ -2045,6 +2046,7 @@ GET /dfapi/v1/leverageBracket
         <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
         <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>              <span class="c1">// 基差=合约价格-指数价格</span>
         <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>     <span class="c1">// 基差率=基差/指数价格</span>
+        <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
     <span class="p">}</span>
 <span class="p">]</span>
