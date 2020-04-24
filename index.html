@@ -274,6 +274,9 @@
                     <a href="#c59e471e81" class="toc-h2 toc-link" data-title="近期成交(归集)">近期成交(归集)</a>
                   </li>
                   <li>
+                    <a href="#mark-price" class="toc-h2 toc-link" data-title="最新现货指数价格,基差,和Mark Price">最新现货指数价格,基差,和Mark Price</a>
+                  </li>
+                  <li>
                     <a href="#k" class="toc-h2 toc-link" data-title="K线数据">K线数据</a>
                   </li>
                   <li>
@@ -315,7 +318,10 @@
                     <a href="#19e9d7d682" class="toc-h2 toc-link" data-title="最新现货指数价格">最新现货指数价格</a>
                   </li>
                   <li>
-                    <a href="#mark-price" class="toc-h2 toc-link" data-title="最新现货指数价格,基差,和Mark Price">最新现货指数价格,基差,和Mark Price</a>
+                    <a href="#markprice" class="toc-h2 toc-link" data-title="最新MarkPrice">最新MarkPrice</a>
+                  </li>
+                  <li>
+                    <a href="#pair-synbol-markprice" class="toc-h2 toc-link" data-title="pair所有synbol最新MarkPrice">pair所有synbol最新MarkPrice</a>
                   </li>
                   <li>
                     <a href="#k-3" class="toc-h2 toc-link" data-title="K线">K线</a>
@@ -1316,6 +1322,67 @@ GET /dfapi/v1/aggTrades
 <li>如果同时发送<code>startTime</code>和<code>endTime</code>，间隔必须小于一小时</li>
 <li>如果没有发送任何筛选参数(<code>fromId</code>, <code>startTime</code>, <code>endTime</code>)，默认返回最近的成交记录</li>
 </ul>
+<h2 id='mark-price'>最新现货指数价格,基差,和Mark Price</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                       <span class="c1">// 标的</span>
+    <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span>     <span class="c1">// 指数价格</span>
+    <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
+    <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>                  <span class="c1">// 基差=合约价格-指数价格</span>
+    <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>         <span class="c1">// 基差率=基差/指数价格</span>
+    <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p><strong>当指定pair或symbol、pair均未指定时 响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
+        <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
+        <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
+        <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>              <span class="c1">// 基差=合约价格-指数价格</span>
+        <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>     <span class="c1">// 基差率=基差/指数价格</span>
+        <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /dfapi/v1/premiumIndex
+</code></p>
+
+<p><strong>权重:</strong>
+1</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>NO</td>
+<td>交易对</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
+</tbody></table>
 <h2 id='k'>K线数据</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -2017,70 +2084,41 @@ GET /dfapi/v1/leverageBracket
   <span class="p">}</span>
 </code></pre>
 <p><strong>Stream Name:</strong><br>
-<code>&lt;pair&gt;@indexPrice</code></p>
+<code>&lt;pair&gt;@indexPrice</code> 或 <code>&lt;pair&gt;@indexPrice@1s</code></p>
 
-<p><strong>Update Speed:</strong> 3000ms</p>
-<h2 id='mark-price'>最新现货指数价格,基差,和Mark Price</h2>
+<p><strong>Update Speed:</strong> 3000ms 或 1000ms</p>
+<h2 id='markprice'>最新MarkPrice</h2>
 <blockquote>
-<p><strong>响应:</strong></p>
+<p><strong>Payload:</strong></p>
 </blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
-    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                       <span class="c1">// 标的</span>
-    <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span>     <span class="c1">// 指数价格</span>
-    <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
-    <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>                  <span class="c1">// 基差=合约价格-指数价格</span>
-    <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>         <span class="c1">// 基差率=基差/指数价格</span>
-    <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
-    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
-<span class="p">}</span>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
+  <span class="p">}</span>
 </code></pre>
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@markPrice</code> 或 <code>&lt;symbol&gt;@markPrice@1s</code></p>
+
+<p><strong>Update Speed:</strong> 3000ms 或 1000ms</p>
+<h2 id='pair-synbol-markprice'>pair所有synbol最新MarkPrice</h2>
 <blockquote>
-<p><strong>当指定pair或symbol、pair均未指定时 响应</strong></p>
+<p><strong>Payload:</strong></p>
 </blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
-        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
-        <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
-        <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
-        <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>              <span class="c1">// 基差=合约价格-指数价格</span>
-        <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>     <span class="c1">// 基差率=基差/指数价格</span>
-        <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
-        <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
+<pre class="highlight javascript tab-javascript"><code> <span class="p">[</span> 
+     <span class="p">{</span>
+        <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
+        <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
+        <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
+        <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
     <span class="p">}</span>
-<span class="p">]</span>
+ <span class="p">]</span>
 </code></pre>
-<p><code>
-GET /dfapi/v1/premiumIndex
-</code></p>
+<p><strong>Stream Name:</strong><br>
+<code>&lt;pair&gt;@markPrice</code> 或 <code>&lt;pair&gt;@markPrice@1s</code></p>
 
-<p><strong>权重:</strong>
-1</p>
-
-<p><strong>参数:</strong></p>
-
-<table><thead>
-<tr>
-<th>名称</th>
-<th>类型</th>
-<th>是否必需</th>
-<th>描述</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>symbol</td>
-<td>STRING</td>
-<td>NO</td>
-<td>交易对</td>
-</tr>
-<tr>
-<td>pair</td>
-<td>STRING</td>
-<td>NO</td>
-<td>标的交易对</td>
-</tr>
-</tbody></table>
+<p><strong>Update Speed:</strong> 3000ms 或 1000ms</p>
 <h2 id='k-3'>K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
