@@ -283,6 +283,9 @@
                     <a href="#k-2" class="toc-h2 toc-link" data-title="连续合约K线数据">连续合约K线数据</a>
                   </li>
                   <li>
+                    <a href="#k-3" class="toc-h2 toc-link" data-title="价格指数K线数据">价格指数K线数据</a>
+                  </li>
+                  <li>
                     <a href="#24hr" class="toc-h2 toc-link" data-title="24hr价格变动情况">24hr价格变动情况</a>
                   </li>
                   <li>
@@ -324,10 +327,13 @@
                     <a href="#pair-synbol-markprice" class="toc-h2 toc-link" data-title="pair所有synbol最新MarkPrice">pair所有synbol最新MarkPrice</a>
                   </li>
                   <li>
-                    <a href="#k-3" class="toc-h2 toc-link" data-title="K线">K线</a>
+                    <a href="#k-4" class="toc-h2 toc-link" data-title="K线">K线</a>
                   </li>
                   <li>
-                    <a href="#k-4" class="toc-h2 toc-link" data-title="连续合约K线">连续合约K线</a>
+                    <a href="#k-5" class="toc-h2 toc-link" data-title="连续合约K线">连续合约K线</a>
+                  </li>
+                  <li>
+                    <a href="#k-6" class="toc-h2 toc-link" data-title="价格指数K线">价格指数K线</a>
                   </li>
                   <li>
                     <a href="#symbol-ticker" class="toc-h2 toc-link" data-title="按Symbol的精简Ticker">按Symbol的精简Ticker</a>
@@ -434,6 +440,9 @@
                   </li>
                   <li>
                     <a href="#listenkey-user_stream-3" class="toc-h2 toc-link" data-title="关闭listenKey (USER_STREAM)">关闭listenKey (USER_STREAM)</a>
+                  </li>
+                  <li>
+                    <a href="#145a4121d8" class="toc-h2 toc-link" data-title="追加保证金通知">追加保证金通知</a>
                   </li>
                   <li>
                     <a href="#balance-position" class="toc-h2 toc-link" data-title="Balance和Position更新推送">Balance和Position更新推送</a>
@@ -1062,6 +1071,7 @@ NONE</p>
             <span class="s2">"contractStatus"</span><span class="p">:</span> <span class="s2">"LISTING"</span> <span class="c1">// </span>
             <span class="s2">"contractSize"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>     <span class="c1">//</span>
             <span class="s2">"quoteAsset"</span><span class="p">:</span> <span class="s2">"USDT"</span><span class="p">,</span> <span class="c1">// 报价币种</span>
+            <span class="s2">"baseAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>   
             <span class="s2">"marginAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span>    <span class="c1">// 保证金币种 </span>
         <span class="p">}</span>
     <span class="p">],</span>
@@ -1338,7 +1348,7 @@ GET /dfapi/v1/aggTrades
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p><strong>当指定pair或symbol、pair均未指定时 响应</strong></p>
+<p><strong>当指定pair, 或symbol、pair均未指定时 响应</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
@@ -1388,7 +1398,7 @@ GET /dfapi/v1/premiumIndex
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-  <span class="p">[</span>
+  <span class="p">{</span>
     <span class="mi">1499040000000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
     <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
     <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
@@ -1401,7 +1411,7 @@ GET /dfapi/v1/premiumIndex
     <span class="s2">"1756.87402397"</span><span class="p">,</span>    <span class="c1">// 主动买入成交量</span>
     <span class="s2">"28.46694368"</span><span class="p">,</span>      <span class="c1">// 主动买入成交额</span>
     <span class="s2">"17928899.62484339"</span> <span class="c1">// 请忽略该参数</span>
-  <span class="p">]</span>
+  <span class="p">}</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
@@ -1462,7 +1472,7 @@ GET /dfapi/v1/klines
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-  <span class="p">[</span>
+  <span class="p">{</span>
     <span class="mi">1499040000000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
     <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
     <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
@@ -1475,7 +1485,7 @@ GET /dfapi/v1/klines
     <span class="s2">"1756.87402397"</span><span class="p">,</span>    <span class="c1">// 主动买入成交量</span>
     <span class="s2">"28.46694368"</span><span class="p">,</span>      <span class="c1">// 主动买入成交额</span>
     <span class="s2">"17928899.62484339"</span> <span class="c1">// 请忽略该参数</span>
-  <span class="p">]</span>
+  <span class="p">}</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
@@ -1536,6 +1546,80 @@ GET /dfapi/v1/continuousKlines
 
 <ul>
 <li>缺省返回最近的数据</li>
+</ul>
+<h2 id='k-3'>价格指数K线数据</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="mi">1587910140000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
+    <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
+    <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
+    <span class="s2">"0.01575800"</span><span class="p">,</span>       <span class="c1">// 最低价</span>
+    <span class="s2">"0.01577100"</span><span class="p">,</span>       <span class="c1">// 收盘价(当前K线未结束的即为最新价)</span>
+    <span class="s2">"0  "</span><span class="p">,</span>                   <span class="c1">// 请忽略 （成交量）</span>
+    <span class="mi">1587910199999</span><span class="p">,</span>      <span class="c1">// 收盘时间</span>
+    <span class="s2">"0"</span><span class="p">,</span>                     <span class="c1">// 请忽略 （成交额）</span>
+    <span class="mi">60</span><span class="p">,</span>                  <span class="c1">// 构成记录数</span>
+    <span class="s2">"0"</span><span class="p">,</span>                     <span class="c1">// 请忽略 （主动买入成交量）</span>
+    <span class="s2">"0"</span><span class="p">,</span>                 <span class="c1">// 请忽略 （主动买入成交额）</span>
+    <span class="s2">"0"</span>                      <span class="c1">// 请忽略该参数</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /dfapi/v1/indexPriceKlines
+</code>
+每根K线的开盘时间可视为唯一ID</p>
+
+<p><strong>权重:</strong>
+1</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>YES</td>
+<td>标的交易对</td>
+</tr>
+<tr>
+<td>interval</td>
+<td>ENUM</td>
+<td>YES</td>
+<td>时间间隔</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td>起始时间</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td>结束时间</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>默认值:500 最大值:1500</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>最多只能查询最近30天数据</li>
 </ul>
 <h2 id='24hr'>24hr价格变动情况</h2>
 <blockquote>
@@ -1614,10 +1698,18 @@ GET /dfapi/v1/ticker/24hr
 <td>NO</td>
 <td>交易对</td>
 </tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
 </tbody></table>
 
 <ul>
-<li>不发送交易对参数，则会返回所有交易对信息</li>
+<li>symbol 和 pair 不接受同时发送</li>
+<li>发送 pair的，返回pair对应所有正在交易的symbol数据</li>
+<li>symbol,pair 都没有发送的，返回所有symbol数据</li>
 </ul>
 <h2 id='8ff46b58de'>最新价格</h2>
 <blockquote>
@@ -1644,9 +1736,12 @@ GET /dfapi/v1/ticker/price
 
 <p>返回最近价格</p>
 
-<p><strong>权重:</strong>
-* 单交易对<code>1</code>
-* 无交易对<code>2</code></p>
+<p><strong>权重:</strong></p>
+
+<ul>
+<li>单交易对<code>1</code></li>
+<li>多交易对<code>2</code></li>
+</ul>
 
 <p><strong>参数:</strong></p>
 
@@ -1664,10 +1759,18 @@ GET /dfapi/v1/ticker/price
 <td>NO</td>
 <td>交易对</td>
 </tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
 </tbody></table>
 
 <ul>
-<li>不发送交易对参数，则会返回所有交易对信息</li>
+<li>symbol 和 pair 不接受同时发送</li>
+<li>发送 pair的，返回pair对应所有正在交易的symbol数据</li>
+<li>symbol,pair 都没有发送的，返回所有symbol数据</li>
 </ul>
 <h2 id='5393cd07b4'>当前最优挂单</h2>
 <blockquote>
@@ -1682,7 +1785,7 @@ GET /dfapi/v1/ticker/price
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>或（当不发送symbol）</p>
+<p>或（当发送pair）</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
@@ -1702,7 +1805,7 @@ GET /dfapi/v1/ticker/bookTicker
 
 <p><strong>权重:</strong>
 单交易对1<br>
-无交易对2</p>
+多交易对2</p>
 
 <p><strong>参数:</strong></p>
 
@@ -1720,10 +1823,18 @@ GET /dfapi/v1/ticker/bookTicker
 <td>NO</td>
 <td>交易对</td>
 </tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
 </tbody></table>
 
 <ul>
-<li>不发送交易对参数，则会返回所有交易对信息</li>
+<li>symbol 和 pair 不接受同时发送</li>
+<li>发送 pair的，返回pair对应所有正在交易的symbol数据</li>
+<li>symbol,pair 都没有发送的，返回所有symbol数据</li>
 </ul>
 <h2 id='bf187d983f'>获取市场强平订单</h2>
 <blockquote>
@@ -1732,7 +1843,7 @@ GET /dfapi/v1/ticker/bookTicker
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
 
 <span class="err"> </span> <span class="err"> </span> <span class="p">{</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 交易对</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 交易对</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"7918.33"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单价格</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"0.014"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单数量</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"0.014"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>  <span class="c1">// 成交数量</span>
@@ -1766,6 +1877,12 @@ GET /dfapi/v1/ticker/bookTicker
 <td>交易对</td>
 </tr>
 <tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
+<tr>
 <td>startTime</td>
 <td>LONG</td>
 <td>NO</td>
@@ -1786,7 +1903,9 @@ GET /dfapi/v1/ticker/bookTicker
 </tbody></table>
 
 <ul>
-<li>如果不提供<code>symbol</code>,返回全市场强平订单。</li>
+<li>symbol 和 pair 不接受同时发送</li>
+<li>发送 pair的，返回pair对应所有正在交易的symbol数据</li>
+<li>symbol,pair 都没有发送的，返回所有symbol数据</li>
 </ul>
 <h2 id='f6cc22e496'>获取未平仓合约数</h2>
 <blockquote>
@@ -1795,7 +1914,28 @@ GET /dfapi/v1/ticker/bookTicker
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
     <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"10659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span> <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
+    <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span>  <span class="c1">// 合约类型</span>
 <span class="p">}</span>
+
+</code></pre>
+<blockquote>
+<p>或（当发送pair）</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"10659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span> <span class="c1">// 交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
+        <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span>  <span class="c1">// 合约类型</span>
+    <span class="p">}</span><span class="err">，</span>
+    <span class="p">{</span>
+        <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"7659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_201227"</span> <span class="c1">// 交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
+        <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"NEXT_QUARTER"</span>  <span class="c1">// 合约类型</span>
+    <span class="p">}</span><span class="err">，</span>    
+<span class="p">]</span>
 
 </code></pre>
 <p><code>
@@ -1817,10 +1957,21 @@ GET /dfapi/v1/openInterest
 <tr>
 <td>symbol</td>
 <td>STRING</td>
-<td>YES</td>
+<td>NO</td>
 <td>交易对</td>
 </tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
 </tbody></table>
+
+<ul>
+<li>symbol 和 pair 必须发送一个</li>
+<li>发送 pair的，返回pair对应所有正在交易的symbol数据</li>
+</ul>
 <h2 id='market_data-2'>杠杆分层标准 (MARKET_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -1841,7 +1992,7 @@ GET /dfapi/v1/openInterest
 <span class="p">[</span>
 </code></pre>
 <blockquote>
-<p><strong>或</strong> (若发送symbol)</p>
+<p><strong>或</strong> (若发送pair)</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code>
 <span class="p">{</span>
@@ -2119,7 +2270,7 @@ GET /dfapi/v1/leverageBracket
 <code>&lt;pair&gt;@markPrice</code> 或 <code>&lt;pair&gt;@markPrice@1s</code></p>
 
 <p><strong>Update Speed:</strong> 3000ms 或 1000ms</p>
-<h2 id='k-3'>K线</h2>
+<h2 id='k-4'>K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
 </blockquote>
@@ -2176,14 +2327,14 @@ GET /dfapi/v1/leverageBracket
 <code>&lt;pair&gt;_&lt;contractType&gt;@kline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
-<h2 id='k-4'>连续合约K线</h2>
+<h2 id='k-5'>连续合约K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"continuous_kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// 事件时间</span>
-  <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>    <span class="c1">// 标的交易对</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>    <span class="c1">// 标的交易对</span>
   <span class="s2">"ct"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span><span class="p">,</span>  <span class="c1">// 合约类型</span>
   <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
@@ -2234,6 +2385,63 @@ GET /dfapi/v1/leverageBracket
 <code>&lt;symbol&gt;@continuousKline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
+<h2 id='k-6'>价格指数K线</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"indexPrice_kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// 事件时间</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>    <span class="c1">// 标的交易对</span>
+  <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
+    <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// 这根K线的结束时间</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// K线间隔</span>
+    <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// 这根K线期间第一笔数据Id</span>
+    <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// 这根K线期间末一笔数据Id</span>
+    <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>  <span class="c1">// 这根K线期间第一笔成交价</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0020"</span><span class="p">,</span>  <span class="c1">// 这根K线期间末一笔成交价</span>
+    <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>  <span class="c1">// 这根K线期间最高成交价</span>
+    <span class="s2">"l"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>  <span class="c1">// 这根K线期间最低成交价</span>
+    <span class="s2">"v"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>       <span class="c1">// 无意义字段</span>
+    <span class="s2">"n"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>         <span class="c1">// 这根K线更新期间数据数量</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>     <span class="c1">// 这根K线是否完结（是否已经开始下一根K线）</span>
+    <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>       <span class="c1">// 无意义字段</span>
+    <span class="s2">"V"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>       <span class="c1">// 无意义字段</span>
+    <span class="s2">"Q"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>           <span class="c1">// 无意义字段</span>
+    <span class="s2">"B"</span><span class="p">:</span> <span class="s2">"0"</span>        <span class="c1">// 无意义字段</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。</p>
+
+<p><strong>订阅Kline需要提供间隔参数，最短为分钟线，最长为月线。支持以下间隔:</strong></p>
+
+<p>m -&gt; 分钟; h -&gt; 小时; d -&gt; 天; w -&gt; 周; M -&gt; 月</p>
+
+<ul>
+<li>1m</li>
+<li>3m</li>
+<li>5m</li>
+<li>15m</li>
+<li>30m</li>
+<li>1h</li>
+<li>2h</li>
+<li>4h</li>
+<li>6h</li>
+<li>8h</li>
+<li>12h</li>
+<li>1d</li>
+<li>3d</li>
+<li>1w</li>
+<li>1M</li>
+</ul>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@indexPriceKline_&lt;interval&gt;</code></p>
+
+<p><strong>Update Speed:</strong> 250ms</p>
 <h2 id='symbol-ticker'>按Symbol的精简Ticker</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
@@ -2242,6 +2450,7 @@ GET /dfapi/v1/leverageBracket
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrMiniTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>         <span class="c1">// 事件时间（毫秒）</span>
     <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>          <span class="c1">// 标的交易对</span>
     <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// 最新成交价格</span>
     <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>          <span class="c1">// 24小时前开始第一笔成交价格</span>
     <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// 24小时内最高成交价</span>
@@ -2264,7 +2473,8 @@ GET /dfapi/v1/leverageBracket
   <span class="p">{</span>
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrMiniTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>         <span class="c1">// 事件时间（毫秒）</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>   <span class="c1">// 交易对</span>
+    <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>          <span class="c1">// 标的交易对</span>
     <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// 最新成交价格</span>
     <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>          <span class="c1">// 24小时前开始第一笔成交价格</span>
     <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// 24小时内最高成交价</span>
@@ -2288,6 +2498,7 @@ GET /dfapi/v1/leverageBracket
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// 事件时间</span>
   <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
   <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化</span>
   <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"250.00"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化（百分比）</span>
   <span class="s2">"w"</span><span class="p">:</span> <span class="s2">"0.0018"</span><span class="p">,</span>      <span class="c1">// 平均价格</span>
@@ -2320,6 +2531,7 @@ GET /dfapi/v1/leverageBracket
       <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
       <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// 事件时间</span>
       <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+      <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
       <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化</span>
       <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"250.00"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化（百分比）</span>
       <span class="s2">"w"</span><span class="p">:</span> <span class="s2">"0.0018"</span><span class="p">,</span>      <span class="c1">// 平均价格</span>
@@ -2351,6 +2563,7 @@ GET /dfapi/v1/leverageBracket
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"u"</span><span class="p">:</span><span class="mi">400900217</span><span class="p">,</span>     <span class="c1">// 更新ID</span>
   <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>     <span class="c1">// 交易对</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
   <span class="s2">"b"</span><span class="p">:</span><span class="s2">"25.35190000"</span><span class="p">,</span> <span class="c1">// 买单最优挂单价格</span>
   <span class="s2">"B"</span><span class="p">:</span><span class="s2">"31.21000000"</span><span class="p">,</span> <span class="c1">// 买单最优挂单数量</span>
   <span class="s2">"a"</span><span class="p">:</span><span class="s2">"25.36520000"</span><span class="p">,</span> <span class="c1">// 卖单最优挂单价格</span>
@@ -2385,7 +2598,8 @@ GET /dfapi/v1/leverageBracket
     <span class="s2">"E"</span><span class="p">:</span><span class="mi">1568014460893</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 事件时间</span>
     <span class="s2">"o"</span><span class="p">:{</span>
 
-        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 交易对</span>
+        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>   <span class="c1">// 交易对</span>
+        <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                     <span class="c1">// 标的交易对</span>
         <span class="s2">"S"</span><span class="p">:</span><span class="s2">"SELL"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 订单方向</span>
         <span class="s2">"o"</span><span class="p">:</span><span class="s2">"LIMIT"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单类型</span>
         <span class="s2">"f"</span><span class="p">:</span><span class="s2">"IOC"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 有效方式</span>
@@ -2416,7 +2630,8 @@ GET /dfapi/v1/leverageBracket
     <span class="s2">"E"</span><span class="p">:</span><span class="mi">1568014460893</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 事件时间</span>
     <span class="s2">"o"</span><span class="p">:{</span>
 
-        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 交易对</span>
+        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>   <span class="c1">// 交易对</span>
+        <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                     <span class="c1">// 标的交易对</span>
         <span class="s2">"S"</span><span class="p">:</span><span class="s2">"SELL"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 订单方向</span>
         <span class="s2">"o"</span><span class="p">:</span><span class="s2">"LIMIT"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单类型</span>
         <span class="s2">"f"</span><span class="p">:</span><span class="s2">"IOC"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 有效方式</span>
@@ -2445,7 +2660,8 @@ GET /dfapi/v1/leverageBracket
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"depthUpdate"</span><span class="p">,</span>           <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1571889248277</span><span class="p">,</span>           <span class="c1">// 事件时间</span>
   <span class="s2">"T"</span><span class="p">:</span> <span class="mi">1571889248276</span><span class="p">,</span>           <span class="c1">// 交易时间</span>
-  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>         <span class="c1">// 交易对</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>               <span class="c1">// 标的交易对</span>
   <span class="s2">"U"</span><span class="p">:</span> <span class="mi">390497796</span><span class="p">,</span>
   <span class="s2">"u"</span><span class="p">:</span> <span class="mi">390497878</span><span class="p">,</span>
   <span class="s2">"pu"</span><span class="p">:</span> <span class="mi">390497794</span><span class="p">,</span>
@@ -2509,6 +2725,7 @@ GET /dfapi/v1/leverageBracket
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// 事件时间</span>
   <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123456788</span><span class="p">,</span>     <span class="c1">// 撮合时间</span>
   <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
   <span class="s2">"U"</span><span class="p">:</span> <span class="mi">157</span><span class="p">,</span>           <span class="c1">// 从上次推送至今新增的第一个 update Id</span>
   <span class="s2">"u"</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span>           <span class="c1">// 从上次推送至今新增的最后一个 update Id</span>
   <span class="s2">"pu"</span><span class="p">:</span> <span class="mi">149</span><span class="p">,</span>          <span class="c1">// 上次推送的最后一个update Id（即上条消息的‘u’）</span>
@@ -2607,6 +2824,7 @@ POST /dfapi/v1/positionSide/dual (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 订单类型</span>
     <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
@@ -2822,6 +3040,7 @@ POST /dfapi/v1/order/test (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span>     <span class="c1">// 订单类型</span>
@@ -2905,6 +3124,7 @@ GET /dfapi/v1/order (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
     <span class="s2">"origType"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 触发前订单类型</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 订单类型</span>
@@ -2993,8 +3213,14 @@ DELETE /dfapi/v1/allOpenOrders  (HMAC SHA256)
 <tr>
 <td>symbol</td>
 <td>STRING</td>
-<td>YES</td>
+<td>NO</td>
 <td>交易对</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -3009,6 +3235,10 @@ DELETE /dfapi/v1/allOpenOrders  (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
+
+<ul>
+<li>symbol 或 pair 必须穿传一个，同时不能同时传</li>
+</ul>
 <h2 id='trade-6'>批量撤销订单 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -3028,6 +3258,7 @@ DELETE /dfapi/v1/allOpenOrders  (HMAC SHA256)
         <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
         <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
         <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
         <span class="s2">"origType"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 触发前订单类型</span>
         <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 订单类型</span>
@@ -3110,6 +3341,7 @@ DELETE /dfapi/v1/batchOrders  (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span>     <span class="c1">// 订单类型</span>
@@ -3193,6 +3425,7 @@ GET /dfapi/v1/openOrder  (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span>     <span class="c1">// 订单类型</span>
@@ -3236,6 +3469,12 @@ GET /dfapi/v1/openOrders  (HMAC SHA256)
 <td>交易对</td>
 </tr>
 <tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
+</tr>
+<tr>
 <td>recvWindow</td>
 <td>LONG</td>
 <td>NO</td>
@@ -3250,7 +3489,7 @@ GET /dfapi/v1/openOrders  (HMAC SHA256)
 </tbody></table>
 
 <ul>
-<li>不带symbol参数，会返回所有交易对的挂单</li>
+<li>不带symbol或pair参数，会返回所有交易对的挂单</li>
 </ul>
 <h2 id='user_data-4'>查询所有订单（包括历史订单） (USER_DATA)</h2>
 <blockquote>
@@ -3272,6 +3511,7 @@ GET /dfapi/v1/openOrders  (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span>     <span class="c1">// 订单类型</span>
@@ -3302,14 +3542,20 @@ GET /dfapi/v1/allOrders (HMAC SHA256)
 <tr>
 <td>symbol</td>
 <td>STRING</td>
-<td>YES</td>
+<td>NO</td>
 <td>交易对</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
 </tr>
 <tr>
 <td>orderId</td>
 <td>LONG</td>
 <td>NO</td>
-<td>只返回此orderID及之后的订单，缺省返回最近的订单</td>
+<td>只返回此orderID及之后的订单，缺省返回最近的订单, 仅支持配合symbol使用</td>
 </tr>
 <tr>
 <td>startTime</td>
@@ -3400,7 +3646,7 @@ GET /dfapi/v1/allOrders (HMAC SHA256)
             <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
          <span class="p">}</span>
      <span class="p">],</span>
-     <span class="c1">// 以下跨资产总额不需要了吧？</span>
+     <span class="c1">// 以下跨资产总额不需要了</span>
      <span class="c1">//"totalInitialMargin": "0.33683000", // 起始保证金总额（存在逐仓请忽略）</span>
      <span class="c1">//"totalMaintMargin": "0.02695000", // 维持保证金总额</span>
      <span class="c1">//"totalMarginBalance": "8.74947592", // 保证金总余额</span>
@@ -3408,7 +3654,7 @@ GET /dfapi/v1/allOrders (HMAC SHA256)
      <span class="c1">//"totalPositionInitialMargin": "0.33683000", // 持仓起始保证金总额</span>
      <span class="c1">//"totalUnrealizedProfit": "-0.44537584", // 持仓未实现盈亏总额</span>
      <span class="c1">//"totalWalletBalance": "9.19485176", // 账户总余额</span>
-     <span class="c1">// 以上跨资产总额不需要了吧？</span>
+     <span class="c1">// 以上跨资产总额不需要了</span>
      <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">0</span>
  <span class="p">}</span>
 
@@ -3482,7 +3728,7 @@ POST /dfapi/v1/leverage (HMAC SHA256)
 <td>leverage</td>
 <td>INT</td>
 <td>YES</td>
-<td>目标杠杆倍数：1 到 125 整数</td>
+<td>目标杠杆倍数</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -3819,6 +4065,7 @@ GET /dfapi/v1/positionRisk (HMAC SHA256)
     <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"SELL"</span><span class="p">,</span> <span class="c1">// 买卖方向</span>
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span>  <span class="c1">// 持仓方向</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1569514978020</span> <span class="c1">// 时间</span>
   <span class="p">}</span>
 <span class="p">]</span>
@@ -3827,7 +4074,7 @@ GET /dfapi/v1/positionRisk (HMAC SHA256)
 GET /dfapi/v1/userTrades  (HMAC SHA256)
 </code></p>
 
-<p>获取某交易对的成交历史</p>
+<p>获取成交历史</p>
 
 <p><strong>权重:</strong>
 5</p>
@@ -3845,8 +4092,14 @@ GET /dfapi/v1/userTrades  (HMAC SHA256)
 <tr>
 <td>symbol</td>
 <td>STRING</td>
-<td>YES</td>
+<td>NO</td>
 <td>交易对</td>
+</tr>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td>标的交易对</td>
 </tr>
 <tr>
 <td>startTime</td>
@@ -3864,7 +4117,7 @@ GET /dfapi/v1/userTrades  (HMAC SHA256)
 <td>fromId</td>
 <td>LONG</td>
 <td>NO</td>
-<td>返回该fromId及之后的成交，缺省返回最近的成交</td>
+<td>返回该fromId及之后的成交，缺省返回最近的成交, 仅支持配合symbol使用</td>
 </tr>
 <tr>
 <td>limit</td>
@@ -3885,6 +4138,10 @@ GET /dfapi/v1/userTrades  (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
+
+<ul>
+<li>symbol 或 pair 其中一个必传</li>
+</ul>
 <h2 id='user_data-7'>获取账户损益资金流水(USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -4100,6 +4357,34 @@ DELETE /dfapi/v1/listenKey (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
+<h2 id='145a4121d8'>追加保证金通知</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"e"</span><span class="p">:</span><span class="s2">"MARGIN_CALL"</span><span class="p">,</span>      <span class="c1">// 事件类型</span>
+    <span class="s2">"E"</span><span class="p">:</span><span class="mi">1587727187525</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
+    <span class="s2">"cw"</span><span class="p">:</span><span class="s2">"3.16812045"</span><span class="p">,</span>      <span class="c1">// 除去逐仓仓位保证金的钱包余额, 仅在全仓 margin call 情况下推送此字段</span>
+    <span class="s2">"p"</span><span class="p">:[</span>                   <span class="c1">// 涉及持仓</span>
+      <span class="p">{</span>
+        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"ETHUSDT"</span><span class="p">,</span>      <span class="c1">// symbol</span>
+        <span class="s2">"ps"</span><span class="p">:</span><span class="s2">"LONG"</span><span class="p">,</span>        <span class="c1">// 持仓方向</span>
+        <span class="s2">"pa"</span><span class="p">:</span><span class="s2">"1.327"</span><span class="p">,</span>       <span class="c1">// 仓位</span>
+        <span class="s2">"mt"</span><span class="p">:</span><span class="s2">"CROSSED"</span><span class="p">,</span>     <span class="c1">// 保证金模式</span>
+        <span class="s2">"iw"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>           <span class="c1">// 若为逐仓，仓位保证金</span>
+        <span class="s2">"mp"</span><span class="p">:</span><span class="s2">"187.17127"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
+        <span class="s2">"up"</span><span class="p">:</span><span class="s2">"-1.166074"</span><span class="p">,</span>   <span class="c1">// 为实现盈亏</span>
+        <span class="s2">"mm"</span><span class="p">:</span><span class="s2">"1.614445"</span>     <span class="c1">// 持仓需要的维持保证金</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>  
+
+</code></pre>
+<ul>
+<li>当用户持仓风险过高，会推送此消息。</li>
+<li>此消息仅作为风险指导信息，不建议用于投资策略。</li>
+<li>在大波动市场行情下,不排除此消息发出的同时用户仓位已被强平的可能。</li>
+</ul>
 <h2 id='balance-position'>Balance和Position更新推送</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
@@ -4202,7 +4487,10 @@ DELETE /dfapi/v1/listenKey (HMAC SHA256)
     <span class="s2">"R"</span><span class="p">:</span><span class="kc">false</span>   <span class="p">,</span>                   <span class="c1">// 是否是只减仓单</span>
     <span class="s2">"wt"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span>         <span class="c1">// 触发价类型</span>
     <span class="s2">"ot"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>                  <span class="c1">// 原始订单类型</span>
-    <span class="s2">"ps"</span><span class="p">:</span><span class="s2">"LONG"</span>                     <span class="c1">// 持仓方向</span>
+    <span class="s2">"ps"</span><span class="p">:</span><span class="s2">"LONG"</span><span class="p">,</span>                        <span class="c1">// 持仓方向</span>
+    <span class="s2">"cp"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>                     <span class="c1">// 是否为触发平仓单; 仅在条件订单情况下会推送此字段</span>
+    <span class="s2">"AP"</span><span class="p">:</span><span class="s2">"7476.89"</span><span class="p">,</span>                 <span class="c1">// 追踪止损激活价格, 仅在追踪止损单时会推送此字段</span>
+    <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"5.0"</span>                      <span class="c1">// 追踪止损回调比例, 仅在追踪止损单时会推送此字段</span>
 
   <span class="p">}</span>
 
