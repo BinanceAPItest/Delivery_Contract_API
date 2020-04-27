@@ -48,7 +48,7 @@ search: true
 * 对参数的顺序不做要求。
 
 ## 访问限制
-* 在 `/dfapi/v1/exchangeInfo`接口中`rateLimits`数组里包含有REST接口(不限于本篇的REST接口)的访问限制。包括带权重的访问频次限制、下单速率限制。本篇`枚举定义`章节有限制类型的进一步说明。
+* 在 `/dapi/v1/exchangeInfo`接口中`rateLimits`数组里包含有REST接口(不限于本篇的REST接口)的访问限制。包括带权重的访问频次限制、下单速率限制。本篇`枚举定义`章节有限制类型的进一步说明。
 * 违反上述任何一个访问限制都会收到HTTP 429，这是一个警告.
 
 ### IP 访问限制
@@ -113,7 +113,7 @@ MARKET_DATA | 需要有效的API-KEY
 不推荐使用5秒以上的recvWindow
 </aside>
 
-### POST /dfapi/v1/order 的示例
+### POST /dapi/v1/order 的示例
 
 以下是在linux bash环境下使用 echo openssl 和curl工具实现的一个调用接口下单的示例
 apikey、secret仅供示范
@@ -150,7 +150,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/dfapi/v1/order?symbol=BTCUSD_200930&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
 ```
 
 * **queryString:** 
@@ -179,7 +179,7 @@ symbol=BTCUSD_200930
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/dfapi/v1/order' -d 'symbol=BTCUSD_200930&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/dapi/v1/order' -d 'symbol=BTCUSD_200930&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
 ```
 
 * **requestBody:** 
@@ -208,7 +208,7 @@ symbol=BTCUSD_200930
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/dfapi/v1/order?symbol=BTCUSD_200930&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
 ```
 
 * **queryString:** 
@@ -450,7 +450,7 @@ lots是拍卖术语，这个过滤器对订单中的`quantity`也就是数量参
 # 行情接口
 ## 测试服务器连通性 PING
 ``
-GET /dfapi/v1/ping
+GET /dapi/v1/ping
 ``
 
 > **响应:**
@@ -480,7 +480,7 @@ NONE
 ```
 
 ``
-GET /dfapi/v1/time
+GET /dapi/v1/time
 ``
 
 获取服务器时间
@@ -581,7 +581,7 @@ NONE
 ```
 
 ``
-GET /dfapi/v1/exchangeInfo
+GET /dapi/v1/exchangeInfo
 ``
 
 获取交易规则和交易对
@@ -617,7 +617,7 @@ NONE
 ```
 
 ``
-GET /dfapi/v1/depth
+GET /dapi/v1/depth
 ``
 
 **权重:**
@@ -655,7 +655,7 @@ limit  | INT    | NO       | 默认 100; 最大 1000. 可选值:[5, 10, 20, 50, 
 ```
 
 ``
-GET /dfapi/v1/trades
+GET /dapi/v1/trades
 ``
 
 获取近期成交（最多至最近24h）
@@ -689,7 +689,7 @@ limit  | INT    | NO       | 默认值:500 最大值:1000.
 ```
 
 ``
-GET /dfapi/v1/historicalTrades
+GET /dapi/v1/historicalTrades
 ``
 
 **权重:**
@@ -725,7 +725,7 @@ fromId | LONG   | NO       | 从哪一条成交id开始返回. 缺省返回最�
 ```
 
 ``
-GET /dfapi/v1/aggTrades
+GET /dapi/v1/aggTrades
 ``
 
 归集交易与逐笔交易的区别在于，同一价格、同一方向、同一时间（按秒计算）的trade会被聚合为一条
@@ -784,7 +784,7 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
 ```
 
 ``
-GET /dfapi/v1/premiumIndex
+GET /dapi/v1/premiumIndex
 ``
 
 
@@ -827,7 +827,7 @@ pair   | STRING | NO 		| 标的交易对
 ```
 
 ``
-GET /dfapi/v1/klines
+GET /dapi/v1/klines
 ``
 每根K线的开盘时间可视为唯一ID
 
@@ -871,7 +871,7 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```
 
 ``
-GET /dfapi/v1/continuousKlines
+GET /dapi/v1/continuousKlines
 ``
 每根K线的开盘时间可视为唯一ID
 
@@ -919,7 +919,7 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```
 
 ``
-GET /dfapi/v1/indexPriceKlines
+GET /dapi/v1/indexPriceKlines
 ``
 每根K线的开盘时间可视为唯一ID
 
@@ -998,7 +998,7 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```
 
 ``
-GET /dfapi/v1/ticker/24hr
+GET /dapi/v1/ticker/24hr
 ``
 
 请注意，不携带symbol参数会返回全部交易对数据，不仅数据庞大，而且权重极高
@@ -1042,7 +1042,7 @@ pair   | STRING | NO       | 标的交易对
 ```
 
 ``
-GET /dfapi/v1/ticker/price
+GET /dapi/v1/ticker/price
 ``
 
 返回最近价格
@@ -1093,7 +1093,7 @@ pair   | STRING | NO       | 标的交易对
 ```
 
 ``
-GET /dfapi/v1/ticker/bookTicker
+GET /dapi/v1/ticker/bookTicker
 ``
 
 返回当前最优的挂单(最高买单，最低卖单)
@@ -1139,7 +1139,7 @@ pair   | STRING | NO       | 标的交易对
 ```
 
 
-``GET /dfapi/v1/allForceOrders``
+``GET /dapi/v1/allForceOrders``
 
 **权重:** 5
 
@@ -1196,7 +1196,7 @@ limit     | LONG   | NO       | 默认值:100 最大值:1000
 
 
 ``
-GET /dfapi/v1/openInterest
+GET /dapi/v1/openInterest
 ``
 
 **权重:** 1
@@ -1255,7 +1255,7 @@ pair   | STRING | NO       | 标的交易对
 
 
 ``
-GET /dfapi/v1/leverageBracket
+GET /dapi/v1/leverageBracket
 ``
 
 
@@ -2080,7 +2080,7 @@ orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时�
 ## 如何正确在本地维护一个orderbook副本
 1. 订阅 **wss://dstream.binance.com/stream?streams=btcusd_200930@depth**
 2. 开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。
-3. 访问Rest接口 **https://fapi.binance.com/dfapi/v1/depth?symbol=BTCUSD_200930&limit=1000**获得一个1000档的深度快照
+3. 访问Rest接口 **https://fapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200930&limit=1000**获得一个1000档的深度快照
 4. 将目前缓存到的信息中`u`< 步骤3中获取到的快照中的`lastUpdateId`的部分丢弃(丢弃更早的信息，已经过期)。
 5. 将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个`U` <= `lastUpdateId` **且** `u` >= `lastUpdateId` 的event开始继续更新本地副本。
 6. 每一个新event的`pu`应该等于上一个event的`u`，否则可能出现了丢包，请从step3重新进行初始化。
@@ -2107,7 +2107,7 @@ orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时�
 ```
 
 ``
-POST /dfapi/v1/positionSide/dual (HMAC SHA256)
+POST /dapi/v1/positionSide/dual (HMAC SHA256)
 ``
 
 变换用户在 ***所有symbol*** 合约上的持仓模式：双向持仓或单向持仓。   
@@ -2155,7 +2155,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-POST /dfapi/v1/order  (HMAC SHA256)
+POST /dapi/v1/order  (HMAC SHA256)
 ``
 
 **权重:**
@@ -2221,7 +2221,7 @@ Type                 |           强制要求的参数
 ```
 
 ``
-POST /dfapi/v1/order/test (HMAC SHA256)
+POST /dapi/v1/order/test (HMAC SHA256)
 ``
 
 用于测试订单请求，但不会提交到撮合引擎
@@ -2231,7 +2231,7 @@ POST /dfapi/v1/order/test (HMAC SHA256)
 
 **参数:**
 
-参考 `POST /dfapi/v1/order`
+参考 `POST /dapi/v1/order`
 
 
 
@@ -2268,7 +2268,7 @@ POST /dfapi/v1/order/test (HMAC SHA256)
 ```
 
 ``
-GET /dfapi/v1/order (HMAC SHA256)
+GET /dapi/v1/order (HMAC SHA256)
 ``
 
 查询订单状态
@@ -2322,7 +2322,7 @@ timestamp         | LONG   | YES      |
 ```
 
 ``
-DELETE /dfapi/v1/order  (HMAC SHA256)
+DELETE /dapi/v1/order  (HMAC SHA256)
 ``
 
 **权重:**
@@ -2353,7 +2353,7 @@ timestamp         | LONG   | YES      |
 ```
 
 ``
-DELETE /dfapi/v1/allOpenOrders  (HMAC SHA256)
+DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
 ``
 
 **权重:**
@@ -2407,7 +2407,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-DELETE /dfapi/v1/batchOrders  (HMAC SHA256)
+DELETE /dapi/v1/batchOrders  (HMAC SHA256)
 ``
 
 **权重:**
@@ -2459,7 +2459,7 @@ timestamp             | LONG           | YES      |
 ```
 
 ``
-GET /dfapi/v1/openOrder  (HMAC SHA256)
+GET /dapi/v1/openOrder  (HMAC SHA256)
 ``
 
 请小心使用不带symbol参数的调用
@@ -2515,7 +2515,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-GET /dfapi/v1/openOrders  (HMAC SHA256)
+GET /dapi/v1/openOrders  (HMAC SHA256)
 ``
 
 请小心使用不带symbol参数的调用
@@ -2573,7 +2573,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-GET /dfapi/v1/allOrders (HMAC SHA256)
+GET /dapi/v1/allOrders (HMAC SHA256)
 ``
 
 **权重:**
@@ -2670,7 +2670,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-GET /dfapi/v1/account (HMAC SHA256)
+GET /dapi/v1/account (HMAC SHA256)
 ``
 
 **权重:**
@@ -2699,7 +2699,7 @@ timestamp  | LONG | YES      |
 ```
 
 ``
-POST /dfapi/v1/leverage (HMAC SHA256)
+POST /dapi/v1/leverage (HMAC SHA256)
 ``
 
 调整用户在指定symbol合约的开仓杠杆。不同持仓方向上使用相同杠杆倍数，共享允许的最大名义价值。
@@ -2729,7 +2729,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-POST /dfapi/v1/marginType (HMAC SHA256)
+POST /dapi/v1/marginType (HMAC SHA256)
 ``
 
 变换用户在指定symbol合约上的保证金模式：逐仓或全仓。   
@@ -2762,7 +2762,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-POST /dfapi/v1/positionMargin (HMAC SHA256)
+POST /dapi/v1/positionMargin (HMAC SHA256)
 ``
 
 针对逐仓模式下的仓位，调整其逐仓保证金资金。
@@ -2810,7 +2810,7 @@ timestamp  | LONG    | YES      |
 ```
 
 ``
-GET /dfapi/v1/positionMargin/history (HMAC SHA256)
+GET /dapi/v1/positionMargin/history (HMAC SHA256)
 ``
 
 **权重:**
@@ -2882,7 +2882,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-GET /dfapi/v1/positionRisk (HMAC SHA256)
+GET /dapi/v1/positionRisk (HMAC SHA256)
 ``
 
    名称    | 类型 | 是否必需 | 描述
@@ -2927,7 +2927,7 @@ timestamp  | LONG | YES      |
 ```
 
 ``
-GET /dfapi/v1/userTrades  (HMAC SHA256)
+GET /dapi/v1/userTrades  (HMAC SHA256)
 ``
 
 获取成交历史
@@ -2977,7 +2977,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-GET /dfapi/v1/income (HMAC SHA256)
+GET /dapi/v1/income (HMAC SHA256)
 ``
 
 **权重:**
@@ -3025,7 +3025,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-POST /dfapi/v1/listenKey (HMAC SHA256)
+POST /dapi/v1/listenKey (HMAC SHA256)
 ``
 
 创建一个新的user data stream，返回值为一个listenKey，即websocket订阅的stream名称。如果该帐户具有有效的`listenKey`，则将返回该`listenKey`并将其有效期延长60分钟。
@@ -3051,7 +3051,7 @@ timestamp | LONG | YES |
 ```
 
 ``
-PUT /dfapi/v1/listenKey (HMAC SHA256)
+PUT /dapi/v1/listenKey (HMAC SHA256)
 ``
 
 有效期延长至本次调用后60分钟
@@ -3077,7 +3077,7 @@ timestamp | LONG | YES |
 ```
 
 ``
-DELETE /dfapi/v1/listenKey (HMAC SHA256)
+DELETE /dapi/v1/listenKey (HMAC SHA256)
 ``
 
 关闭某账户数据流
@@ -3774,6 +3774,6 @@ event type统一为 `ORDER_TRADE_UPDATE`
 --------------------------------- | ---------------------------------------------------------------------------------------------------------
 "Filter failure: PRICE_FILTER"    | `price`过高，过低和/或不遵循交易对的最小价格规则。
 "Filter failure: LOT_SIZE"        | `quantity`太高，太低和/或不遵循该交易对的步长规则。
-"Filter failure: MARKET_LOT_SIZE" | `MARKET`市价订单里`quantity`太高或者太低。通过`/dfapi/v1/exchangeInfo`接口可以拿到相关信息。
+"Filter failure: MARKET_LOT_SIZE" | `MARKET`市价订单里`quantity`太高或者太低。通过`/dapi/v1/exchangeInfo`接口可以拿到相关信息。
 "Filter failure: MAX_NUM_ORDERS"  | 账户里面此交易对的挂单(`open orders`)太多。
 "Filter failure: PERCENT_PRICE"   | `price`比最近Y分钟的平均加权价格高X％或X％太低。
