@@ -567,8 +567,8 @@ NONE
    			"pair": "BTCUSD",	// 标的交易对
    			"contractType": "CURRENT_QUARTER",   // 合约类型
    			"deliveryDate": "20200930",
-   			"onBoardDate": "20200515"
-   			"contractStatus": "LISTING" // 
+   			"onBoardDate": "20200515",
+   			"contractStatus": "LISTING", // 
    			"contractSize": 100,     //
    			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
