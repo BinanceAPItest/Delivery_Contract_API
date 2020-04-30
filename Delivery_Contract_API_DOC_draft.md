@@ -570,7 +570,7 @@ NONE
    			"onBoardDate": "20200515"
    			"contractStatus": "LISTING" // 
    			"contractSize": 100,     //
-   			"quoteAsset": "USDT", // 报价币种
+   			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
    			"marginAsset": "BTC"	// 保证金币种 
    		}
