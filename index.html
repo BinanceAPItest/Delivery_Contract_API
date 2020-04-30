@@ -954,8 +954,8 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 <p>挂单价格必须同时满足以下条件：</p>
 
 <ul>
-<li><code>price</code> &lt;= <code>markPrice</code> * <code>multiplierUp</code></li>
-<li><code>price</code> &gt;= <code>markPrice</code> * <code>multiplierDown</code></li>
+<li>买单: <code>price</code> &lt;= <code>markPrice</code> * <code>multiplierUp</code></li>
+<li>卖单: <code>price</code> &gt;= <code>markPrice</code> * <code>multiplierDown</code></li>
 </ul>
 <h1 id='ed913b7357'>行情接口</h1><h2 id='ping'>测试服务器连通性 PING</h2>
 <p><code>
@@ -1340,9 +1340,9 @@ GET /dapi/v1/aggTrades
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                       <span class="c1">// 标的</span>
     <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span>     <span class="c1">// 指数价格</span>
-    <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
-    <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>                  <span class="c1">// 基差=合约价格-指数价格</span>
-    <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>         <span class="c1">// 基差率=基差/指数价格</span>
+    <span class="c1">//"contractPrice": "11185.87786614",  // 合约价格</span>
+    <span class="c1">//"basis": "5.75440936",                // 基差=合约价格-指数价格</span>
+    <span class="c1">//"basisRatio": "0.00051470",           // 基差率=基差/指数价格</span>
     <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
 <span class="p">}</span>
@@ -1355,9 +1355,9 @@ GET /dapi/v1/aggTrades
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
         <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
-        <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
-        <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>              <span class="c1">// 基差=合约价格-指数价格</span>
-        <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>     <span class="c1">// 基差率=基差/指数价格</span>
+        <span class="c1">//"contractPrice": "11185.87786614",  // 合约价格</span>
+        <span class="c1">//"basis": "5.75440936",            // 基差=合约价格-指数价格</span>
+        <span class="c1">//"basisRatio": "0.00051470",       // 基差率=基差/指数价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
     <span class="p">}</span>
@@ -1919,25 +1919,6 @@ GET /dapi/v1/ticker/bookTicker
 <span class="p">}</span>
 
 </code></pre>
-<blockquote>
-<p>或（当发送pair）</p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"10659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span> <span class="c1">// 交易对</span>
-        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
-        <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span>  <span class="c1">// 合约类型</span>
-    <span class="p">}</span><span class="err">，</span>
-    <span class="p">{</span>
-        <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"7659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_201227"</span> <span class="c1">// 交易对</span>
-        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
-        <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"NEXT_QUARTER"</span>  <span class="c1">// 合约类型</span>
-    <span class="p">}</span><span class="err">，</span>    
-<span class="p">]</span>
-
-</code></pre>
 <p><code>
 GET /dapi/v1/openInterest
 </code></p>
@@ -1959,12 +1940,6 @@ GET /dapi/v1/openInterest
 <td>STRING</td>
 <td>NO</td>
 <td>交易对</td>
-</tr>
-<tr>
-<td>pair</td>
-<td>STRING</td>
-<td>NO</td>
-<td>标的交易对</td>
 </tr>
 </tbody></table>
 
@@ -3442,9 +3417,12 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 
 <p>请小心使用不带symbol参数的调用</p>
 
-<p><strong>权重:</strong>
-- 带symbol <strong><em>1</em></strong>
-- 不带 <strong><em>40</em></strong></p>
+<p><strong>权重:</strong></p>
+
+<ul>
+<li>带symbol <strong>1</strong></li>
+<li>不带 <strong>40</strong></li>
+</ul>
 
 <p><strong>参数:</strong></p>
 
@@ -3456,12 +3434,6 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 <th>描述</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>marginAsset</td>
-<td>STRING</td>
-<td>YES</td>
-<td>保证金币种   // 要不要这个取决于查询方式</td>
-</tr>
 <tr>
 <td>symbol</td>
 <td>STRING</td>
