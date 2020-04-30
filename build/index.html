@@ -511,7 +511,7 @@
 </ul>
 <h2 id='12907e94be'>访问限制</h2>
 <ul>
-<li>在 <code>/dfapi/v1/exchangeInfo</code>接口中<code>rateLimits</code>数组里包含有REST接口(不限于本篇的REST接口)的访问限制。包括带权重的访问频次限制、下单速率限制。本篇<code>枚举定义</code>章节有限制类型的进一步说明。</li>
+<li>在 <code>/dapi/v1/exchangeInfo</code>接口中<code>rateLimits</code>数组里包含有REST接口(不限于本篇的REST接口)的访问限制。包括带权重的访问频次限制、下单速率限制。本篇<code>枚举定义</code>章节有限制类型的进一步说明。</li>
 <li>违反上述任何一个访问限制都会收到HTTP 429，这是一个警告.</li>
 </ul>
 <h3 id='ip'>IP 访问限制</h3>
@@ -598,7 +598,7 @@
 <aside class="notice">
 不推荐使用5秒以上的recvWindow
 </aside>
-<h3 id='post-dfapi-v1-order'>POST /dfapi/v1/order 的示例</h3>
+<h3 id='post-dapi-v1-order'>POST /dapi/v1/order 的示例</h3>
 <p>以下是在linux bash环境下使用 echo openssl 和curl工具实现的一个调用接口下单的示例
 apikey、secret仅供示范</p>
 
@@ -669,7 +669,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dfapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
 </code></pre>
 <ul>
 <li><strong>queryString:</strong> </li>
@@ -695,7 +695,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dfapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
 </code></pre>
 <ul>
 <li><strong>requestBody:</strong> </li>
@@ -721,7 +721,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dfapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
 </code></pre>
 <ul>
 <li><strong>queryString:</strong> </li>
@@ -954,12 +954,12 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 <p>挂单价格必须同时满足以下条件：</p>
 
 <ul>
-<li><code>price</code> &lt;= <code>markPrice</code> * <code>multiplierUp</code></li>
-<li><code>price</code> &gt;= <code>markPrice</code> * <code>multiplierDown</code></li>
+<li>买单: <code>price</code> &lt;= <code>markPrice</code> * <code>multiplierUp</code></li>
+<li>卖单: <code>price</code> &gt;= <code>markPrice</code> * <code>multiplierDown</code></li>
 </ul>
 <h1 id='ed913b7357'>行情接口</h1><h2 id='ping'>测试服务器连通性 PING</h2>
 <p><code>
-GET /dfapi/v1/ping
+GET /dapi/v1/ping
 </code></p>
 
 <blockquote>
@@ -983,7 +983,7 @@ NONE</p>
 <span class="p">}</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/time
+GET /dapi/v1/time
 </code></p>
 
 <p>获取服务器时间</p>
@@ -1080,7 +1080,7 @@ NONE</p>
 
 </code></pre>
 <p><code>
-GET /dfapi/v1/exchangeInfo
+GET /dapi/v1/exchangeInfo
 </code></p>
 
 <p>获取交易规则和交易对</p>
@@ -1111,7 +1111,7 @@ NONE</p>
 <span class="p">}</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/depth
+GET /dapi/v1/depth
 </code></p>
 
 <p><strong>权重:</strong></p>
@@ -1179,7 +1179,7 @@ GET /dfapi/v1/depth
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/trades
+GET /dapi/v1/trades
 </code></p>
 
 <p>获取近期成交（最多至最近24h）</p>
@@ -1226,7 +1226,7 @@ GET /dfapi/v1/trades
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/historicalTrades
+GET /dapi/v1/historicalTrades
 </code></p>
 
 <p><strong>权重:</strong>
@@ -1278,7 +1278,7 @@ GET /dfapi/v1/historicalTrades
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/aggTrades
+GET /dapi/v1/aggTrades
 </code></p>
 
 <p>归集交易与逐笔交易的区别在于，同一价格、同一方向、同一时间（按秒计算）的trade会被聚合为一条</p>
@@ -1340,9 +1340,9 @@ GET /dfapi/v1/aggTrades
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                       <span class="c1">// 标的</span>
     <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span>     <span class="c1">// 指数价格</span>
-    <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
-    <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>                  <span class="c1">// 基差=合约价格-指数价格</span>
-    <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>         <span class="c1">// 基差率=基差/指数价格</span>
+    <span class="c1">//"contractPrice": "11185.87786614",  // 合约价格</span>
+    <span class="c1">//"basis": "5.75440936",                // 基差=合约价格-指数价格</span>
+    <span class="c1">//"basisRatio": "0.00051470",           // 基差率=基差/指数价格</span>
     <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
 <span class="p">}</span>
@@ -1355,16 +1355,16 @@ GET /dfapi/v1/aggTrades
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
         <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
-        <span class="s2">"contractPrice"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>  <span class="c1">// 合约价格</span>
-        <span class="s2">"basis"</span><span class="p">:</span> <span class="s2">"5.75440936"</span><span class="p">,</span>              <span class="c1">// 基差=合约价格-指数价格</span>
-        <span class="s2">"basisRatio"</span><span class="p">:</span> <span class="s2">"0.00051470"</span><span class="p">,</span>     <span class="c1">// 基差率=基差/指数价格</span>
+        <span class="c1">//"contractPrice": "11185.87786614",  // 合约价格</span>
+        <span class="c1">//"basis": "5.75440936",            // 基差=合约价格-指数价格</span>
+        <span class="c1">//"basisRatio": "0.00051470",       // 基差率=基差/指数价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/premiumIndex
+GET /dapi/v1/premiumIndex
 </code></p>
 
 <p><strong>权重:</strong>
@@ -1415,7 +1415,7 @@ GET /dfapi/v1/premiumIndex
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/klines
+GET /dapi/v1/klines
 </code>
 每根K线的开盘时间可视为唯一ID</p>
 
@@ -1489,7 +1489,7 @@ GET /dfapi/v1/klines
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/continuousKlines
+GET /dapi/v1/continuousKlines
 </code>
 每根K线的开盘时间可视为唯一ID</p>
 
@@ -1569,7 +1569,7 @@ GET /dfapi/v1/continuousKlines
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/indexPriceKlines
+GET /dapi/v1/indexPriceKlines
 </code>
 每根K线的开盘时间可视为唯一ID</p>
 
@@ -1673,7 +1673,7 @@ GET /dfapi/v1/indexPriceKlines
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/ticker/24hr
+GET /dapi/v1/ticker/24hr
 </code></p>
 
 <p>请注意，不携带symbol参数会返回全部交易对数据，不仅数据庞大，而且权重极高</p>
@@ -1731,7 +1731,7 @@ GET /dfapi/v1/ticker/24hr
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/ticker/price
+GET /dapi/v1/ticker/price
 </code></p>
 
 <p>返回最近价格</p>
@@ -1798,7 +1798,7 @@ GET /dfapi/v1/ticker/price
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/ticker/bookTicker
+GET /dapi/v1/ticker/bookTicker
 </code></p>
 
 <p>返回当前最优的挂单(最高买单，最低卖单)</p>
@@ -1856,7 +1856,7 @@ GET /dfapi/v1/ticker/bookTicker
 <span class="err"> </span> <span class="err"> </span> <span class="p">},</span>
 <span class="p">]</span>
 </code></pre>
-<p><code>GET /dfapi/v1/allForceOrders</code></p>
+<p><code>GET /dapi/v1/allForceOrders</code></p>
 
 <p><strong>权重:</strong> 5</p>
 
@@ -1919,27 +1919,8 @@ GET /dfapi/v1/ticker/bookTicker
 <span class="p">}</span>
 
 </code></pre>
-<blockquote>
-<p>或（当发送pair）</p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"10659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span> <span class="c1">// 交易对</span>
-        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
-        <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span>  <span class="c1">// 合约类型</span>
-    <span class="p">}</span><span class="err">，</span>
-    <span class="p">{</span>
-        <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"7659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_201227"</span> <span class="c1">// 交易对</span>
-        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
-        <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"NEXT_QUARTER"</span>  <span class="c1">// 合约类型</span>
-    <span class="p">}</span><span class="err">，</span>    
-<span class="p">]</span>
-
-</code></pre>
 <p><code>
-GET /dfapi/v1/openInterest
+GET /dapi/v1/openInterest
 </code></p>
 
 <p><strong>权重:</strong> 1</p>
@@ -1959,12 +1940,6 @@ GET /dfapi/v1/openInterest
 <td>STRING</td>
 <td>NO</td>
 <td>交易对</td>
-</tr>
-<tr>
-<td>pair</td>
-<td>STRING</td>
-<td>NO</td>
-<td>标的交易对</td>
 </tr>
 </tbody></table>
 
@@ -2009,7 +1984,7 @@ GET /dfapi/v1/openInterest
 <span class="p">}</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/leverageBracket
+GET /dapi/v1/leverageBracket
 </code></p>
 
 <p><strong>权重:</strong> 1</p>
@@ -2753,7 +2728,7 @@ GET /dfapi/v1/leverageBracket
 <ol>
 <li>订阅 <strong>wss://dstream.binance.com/stream?streams=btcusd_200930@depth</strong></li>
 <li>开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。</li>
-<li>访问Rest接口 <strong>https://fapi.binance.com/dfapi/v1/depth?symbol=BTCUSD_200930&amp;limit=1000</strong>获得一个1000档的深度快照</li>
+<li>访问Rest接口 <strong>https://fapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200930&amp;limit=1000</strong>获得一个1000档的深度快照</li>
 <li>将目前缓存到的信息中<code>u</code>&lt; 步骤3中获取到的快照中的<code>lastUpdateId</code>的部分丢弃(丢弃更早的信息，已经过期)。</li>
 <li>将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个<code>U</code> &lt;= <code>lastUpdateId</code> <strong>且</strong> <code>u</code> &gt;= <code>lastUpdateId</code> 的event开始继续更新本地副本。</li>
 <li>每一个新event的<code>pu</code>应该等于上一个event的<code>u</code>，否则可能出现了丢包，请从step3重新进行初始化。</li>
@@ -2770,7 +2745,7 @@ GET /dfapi/v1/leverageBracket
 <span class="p">}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/positionSide/dual (HMAC SHA256)
+POST /dapi/v1/positionSide/dual (HMAC SHA256)
 </code></p>
 
 <p>变换用户在 <strong><em>所有symbol</em></strong> 合约上的持仓模式：双向持仓或单向持仓。   </p>
@@ -2834,7 +2809,7 @@ POST /dfapi/v1/positionSide/dual (HMAC SHA256)
  <span class="p">}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/order  (HMAC SHA256)
+POST /dapi/v1/order  (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -3010,7 +2985,7 @@ POST /dfapi/v1/order  (HMAC SHA256)
 <pre class="highlight javascript tab-javascript"><code><span class="p">{}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/order/test (HMAC SHA256)
+POST /dapi/v1/order/test (HMAC SHA256)
 </code></p>
 
 <p>用于测试订单请求，但不会提交到撮合引擎</p>
@@ -3020,7 +2995,7 @@ POST /dfapi/v1/order/test (HMAC SHA256)
 
 <p><strong>参数:</strong></p>
 
-<p>参考 <code>POST /dfapi/v1/order</code></p>
+<p>参考 <code>POST /dapi/v1/order</code></p>
 <h2 id='user_data'>查询订单 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -3051,7 +3026,7 @@ POST /dfapi/v1/order/test (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/order (HMAC SHA256)
+GET /dapi/v1/order (HMAC SHA256)
 </code></p>
 
 <p>查询订单状态</p>
@@ -3135,7 +3110,7 @@ GET /dfapi/v1/order (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-DELETE /dfapi/v1/order  (HMAC SHA256)
+DELETE /dapi/v1/order  (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -3194,7 +3169,7 @@ DELETE /dfapi/v1/order  (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-DELETE /dfapi/v1/allOpenOrders  (HMAC SHA256)
+DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -3273,7 +3248,7 @@ DELETE /dfapi/v1/allOpenOrders  (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-DELETE /dfapi/v1/batchOrders  (HMAC SHA256)
+DELETE /dapi/v1/batchOrders  (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -3352,7 +3327,7 @@ DELETE /dfapi/v1/batchOrders  (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/openOrder  (HMAC SHA256)
+GET /dapi/v1/openOrder  (HMAC SHA256)
 </code></p>
 
 <p>请小心使用不带symbol参数的调用</p>
@@ -3437,14 +3412,17 @@ GET /dfapi/v1/openOrder  (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/openOrders  (HMAC SHA256)
+GET /dapi/v1/openOrders  (HMAC SHA256)
 </code></p>
 
 <p>请小心使用不带symbol参数的调用</p>
 
-<p><strong>权重:</strong>
-- 带symbol <strong><em>1</em></strong>
-- 不带 <strong><em>40</em></strong></p>
+<p><strong>权重:</strong></p>
+
+<ul>
+<li>带symbol <strong>1</strong></li>
+<li>不带 <strong>40</strong></li>
+</ul>
 
 <p><strong>参数:</strong></p>
 
@@ -3456,12 +3434,6 @@ GET /dfapi/v1/openOrders  (HMAC SHA256)
 <th>描述</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>marginAsset</td>
-<td>STRING</td>
-<td>YES</td>
-<td>保证金币种   // 要不要这个取决于查询方式</td>
-</tr>
 <tr>
 <td>symbol</td>
 <td>STRING</td>
@@ -3523,7 +3495,7 @@ GET /dfapi/v1/openOrders  (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/allOrders (HMAC SHA256)
+GET /dapi/v1/allOrders (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -3660,7 +3632,7 @@ GET /dfapi/v1/allOrders (HMAC SHA256)
 
 </code></pre>
 <p><code>
-GET /dfapi/v1/account (HMAC SHA256)
+GET /dapi/v1/account (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -3700,7 +3672,7 @@ GET /dfapi/v1/account (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/leverage (HMAC SHA256)
+POST /dapi/v1/leverage (HMAC SHA256)
 </code></p>
 
 <p>调整用户在指定symbol合约的开仓杠杆。不同持仓方向上使用相同杠杆倍数，共享允许的最大名义价值。</p>
@@ -3753,7 +3725,7 @@ POST /dfapi/v1/leverage (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/marginType (HMAC SHA256)
+POST /dapi/v1/marginType (HMAC SHA256)
 </code></p>
 
 <p>变换用户在指定symbol合约上的保证金模式：逐仓或全仓。<br>
@@ -3809,7 +3781,7 @@ POST /dfapi/v1/marginType (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/positionMargin (HMAC SHA256)
+POST /dapi/v1/positionMargin (HMAC SHA256)
 </code></p>
 
 <p>针对逐仓模式下的仓位，调整其逐仓保证金资金。</p>
@@ -3892,7 +3864,7 @@ POST /dfapi/v1/positionMargin (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/positionMargin/history (HMAC SHA256)
+GET /dapi/v1/positionMargin/history (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -4002,7 +3974,7 @@ GET /dfapi/v1/positionMargin/history (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/positionRisk (HMAC SHA256)
+GET /dapi/v1/positionRisk (HMAC SHA256)
 </code></p>
 
 <table><thead>
@@ -4071,7 +4043,7 @@ GET /dfapi/v1/positionRisk (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/userTrades  (HMAC SHA256)
+GET /dapi/v1/userTrades  (HMAC SHA256)
 </code></p>
 
 <p>获取成交历史</p>
@@ -4166,7 +4138,7 @@ GET /dfapi/v1/userTrades  (HMAC SHA256)
 <span class="p">]</span>
 </code></pre>
 <p><code>
-GET /dfapi/v1/income (HMAC SHA256)
+GET /dapi/v1/income (HMAC SHA256)
 </code></p>
 
 <p><strong>权重:</strong>
@@ -4250,7 +4222,7 @@ GET /dfapi/v1/income (HMAC SHA256)
 <span class="p">}</span>
 </code></pre>
 <p><code>
-POST /dfapi/v1/listenKey (HMAC SHA256)
+POST /dapi/v1/listenKey (HMAC SHA256)
 </code></p>
 
 <p>创建一个新的user data stream，返回值为一个listenKey，即websocket订阅的stream名称。如果该帐户具有有效的<code>listenKey</code>，则将返回该<code>listenKey</code>并将其有效期延长60分钟。</p>
@@ -4288,7 +4260,7 @@ POST /dfapi/v1/listenKey (HMAC SHA256)
 <pre class="highlight javascript tab-javascript"><code><span class="p">{}</span>
 </code></pre>
 <p><code>
-PUT /dfapi/v1/listenKey (HMAC SHA256)
+PUT /dapi/v1/listenKey (HMAC SHA256)
 </code></p>
 
 <p>有效期延长至本次调用后60分钟</p>
@@ -4326,7 +4298,7 @@ PUT /dfapi/v1/listenKey (HMAC SHA256)
 <pre class="highlight javascript tab-javascript"><code><span class="p">{}</span>
 </code></pre>
 <p><code>
-DELETE /dfapi/v1/listenKey (HMAC SHA256)
+DELETE /dapi/v1/listenKey (HMAC SHA256)
 </code></p>
 
 <p>关闭某账户数据流</p>
@@ -5185,7 +5157,7 @@ event type统一为 <code>ORDER_TRADE_UPDATE</code></p>
 </tr>
 <tr>
 <td>&quot;Filter failure: MARKET_LOT_SIZE&quot;</td>
-<td><code>MARKET</code>市价订单里<code>quantity</code>太高或者太低。通过<code>/dfapi/v1/exchangeInfo</code>接口可以拿到相关信息。</td>
+<td><code>MARKET</code>市价订单里<code>quantity</code>太高或者太低。通过<code>/dapi/v1/exchangeInfo</code>接口可以拿到相关信息。</td>
 </tr>
 <tr>
 <td>&quot;Filter failure: MAX_NUM_ORDERS&quot;</td>
