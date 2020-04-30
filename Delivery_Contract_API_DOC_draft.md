@@ -753,20 +753,6 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
 
 > **响应:**
 
-```javascript
-{
-    "symbol": "BTCUSD_200930",			// 交易对
-    "pair": "BTCUSD",						// 标的
-    "indexPrice": "11180.12345678",		// 指数价格
-    //"contractPrice": "11185.87786614",  // 合约价格
-    //"basis": "5.75440936",				// 基差=合约价格-指数价格
-    //"basisRatio": "0.00051470",			// 基差率=基差/指数价格
-    "markPrice": 11186.12345678,		// mark price
-    "time": 1562566020000				// 更新时间
-}
-```
-
-> **当指定pair, 或symbol、pair均未指定时 响应**
 
 ```javascript
 [
@@ -947,30 +933,6 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 
 > **响应:**
 
-```javascript
-{
-  "pair": "BTCUSD",
-  "contractType": "CURRENT_QUARTER",
-  "symbol": "BTCUSD_200930",
-  "priceChange": "-94.99999800",    //24小时价格变动
-  "priceChangePercent": "-95.960",  //24小时价格变动百分比
-  "weightedAvgPrice": "0.29628482", //加权平均价
-  "lastPrice": "4.00000200",        //最近一次成交价
-  "lastQty": "200.00000000",        //最近一次成交额
-  "openPrice": "99.00000000",       //24小时内第一次成交的价格
-  "highPrice": "100.00000000",      //24小时最高价
-  "lowPrice": "0.10000000",         //24小时成交量
-  "volume": "8913.30000000",        //24小时成交额
-  "quoteVolume": "15.30000000",     //24小时成交额
-  "openTime": 1499783499040,        //24小时内，第一笔交易的发生时间
-  "closeTime": 1499869899040,       //24小时内，最后一笔交易的发生时间
-  "firstId": 28385,   // 首笔成交id
-  "lastId": 28460,    // 末笔成交id
-  "count": 76         // 成交笔数
-}
-```
-
-> 或（当不发送交易对信息）
 
 ```javascript
 [
@@ -1023,14 +985,7 @@ pair   | STRING | NO       | 标的交易对
 
 > **响应:**
 
-```javascript
-{
-  "symbol": "BTCUSD_200930",		// 交易对
-  "price": "6000.01"		// 价格
-}
-```
 
-> 或（当不发送symbol）
 
 ```javascript
 [
@@ -1069,16 +1024,6 @@ pair   | STRING | NO       | 标的交易对
 
 > **响应:**
 
-```javascript
-{
-  "symbol": "BTCUSD_200930",
-  "bidPrice": "9994.00000000",//最优买单价
-  "bidQty": "431.00000000",//挂单量
-  "askPrice": "9994.00000200",//最优卖单价
-  "askQty": "9.00000000"//挂单量
-}
-```
-> 或（当发送pair）
 
 ```javascript
 [
@@ -1191,7 +1136,7 @@ symbol | STRING | NO     | 交易对
 
 
 
-## 杠杆分层标准 (MARKET_DATA)
+## 杠杆分层标准 (USER_DATA)
 
 
 > **响应:**
@@ -1213,23 +1158,6 @@ symbol | STRING | NO     | 交易对
 [
 ```
 
-> **或** (若发送pair)
-
-```javascript
-
-{
-    "pair": "ETHUSDT",
-    "brackets": [
-        {
-            "bracket": 1,
-            "initialLeverage": 75,
-            "notionalCap": 10000,
-            "notionalFloor": 0,
-            "maintMarginRatio": 0.0065
-        },
-    ]
-}
-```
 
 
 ``
@@ -2501,6 +2429,7 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 **权重:**
 
 - 带symbol **1**
+- 带pair **5**
 - 不带 **40**
 
 **参数:**
