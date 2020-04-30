@@ -1396,7 +1396,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
   {
     "e": "markPriceUpdate",  // 事件类型
     "E": 1562305380000,      // 事件时间
-    "s": "BTCUSDT",          // 交易对
+    "s": "BTCUSD_200630",          // 交易对
     "p": "11185.87786614",   // 标记价格
   }
 ```
@@ -1418,7 +1418,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 	 {
 	    "e": "markPriceUpdate",  // 事件类型
 	    "E": 1562305380000,      // 事件时间
-	    "s": "BTCUSDT",          // 交易对
+	    "s": "BTCUSD_200630",          // 交易对
 	    "p": "11185.87786614",   // 标记价格
   	}
  ]
@@ -2484,7 +2484,7 @@ GET /dapi/v1/allOrders (HMAC SHA256)
 ``
 
 **权重:**
-5 
+10 
 
 **Parameters:**
 
@@ -2499,7 +2499,7 @@ limit      | INT    | NO       | 返回的结果集数量 默认值:500 最大�
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-
+* symbol 或 pair 必须穿传一个，同时不能同时传
 
 
 
@@ -2699,7 +2699,7 @@ timestamp  | LONG    | YES      |
 [
 	{
 		"amount": "23.36332311", // 数量
-	  	"asset": "USDT", // 资产
+	  	"asset": "BTC", // 资产
 	  	"symbol": "BTCUSD_200930", // 交易对
 	  	"time": 1578047897183, // 时间
 	  	"type": 1,  // 调整方向
@@ -2707,7 +2707,7 @@ timestamp  | LONG    | YES      |
 	},
 	{
 		"amount": "100",
-	  	"asset": "USDT",
+	  	"asset": "BTC",
 	  	"symbol": "BTCUSD_200930",
 	  	"time": 1578047900425,
 	  	"type": 1，
@@ -2816,7 +2816,7 @@ timestamp  | LONG | YES      |
   {
   	"buyer": false,	// 是否是买方
   	"commission": "-0.07819010", // 手续费
-  	"commissionAsset": "USDT", // 手续费计价单位
+  	"commissionAsset": "BTC", // 手续费计价单位
   	"id": 698759, // 交易ID
   	"maker": false,	// 是否是挂单方
   	"orderId": 25851813, // 订单编号
@@ -2895,7 +2895,7 @@ GET /dapi/v1/income (HMAC SHA256)
    名称    |  类型  | 是否必需 |                                              描述
 ---------- | ------ | -------- | -----------------------------------------------------------------------------------------------
 symbol     | STRING | NO       | 交易对
-incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL"，"FUNDING_FEE", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
+incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 limit      | INT    | NO       | 返回的结果集数量 默认值:100 最大值:1000
@@ -3013,7 +3013,7 @@ timestamp | LONG | YES |
     "cw":"3.16812045",		// 除去逐仓仓位保证金的钱包余额, 仅在全仓 margin call 情况下推送此字段
     "p":[					// 涉及持仓
       {
-        "s":"ETHUSDT",		// symbol
+        "s":"BTCUSD",		// symbol
         "ps":"LONG",		// 持仓方向
         "pa":"1.327",		// 仓位
         "mt":"CROSSED",		// 保证金模式
