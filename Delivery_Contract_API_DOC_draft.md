@@ -442,8 +442,8 @@ lots是拍卖术语，这个过滤器对订单中的`quantity`也就是数量参
 
 挂单价格必须同时满足以下条件：
 
-* `price` <= `markPrice` * `multiplierUp`
-* `price` >= `markPrice` * `multiplierDown`
+* 买单: `price` <= `markPrice` * `multiplierUp`
+* 卖单: `price` >= `markPrice` * `multiplierDown`
 
 
 
@@ -758,9 +758,9 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
     "symbol": "BTCUSD_200930",			// 交易对
     "pair": "BTCUSD",						// 标的
     "indexPrice": "11180.12345678",		// 指数价格
-    "contractPrice": "11185.87786614",  // 合约价格
-    "basis": "5.75440936",					// 基差=合约价格-指数价格
-    "basisRatio": "0.00051470",			// 基差率=基差/指数价格
+    //"contractPrice": "11185.87786614",  // 合约价格
+    //"basis": "5.75440936",				// 基差=合约价格-指数价格
+    //"basisRatio": "0.00051470",			// 基差率=基差/指数价格
     "markPrice": 11186.12345678,		// mark price
     "time": 1562566020000				// 更新时间
 }
@@ -772,11 +772,11 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
 [
 	{
 	   	"symbol": "BTCUSD_200930",		// 交易对
-    	"pair": "BTCUSD",					// 标的
-    	"indexPrice": "11180.12345678",	// 指数价格
-    	"contractPrice": "11185.87786614",  // 合约价格
-    	"basis": "5.75440936",				// 基差=合约价格-指数价格
-    	"basisRatio": "0.00051470",		// 基差率=基差/指数价格
+	   	"pair": "BTCUSD",					// 标的
+	   	"indexPrice": "11180.12345678",	// 指数价格
+	   	//"contractPrice": "11185.87786614",  // 合约价格
+   		//"basis": "5.75440936",			// 基差=合约价格-指数价格
+    	//"basisRatio": "0.00051470",		// 基差率=基差/指数价格
     	"markPrice": 11186.12345678,		// mark price
     	"time": 1562566020000				// 更新时间
 	}
@@ -1173,27 +1173,6 @@ limit     | LONG   | NO       | 默认值:100 最大值:1000
 
 ```
 
-> 或（当发送pair）
-
-```javascript
-[
-	{
-		"openInterest": "10659.509", // 未平仓合约数量
-		"symbol": "BTCUSD_200930" // 交易对
-		"pair": "BTCUSD", // 标的交易对
-		"contractType": "CURRENT_QUARTER"  // 合约类型
-	}，
-	{
-		"openInterest": "7659.509", // 未平仓合约数量
-		"symbol": "BTCUSD_201227" // 交易对
-		"pair": "BTCUSD", // 标的交易对
-		"contractType": "NEXT_QUARTER"  // 合约类型
-	}，	
-]
-
-```
-
-
 
 ``
 GET /dapi/v1/openInterest
@@ -1206,7 +1185,6 @@ GET /dapi/v1/openInterest
  名称  |  类型  | 是否必需 |  描述
 ------ | ------ | -------- | ------
 symbol | STRING | NO     | 交易对
-pair   | STRING | NO       | 标的交易对
 
 * symbol 和 pair 必须发送一个
 * 发送 pair的，返回pair对应所有正在交易的symbol数据
@@ -2521,14 +2499,14 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 请小心使用不带symbol参数的调用
 
 **权重:**
-- 带symbol ***1***
-- 不带 ***40***
+
+- 带symbol **1**
+- 不带 **40**
 
 **参数:**
 
    名称    |  类型  | 是否必需 |  描述
 ---------- | ------ | -------- | ------
-marginAsset | STRING | YES     | 保证金币种   // 要不要这个取决于查询方式
 symbol     | STRING | NO       | 交易对
 pair 		 | STRING | NO		 | 标的交易对
 recvWindow | LONG   | NO       |
