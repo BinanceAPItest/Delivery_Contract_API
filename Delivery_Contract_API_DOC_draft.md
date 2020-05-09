@@ -550,12 +550,12 @@ NONE
    			"pricePrecision": 2, // 价格小数点位数
    			"quantityPrecision": 3, // 数量小数点位数
    			"requiredMarginPercent": "5.0000", // 所需保证金比例
-   			"status": "TRADING", // 交易对状态
    			"OrderType": [ // 订单类型
    				"LIMIT",  // 限价单
    				"MARKET",  // 市价单
    				"STOP", // 止损单
-   				"TAKE_PROFIT" // 止盈单
+   				"TAKE_PROFIT", // 止盈单
+   				"TRAILING_STOP_MARKET" // 跟踪止损单
    			],
    			"timeInForce": [ // 有效方式
    				"GTC", // 成交为止, 一直有效
@@ -567,8 +567,8 @@ NONE
    			"pair": "BTCUSD",	// 标的交易对
    			"contractType": "CURRENT_QUARTER",   // 合约类型
    			"deliveryDate": "20200930",
-   			"onBoardDate": "20200515",
-   			"contractStatus": "LISTING", // 
+   			"onboardDate": "20200515",
+   			"contractStatus": "LISTING", // 交易对状态
    			"contractSize": 100,     //
    			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
@@ -1129,10 +1129,9 @@ GET /dapi/v1/openInterest
 
  名称  |  类型  | 是否必需 |  描述
 ------ | ------ | -------- | ------
-symbol | STRING | NO     | 交易对
+symbol | STRING | YES     | 交易对
 
-* symbol 和 pair 必须发送一个
-* 发送 pair的，返回pair对应所有正在交易的symbol数据
+
 
 
 
@@ -2483,8 +2482,9 @@ timestamp  | LONG   | YES      |
 GET /dapi/v1/allOrders (HMAC SHA256)
 ``
 
-**权重:**
-10 
+**权重:**    
+传symbol **20**    
+传pairs **40**
 
 **Parameters:**
 
@@ -2840,7 +2840,8 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 获取成交历史
 
 **权重:**
-5
+传symbol **20**    
+传pairs **40**
 
 **参数:**
 
