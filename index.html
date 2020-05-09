@@ -1050,12 +1050,12 @@ NONE</p>
             <span class="s2">"pricePrecision"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">// 价格小数点位数</span>
             <span class="s2">"quantityPrecision"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// 数量小数点位数</span>
             <span class="s2">"requiredMarginPercent"</span><span class="p">:</span> <span class="s2">"5.0000"</span><span class="p">,</span> <span class="c1">// 所需保证金比例</span>
-            <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"TRADING"</span><span class="p">,</span> <span class="c1">// 交易对状态</span>
             <span class="s2">"OrderType"</span><span class="p">:</span> <span class="p">[</span> <span class="c1">// 订单类型</span>
                 <span class="s2">"LIMIT"</span><span class="p">,</span>  <span class="c1">// 限价单</span>
                 <span class="s2">"MARKET"</span><span class="p">,</span>  <span class="c1">// 市价单</span>
                 <span class="s2">"STOP"</span><span class="p">,</span> <span class="c1">// 止损单</span>
-                <span class="s2">"TAKE_PROFIT"</span> <span class="c1">// 止盈单</span>
+                <span class="s2">"TAKE_PROFIT"</span><span class="p">,</span> <span class="c1">// 止盈单</span>
+                <span class="s2">"TRAILING_STOP_MARKET"</span> <span class="c1">// 跟踪止损单</span>
             <span class="p">],</span>
             <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="p">[</span> <span class="c1">// 有效方式</span>
                 <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 成交为止, 一直有效</span>
@@ -1067,8 +1067,8 @@ NONE</p>
             <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
             <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span><span class="p">,</span>   <span class="c1">// 合约类型</span>
             <span class="s2">"deliveryDate"</span><span class="p">:</span> <span class="s2">"20200930"</span><span class="p">,</span>
-            <span class="s2">"onBoardDate"</span><span class="p">:</span> <span class="s2">"20200515"</span><span class="p">,</span>
-            <span class="s2">"contractStatus"</span><span class="p">:</span> <span class="s2">"LISTING"</span><span class="p">,</span> <span class="c1">// </span>
+            <span class="s2">"onboardDate"</span><span class="p">:</span> <span class="s2">"20200515"</span><span class="p">,</span>
+            <span class="s2">"contractStatus"</span><span class="p">:</span> <span class="s2">"LISTING"</span><span class="p">,</span> <span class="c1">// 交易对状态</span>
             <span class="s2">"contractSize"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>     <span class="c1">//</span>
             <span class="s2">"quoteAsset"</span><span class="p">:</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="c1">// 报价币种</span>
             <span class="s2">"baseAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>   
@@ -1881,15 +1881,10 @@ GET /dapi/v1/openInterest
 <tr>
 <td>symbol</td>
 <td>STRING</td>
-<td>NO</td>
+<td>YES</td>
 <td>交易对</td>
 </tr>
 </tbody></table>
-
-<ul>
-<li>symbol 和 pair 必须发送一个</li>
-<li>发送 pair的，返回pair对应所有正在交易的symbol数据</li>
-</ul>
 <h2 id='user_data'>杠杆分层标准 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -3425,8 +3420,9 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 GET /dapi/v1/allOrders (HMAC SHA256)
 </code></p>
 
-<p><strong>权重:</strong>
-10 </p>
+<p><strong>权重:</strong><br>
+传symbol <strong>20</strong><br>
+传pairs <strong>40</strong></p>
 
 <p><strong>Parameters:</strong></p>
 
@@ -3980,7 +3976,8 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 <p>获取成交历史</p>
 
 <p><strong>权重:</strong>
-5</p>
+传symbol <strong>20</strong><br>
+传pairs <strong>40</strong></p>
 
 <p><strong>参数:</strong></p>
 
