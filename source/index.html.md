@@ -550,12 +550,12 @@ NONE
    			"pricePrecision": 2, // 价格小数点位数
    			"quantityPrecision": 3, // 数量小数点位数
    			"requiredMarginPercent": "5.0000", // 所需保证金比例
-   			"status": "TRADING", // 交易对状态
    			"OrderType": [ // 订单类型
    				"LIMIT",  // 限价单
    				"MARKET",  // 市价单
    				"STOP", // 止损单
-   				"TAKE_PROFIT" // 止盈单
+   				"TAKE_PROFIT", // 止盈单
+   				"TRAILING_STOP_MARKET" // 跟踪止损单
    			],
    			"timeInForce": [ // 有效方式
    				"GTC", // 成交为止, 一直有效
@@ -567,10 +567,10 @@ NONE
    			"pair": "BTCUSD",	// 标的交易对
    			"contractType": "CURRENT_QUARTER",   // 合约类型
    			"deliveryDate": "20200930",
-   			"onBoardDate": "20200515"
-   			"contractStatus": "LISTING" // 
+   			"onboardDate": "20200515",
+   			"contractStatus": "LISTING", // 交易对状态
    			"contractSize": 100,     //
-   			"quoteAsset": "USDT", // 报价币种
+   			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
    			"marginAsset": "BTC"	// 保证金币种 
    		}
@@ -753,20 +753,6 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
 
 > **响应:**
 
-```javascript
-{
-    "symbol": "BTCUSD_200930",			// 交易对
-    "pair": "BTCUSD",						// 标的
-    "indexPrice": "11180.12345678",		// 指数价格
-    //"contractPrice": "11185.87786614",  // 合约价格
-    //"basis": "5.75440936",				// 基差=合约价格-指数价格
-    //"basisRatio": "0.00051470",			// 基差率=基差/指数价格
-    "markPrice": 11186.12345678,		// mark price
-    "time": 1562566020000				// 更新时间
-}
-```
-
-> **当指定pair, 或symbol、pair均未指定时 响应**
 
 ```javascript
 [
@@ -947,30 +933,6 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 
 > **响应:**
 
-```javascript
-{
-  "pair": "BTCUSD",
-  "contractType": "CURRENT_QUARTER",
-  "symbol": "BTCUSD_200930",
-  "priceChange": "-94.99999800",    //24小时价格变动
-  "priceChangePercent": "-95.960",  //24小时价格变动百分比
-  "weightedAvgPrice": "0.29628482", //加权平均价
-  "lastPrice": "4.00000200",        //最近一次成交价
-  "lastQty": "200.00000000",        //最近一次成交额
-  "openPrice": "99.00000000",       //24小时内第一次成交的价格
-  "highPrice": "100.00000000",      //24小时最高价
-  "lowPrice": "0.10000000",         //24小时成交量
-  "volume": "8913.30000000",        //24小时成交额
-  "quoteVolume": "15.30000000",     //24小时成交额
-  "openTime": 1499783499040,        //24小时内，第一笔交易的发生时间
-  "closeTime": 1499869899040,       //24小时内，最后一笔交易的发生时间
-  "firstId": 28385,   // 首笔成交id
-  "lastId": 28460,    // 末笔成交id
-  "count": 76         // 成交笔数
-}
-```
-
-> 或（当不发送交易对信息）
 
 ```javascript
 [
@@ -1023,14 +985,7 @@ pair   | STRING | NO       | 标的交易对
 
 > **响应:**
 
-```javascript
-{
-  "symbol": "BTCUSD_200930",		// 交易对
-  "price": "6000.01"		// 价格
-}
-```
 
-> 或（当不发送symbol）
 
 ```javascript
 [
@@ -1069,16 +1024,6 @@ pair   | STRING | NO       | 标的交易对
 
 > **响应:**
 
-```javascript
-{
-  "symbol": "BTCUSD_200930",
-  "bidPrice": "9994.00000000",//最优买单价
-  "bidQty": "431.00000000",//挂单量
-  "askPrice": "9994.00000200",//最优卖单价
-  "askQty": "9.00000000"//挂单量
-}
-```
-> 或（当发送pair）
 
 ```javascript
 [
@@ -1184,14 +1129,13 @@ GET /dapi/v1/openInterest
 
  名称  |  类型  | 是否必需 |  描述
 ------ | ------ | -------- | ------
-symbol | STRING | NO     | 交易对
-
-* symbol 和 pair 必须发送一个
-* 发送 pair的，返回pair对应所有正在交易的symbol数据
+symbol | STRING | YES     | 交易对
 
 
 
-## 杠杆分层标准 (MARKET_DATA)
+
+
+## 杠杆分层标准 (USER_DATA)
 
 
 > **响应:**
@@ -1213,23 +1157,6 @@ symbol | STRING | NO     | 交易对
 [
 ```
 
-> **或** (若发送pair)
-
-```javascript
-
-{
-    "pair": "ETHUSDT",
-    "brackets": [
-        {
-            "bracket": 1,
-            "initialLeverage": 75,
-            "notionalCap": 10000,
-            "notionalFloor": 0,
-            "maintMarginRatio": 0.0065
-        },
-    ]
-}
-```
 
 
 ``
@@ -1468,7 +1395,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
   {
     "e": "markPriceUpdate",  // 事件类型
     "E": 1562305380000,      // 事件时间
-    "s": "BTCUSDT",          // 交易对
+    "s": "BTCUSD_200630",          // 交易对
     "p": "11185.87786614",   // 标记价格
   }
 ```
@@ -1490,7 +1417,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 	 {
 	    "e": "markPriceUpdate",  // 事件类型
 	    "E": 1562305380000,      // 事件时间
-	    "s": "BTCUSDT",          // 交易对
+	    "s": "BTCUSD_200630",          // 交易对
 	    "p": "11185.87786614",   // 标记价格
   	}
  ]
@@ -2501,6 +2428,7 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 **权重:**
 
 - 带symbol **1**
+- 带pair **5**
 - 不带 **40**
 
 **参数:**
@@ -2554,8 +2482,9 @@ timestamp  | LONG   | YES      |
 GET /dapi/v1/allOrders (HMAC SHA256)
 ``
 
-**权重:**
-5 
+**权重:**    
+传symbol **20**    
+传pairs **40**
 
 **Parameters:**
 
@@ -2570,7 +2499,7 @@ limit      | INT    | NO       | 返回的结果集数量 默认值:500 最大�
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-
+* symbol 或 pair 必须穿传一个，同时不能同时传
 
 
 
@@ -2770,7 +2699,7 @@ timestamp  | LONG    | YES      |
 [
 	{
 		"amount": "23.36332311", // 数量
-	  	"asset": "USDT", // 资产
+	  	"asset": "BTC", // 资产
 	  	"symbol": "BTCUSD_200930", // 交易对
 	  	"time": 1578047897183, // 时间
 	  	"type": 1,  // 调整方向
@@ -2778,7 +2707,7 @@ timestamp  | LONG    | YES      |
 	},
 	{
 		"amount": "100",
-	  	"asset": "USDT",
+	  	"asset": "BTC",
 	  	"symbol": "BTCUSD_200930",
 	  	"time": 1578047900425,
 	  	"type": 1，
@@ -2887,7 +2816,7 @@ timestamp  | LONG | YES      |
   {
   	"buyer": false,	// 是否是买方
   	"commission": "-0.07819010", // 手续费
-  	"commissionAsset": "USDT", // 手续费计价单位
+  	"commissionAsset": "BTC", // 手续费计价单位
   	"id": 698759, // 交易ID
   	"maker": false,	// 是否是挂单方
   	"orderId": 25851813, // 订单编号
@@ -2911,7 +2840,8 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 获取成交历史
 
 **权重:**
-5
+传symbol **20**    
+传pairs **40**
 
 **参数:**
 
@@ -2966,7 +2896,7 @@ GET /dapi/v1/income (HMAC SHA256)
    名称    |  类型  | 是否必需 |                                              描述
 ---------- | ------ | -------- | -----------------------------------------------------------------------------------------------
 symbol     | STRING | NO       | 交易对
-incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL"，"FUNDING_FEE", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
+incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 limit      | INT    | NO       | 返回的结果集数量 默认值:100 最大值:1000
@@ -3084,7 +3014,7 @@ timestamp | LONG | YES |
     "cw":"3.16812045",		// 除去逐仓仓位保证金的钱包余额, 仅在全仓 margin call 情况下推送此字段
     "p":[					// 涉及持仓
       {
-        "s":"ETHUSDT",		// symbol
+        "s":"BTCUSD",		// symbol
         "ps":"LONG",		// 持仓方向
         "pa":"1.327",		// 仓位
         "mt":"CROSSED",		// 保证金模式
