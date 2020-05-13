@@ -1148,8 +1148,8 @@ symbol | STRING | YES     | 交易对
             {
                 "bracket": 1,   // 层级
                 "initialLeverage": 75,  // 该层允许的最高初始杠杆倍数
-                "notionalCap": 10000,  // 该层对应的名义价值上限
-                "notionalFloor": 0,  // 该层对应的名义价值下限 
+                "qtyCap": 100,  // 该层对应的数量上限
+                "qtylFloor": 0,  // 该层对应的数量下限 
                 "maintMarginRatio": 0.0065 // 该层对应的维持保证金率
             },
         ]
@@ -2750,7 +2750,7 @@ timestamp  | LONG   | YES      |
   		"leverage": "10", // 当前杠杆倍数
   		"liquidationPrice": "0", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
-  		"maxNotionalValue": "20000000", // 当前杠杆倍数允许的名义价值上限
+  		"maxQty": "20000000", // 当前杠杆倍数允许的数量上限
   		"positionAmt": "0.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
   		"symbol": "BTCUSD_200930", // 交易对
   		"unRealizedProfit": "0.00000000", // 持仓未实现盈亏
@@ -2764,7 +2764,7 @@ timestamp  | LONG   | YES      |
   		"leverage": "10", // 当前杠杆倍数
   		"liquidationPrice": "5930.78", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
-  		"maxNotionalValue": "20000000", // 当前杠杆倍数允许的名义价值上限
+  		"maxQty": "20000000", // 当前杠杆倍数允许的名义价值上限
   		"positionAmt": "20.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
   		"symbol": "BTCUSD_200930", // 交易对
   		"unRealizedProfit": "2316.83423560" // 持仓未实现盈亏
@@ -2778,7 +2778,7 @@ timestamp  | LONG   | YES      |
   		"leverage": "10", // 当前杠杆倍数
   		"liquidationPrice": "7189.95", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
-  		"maxNotionalValue": "20000000", // 当前杠杆倍数允许的名义价值上限
+  		"maxQty": "20000000", // 当前杠杆倍数允许的名义价值上限
   		"positionAmt": "-10.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
   		"symbol": "BTCUSD_200930", // 交易对
   		"unRealizedProfit": "-1156.46711780" // 持仓未实现盈亏
