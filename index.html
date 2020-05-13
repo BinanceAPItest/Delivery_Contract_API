@@ -1896,8 +1896,8 @@ GET /dapi/v1/openInterest
             <span class="p">{</span>
                 <span class="s2">"bracket"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>   <span class="c1">// 层级</span>
                 <span class="s2">"initialLeverage"</span><span class="p">:</span> <span class="mi">75</span><span class="p">,</span>  <span class="c1">// 该层允许的最高初始杠杆倍数</span>
-                <span class="s2">"notionalCap"</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>  <span class="c1">// 该层对应的名义价值上限</span>
-                <span class="s2">"notionalFloor"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// 该层对应的名义价值下限 </span>
+                <span class="s2">"qtyCap"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>  <span class="c1">// 该层对应的数量上限</span>
+                <span class="s2">"qtylFloor"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// 该层对应的数量下限 </span>
                 <span class="s2">"maintMarginRatio"</span><span class="p">:</span> <span class="mf">0.0065</span> <span class="c1">// 该层对应的维持保证金率</span>
             <span class="p">},</span>
         <span class="p">]</span>
@@ -3863,7 +3863,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
         <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数</span>
         <span class="s2">"liquidationPrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 参考强平价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"6679.50671178"</span><span class="p">,</span>   <span class="c1">// 当前标记价格</span>
-        <span class="s2">"maxNotionalValue"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
+        <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的数量上限</span>
         <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"0.000"</span><span class="p">,</span> <span class="c1">// 头寸数量，符号代表多空方向, 正数为多，负数为空</span>
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
@@ -3877,7 +3877,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
         <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数</span>
         <span class="s2">"liquidationPrice"</span><span class="p">:</span> <span class="s2">"5930.78"</span><span class="p">,</span> <span class="c1">// 参考强平价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"6679.50671178"</span><span class="p">,</span>   <span class="c1">// 当前标记价格</span>
-        <span class="s2">"maxNotionalValue"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
+        <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
         <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"20.000"</span><span class="p">,</span> <span class="c1">// 头寸数量，符号代表多空方向, 正数为多，负数为空</span>
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"2316.83423560"</span> <span class="c1">// 持仓未实现盈亏</span>
@@ -3891,7 +3891,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
         <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数</span>
         <span class="s2">"liquidationPrice"</span><span class="p">:</span> <span class="s2">"7189.95"</span><span class="p">,</span> <span class="c1">// 参考强平价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"6679.50671178"</span><span class="p">,</span>   <span class="c1">// 当前标记价格</span>
-        <span class="s2">"maxNotionalValue"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
+        <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
         <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"-10.000"</span><span class="p">,</span> <span class="c1">// 头寸数量，符号代表多空方向, 正数为多，负数为空</span>
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"-1156.46711780"</span> <span class="c1">// 持仓未实现盈亏</span>
