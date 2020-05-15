@@ -573,7 +573,6 @@ NONE
    			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
    			"marginAsset": "BTC"	// 保证金币种 
-   			"estimatedSettlePrice": "0"    // 预估结算价，0 表示暂无
    		}
    	],
 	"timezone": "UTC" // 服务器所用的时间区域
