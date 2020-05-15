@@ -1073,6 +1073,7 @@ NONE</p>
             <span class="s2">"quoteAsset"</span><span class="p">:</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="c1">// 报价币种</span>
             <span class="s2">"baseAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>   
             <span class="s2">"marginAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span>    <span class="c1">// 保证金币种 </span>
+            <span class="s2">"estimatedSettlePrice"</span><span class="p">:</span> <span class="s2">"0"</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
         <span class="p">}</span>
     <span class="p">],</span>
     <span class="s2">"timezone"</span><span class="p">:</span> <span class="s2">"UTC"</span> <span class="c1">// 服务器所用的时间区域</span>
@@ -1345,6 +1346,7 @@ GET /dapi/v1/aggTrades
         <span class="c1">//"basis": "5.75440936",            // 基差=合约价格-指数价格</span>
         <span class="c1">//"basisRatio": "0.00051470",       // 基差率=基差/指数价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
+        <span class="s2">"estimatedSettlePrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
     <span class="p">}</span>
 <span class="p">]</span>
@@ -2141,8 +2143,9 @@ GET /dapi/v1/leverageBracket
 <pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200630"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200630"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
     <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
+    <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"0"</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
   <span class="p">}</span>
 </code></pre>
 <p><strong>Stream Name:</strong><br>
@@ -2159,6 +2162,7 @@ GET /dapi/v1/leverageBracket
         <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
         <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200630"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
         <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
+        <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"0"</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
     <span class="p">}</span>
  <span class="p">]</span>
 </code></pre>
