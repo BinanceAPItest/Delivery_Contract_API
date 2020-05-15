@@ -573,6 +573,7 @@ NONE
    			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
    			"marginAsset": "BTC"	// 保证金币种 
+   			"estimatedSettlePrice": "0"    // 预估结算价，0 表示暂无
    		}
    	],
 	"timezone": "UTC" // 服务器所用的时间区域
@@ -764,6 +765,7 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
    		//"basis": "5.75440936",			// 基差=合约价格-指数价格
     	//"basisRatio": "0.00051470",		// 基差率=基差/指数价格
     	"markPrice": 11186.12345678,		// mark price
+    	"estimatedSettlePrice": "0",    // 预估结算价，0 表示暂无
     	"time": 1562566020000				// 更新时间
 	}
 ]
@@ -1148,8 +1150,8 @@ symbol | STRING | YES     | 交易对
             {
                 "bracket": 1,   // 层级
                 "initialLeverage": 75,  // 该层允许的最高初始杠杆倍数
-                "notionalCap": 10000,  // 该层对应的名义价值上限
-                "notionalFloor": 0,  // 该层对应的名义价值下限 
+                "qtyCap": 100,  // 该层对应的数量上限
+                "qtylFloor": 0,  // 该层对应的数量下限 
                 "maintMarginRatio": 0.0065 // 该层对应的维持保证金率
             },
         ]
@@ -1395,8 +1397,9 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
   {
     "e": "markPriceUpdate",  // 事件类型
     "E": 1562305380000,      // 事件时间
-    "s": "BTCUSD_200630",          // 交易对
+    "s": "BTCUSD_200630",    // 交易对
     "p": "11185.87786614",   // 标记价格
+    "P": "0"    // 预估结算价，0 表示暂无
   }
 ```
 
@@ -1419,6 +1422,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 	    "E": 1562305380000,      // 事件时间
 	    "s": "BTCUSD_200630",          // 交易对
 	    "p": "11185.87786614",   // 标记价格
+	    "P": "0"    // 预估结算价，0 表示暂无
   	}
  ]
 ```
@@ -2750,7 +2754,7 @@ timestamp  | LONG   | YES      |
   		"leverage": "10", // 当前杠杆倍数
   		"liquidationPrice": "0", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
-  		"maxNotionalValue": "20000000", // 当前杠杆倍数允许的名义价值上限
+  		"maxQty": "20000000", // 当前杠杆倍数允许的数量上限
   		"positionAmt": "0.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
   		"symbol": "BTCUSD_200930", // 交易对
   		"unRealizedProfit": "0.00000000", // 持仓未实现盈亏
@@ -2764,7 +2768,7 @@ timestamp  | LONG   | YES      |
   		"leverage": "10", // 当前杠杆倍数
   		"liquidationPrice": "5930.78", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
-  		"maxNotionalValue": "20000000", // 当前杠杆倍数允许的名义价值上限
+  		"maxQty": "20000000", // 当前杠杆倍数允许的名义价值上限
   		"positionAmt": "20.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
   		"symbol": "BTCUSD_200930", // 交易对
   		"unRealizedProfit": "2316.83423560" // 持仓未实现盈亏
@@ -2778,7 +2782,7 @@ timestamp  | LONG   | YES      |
   		"leverage": "10", // 当前杠杆倍数
   		"liquidationPrice": "7189.95", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
-  		"maxNotionalValue": "20000000", // 当前杠杆倍数允许的名义价值上限
+  		"maxQty": "20000000", // 当前杠杆倍数允许的名义价值上限
   		"positionAmt": "-10.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
   		"symbol": "BTCUSD_200930", // 交易对
   		"unRealizedProfit": "-1156.46711780" // 持仓未实现盈亏
