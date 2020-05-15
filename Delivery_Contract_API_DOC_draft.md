@@ -761,9 +761,6 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
 	   	"symbol": "BTCUSD_200930",		// 交易对
 	   	"pair": "BTCUSD",					// 标的
 	   	"indexPrice": "11180.12345678",	// 指数价格
-	   	//"contractPrice": "11185.87786614",  // 合约价格
-   		//"basis": "5.75440936",			// 基差=合约价格-指数价格
-    	//"basisRatio": "0.00051470",		// 基差率=基差/指数价格
     	"markPrice": 11186.12345678,		// mark price
     	"estimatedSettlePrice": "0",    // 预估结算价，0 表示暂无
     	"time": 1562566020000				// 更新时间
