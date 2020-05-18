@@ -2429,7 +2429,7 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 
 - 带symbol **1**
 - 带pair **5**
-- 不带 **40**
+
 
 **参数:**
 
@@ -2440,7 +2440,7 @@ pair 		 | STRING | NO		 | 标的交易对
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-* 不带symbol或pair参数，会返回所有交易对的挂单
+* symbol或pair参数，必须传一个
 
 
 
