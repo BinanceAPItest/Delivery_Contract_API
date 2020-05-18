@@ -2041,9 +2041,11 @@ timestamp  | LONG   | YES      |
  	"cumQuote": "0", // 成交金额
  	"executedQty": "0", // 成交数量
  	"orderId": 22542179, // 系统订单号
+ 	"avgPrice": "0.00000",		// 平均成交价
  	"origQty": "10", // 原始委托数量
  	"price": "0", // 委托价格
  	"reduceOnly": false, // 仅减仓
+ 	"closePosition": false,   // 是否条件全平仓
  	"side": "SELL", // 买卖方向
  	"positionSide": "SHORT", // 持仓方向
  	"status": "NEW", // 订单状态
@@ -2074,11 +2076,12 @@ symbol           | STRING  | YES      | 交易对
 side             | ENUM    | YES      | 买卖方向 `SELL`, `BUY`
 positionSide     | ENUM	    | NO       | 持仓方向，单向持仓模式下非必填，默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT`   
 type             | ENUM    | YES      | 订单类型 `LIMIT`, `MARKET`, `STOP`, `TAKE_PROFIT`, `STOP_MARKET`, `TAKE_PROFIT_MARKET`, `TRAILING_STOP_MARKET`
-reduceOnly       | STRING  | NO       | `true`, `false`; 非双开模式下默认`false`；双开模式下不接受此参数。
+reduceOnly       | STRING  | NO       | `true`, `false`; 非双开模式下默认`false`；双开模式下不接受此参数； 使用`closePosition`不支持此参数。
 quantity         | DECIMAL | YES      | 下单数量
 price            | DECIMAL | NO       | 委托价格
 newClientOrderId | STRING  | NO       | 用户自定义的订单号，不可以重复出现在挂单中。如空缺系统会自动赋值
 stopPrice        | DECIMAL | NO       | 触发价, 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
+closePosition    | STRING  | NO       | `true`, `false`；触发后全部平仓，仅支持`STOP_MARKET`和`TAKE_PROFIT_MARKET`；不与`quantity`合用；自带只平仓效果，不与`reduceOnly` 合用
 activationPrice  | DECIMAL | NO       | 追踪止损激活价格，仅`TRAILING_STOP_MARKET` 需要此参数, 默认为下单当前市场价格（支持不同`workingType`)
 callbackRate     | DECIMAL | NO       | 追踪止损回调比例，可取值范围[0.1, 4],其中 1代表1% ,仅`TRAILING_STOP_MARKET` 需要此参数
 timeInForce      | ENUM    | NO       | 有效方法
@@ -2093,7 +2096,7 @@ Type                 |           强制要求的参数
 `LIMIT`                             | `timeInForce`, `quantity`, `price`
 `MARKET`                            | `quantity`
 `STOP`, `TAKE_PROFIT`               | `quantity`,  `price`, `stopPrice`
-`STOP_MARKET`, `TAKE_PROFIT_MARKET` | `quantity`, `stopPrice`
+`STOP_MARKET`, `TAKE_PROFIT_MARKET` | `stopPrice`
 `TRAILING_STOP_MARKET`              | `callbackRate`
 
 
@@ -2110,10 +2113,18 @@ Type                 |           强制要求的参数
 		* 买入: 当合约价格/标记价格区间最低价格低于激活价格`activationPrice`,且最新合约价格/标记价高于等于最低价设定回调幅度。
 		* 卖出: 当合约价格/标记价格区间最高价格高于激活价格`activationPrice`,且最新合约价格/标记价低于等于最高价设定回调幅度。
 
+
 * `TRAILING_STOP_MARKET` 跟踪止损单如果遇到报错 ``{"code": -2021, "msg": "Order would immediately trigger."}``    
 表示订单不满足以下条件:
 	* 买入: 指定的`activationPrice` 必须小于 latest price
 	* 卖出: 指定的`activationPrice` 必须大于 latest price
+
+* `STOP_MARKET`, `TAKE_PROFIT_MARKET` 配合 `closePosition`=`true`:
+	* 条件单触发依照上述条件单触发逻辑
+	* 条件触发后，平掉当时持有所有多头仓位（若为卖单）或当时持有所有空头仓位（若为买单）
+	* 不支持 `quantity` 参数
+	* 自带只平仓属性，不支持`reduceOnly`参数
+	* 双开模式下,`LONG`方向上不支持`BUY`; `SHORT` 方向上不支持`SELL`
 
 
 ## 测试下单接口 (TRADE)
@@ -2160,6 +2171,7 @@ POST /dapi/v1/order/test (HMAC SHA256)
   	"positionSide": "SHORT", 			// 持仓方向
   	"status": "NEW",					// 订单状态
   	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200930",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
   	"time": 1579276756075,				// 订单时间
@@ -2214,6 +2226,7 @@ timestamp         | LONG   | YES      |
 	"positionSide": "SHORT", // 持仓方向
  	"status": "CANCELED", // 订单状态
  	"stopPrice": "9300", // 触发价，对`TRAILING_STOP_MARKET`无效
+ 	"closePosition": false,   // 是否条件全平仓
  	"symbol": "BTCUSD_200930", // 交易对
  	"pair": "BTCUSD",	// 标的交易对
  	"timeInForce": "GTC", // 有效方法
@@ -2295,6 +2308,7 @@ timestamp  | LONG   | YES      |
 		"positionSide": "SHORT", // 持仓方向
 	 	"status": "CANCELED", // 订单状态
 	 	"stopPrice": "9300", // 触发价，对`TRAILING_STOP_MARKET`无效
+	 	"closePosition": false,   // 是否条件全平仓
 	 	"symbol": "BTCUSD_200930", // 交易对
 	 	"pair": "BTCUSD",	// 标的交易对
 	 	"timeInForce": "GTC", // 有效方法
@@ -2351,6 +2365,7 @@ timestamp             | LONG           | YES      |
   	"side": "BUY",						// 买卖方向
   	"status": "NEW",					// 订单状态
   	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200930",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
   	"time": 1579276756075,				// 订单时间
@@ -2406,6 +2421,7 @@ timestamp  | LONG   | YES      |
   	"positionSide": "SHORT", // 持仓方向
   	"status": "NEW",					// 订单状态
   	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200930",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
   	"time": 1579276756075,				// 订单时间
@@ -2465,6 +2481,7 @@ timestamp  | LONG   | YES      |
   	"positionSide": "SHORT", 			// 持仓方向
   	"status": "NEW",					// 订单状态
   	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200930",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
   	"time": 1579276756075,				// 订单时间
@@ -3142,9 +3159,9 @@ timestamp | LONG | YES |
     "wt": "CONTRACT_PRICE",	        // 触发价类型
     "ot": "LIMIT",					// 原始订单类型
     "ps":"LONG",						// 持仓方向
-    "cp":false,						// 是否为触发平仓单; 仅在条件订单情况下会推送此字段
-    "AP":"7476.89",					// 追踪止损激活价格, 仅在追踪止损单时会推送此字段
-    "cr":"5.0"						// 追踪止损回调比例, 仅在追踪止损单时会推送此字段
+    "cp":false,						// 是否为触发平仓单
+    "AP":"7476.89",					// 追踪止损激活价格
+    "cr":"5.0"						// 追踪止损回调比例
     
   }
   
