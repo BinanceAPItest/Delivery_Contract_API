@@ -2712,9 +2712,11 @@ POST /dapi/v1/positionSide/dual (HMAC SHA256)
     <span class="s2">"cumQuote"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 成交金额</span>
     <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 成交数量</span>
     <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">22542179</span><span class="p">,</span> <span class="c1">// 系统订单号</span>
+    <span class="s2">"avgPrice"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span>      <span class="c1">// 平均成交价</span>
     <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span> <span class="c1">// 原始委托数量</span>
     <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 委托价格</span>
     <span class="s2">"reduceOnly"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// 仅减仓</span>
+    <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
     <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"SELL"</span><span class="p">,</span> <span class="c1">// 买卖方向</span>
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
@@ -2774,7 +2776,7 @@ POST /dapi/v1/order  (HMAC SHA256)
 <td>reduceOnly</td>
 <td>STRING</td>
 <td>NO</td>
-<td><code>true</code>, <code>false</code>; 非双开模式下默认<code>false</code>；双开模式下不接受此参数。</td>
+<td><code>true</code>, <code>false</code>; 非双开模式下默认<code>false</code>；双开模式下不接受此参数； 使用<code>closePosition</code>不支持此参数。</td>
 </tr>
 <tr>
 <td>quantity</td>
@@ -2799,6 +2801,12 @@ POST /dapi/v1/order  (HMAC SHA256)
 <td>DECIMAL</td>
 <td>NO</td>
 <td>触发价, 仅 <code>STOP</code>, <code>STOP_MARKET</code>, <code>TAKE_PROFIT</code>, <code>TAKE_PROFIT_MARKET</code> 需要此参数</td>
+</tr>
+<tr>
+<td>closePosition</td>
+<td>STRING</td>
+<td>NO</td>
+<td><code>true</code>, <code>false</code>；触发后全部平仓，仅支持<code>STOP_MARKET</code>和<code>TAKE_PROFIT_MARKET</code>；不与<code>quantity</code>合用；自带只平仓效果，不与<code>reduceOnly</code> 合用</td>
 </tr>
 <tr>
 <td>activationPrice</td>
@@ -2860,7 +2868,7 @@ POST /dapi/v1/order  (HMAC SHA256)
 </tr>
 <tr>
 <td><code>STOP_MARKET</code>, <code>TAKE_PROFIT_MARKET</code></td>
-<td><code>quantity</code>, <code>stopPrice</code></td>
+<td><code>stopPrice</code></td>
 </tr>
 <tr>
 <td><code>TRAILING_STOP_MARKET</code></td>
@@ -2897,6 +2905,15 @@ POST /dapi/v1/order  (HMAC SHA256)
 <ul>
 <li>买入: 指定的<code>activationPrice</code> 必须小于 latest price</li>
 <li>卖出: 指定的<code>activationPrice</code> 必须大于 latest price</li>
+</ul></li>
+<li><p><code>STOP_MARKET</code>, <code>TAKE_PROFIT_MARKET</code> 配合 <code>closePosition</code>=<code>true</code>:</p>
+
+<ul>
+<li>条件单触发依照上述条件单触发逻辑</li>
+<li>条件触发后，平掉当时持有所有多头仓位（若为卖单）或当时持有所有空头仓位（若为买单）</li>
+<li>不支持 <code>quantity</code> 参数</li>
+<li>自带只平仓属性，不支持<code>reduceOnly</code>参数</li>
+<li>双开模式下,<code>LONG</code>方向上不支持<code>BUY</code>; <code>SHORT</code> 方向上不支持<code>SELL</code></li>
 </ul></li>
 </ul>
 <h2 id='trade-3'>测试下单接口 (TRADE)</h2>
@@ -2935,6 +2952,7 @@ POST /dapi/v1/order/test (HMAC SHA256)
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span>            <span class="c1">// 持仓方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+    <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
@@ -3019,6 +3037,7 @@ GET /dapi/v1/order (HMAC SHA256)
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+    <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
@@ -3153,6 +3172,7 @@ DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
         <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
         <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
         <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+        <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
         <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
@@ -3236,6 +3256,7 @@ DELETE /dapi/v1/batchOrders  (HMAC SHA256)
     <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"BUY"</span><span class="p">,</span>                      <span class="c1">// 买卖方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+    <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
@@ -3320,6 +3341,7 @@ GET /dapi/v1/openOrder  (HMAC SHA256)
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+    <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
@@ -3403,6 +3425,7 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span>            <span class="c1">// 持仓方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+    <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
     <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
@@ -4387,9 +4410,9 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
     <span class="s2">"wt"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span>         <span class="c1">// 触发价类型</span>
     <span class="s2">"ot"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>                  <span class="c1">// 原始订单类型</span>
     <span class="s2">"ps"</span><span class="p">:</span><span class="s2">"LONG"</span><span class="p">,</span>                        <span class="c1">// 持仓方向</span>
-    <span class="s2">"cp"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>                     <span class="c1">// 是否为触发平仓单; 仅在条件订单情况下会推送此字段</span>
-    <span class="s2">"AP"</span><span class="p">:</span><span class="s2">"7476.89"</span><span class="p">,</span>                 <span class="c1">// 追踪止损激活价格, 仅在追踪止损单时会推送此字段</span>
-    <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"5.0"</span>                      <span class="c1">// 追踪止损回调比例, 仅在追踪止损单时会推送此字段</span>
+    <span class="s2">"cp"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span>                     <span class="c1">// 是否为触发平仓单</span>
+    <span class="s2">"AP"</span><span class="p">:</span><span class="s2">"7476.89"</span><span class="p">,</span>                 <span class="c1">// 追踪止损激活价格</span>
+    <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"5.0"</span>                      <span class="c1">// 追踪止损回调比例</span>
 
   <span class="p">}</span>
 
