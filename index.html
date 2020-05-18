@@ -3343,7 +3343,6 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 <ul>
 <li>带symbol <strong>1</strong></li>
 <li>带pair <strong>5</strong></li>
-<li>不带 <strong>40</strong></li>
 </ul>
 
 <p><strong>参数:</strong></p>
@@ -3383,7 +3382,7 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
 </tbody></table>
 
 <ul>
-<li>不带symbol或pair参数，会返回所有交易对的挂单</li>
+<li>symbol或pair参数，必须传一个</li>
 </ul>
 <h2 id='user_data-5'>查询所有订单（包括历史订单） (USER_DATA)</h2>
 <blockquote>
