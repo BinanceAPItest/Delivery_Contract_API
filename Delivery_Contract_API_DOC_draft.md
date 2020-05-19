@@ -743,7 +743,7 @@ startTime | LONG   | NO       | 从该时刻之后的成交记录开始返回结
 endTime   | LONG   | NO       | 返回该时刻为止的成交记录
 limit     | INT    | NO       | 默认 500; 最大 1000.
 
-* 如果同时发送`startTime`和`endTime`，间隔必须小于一小时
+
 * 如果没有发送任何筛选参数(`fromId`, `startTime`, `endTime`)，默认返回最近的成交记录
 
 
@@ -1407,7 +1407,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 
 
 
-## pair所有synbol最新MarkPrice
+## pair所有symbol最新MarkPrice
 
 > **Payload:**
 
@@ -2077,7 +2077,7 @@ side             | ENUM    | YES      | 买卖方向 `SELL`, `BUY`
 positionSide     | ENUM	    | NO       | 持仓方向，单向持仓模式下非必填，默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT`   
 type             | ENUM    | YES      | 订单类型 `LIMIT`, `MARKET`, `STOP`, `TAKE_PROFIT`, `STOP_MARKET`, `TAKE_PROFIT_MARKET`, `TRAILING_STOP_MARKET`
 reduceOnly       | STRING  | NO       | `true`, `false`; 非双开模式下默认`false`；双开模式下不接受此参数； 使用`closePosition`不支持此参数。
-quantity         | DECIMAL | YES      | 下单数量
+quantity         | DECIMAL | NO      | 下单数量,使用`closePosition`不支持此参数。
 price            | DECIMAL | NO       | 委托价格
 newClientOrderId | STRING  | NO       | 用户自定义的订单号，不可以重复出现在挂单中。如空缺系统会自动赋值
 stopPrice        | DECIMAL | NO       | 触发价, 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
@@ -2086,6 +2086,7 @@ activationPrice  | DECIMAL | NO       | 追踪止损激活价格，仅`TRAILING_
 callbackRate     | DECIMAL | NO       | 追踪止损回调比例，可取值范围[0.1, 4],其中 1代表1% ,仅`TRAILING_STOP_MARKET` 需要此参数
 timeInForce      | ENUM    | NO       | 有效方法
 workingType      | ENUM    | NO       | stopPrice 触发类型: `MARK_PRICE`(标记价格), `CONTRACT_PRICE`(合约最新价). 默认 `CONTRACT_PRICE`
+newOrderRespType | ENUM    | NO       | "ACK", "RESULT", 默认 "ACK"
 recvWindow       | LONG    | NO       |
 timestamp        | LONG    | YES      |
 
@@ -2118,6 +2119,10 @@ Type                 |           强制要求的参数
 表示订单不满足以下条件:
 	* 买入: 指定的`activationPrice` 必须小于 latest price
 	* 卖出: 指定的`activationPrice` 必须大于 latest price
+
+* `newOrderRespType` 如果传 `RESULT`:
+	* `MARKET` 订单将直接返回成交结果；
+	* 配合使用特殊 `timeInForce` 的 `LIMIT` 订单将直接返回成交或过期拒绝结果。
 
 * `STOP_MARKET`, `TAKE_PROFIT_MARKET` 配合 `closePosition`=`true`:
 	* 条件单触发依照上述条件单触发逻辑
@@ -2512,7 +2517,7 @@ pair		 | STRING | NO 		 | 标的交易对
 orderId    | LONG   | NO       | 只返回此orderID及之后的订单，缺省返回最近的订单, 仅支持配合symbol使用
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
-limit      | INT    | NO       | 返回的结果集数量 默认值:500 最大值:1000
+limit      | INT    | NO       | 返回的结果集数量 默认值:50 最大值:100
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
@@ -2748,7 +2753,7 @@ symbol     | STRING | YES      | 交易对
 type       | INT    | NO       | 调整方向 1: 增加逐仓保证金，2: 减少逐仓保证金
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
-limit      | INT    | NO       | 返回的结果集数量 默认值: 500
+limit      | INT    | NO       | 返回的结果集数量 默认值: 50
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
@@ -2869,7 +2874,7 @@ pair		 | STRING | NO 		 | 标的交易对
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 fromId     | LONG   | NO       | 返回该fromId及之后的成交，缺省返回最近的成交, 仅支持配合symbol使用
-limit      | INT    | NO       | 返回的结果集数量 默认值:500 最大值:1000.
+limit      | INT    | NO       | 返回的结果集数量 默认值:50 最大值:100.
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
