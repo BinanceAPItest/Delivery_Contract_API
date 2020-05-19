@@ -3134,14 +3134,8 @@ DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
 <tr>
 <td>symbol</td>
 <td>STRING</td>
-<td>NO</td>
+<td>YES</td>
 <td>交易对</td>
-</tr>
-<tr>
-<td>pair</td>
-<td>STRING</td>
-<td>NO</td>
-<td>标的交易对</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -3156,10 +3150,6 @@ DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
-
-<ul>
-<li>symbol 或 pair 必须穿传一个，同时不能同时传</li>
-</ul>
 <h2 id='trade-6'>批量撤销订单 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
