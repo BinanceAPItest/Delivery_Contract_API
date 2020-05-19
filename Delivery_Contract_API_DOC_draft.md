@@ -2281,12 +2281,11 @@ DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
 
    名称    |  类型  | 是否必需 |  描述
 ---------- | ------ | -------- | ------
-symbol     | STRING | NO       | 交易对
-pair		 | STRING | NO		 | 标的交易对
+symbol     | STRING | YES      | 交易对
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-* symbol 或 pair 必须穿传一个，同时不能同时传
+
 
 
 ## 批量撤销订单 (TRADE)
