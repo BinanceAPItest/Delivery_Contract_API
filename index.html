@@ -324,7 +324,7 @@
                     <a href="#markprice" class="toc-h2 toc-link" data-title="最新MarkPrice">最新MarkPrice</a>
                   </li>
                   <li>
-                    <a href="#pair-synbol-markprice" class="toc-h2 toc-link" data-title="pair所有synbol最新MarkPrice">pair所有synbol最新MarkPrice</a>
+                    <a href="#pair-symbol-markprice" class="toc-h2 toc-link" data-title="pair所有symbol最新MarkPrice">pair所有symbol最新MarkPrice</a>
                   </li>
                   <li>
                     <a href="#k-4" class="toc-h2 toc-link" data-title="K线">K线</a>
@@ -1329,7 +1329,6 @@ GET /dapi/v1/aggTrades
 </tbody></table>
 
 <ul>
-<li>如果同时发送<code>startTime</code>和<code>endTime</code>，间隔必须小于一小时</li>
 <li>如果没有发送任何筛选参数(<code>fromId</code>, <code>startTime</code>, <code>endTime</code>)，默认返回最近的成交记录</li>
 </ul>
 <h2 id='mark-price'>最新现货指数价格,基差,和Mark Price</h2>
@@ -2148,7 +2147,7 @@ GET /dapi/v1/leverageBracket
 <code>&lt;symbol&gt;@markPrice</code> 或 <code>&lt;symbol&gt;@markPrice@1s</code></p>
 
 <p><strong>Update Speed:</strong> 3000ms 或 1000ms</p>
-<h2 id='pair-synbol-markprice'>pair所有synbol最新MarkPrice</h2>
+<h2 id='pair-symbol-markprice'>pair所有symbol最新MarkPrice</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
 </blockquote>
@@ -2781,8 +2780,8 @@ POST /dapi/v1/order  (HMAC SHA256)
 <tr>
 <td>quantity</td>
 <td>DECIMAL</td>
-<td>YES</td>
-<td>下单数量</td>
+<td>NO</td>
+<td>下单数量,使用<code>closePosition</code>不支持此参数。</td>
 </tr>
 <tr>
 <td>price</td>
@@ -2831,6 +2830,12 @@ POST /dapi/v1/order  (HMAC SHA256)
 <td>ENUM</td>
 <td>NO</td>
 <td>stopPrice 触发类型: <code>MARK_PRICE</code>(标记价格), <code>CONTRACT_PRICE</code>(合约最新价). 默认 <code>CONTRACT_PRICE</code></td>
+</tr>
+<tr>
+<td>newOrderRespType</td>
+<td>ENUM</td>
+<td>NO</td>
+<td>&quot;ACK&quot;, &quot;RESULT&quot;, 默认 &quot;ACK&quot;</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -2905,6 +2910,12 @@ POST /dapi/v1/order  (HMAC SHA256)
 <ul>
 <li>买入: 指定的<code>activationPrice</code> 必须小于 latest price</li>
 <li>卖出: 指定的<code>activationPrice</code> 必须大于 latest price</li>
+</ul></li>
+<li><p><code>newOrderRespType</code> 如果传 <code>RESULT</code>:</p>
+
+<ul>
+<li><code>MARKET</code> 订单将直接返回成交结果；</li>
+<li>配合使用特殊 <code>timeInForce</code> 的 <code>LIMIT</code> 订单将直接返回成交或过期拒绝结果。</li>
 </ul></li>
 <li><p><code>STOP_MARKET</code>, <code>TAKE_PROFIT_MARKET</code> 配合 <code>closePosition</code>=<code>true</code>:</p>
 
@@ -3490,7 +3501,7 @@ GET /dapi/v1/allOrders (HMAC SHA256)
 <td>limit</td>
 <td>INT</td>
 <td>NO</td>
-<td>返回的结果集数量 默认值:500 最大值:1000</td>
+<td>返回的结果集数量 默认值:50 最大值:100</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -3857,7 +3868,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
 <td>limit</td>
 <td>INT</td>
 <td>NO</td>
-<td>返回的结果集数量 默认值: 500</td>
+<td>返回的结果集数量 默认值: 50</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -4045,7 +4056,7 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 <td>limit</td>
 <td>INT</td>
 <td>NO</td>
-<td>返回的结果集数量 默认值:500 最大值:1000.</td>
+<td>返回的结果集数量 默认值:50 最大值:100.</td>
 </tr>
 <tr>
 <td>recvWindow</td>
