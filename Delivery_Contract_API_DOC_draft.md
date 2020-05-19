@@ -246,15 +246,10 @@ There is no & between "GTC" and "quantity=1".
 
 **合约状态:**
 
-* DELISTING         已下架
-* LISTING           交易中
-* PENDING_LISTING   待上市
-* SUSPENDING_LISTING 暂停上市中
-* SUSPENDED_LISTING	已暂停上市
-* SUSPENSION        暂停交易中
-* IN_SETTLEMENT		结算中
+* PENDING_TRADING   待上市
+* TRADING          	交易中
+* PRE_DELIVERING		结算中
 * DELIVERING			交割中
-* SETTLEMENT_COMPLETED  已结算
 * DELIVERED			已交割
 
 
@@ -1747,7 +1742,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 所有symbol 24小时完整ticker信息.需要注意的是，只有发生变化的tiker更新才会被推送。
 
 **Stream 名称:**     
-``<symbol>!ticker@arr``
+``!ticker@arr``
 
 **Update Speed:** 1000ms
 
