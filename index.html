@@ -760,15 +760,10 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 <p><strong>合约状态:</strong></p>
 
 <ul>
-<li>DELISTING         已下架</li>
-<li>LISTING           交易中</li>
-<li>PENDING_LISTING   待上市</li>
-<li>SUSPENDING_LISTING 暂停上市中</li>
-<li>SUSPENDED_LISTING 已暂停上市</li>
-<li>SUSPENSION        暂停交易中</li>
-<li>IN_SETTLEMENT     结算中</li>
+<li>PENDING_TRADING   待上市</li>
+<li>TRADING           交易中</li>
+<li>PRE_DELIVERING        结算中</li>
 <li>DELIVERING            交割中</li>
-<li>SETTLEMENT_COMPLETED  已结算</li>
 <li>DELIVERED         已交割</li>
 </ul>
 
@@ -2448,7 +2443,7 @@ GET /dapi/v1/leverageBracket
 <p>所有symbol 24小时完整ticker信息.需要注意的是，只有发生变化的tiker更新才会被推送。</p>
 
 <p><strong>Stream 名称:</strong><br>
-<code>&lt;symbol&gt;!ticker@arr</code></p>
+<code>!ticker@arr</code></p>
 
 <p><strong>Update Speed:</strong> 1000ms</p>
 <h2 id='symbol'>按Symbol的最优挂单信息</h2>
