@@ -1564,7 +1564,6 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
   "k": {
     "t": 123400000, // 这根K线的起始时间
     "T": 123460000, // 这根K线的结束时间
-    "s": "BTCUSD_200930",  // 交易对
     "i": "1m",      // K线间隔
     "f": 100,       // 这根K线期间第一笔数据Id
     "L": 200,       // 这根K线期间末一笔数据Id
@@ -1606,7 +1605,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<symbol>@indexPriceKline_<interval>``
+``<pair>@indexPriceKline_<interval>``
 
 **Update Speed:** 250ms
 
