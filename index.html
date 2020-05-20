@@ -286,6 +286,9 @@
                     <a href="#k-3" class="toc-h2 toc-link" data-title="价格指数K线数据">价格指数K线数据</a>
                   </li>
                   <li>
+                    <a href="#k-4" class="toc-h2 toc-link" data-title="标记价格K线数据">标记价格K线数据</a>
+                  </li>
+                  <li>
                     <a href="#24hr" class="toc-h2 toc-link" data-title="24hr价格变动情况">24hr价格变动情况</a>
                   </li>
                   <li>
@@ -327,13 +330,16 @@
                     <a href="#pair-symbol-markprice" class="toc-h2 toc-link" data-title="pair所有symbol最新MarkPrice">pair所有symbol最新MarkPrice</a>
                   </li>
                   <li>
-                    <a href="#k-4" class="toc-h2 toc-link" data-title="K线">K线</a>
+                    <a href="#k-5" class="toc-h2 toc-link" data-title="K线">K线</a>
                   </li>
                   <li>
-                    <a href="#k-5" class="toc-h2 toc-link" data-title="连续合约K线">连续合约K线</a>
+                    <a href="#k-6" class="toc-h2 toc-link" data-title="连续合约K线">连续合约K线</a>
                   </li>
                   <li>
-                    <a href="#k-6" class="toc-h2 toc-link" data-title="价格指数K线">价格指数K线</a>
+                    <a href="#k-7" class="toc-h2 toc-link" data-title="价格指数K线">价格指数K线</a>
+                  </li>
+                  <li>
+                    <a href="#k-8" class="toc-h2 toc-link" data-title="标记价格K线">标记价格K线</a>
                   </li>
                   <li>
                     <a href="#symbol-ticker" class="toc-h2 toc-link" data-title="按Symbol的精简Ticker">按Symbol的精简Ticker</a>
@@ -1599,6 +1605,80 @@ GET /dapi/v1/indexPriceKlines
 <ul>
 <li>最多只能查询最近30天数据</li>
 </ul>
+<h2 id='k-4'>标记价格K线数据</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="mi">1587910140000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
+    <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
+    <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
+    <span class="s2">"0.01575800"</span><span class="p">,</span>       <span class="c1">// 最低价</span>
+    <span class="s2">"0.01577100"</span><span class="p">,</span>       <span class="c1">// 收盘价(当前K线未结束的即为最新价)</span>
+    <span class="s2">"0  "</span><span class="p">,</span>                   <span class="c1">// 请忽略 （成交量）</span>
+    <span class="mi">1587910199999</span><span class="p">,</span>      <span class="c1">// 收盘时间</span>
+    <span class="s2">"0"</span><span class="p">,</span>                     <span class="c1">// 请忽略 （成交额）</span>
+    <span class="mi">60</span><span class="p">,</span>                  <span class="c1">// 构成记录数</span>
+    <span class="s2">"0"</span><span class="p">,</span>                     <span class="c1">// 请忽略 （主动买入成交量）</span>
+    <span class="s2">"0"</span><span class="p">,</span>                 <span class="c1">// 请忽略 （主动买入成交额）</span>
+    <span class="s2">"0"</span>                      <span class="c1">// 请忽略该参数</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /dapi/v1/markPriceKlines
+</code>
+每根K线的开盘时间可视为唯一ID</p>
+
+<p><strong>权重:</strong>
+1</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symgol</td>
+<td>STRING</td>
+<td>YES</td>
+<td>交易对</td>
+</tr>
+<tr>
+<td>interval</td>
+<td>ENUM</td>
+<td>YES</td>
+<td>时间间隔</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td>起始时间</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td>结束时间</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>默认值:500 最大值:1500</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>最多只能查询最近30天数据</li>
+</ul>
 <h2 id='24hr'>24hr价格变动情况</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -2160,7 +2240,7 @@ GET /dapi/v1/leverageBracket
 <code>&lt;pair&gt;@markPrice</code> 或 <code>&lt;pair&gt;@markPrice@1s</code></p>
 
 <p><strong>Update Speed:</strong> 3000ms 或 1000ms</p>
-<h2 id='k-4'>K线</h2>
+<h2 id='k-5'>K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
 </blockquote>
@@ -2217,7 +2297,7 @@ GET /dapi/v1/leverageBracket
 <code>&lt;pair&gt;_&lt;contractType&gt;@kline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
-<h2 id='k-5'>连续合约K线</h2>
+<h2 id='k-6'>连续合约K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
 </blockquote>
@@ -2275,7 +2355,7 @@ GET /dapi/v1/leverageBracket
 <code>&lt;symbol&gt;@continuousKline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
-<h2 id='k-6'>价格指数K线</h2>
+<h2 id='k-7'>价格指数K线</h2>
 <blockquote>
 <p><strong>Payload:</strong></p>
 </blockquote>
@@ -2286,6 +2366,64 @@ GET /dapi/v1/leverageBracket
   <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
     <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// 这根K线的结束时间</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>  <span class="c1">// 无意义字段</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// K线间隔</span>
+    <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// 这根K线期间第一笔数据Id</span>
+    <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// 这根K线期间末一笔数据Id</span>
+    <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>  <span class="c1">// 这根K线期间第一笔成交价</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0020"</span><span class="p">,</span>  <span class="c1">// 这根K线期间末一笔成交价</span>
+    <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>  <span class="c1">// 这根K线期间最高成交价</span>
+    <span class="s2">"l"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>  <span class="c1">// 这根K线期间最低成交价</span>
+    <span class="s2">"v"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>       <span class="c1">// 无意义字段</span>
+    <span class="s2">"n"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>         <span class="c1">// 这根K线更新期间数据数量</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>     <span class="c1">// 这根K线是否完结（是否已经开始下一根K线）</span>
+    <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>       <span class="c1">// 无意义字段</span>
+    <span class="s2">"V"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>       <span class="c1">// 无意义字段</span>
+    <span class="s2">"Q"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>           <span class="c1">// 无意义字段</span>
+    <span class="s2">"B"</span><span class="p">:</span> <span class="s2">"0"</span>        <span class="c1">// 无意义字段</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。</p>
+
+<p><strong>订阅Kline需要提供间隔参数，最短为分钟线，最长为月线。支持以下间隔:</strong></p>
+
+<p>m -&gt; 分钟; h -&gt; 小时; d -&gt; 天; w -&gt; 周; M -&gt; 月</p>
+
+<ul>
+<li>1m</li>
+<li>3m</li>
+<li>5m</li>
+<li>15m</li>
+<li>30m</li>
+<li>1h</li>
+<li>2h</li>
+<li>4h</li>
+<li>6h</li>
+<li>8h</li>
+<li>12h</li>
+<li>1d</li>
+<li>3d</li>
+<li>1w</li>
+<li>1M</li>
+</ul>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@markPriceKline_&lt;interval&gt;</code></p>
+
+<p><strong>Update Speed:</strong> 250ms</p>
+<h2 id='k-8'>标记价格K线</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"indexPrice_kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// 事件时间</span>
+  <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>    <span class="c1">// 标的交易对</span>
+  <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
+    <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// 这根K线的结束时间</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
     <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// K线间隔</span>
     <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// 这根K线期间第一笔数据Id</span>
     <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// 这根K线期间末一笔数据Id</span>
