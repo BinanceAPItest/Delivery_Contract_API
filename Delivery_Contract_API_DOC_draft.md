@@ -2620,7 +2620,7 @@ limit      | INT    | NO       | 返回的结果集数量 默认值:50 最大值
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-* symbol 或 pair 必须穿传一个，同时不能同时传
+* symbol 或 pair 必须传一个，不能同时传
 
 
 
