@@ -1650,7 +1650,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<symbol>@indexPriceKline_<interval>``
+``<pair>@indexPriceKline_<interval>``
 
 **Update Speed:** 250ms
 
@@ -1711,7 +1711,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<pair>@markPriceKline_<interval>``
+``<symbol>@markPriceKline_<interval>``
 
 **Update Speed:** 250ms
 
