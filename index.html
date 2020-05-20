@@ -1645,7 +1645,7 @@ GET /dapi/v1/markPriceKlines
 </tr>
 </thead><tbody>
 <tr>
-<td>symgol</td>
+<td>symbol</td>
 <td>STRING</td>
 <td>YES</td>
 <td>交易对</td>
@@ -2409,7 +2409,7 @@ GET /dapi/v1/leverageBracket
 </ul>
 
 <p><strong>Stream Name:</strong><br>
-<code>&lt;symbol&gt;@markPriceKline_&lt;interval&gt;</code></p>
+<code>&lt;symbol&gt;@indexPriceKline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
 <h2 id='k-8'>标记价格K线</h2>
@@ -2417,7 +2417,7 @@ GET /dapi/v1/leverageBracket
 <p><strong>Payload:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"indexPrice_kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPrice_kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// 事件时间</span>
   <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>    <span class="c1">// 标的交易对</span>
   <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
@@ -2466,7 +2466,7 @@ GET /dapi/v1/leverageBracket
 </ul>
 
 <p><strong>Stream Name:</strong><br>
-<code>&lt;pair&gt;@indexPriceKline_&lt;interval&gt;</code></p>
+<code>&lt;pair&gt;@markPriceKline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
 <h2 id='symbol-ticker'>按Symbol的精简Ticker</h2>
