@@ -955,7 +955,7 @@ GET /dapi/v1/markPriceKlines
 
   名称    |  类型  | 是否必需 |          描述
 --------- | ------ | -------- | ----------------------
-symgol   	| STRING | YES      | 交易对
+symbol   	| STRING | YES      | 交易对
 interval  | ENUM   | YES      | 时间间隔
 startTime | LONG   | NO       | 起始时间
 endTime   | LONG   | NO       | 结束时间
@@ -1650,7 +1650,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<symbol>@markPriceKline_<interval>``
+``<symbol>@indexPriceKline_<interval>``
 
 **Update Speed:** 250ms
 
@@ -1663,7 +1663,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "indexPrice_kline",     // 事件类型
+  "e": "markPrice_kline",     // 事件类型
   "E": 123456789,   // 事件时间
   "ps": "BTCUSD",    // 标的交易对
   "k": {
@@ -1711,7 +1711,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<pair>@indexPriceKline_<interval>``
+``<pair>@markPriceKline_<interval>``
 
 **Update Speed:** 250ms
 
