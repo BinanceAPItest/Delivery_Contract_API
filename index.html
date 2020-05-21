@@ -2251,7 +2251,7 @@ GET /dapi/v1/leverageBracket
   <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
     <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// 这根K线的结束时间</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BNBBTC"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
     <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// K线间隔</span>
     <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// 这根K线期间第一笔成交ID</span>
     <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// 这根K线期间末一笔成交ID</span>
@@ -2294,7 +2294,7 @@ GET /dapi/v1/leverageBracket
 </ul>
 
 <p><strong>Stream Name:</strong><br>
-<code>&lt;pair&gt;_&lt;contractType&gt;@kline_&lt;interval&gt;</code></p>
+<code>&lt;symbol&gt;@kline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
 <h2 id='k-6'>连续合约K线</h2>
@@ -2352,7 +2352,7 @@ GET /dapi/v1/leverageBracket
 </ul>
 
 <p><strong>Stream Name:</strong><br>
-<code>&lt;symbol&gt;@continuousKline_&lt;interval&gt;</code></p>
+<code>&lt;pair&gt;_&lt;contractType&gt;@continuousKline_&lt;interval&gt;</code></p>
 
 <p><strong>Update Speed:</strong> 250ms</p>
 <h2 id='k-7'>价格指数K线</h2>
