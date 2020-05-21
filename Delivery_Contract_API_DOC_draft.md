@@ -1485,7 +1485,7 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
   "k": {
     "t": 123400000, // 这根K线的起始时间
     "T": 123460000, // 这根K线的结束时间
-    "s": "BNBBTC",  // 交易对
+    "s": "BTCUSD_200930",  // 交易对
     "i": "1m",      // K线间隔
     "f": 100,       // 这根K线期间第一笔成交ID
     "L": 200,       // 这根K线期间末一笔成交ID
@@ -1527,7 +1527,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<pair>_<contractType>@kline_<interval>``
+``<symbol>@kline_<interval>``
 
 **Update Speed:** 250ms
 
@@ -1589,7 +1589,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1M
 
 **Stream Name:**    
-``<symbol>@continuousKline_<interval>``
+``<pair>_<contractType>@continuousKline_<interval>``
 
 **Update Speed:** 250ms
 
