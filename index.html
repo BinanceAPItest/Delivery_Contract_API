@@ -1341,7 +1341,7 @@ GET /dapi/v1/aggTrades
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
         <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
-        <span class="s2">"markPrice"</span><span class="p">:</span> <span class="mf">11186.12345678</span><span class="p">,</span>        <span class="c1">// mark price</span>
+        <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"11186.12345678"</span><span class="p">,</span>  <span class="c1">// mark price</span>
         <span class="s2">"estimatedSettlePrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
     <span class="p">}</span>
@@ -1382,7 +1382,7 @@ GET /dapi/v1/premiumIndex
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-  <span class="p">{</span>
+  <span class="p">[</span>
     <span class="mi">1499040000000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
     <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
     <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
@@ -1395,7 +1395,7 @@ GET /dapi/v1/premiumIndex
     <span class="s2">"1756.87402397"</span><span class="p">,</span>    <span class="c1">// 主动买入成交量</span>
     <span class="s2">"28.46694368"</span><span class="p">,</span>      <span class="c1">// 主动买入成交额</span>
     <span class="s2">"17928899.62484339"</span> <span class="c1">// 请忽略该参数</span>
-  <span class="p">}</span>
+  <span class="p">]</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
@@ -1456,7 +1456,7 @@ GET /dapi/v1/klines
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-  <span class="p">{</span>
+  <span class="p">[</span>
     <span class="mi">1499040000000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
     <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
     <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
@@ -1469,7 +1469,7 @@ GET /dapi/v1/klines
     <span class="s2">"1756.87402397"</span><span class="p">,</span>    <span class="c1">// 主动买入成交量</span>
     <span class="s2">"28.46694368"</span><span class="p">,</span>      <span class="c1">// 主动买入成交额</span>
     <span class="s2">"17928899.62484339"</span> <span class="c1">// 请忽略该参数</span>
-  <span class="p">}</span>
+  <span class="p">]</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
@@ -1536,7 +1536,7 @@ GET /dapi/v1/continuousKlines
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-  <span class="p">{</span>
+  <span class="p">[</span>
     <span class="mi">1587910140000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
     <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
     <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
@@ -1549,7 +1549,7 @@ GET /dapi/v1/continuousKlines
     <span class="s2">"0"</span><span class="p">,</span>                     <span class="c1">// 请忽略 （主动买入成交量）</span>
     <span class="s2">"0"</span><span class="p">,</span>                 <span class="c1">// 请忽略 （主动买入成交额）</span>
     <span class="s2">"0"</span>                      <span class="c1">// 请忽略该参数</span>
-  <span class="p">}</span>
+  <span class="p">]</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
@@ -1610,7 +1610,7 @@ GET /dapi/v1/indexPriceKlines
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-  <span class="p">{</span>
+  <span class="p">[</span>
     <span class="mi">1587910140000</span><span class="p">,</span>      <span class="c1">// 开盘时间</span>
     <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// 开盘价</span>
     <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// 最高价</span>
@@ -1623,7 +1623,7 @@ GET /dapi/v1/indexPriceKlines
     <span class="s2">"0"</span><span class="p">,</span>                     <span class="c1">// 请忽略 （主动买入成交量）</span>
     <span class="s2">"0"</span><span class="p">,</span>                 <span class="c1">// 请忽略 （主动买入成交额）</span>
     <span class="s2">"0"</span>                      <span class="c1">// 请忽略该参数</span>
-  <span class="p">}</span>
+  <span class="p">]</span>
 <span class="p">]</span>
 </code></pre>
 <p><code>
