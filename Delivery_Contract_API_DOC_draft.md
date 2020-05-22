@@ -3131,6 +3131,7 @@ timestamp | LONG | YES |
 {
     "e":"MARGIN_CALL",    	// 事件类型
     "E":1587727187525,		// 事件时间
+    "i": "SfsR",							// 账户唯一识别码 accountAlias
     "cw":"3.16812045",		// 除去逐仓仓位保证金的钱包余额, 仅在全仓 margin call 情况下推送此字段
     "p":[					// 涉及持仓
       {
@@ -3233,6 +3234,7 @@ timestamp | LONG | YES |
   "e":"ORDER_TRADE_UPDATE",			// 事件类型
   "E":1568879465651,				// 事件时间
   "T":1568879465650,				// 撮合时间
+  "i": "SfsR",							// 账户唯一识别码 accountAlias
   "o":{								
     "s":"BTCUSD_200930",					// 交易对
     "c":"TEST",						// 客户端自定订单ID
