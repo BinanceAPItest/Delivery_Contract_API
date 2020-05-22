@@ -4418,6 +4418,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
     <span class="s2">"e"</span><span class="p">:</span><span class="s2">"MARGIN_CALL"</span><span class="p">,</span>      <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span><span class="mi">1587727187525</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"SfsR"</span><span class="p">,</span>                            <span class="c1">// 账户唯一识别码 accountAlias</span>
     <span class="s2">"cw"</span><span class="p">:</span><span class="s2">"3.16812045"</span><span class="p">,</span>      <span class="c1">// 除去逐仓仓位保证金的钱包余额, 仅在全仓 margin call 情况下推送此字段</span>
     <span class="s2">"p"</span><span class="p">:[</span>                   <span class="c1">// 涉及持仓</span>
       <span class="p">{</span>
@@ -4513,6 +4514,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
   <span class="s2">"e"</span><span class="p">:</span><span class="s2">"ORDER_TRADE_UPDATE"</span><span class="p">,</span>         <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span><span class="mi">1568879465651</span><span class="p">,</span>                <span class="c1">// 事件时间</span>
   <span class="s2">"T"</span><span class="p">:</span><span class="mi">1568879465650</span><span class="p">,</span>                <span class="c1">// 撮合时间</span>
+  <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"SfsR"</span><span class="p">,</span>                          <span class="c1">// 账户唯一识别码 accountAlias</span>
   <span class="s2">"o"</span><span class="p">:{</span>                             
     <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>                    <span class="c1">// 交易对</span>
     <span class="s2">"c"</span><span class="p">:</span><span class="s2">"TEST"</span><span class="p">,</span>                     <span class="c1">// 客户端自定订单ID</span>
