@@ -259,7 +259,6 @@ There is no & between "GTC" and "quantity=1".
 * PARTIALLY_FILLED  部分成交
 * FILLED  全部成交
 * CANCELED  已撤销
-* REJECTED 订单被拒绝
 * EXPIRED 订单过期(根据timeInForce参数规则)
 
 **订单种类:**
@@ -1028,7 +1027,9 @@ pair   | STRING | NO       | 标的交易对
 [
 	{
   		"symbol": "BTCUSD_200930",	// 交易对
-  		"price": "6000.01"		// 价格
+  		"ps": "BTCUSD",  // 标的交易对
+  		"price": "6000.01",		// 价格
+  		"time": 1590495240353  // 时间
 	}
 ]
 ```
@@ -3304,7 +3305,6 @@ event type统一为 `ORDER_TRADE_UPDATE`
 * PARTIAL_FILL	部分成交
 * FILL				成交
 * CANCELED		已撤
-* REJECTED		拒绝订单
 * CALCULATED		强平单
 * EXPIRED			订单失效
 * TRADE			交易
@@ -3316,9 +3316,6 @@ event type统一为 `ORDER_TRADE_UPDATE`
 * PARTIALLY_FILLED    
 * FILLED
 * CANCELED
-* REPLACED
-* STOPPED
-* REJECTED
 * EXPIRED
 * NEW_INSURANCE		风险保障基金（强平）
 * NEW_ADL				自动减仓序列（强平）
