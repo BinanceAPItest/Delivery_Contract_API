@@ -780,7 +780,6 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 <li>PARTIALLY_FILLED  部分成交</li>
 <li>FILLED  全部成交</li>
 <li>CANCELED  已撤销</li>
-<li>REJECTED 订单被拒绝</li>
 <li>EXPIRED 订单过期(根据timeInForce参数规则)</li>
 </ul>
 
@@ -1752,7 +1751,9 @@ GET /dapi/v1/ticker/24hr
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
         <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
-        <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"6000.01"</span>      <span class="c1">// 价格</span>
+        <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>  <span class="c1">// 标的交易对</span>
+        <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"6000.01"</span><span class="p">,</span>     <span class="c1">// 价格</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1590495240353</span>  <span class="c1">// 时间</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </code></pre>
@@ -4590,7 +4591,6 @@ event type统一为 <code>ORDER_TRADE_UPDATE</code></p>
 <li>PARTIAL_FILL  部分成交</li>
 <li>FILL              成交</li>
 <li>CANCELED      已撤</li>
-<li>REJECTED      拒绝订单</li>
 <li>CALCULATED        强平单</li>
 <li>EXPIRED           订单失效</li>
 <li>TRADE         交易</li>
@@ -4604,9 +4604,6 @@ event type统一为 <code>ORDER_TRADE_UPDATE</code></p>
 <li>PARTIALLY_FILLED<br></li>
 <li>FILLED</li>
 <li>CANCELED</li>
-<li>REPLACED</li>
-<li>STOPPED</li>
-<li>REJECTED</li>
 <li>EXPIRED</li>
 <li>NEW_INSURANCE     风险保障基金（强平）</li>
 <li>NEW_ADL               自动减仓序列（强平）</li>
