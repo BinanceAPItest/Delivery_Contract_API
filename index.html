@@ -488,7 +488,7 @@
       <div class="content">
         <h1 id='b122f813d5'>基本信息</h1><h2 id='rest'>Rest 基本信息</h2>
 <ul>
-<li>本篇列出REST接口的baseurl <strong>https://fapi.binance.com</strong></li>
+<li>本篇列出REST接口的baseurl <strong>https://dapi.binance.com</strong></li>
 <li>所有接口的响应都是JSON格式</li>
 <li>响应中如有数组，数组元素以时间升序排列，越早的数据越提前。</li>
 <li>所有时间、时间戳均为UNIX时间，单位为毫秒</li>
@@ -675,7 +675,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
 </code></pre>
 <ul>
 <li><strong>queryString:</strong> </li>
@@ -701,7 +701,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
 </code></pre>
 <ul>
 <li><strong>requestBody:</strong> </li>
@@ -727,7 +727,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://fapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
 </code></pre>
 <ul>
 <li><strong>queryString:</strong> </li>
@@ -2780,7 +2780,7 @@ GET /dapi/v1/leverageBracket
 <ol>
 <li>订阅 <strong>wss://dstream.binance.com/stream?streams=btcusd_200930@depth</strong></li>
 <li>开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。</li>
-<li>访问Rest接口 <strong>https://fapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200930&amp;limit=1000</strong>获得一个1000档的深度快照</li>
+<li>访问Rest接口 <strong>https://dapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200930&amp;limit=1000</strong>获得一个1000档的深度快照</li>
 <li>将目前缓存到的信息中<code>u</code>&lt; 步骤3中获取到的快照中的<code>lastUpdateId</code>的部分丢弃(丢弃更早的信息，已经过期)。</li>
 <li>将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个<code>U</code> &lt;= <code>lastUpdateId</code> <strong>且</strong> <code>u</code> &gt;= <code>lastUpdateId</code> 的event开始继续更新本地副本。</li>
 <li>每一个新event的<code>pu</code>应该等于上一个event的<code>u</code>，否则可能出现了丢包，请从step3重新进行初始化。</li>
@@ -4286,7 +4286,7 @@ GET /dapi/v1/income (HMAC SHA256)
 </ul>
 <h1 id='websocket-2'>Websocket 账户信息推送</h1>
 <ul>
-<li>本篇所列出REST接口的baseurl <strong>https://fapi.binance.com</strong></li>
+<li>本篇所列出REST接口的baseurl <strong>https://dapi.binance.com</strong></li>
 <li>用于订阅账户数据的 <code>listenKey</code> 从创建时刻起有效期为60分钟</li>
 <li>可以通过<code>PUT</code>一个<code>listenKey</code>延长60分钟有效期</li>
 <li>可以通过<code>DELETE</code>一个 <code>listenKey</code> 立即关闭当前数据流，并使该<code>listenKey</code> 无效</li>
