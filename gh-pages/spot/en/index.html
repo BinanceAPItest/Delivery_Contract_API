@@ -245,6 +245,17 @@
             <a href="#change-log" class="toc-h1 toc-link" data-title="Change Log">Change Log</a>
           </li>
           <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#api-key-setup" class="toc-h2 toc-link" data-title="API Key Setup">API Key Setup</a>
+                  </li>
+                  <li>
+                    <a href="#contact-us" class="toc-h2 toc-link" data-title="Contact Us">Contact Us</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#general-info" class="toc-h1 toc-link" data-title="General Info">General Info</a>
               <ul class="toc-list-h2">
                   <li>
@@ -1514,9 +1525,37 @@ https://api.binance.com/api/v3/avgPrice?symbol=BNBUSDT</p></li>
 <li>GET /api/v3/myTrades weight changed to 20</li>
 <li>GET /api/v3/historicalTrades weight changed to 20</li>
 </ul>
+<h1 id='introduction'>Introduction</h1><h2 id='api-key-setup'>API Key Setup</h2>
+<ul>
+<li>Some endpoints will require an API Key. Please refer to <a href="https://www.binance.com/en/support/faq/360002502072">this page</a> regarding API key creation.</li>
+<li>Once API key is created, it is recommended to set IP restrictions on the key for security reasons.</li>
+<li><strong>Never share your API key/secret key to ANYONE.</strong></li>
+</ul>
+
+<aside class="warning">
+If the API keys were accidentally shared, please delete them immediately and create a new key.
+</aside>
+<h2 id='contact-us'>Contact Us</h2>
+<ul>
+<li><a href="https://t.me/binance_api_english">Binance API Telegram Group</a>
+
+<ul>
+<li>For any questions in sudden drop in performance with the API and/or Websockets.</li>
+<li>For any general questions about the API not covered in the documentation.</li>
+</ul></li>
+<li><a href="https://dev.binance.vision/">Binance Developers</a>
+
+<ul>
+<li>For any questions on your code implementation with the API and/or Websockets.</li>
+</ul></li>
+<li><a href="https://www.binance.com/en/support-center">Binance Customer Support</a>
+
+<ul>
+<li>For cases such as missing funds, help with 2FA, etc.</li>
+</ul></li>
+</ul>
 <h1 id='general-info'>General Info</h1><h2 id='general-api-information'>General API Information</h2>
 <ul>
-<li>Some endpoints will require an API Key. Please refer to <a href="https://www.binance.com/en/support/articles/360002502072">this page</a></li>
 <li>The base endpoint is: <strong>https://api.binance.com</strong></li>
 <li>All endpoints return either a JSON object or array.</li>
 <li>Data is returned in <strong>ascending</strong> order. Oldest first, newest last.</li>
@@ -1530,14 +1569,14 @@ the issue is on the sender&#39;s side.</li>
 <li>HTTP <code>429</code> return code is used when breaking a request rate limit.</li>
 <li>HTTP <code>418</code> return code is used when an IP has been auto-banned for continuing to send requests after receiving <code>429</code> codes.</li>
 <li>HTTP <code>5XX</code> return codes are used for internal errors; the issue is on
-Binance&#39;s side.<br>
-With using <code>/wapi/v3</code> , HTTP <code>504</code> return code is used when the API successfully sent the message but not get a response within the timeout period.
+Binance&#39;s side.</li>
+<li>With using <code>/wapi/v3</code> , HTTP <code>504</code> return code is used when the API successfully sent the message but not get a response within the timeout period.
 It is important to <strong>NOT</strong> treat this as a failure operation; the execution status is
 <strong>UNKNOWN</strong> and could have been a success.</li>
 </ul>
 <h3 id='error-codes'>Error Codes</h3>
 <ul>
-<li>When using <code>/api/v3</code>, and <code>/sapi/v1/margin</code>, any endpoint can return an ERROR; </li>
+<li>If there is an error, the API will return an error with a message of the reason.</li>
 </ul>
 
 <blockquote>
@@ -4896,7 +4935,7 @@ GET /sapi/v1/capital/deposit/subHisrec (HMAC SHA256)
 </tr>
 </thead><tbody>
 <tr>
-<td>email</td>
+<td>toEmail</td>
 <td>String</td>
 <td>YES</td>
 <td><a href="#email-address">Sub-account email</a></td>
@@ -9587,7 +9626,12 @@ DELETE  /sapi/v1/userDataStream
     <span class="p">}</span>
   <span class="p">]</span>
 <span class="p">}</span>
-</code></pre><h1 id='savings-endpoints'>Savings Endpoints</h1><h2 id='get-flexible-product-list-user_data'>Get Flexible Product List (USER_DATA)</h2>
+</code></pre><h1 id='savings-endpoints'>Savings Endpoints</h1>
+<ul>
+<li>The endpoints below allow you to interact with Binance Savings, previously known as Binance Lending.</li>
+<li>For more information on this, please refer to the <a href="https://www.binance.com/en/lending">Binance Savings page</a></li>
+</ul>
+<h2 id='get-flexible-product-list-user_data'>Get Flexible Product List (USER_DATA)</h2>
 <blockquote>
 <p><strong>Response:</strong></p>
 </blockquote>
@@ -10492,9 +10536,14 @@ GET /sapi/v1/lending/union/interestHistory (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
-<h1 id='mining-endpoints'>Mining Endpoints</h1><h2 id='acquiring-algorithm-market_data'>Acquiring Algorithm (MARKET_DATA)</h2>
+<h1 id='mining-endpoints'>Mining Endpoints</h1>
+<ul>
+<li>The endpoints below allow to interact with Binance Pool.</li>
+<li>For more information on this, please refer to the <a href="https://pool.binance.com/en">Binance Pool page</a></li>
+</ul>
+<h2 id='acquiring-algorithm-market_data'>Acquiring Algorithm (MARKET_DATA)</h2>
 <blockquote>
-<p><strong>Response:</strong>  </p>
+<p><strong>Response:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"code"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>

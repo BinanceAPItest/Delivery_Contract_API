@@ -25,6 +25,8 @@ run_build() {
     build_dir=$build_directory/futures/$language
   elif [[ $version = testnet ]]; then
     build_dir=$build_directory/testnet/$language
+  elif [[ $version = deliveryT ]]; then
+    build_dir=$build_directory/delivery_testnet/$language
   else
     build_dir=$build_directory/spot/$language
   fi

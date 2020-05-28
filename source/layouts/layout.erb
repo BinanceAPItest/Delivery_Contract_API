@@ -68,10 +68,13 @@ under the License.
             <a href="/apidocs/spot/en/" id="btn_spot">现货/杠杆/币安宝</a>
           </span>
           <span class="nav_cell nav_tab">
-            <a href="/apidocs/futures/en/" id="btn_dm">合约</a>
+            <a href="/apidocs/futures/en/" id="btn_dm">永续合约</a>
           </span>
           <span class="nav_cell nav_tab">
-            <a href="/apidocs/testnet/en/" id="btn_tn">合约testnet</a>
+            <a href="/apidocs/testnet/en/" id="btn_tn">永续合约testnet</a>
+          </span>
+          <span class="nav_cell nav_tab">
+            <a href="/apidocs/delivery_testnet/en/" id="btn_ft">交割合约testnet</a>
           </span>
         </div>
       </div>
@@ -144,6 +147,7 @@ under the License.
       const btn_spot = document.getElementById('btn_spot');
       const btn_dm = document.getElementById('btn_dm');
       const btn_tn = document.getElementById('btn_tn');
+      const btn_ft = document.getElementById('btn_ft');
       const v1_url = document.getElementById('v1_url');
       //const v2_url = document.getElementById('v2_url');
       const url = GetUrlRelativePath();
@@ -151,26 +155,30 @@ under the License.
         // for the Chinese Language env.
         lang_btn.innerHTML = 'English';
         btn_spot.innerHTML = '现货/杠杆/币安宝/矿池';
-        btn_dm.innerHTML = '合约';
-        btn_tn.innerHTML = '合约testnet API';
+        btn_dm.innerHTML = '永续合约';
+        btn_tn.innerHTML = '永续合约testnet';
+        btn_ft.innerHTML = '交割合约testnet';
         LG.href = "https://www.binance.com/cn/";
         lang_btn.href = url.replace('cn/', 'en/');
         btn_spot.href = btn_spot.href.replace('en/', 'cn/');
         btn_dm.href = btn_dm.href.replace('en/', 'cn/');
         btn_tn.href = btn_tn.href.replace('en/', 'cn/');
+        btn_ft.href = btn_ft.href.replace('en/', 'cn/');
         //v1_url.href = '/docs/spot/v1/cn/';
         //v2_url.href = '/docs/spot/v2/cn/';
       }else{
         // for the English Language env.
         lang_btn.innerHTML = '简体中文';
         btn_spot.innerHTML = 'Spot/Margin/Savings/Mining';
-        btn_dm.innerHTML = 'Futures';
-        btn_tn.innerHTML = 'Futures testnet API';
+        btn_dm.innerHTML = 'Perpetual';
+        btn_tn.innerHTML = 'Perpetual Testnet';
+        btn_ft.innerHTML = 'Delivery Testnet';
         LG.href = "https://www.binance.com/en/";
         lang_btn.href = url.replace('en/', 'cn/');
         btn_spot.href = btn_spot.href.replace('cn/', 'en/');
         btn_dm.href = btn_dm.href.replace('cn/', 'en/');
         btn_tn.href = btn_tn.href.replace('cn/', 'en/');
+        btn_ft.href = btn_ft.href.replace('cn/', 'en/');
         //v1_url.href = '/docs/spot/v1/en/';
         //v2_url.href = '/docs/spot/v2/en/';
       }
@@ -178,14 +186,22 @@ under the License.
         btn_spot.className = '';
         btn_dm.className = 'current';
         btn_tn.className = '';
+        btn_ft.className = '';
       } else if(location.href.indexOf('apidocs/spot') > 0){
         btn_spot.className = 'current';
         btn_dm.className = '';
         btn_tn.className = '';
-      } else{
+        btn_ft.className = '';
+      } else if(location.href.indexOf('apidocs/testnet') > 0){
         btn_spot.className = '';
         btn_dm.className = '';
         btn_tn.className = 'current';
+        btn_ft.className = '';
+      } else{
+        btn_spot.className = '';
+        btn_dm.className = '';
+        btn_tn.className = '';
+        btn_ft.className = 'current';
       }
       // language botton
       lang_btn.style.display = 'block';
