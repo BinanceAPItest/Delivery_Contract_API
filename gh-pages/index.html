@@ -1,0 +1,3061 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
+    <title>Binance API Documentation</title>
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <header>
+      <div class="flex_box">
+        <a href="https://www.binance.com/" class="LG" id="LG"><img src="images/logo.svg" class="logo" alt="Logo" /></a>
+        <div class="nav_box">
+          <span class="nav_cell" style="display: none">
+            <a href="javascript:;" class="nav_first">v1<i class="icon_nav"></i></a>
+            //<ul class="nav_ul">
+            //  <li>
+            //    <a href="/apidocs/spot/en/" id="v1_url">v1</a>
+            //  </li>
+            //  <li>
+            //    <a href="/apidocs/spot/en/" id="v2_url">v2</a>
+            //  </li>
+            </ul>
+          </span>
+          <span class="nav_cell nav_tab">
+            <a href="/apidocs/spot/en/" id="btn_spot">现货/杠杆</a>
+          </span>
+          <span class="nav_cell nav_tab">
+            <a href="/apidocs/futures/en/" id="btn_dm">合约</a>
+          </span>
+          <span class="nav_cell nav_tab">
+            <a href="/apidocs/testnet/en/" id="btn_tn">合约testnet</a>
+          </span>
+        </div>
+      </div>
+      <a href="/apidocs/spot/cn/" class="lang" id="lang_box">简体中文</a>
+    </header>
+    <div class="toc-wrapper">
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#change-log" class="toc-h1 toc-link" data-title="Change Log">Change Log</a>
+          </li>
+          <li>
+            <a href="#general-info" class="toc-h1 toc-link" data-title="General Info">General Info</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#general-api-information" class="toc-h2 toc-link" data-title="General API Information">General API Information</a>
+                  </li>
+                  <li>
+                    <a href="#limits" class="toc-h2 toc-link" data-title="LIMITS">LIMITS</a>
+                  </li>
+                  <li>
+                    <a href="#endpoint-security-type" class="toc-h2 toc-link" data-title="Endpoint Security Type">Endpoint Security Type</a>
+                  </li>
+                  <li>
+                    <a href="#signed-trade-and-user_data-endpoint-security" class="toc-h2 toc-link" data-title="SIGNED (TRADE and USER_DATA) Endpoint Security">SIGNED (TRADE and USER_DATA) Endpoint Security</a>
+                  </li>
+                  <li>
+                    <a href="#public-endpoints-info" class="toc-h2 toc-link" data-title="Public Endpoints Info">Public Endpoints Info</a>
+                  </li>
+                  <li>
+                    <a href="#filters" class="toc-h2 toc-link" data-title="Filters">Filters</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#market-data-endpoints" class="toc-h1 toc-link" data-title="Market Data Endpoints">Market Data Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#test-connectivity" class="toc-h2 toc-link" data-title="Test Connectivity">Test Connectivity</a>
+                  </li>
+                  <li>
+                    <a href="#check-server-time" class="toc-h2 toc-link" data-title="Check Server time">Check Server time</a>
+                  </li>
+                  <li>
+                    <a href="#exchange-information" class="toc-h2 toc-link" data-title="Exchange Information">Exchange Information</a>
+                  </li>
+                  <li>
+                    <a href="#order-book" class="toc-h2 toc-link" data-title="Order Book">Order Book</a>
+                  </li>
+                  <li>
+                    <a href="#recent-trades-list" class="toc-h2 toc-link" data-title="Recent Trades List">Recent Trades List</a>
+                  </li>
+                  <li>
+                    <a href="#old-trades-lookup" class="toc-h2 toc-link" data-title="Old Trades Lookup">Old Trades Lookup</a>
+                  </li>
+                  <li>
+                    <a href="#compressed-aggregate-trades-list" class="toc-h2 toc-link" data-title="Compressed/Aggregate Trades List">Compressed/Aggregate Trades List</a>
+                  </li>
+                  <li>
+                    <a href="#kline-candlestick-data" class="toc-h2 toc-link" data-title="Kline/Candlestick Data">Kline/Candlestick Data</a>
+                  </li>
+                  <li>
+                    <a href="#mark-price" class="toc-h2 toc-link" data-title="Mark Price">Mark Price</a>
+                  </li>
+                  <li>
+                    <a href="#24hr-ticker-price-change-statistics" class="toc-h2 toc-link" data-title="24hr Ticker Price Change Statistics">24hr Ticker Price Change Statistics</a>
+                  </li>
+                  <li>
+                    <a href="#symbol-price-ticker" class="toc-h2 toc-link" data-title="Symbol Price Ticker">Symbol Price Ticker</a>
+                  </li>
+                  <li>
+                    <a href="#symbol-order-book-ticker" class="toc-h2 toc-link" data-title="Symbol Order Book Ticker">Symbol Order Book Ticker</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#websocket-market-streams" class="toc-h1 toc-link" data-title="Websocket Market Streams">Websocket Market Streams</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#aggregate-trade-streams" class="toc-h2 toc-link" data-title="Aggregate Trade Streams">Aggregate Trade Streams</a>
+                  </li>
+                  <li>
+                    <a href="#mark-price-stream" class="toc-h2 toc-link" data-title="Mark Price Stream">Mark Price Stream</a>
+                  </li>
+                  <li>
+                    <a href="#individual-symbol-mini-ticker-stream" class="toc-h2 toc-link" data-title="Individual Symbol Mini Ticker Stream">Individual Symbol Mini Ticker Stream</a>
+                  </li>
+                  <li>
+                    <a href="#individual-symbol-ticker-streams" class="toc-h2 toc-link" data-title="Individual Symbol Ticker Streams">Individual Symbol Ticker Streams</a>
+                  </li>
+                  <li>
+                    <a href="#partial-book-depth-streams" class="toc-h2 toc-link" data-title="Partial Book Depth Streams">Partial Book Depth Streams</a>
+                  </li>
+                  <li>
+                    <a href="#how-to-manage-a-local-order-book-correctly" class="toc-h2 toc-link" data-title="How to manage a local order book correctly">How to manage a local order book correctly</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#account-trades-endpoints" class="toc-h1 toc-link" data-title="Account/Trades Endpoints">Account/Trades Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#new-order-trade" class="toc-h2 toc-link" data-title="New Order  (TRADE)">New Order  (TRADE)</a>
+                  </li>
+                  <li>
+                    <a href="#query-order-user_data" class="toc-h2 toc-link" data-title="Query Order (USER_DATA)">Query Order (USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#cancel-order-trade" class="toc-h2 toc-link" data-title="Cancel Order (TRADE)">Cancel Order (TRADE)</a>
+                  </li>
+                  <li>
+                    <a href="#current-open-orders-user_data" class="toc-h2 toc-link" data-title="Current Open Orders (USER_DATA)">Current Open Orders (USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#all-orders-user_data" class="toc-h2 toc-link" data-title="All Orders (USER_DATA)">All Orders (USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#account-information-user_data" class="toc-h2 toc-link" data-title="Account Information (USER_DATA)">Account Information (USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#position-information-user_data" class="toc-h2 toc-link" data-title="Position Information (USER_DATA)">Position Information (USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#account-trade-list-user_data" class="toc-h2 toc-link" data-title="Account Trade List (USER_DATA)">Account Trade List (USER_DATA)</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#user-data-streams" class="toc-h1 toc-link" data-title="User Data Streams">User Data Streams</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#start-user-data-stream-user_stream" class="toc-h2 toc-link" data-title="Start User Data Stream (USER_STREAM)">Start User Data Stream (USER_STREAM)</a>
+                  </li>
+                  <li>
+                    <a href="#keepalive-user-data-stream-user_stream" class="toc-h2 toc-link" data-title="Keepalive User Data Stream (USER_STREAM)">Keepalive User Data Stream (USER_STREAM)</a>
+                  </li>
+                  <li>
+                    <a href="#close-user-data-stream-user_stream" class="toc-h2 toc-link" data-title="Close User Data Stream (USER_STREAM)">Close User Data Stream (USER_STREAM)</a>
+                  </li>
+                  <li>
+                    <a href="#event-balance-and-position-update" class="toc-h2 toc-link" data-title="Event: Balance and Position Update">Event: Balance and Position Update</a>
+                  </li>
+                  <li>
+                    <a href="#event-order-update" class="toc-h2 toc-link" data-title="Event: Order Update">Event: Order Update</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#error-codes" class="toc-h1 toc-link" data-title="Error Codes">Error Codes</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#10xx-general-server-or-network-issues" class="toc-h2 toc-link" data-title="10xx - General Server or Network issues">10xx - General Server or Network issues</a>
+                  </li>
+                  <li>
+                    <a href="#11xx-request-issues" class="toc-h2 toc-link" data-title="11xx - Request issues">11xx - Request issues</a>
+                  </li>
+                  <li>
+                    <a href="#messages-for-1010-error_msg_received-2010-new_order_rejected-and-2011-cancel_rejected" class="toc-h2 toc-link" data-title="Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED">Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED</a>
+                  </li>
+                  <li>
+                    <a href="#9xxx-filter-failures" class="toc-h2 toc-link" data-title="-9xxx Filter failures">-9xxx Filter failures</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='https://testnet.binancefuture.com/'>Binance Future Testnet</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='change-log'>Change Log</h1>
+<p><font size=4><strong>2019-09-20</strong></font></p>
+
+<ul>
+<li><p>New returned values in response to GET /fapi/v1/account:<br>
+<code>maxWithdrawAmount</code>, <code>openOrderInitialMargin</code>, <code>positionInitialMargin</code></p></li>
+<li><p>New returned values in response to GET /fapi/v1/positionRisk:<br>
+<code>liquidationPrice</code></p></li>
+</ul>
+<h1 id='general-info'>General Info</h1><h2 id='general-api-information'>General API Information</h2>
+<ul>
+<li>The base endpoint is: <strong>https://testnet.binancefuture.com</strong></li>
+<li>All endpoints return either a JSON object or array.</li>
+<li>Data is returned in <strong>ascending</strong> order. Oldest first, newest last.</li>
+<li>All time and timestamp related fields are in milliseconds.</li>
+<li>HTTP <code>4XX</code> return codes are used for for malformed requests;
+the issue is on the sender&#39;s side.</li>
+<li>HTTP <code>429</code> return code is used when breaking a request rate limit.</li>
+<li>HTTP <code>418</code> return code is used when an IP has been auto-banned for continuing to send requests after receiving <code>429</code> codes.</li>
+<li>HTTP <code>5XX</code> return codes are used for internal errors; the issue is on
+Binance&#39;s side.
+It is important to <strong>NOT</strong> treat this as a failure operation; the execution status is
+<strong>UNKNOWN</strong> and could have been a success.</li>
+<li>Any endpoint can return an ERROR.</li>
+</ul>
+
+<blockquote>
+<p><strong><em>The error payload is as follows:</em></strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1121</span><span class="p">,</span>
+  <span class="s2">"msg"</span><span class="p">:</span> <span class="s2">"Invalid symbol."</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Specific error codes and messages defined in <a href="#error-codes">Error Codes</a>.</li>
+<li>For <code>GET</code> endpoints, parameters must be sent as a <code>query string</code>.</li>
+<li>For <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> endpoints, the parameters may be sent as a
+<code>query string</code> or in the <code>request body</code> with content type
+<code>application/x-www-form-urlencoded</code>. You may mix parameters between both the
+<code>query string</code> and <code>request body</code> if you wish to do so.</li>
+<li>Parameters may be sent in any order.</li>
+<li>If a parameter sent in both the <code>query string</code> and <code>request body</code>, the
+<code>query string</code> parameter will be used.</li>
+</ul>
+<h2 id='limits'>LIMITS</h2>
+<ul>
+<li>The <code>/fapi/v1/exchangeInfo</code> <code>rateLimits</code> array contains objects related to the exchange&#39;s <code>RAW_REQUEST</code>, <code>REQUEST_WEIGHT</code>, and <code>ORDER</code> rate limits. These are further defined in the <code>ENUM definitions</code> section under <code>Rate limiters (rateLimitType)</code>.</li>
+<li>A <code>429</code> will be returned when either rate limit is violated.</li>
+<li>Each route has a <code>weight</code> which determines for the number of requests each endpoint counts for. Heavier endpoints and endpoints that do operations on multiple symbols will have a heavier <code>weight</code>.</li>
+<li>Every request will contain a <code>X-MBX-USED-WEIGHT</code> header which has the current used weight for the IP for the current minute.</li>
+<li>When a <code>429</code> returned, it&#39;s your obligation as an API to back off and not spam the API.</li>
+<li><strong>Repeatedly violating rate limits and/or failing to back off after receiving <code>429</code> will result in an automated IP ban (http status <code>418</code>).</strong></li>
+<li>IP bans are tracked and <strong>scale in duration</strong> for repeat offenders, <strong>from 2 minutes to 3 days</strong>.</li>
+<li>A <code>Retry-After</code> header is sent with a <code>418</code> or <code>429</code> responses and will give the <strong>number of seconds</strong> required to wait, in the case of a <code>418</code>, to prevent a ban, or, in the case of a <code>429</code>, until the ban is over.</li>
+</ul>
+<h2 id='endpoint-security-type'>Endpoint Security Type</h2>
+<ul>
+<li>Each endpoint has a security type that determines the how you will
+interact with it.</li>
+<li>API-keys are passed into the Rest API via the <code>X-MBX-APIKEY</code>
+header.</li>
+<li>API-keys and secret-keys <strong>are case sensitive</strong>.</li>
+<li>API-keys can be configured to only access certain types of secure endpoints.
+For example, one API-key could be used for TRADE only, while another API-key
+can access everything except for TRADE routes.</li>
+<li>By default, API-keys can access all secure routes.</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Security Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NONE</td>
+<td>Endpoint can be accessed freely.</td>
+</tr>
+<tr>
+<td>TRADE</td>
+<td>Endpoint requires sending a valid API-Key and signature.</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>Endpoint requires sending a valid API-Key and signature.</td>
+</tr>
+<tr>
+<td>USER_STREAM</td>
+<td>Endpoint requires sending a valid API-Key.</td>
+</tr>
+<tr>
+<td>MARKET_DATA</td>
+<td>Endpoint requires sending a valid API-Key.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><code>TRADE</code> and <code>USER_DATA</code> endpoints are <code>SIGNED</code> endpoints.</li>
+</ul>
+<h2 id='signed-trade-and-user_data-endpoint-security'>SIGNED (TRADE and USER_DATA) Endpoint Security</h2>
+<ul>
+<li><code>SIGNED</code> endpoints require an additional parameter, <code>signature</code>, to be
+sent in the  <code>query string</code> or <code>request body</code>.</li>
+<li>Endpoints use <code>HMAC SHA256</code> signatures. The <code>HMAC SHA256 signature</code> is a keyed <code>HMAC SHA256</code> operation.
+Use your <code>secretKey</code> as the key and <code>totalParams</code> as the value for the HMAC operation.</li>
+<li>The <code>signature</code> is <strong>not case sensitive</strong>.</li>
+<li>Please make sure the <code>signature</code> is the end part of your <code>query string</code> or <code>request body</code>.</li>
+<li><code>totalParams</code> is defined as the <code>query string</code> concatenated with the
+<code>request body</code>.</li>
+</ul>
+<h3 id='timing-security'>Timing security</h3>
+<ul>
+<li>A <code>SIGNED</code> endpoint also requires a parameter, <code>timestamp</code>, to be sent which
+should be the millisecond timestamp of when the request was created and sent.</li>
+<li>An additional parameter, <code>recvWindow</code>, may be sent to specify the number of
+milliseconds after <code>timestamp</code> the request is valid for. If <code>recvWindow</code>
+is not sent, <strong>it defaults to 5000</strong>.</li>
+</ul>
+
+<blockquote>
+<p>The logic is as follows:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="k">if</span> <span class="p">(</span><span class="nx">timestamp</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nx">serverTime</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">serverTime</span> <span class="o">-</span> <span class="nx">timestamp</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nx">recvWindow</span><span class="err">）</span><span class="p">{</span>
+    <span class="c1">// process request</span>
+  <span class="p">}</span> 
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// reject request</span>
+  <span class="p">}</span>
+</code></pre>
+<p><strong>Serious trading is about timing.</strong> Networks can be unstable and unreliable,
+which can lead to requests taking varying amounts of time to reach the
+servers. With <code>recvWindow</code>, you can specify that the request must be
+processed within a certain number of milliseconds or be rejected by the
+server.</p>
+
+<aside class="notice">
+It recommended to use a small recvWindow of 5000 or less!
+</aside>
+<h3 id='signed-endpoint-examples-for-post-fapi-v1-order'>SIGNED Endpoint Examples for POST /fapi/v1/order</h3>
+<p>Here is a step-by-step example of how to send a vaild signed payload from the
+Linux command line using <code>echo</code>, <code>openssl</code>, and <code>curl</code>.</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>apiKey</td>
+<td>vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A</td>
+</tr>
+<tr>
+<td>secretKey</td>
+<td>NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>BTCUSDT</td>
+</tr>
+<tr>
+<td>side</td>
+<td>BUY</td>
+</tr>
+<tr>
+<td>type</td>
+<td>LIMIT</td>
+</tr>
+<tr>
+<td>timeInForce</td>
+<td>GTC</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>1</td>
+</tr>
+<tr>
+<td>price</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>1499827319559</td>
+</tr>
+</tbody></table>
+<h4 id='example-1-as-a-query-string'>Example 1: As a query string</h4>
+<blockquote>
+<p><strong>Example 1</strong></p>
+
+<p><strong>HMAC SHA256 signature:</strong></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
+    <span class="o">(</span>stdin<span class="o">)=</span> c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
+
+</code></pre>
+<blockquote>
+<p><strong>curl command:</strong></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://testnet.binancefuture.com/fapi/v1/order?symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+
+</code></pre>
+<ul>
+<li><p><strong>queryString:</strong> </p>
+
+<p>symbol=BTCUSDT<br>
+&amp;side=BUY<br>
+&amp;type=LIMIT<br>
+&amp;timeInForce=GTC<br>
+&amp;quantity=1<br>
+&amp;price=0.1<br>
+&amp;recvWindow=5000<br>
+&amp;timestamp=1499827319559</p></li>
+</ul>
+<h4 id='example-2-as-a-request-body'>Example 2: As a request body</h4>
+<blockquote>
+<p><strong>Example 2</strong></p>
+
+<p><strong>HMAC SHA256 signature:</strong></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
+    <span class="o">(</span>stdin<span class="o">)=</span> c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
+</code></pre>
+<blockquote>
+<p><strong>curl command:</strong></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://testnet.binancefuture.com/fapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+</code></pre>
+<ul>
+<li><p><strong>requestBody:</strong></p>
+
+<p>symbol=BTCUSDT<br>
+&amp;side=BUY<br>
+&amp;type=LIMIT<br>
+&amp;timeInForce=GTC<br>
+&amp;quantity=1<br>
+&amp;price=0.1<br>
+&amp;recvWindow=5000<br>
+&amp;timestamp=1499827319559</p></li>
+</ul>
+<h4 id='example-3-mixed-query-string-and-request-body'>Example 3: Mixed query string and request body</h4>
+<blockquote>
+<p><strong>Example 3</strong></p>
+
+<p><strong>HMAC SHA256 signature:</strong></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTCquantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
+    <span class="o">(</span>stdin<span class="o">)=</span> 0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77
+</code></pre>
+<blockquote>
+<p><strong>curl command:</strong></p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://testnet.binancefuture.com/fapi/v1/order?symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
+</code></pre>
+<ul>
+<li><strong>queryString:</strong> symbol=BTCUSDT&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC</li>
+<li><strong>requestBody:</strong> quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559</li>
+</ul>
+
+<p>Note that the signature is different in example 3.<br>
+There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
+<h2 id='public-endpoints-info'>Public Endpoints Info</h2><h3 id='terminology'>Terminology</h3>
+<ul>
+<li><code>base asset</code> refers to the asset that is the <code>quantity</code> of a symbol.</li>
+<li><code>quote asset</code> refers to the asset that is the <code>price</code> of a symbol.</li>
+</ul>
+<h3 id='enum-definitions'>ENUM definitions</h3>
+<p><strong>Symbol type:</strong></p>
+
+<ul>
+<li>FUTURE</li>
+</ul>
+
+<p><strong>Order status (status):</strong></p>
+
+<ul>
+<li>NEW</li>
+<li>PARTIALLY_FILLED</li>
+<li>FILLED</li>
+<li>CANCELED</li>
+<li>REJECTED</li>
+<li>EXPIRED</li>
+</ul>
+
+<p><strong>Order types (orderTypes, type):</strong></p>
+
+<ul>
+<li>LIMIT</li>
+<li>MARKET</li>
+<li>STOP</li>
+</ul>
+
+<p><strong>Order side (side):</strong></p>
+
+<ul>
+<li>BUY</li>
+<li>SELL</li>
+</ul>
+
+<p><strong>Time in force (timeInForce):</strong></p>
+
+<ul>
+<li>GTC - Good Till Cancel</li>
+<li>OC - Immediate or Cancel</li>
+<li>FOK - Fill or Kill</li>
+<li>GTX - Good Till Crossing  (Post Only) </li>
+</ul>
+
+<p><strong>Kline/Candlestick chart intervals:</strong></p>
+
+<p>m -&gt; minutes; h -&gt; hours; d -&gt; days; w -&gt; weeks; M -&gt; months</p>
+
+<ul>
+<li>1m</li>
+<li>3m</li>
+<li>5m</li>
+<li>15m</li>
+<li>30m</li>
+<li>1h</li>
+<li>2h</li>
+<li>4h</li>
+<li>6h</li>
+<li>8h</li>
+<li>12h</li>
+<li>1d</li>
+<li>3d</li>
+<li>1w</li>
+<li>1M</li>
+</ul>
+
+<p><strong>Rate limiters (rateLimitType)</strong></p>
+
+<blockquote>
+<p>REQUEST_WEIGHT</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"rateLimitType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"REQUEST_WEIGHT"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MINUTE"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"intervalNum"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>ORDERS</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"rateLimitType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ORDERS"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SECOND"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"intervalNum"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li><p>REQUEST_WEIGHT</p></li>
+<li><p>ORDERS</p></li>
+</ul>
+
+<p><strong>Rate limit intervals (interval)</strong></p>
+
+<ul>
+<li>SECOND</li>
+<li>MINUTE</li>
+<li>DAY</li>
+</ul>
+<h2 id='filters'>Filters</h2>
+<p>Filters define trading rules on a symbol or an exchange.</p>
+<h3 id='symbol-filters'>Symbol filters</h3><h4 id='price_filter'>PRICE_FILTER</h4>
+<blockquote>
+<p><strong>/exchangeInfo format:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"PRICE_FILTER"</span><span class="p">,</span>
+    <span class="s2">"minPrice"</span><span class="p">:</span> <span class="s2">"0.00000100"</span><span class="p">,</span>
+    <span class="s2">"maxPrice"</span><span class="p">:</span> <span class="s2">"100000.00000000"</span><span class="p">,</span>
+    <span class="s2">"tickSize"</span><span class="p">:</span> <span class="s2">"0.00000100"</span>
+  <span class="p">}</span>
+</code></pre>
+<p>The <code>PRICE_FILTER</code> defines the <code>price</code> rules for a symbol. There are 3 parts:</p>
+
+<ul>
+<li><code>minPrice</code> defines the minimum <code>price</code>/<code>stopPrice</code> allowed; disabled on <code>minPrice</code> == 0.</li>
+<li><code>maxPrice</code> defines the maximum <code>price</code>/<code>stopPrice</code> allowed; disabled on <code>maxPrice</code> == 0.</li>
+<li><code>tickSize</code> defines the intervals that a <code>price</code>/<code>stopPrice</code> can be increased/decreased by; disabled on <code>tickSize</code> == 0.</li>
+</ul>
+
+<p>Any of the above variables can be set to 0, which disables that rule in the <code>price filter</code>. In order to pass the <code>price filter</code>, the following must be true for <code>price</code>/<code>stopPrice</code> of the enabled rules:</p>
+
+<ul>
+<li><code>price</code> &gt;= <code>minPrice</code> </li>
+<li><code>price</code> &lt;= <code>maxPrice</code></li>
+<li>(<code>price</code>-<code>minPrice</code>) % <code>tickSize</code> == 0</li>
+</ul>
+<h4 id='lot_size'>LOT_SIZE</h4>
+<blockquote>
+<p><strong>/exchangeInfo format:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"LOT_SIZE"</span><span class="p">,</span>
+    <span class="s2">"minQty"</span><span class="p">:</span> <span class="s2">"0.00100000"</span><span class="p">,</span>
+    <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"100000.00000000"</span><span class="p">,</span>
+    <span class="s2">"stepSize"</span><span class="p">:</span> <span class="s2">"0.00100000"</span>
+  <span class="p">}</span>
+</code></pre>
+<p>The <code>LOT_SIZE</code> filter defines the <code>quantity</code> (aka &quot;lots&quot; in auction terms) rules for a symbol. There are 3 parts:</p>
+
+<ul>
+<li><code>minQty</code> defines the minimum <code>quantity</code> allowed.</li>
+<li><code>maxQty</code> defines the maximum <code>quantity</code> allowed.</li>
+<li><code>stepSize</code> defines the intervals that a <code>quantity</code> can be increased/decreased by.</li>
+</ul>
+
+<p>In order to pass the <code>lot size</code>, the following must be true for <code>quantity</code>:</p>
+
+<ul>
+<li><code>quantity</code> &gt;= <code>minQty</code></li>
+<li><code>quantity</code> &lt;= <code>maxQty</code></li>
+<li>(<code>quantity</code>-<code>minQty</code>) % <code>stepSize</code> == 0</li>
+</ul>
+<h4 id='market_lot_size'>MARKET_LOT_SIZE</h4>
+<blockquote>
+<p><strong>/exchangeInfo format:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"MARKET_LOT_SIZE"</span><span class="p">,</span>
+    <span class="s2">"minQty"</span><span class="p">:</span> <span class="s2">"0.00100000"</span><span class="p">,</span>
+    <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"100000.00000000"</span><span class="p">,</span>
+    <span class="s2">"stepSize"</span><span class="p">:</span> <span class="s2">"0.00100000"</span>
+  <span class="p">}</span>
+</code></pre>
+<p>The <code>MARKET_LOT_SIZE</code> filter defines the <code>quantity</code> (aka &quot;lots&quot; in auction terms) rules for <code>MARKET</code> orders on a symbol. There are 3 parts:</p>
+
+<ul>
+<li><code>minQty</code> defines the minimum <code>quantity</code> allowed.</li>
+<li><code>maxQty</code> defines the maximum <code>quantity</code> allowed.</li>
+<li><code>stepSize</code> defines the intervals that a <code>quantity</code> can be increased/decreased by.</li>
+</ul>
+
+<p>In order to pass the <code>market lot size</code>, the following must be true for <code>quantity</code>:</p>
+
+<ul>
+<li><code>quantity</code> &gt;= <code>minQty</code></li>
+<li><code>quantity</code> &lt;= <code>maxQty</code></li>
+<li>(<code>quantity</code>-<code>minQty</code>) % <code>stepSize</code> == 0</li>
+</ul>
+<h4 id='max_num_orders'>MAX_NUM_ORDERS</h4>
+<blockquote>
+<p><strong>/exchangeInfo format:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"MAX_NUM_ORDERS"</span><span class="p">,</span>
+    <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">25</span>
+  <span class="p">}</span>
+</code></pre>
+<p>The <code>MAX_NUM_ORDERS</code> filter defines the maximum number of orders an account is allowed to have open on a symbol.
+Note that both &quot;algo&quot; orders and normal orders are counted for this filter.</p>
+<h4 id='percent_price'>PERCENT_PRICE</h4>
+<blockquote>
+<p><strong>ExchangeInfo format:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"PERCENT_PRICE"</span><span class="p">,</span>
+    <span class="s2">"multiplierUp"</span><span class="p">:</span> <span class="s2">"1.1500"</span><span class="p">,</span>
+    <span class="s2">"multiplierDown"</span><span class="p">:</span> <span class="s2">"0.8500"</span><span class="p">,</span>
+    <span class="s2">"multiplierDecimal"</span><span class="p">:</span> <span class="mi">4</span>
+  <span class="p">}</span>
+</code></pre>
+<p>The <code>PERCENT_PRICE</code> filter defines valid range for a price based on the mark price.</p>
+
+<p>In order to pass the <code>percent price</code>, the following must be true for <code>price</code>:</p>
+
+<ul>
+<li><code>price</code> &lt;= <code>markPrice</code> * <code>multiplierUp</code></li>
+<li><code>price</code> &gt;= <code>markPrice</code> * <code>multiplierDown</code></li>
+</ul>
+<h1 id='market-data-endpoints'>Market Data Endpoints</h1><h2 id='test-connectivity'>Test Connectivity</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/ping
+</code></p>
+
+<p>Test connectivity to the Rest API.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong>
+NONE</p>
+<h2 id='check-server-time'>Check Server time</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"serverTime"</span><span class="p">:</span> <span class="mi">1499827319559</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/time
+</code></p>
+
+<p>Test connectivity to the Rest API and get the current server time.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong>
+NONE</p>
+<h2 id='exchange-information'>Exchange Information</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"exchangeFilters"</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">"rateLimits"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"interval"</span><span class="p">:</span> <span class="s2">"MINUTE"</span><span class="p">,</span>
+            <span class="s2">"intervalNum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+            <span class="s2">"rateLimitType"</span><span class="p">:</span> <span class="s2">"REQUEST_WEIGHT"</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"interval"</span><span class="p">:</span> <span class="s2">"MINUTE"</span><span class="p">,</span>
+            <span class="s2">"intervalNum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">6000</span><span class="p">,</span>
+            <span class="s2">"rateLimitType"</span><span class="p">:</span> <span class="s2">"ORDERS"</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">"serverTime"</span><span class="p">:</span> <span class="mi">1565613908500</span><span class="p">,</span>
+    <span class="s2">"symbols"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"filters"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"PRICE_FILTER"</span><span class="p">,</span>
+                    <span class="s2">"maxPrice"</span><span class="p">:</span> <span class="s2">"10000000"</span><span class="p">,</span>
+                    <span class="s2">"minPrice"</span><span class="p">:</span> <span class="s2">"0.00000100"</span><span class="p">,</span>
+                    <span class="s2">"tickSize"</span><span class="p">:</span> <span class="s2">"0.00000100"</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"LOT_SIZE"</span><span class="p">,</span>
+                    <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"10000000"</span><span class="p">,</span>
+                    <span class="s2">"minQty"</span><span class="p">:</span> <span class="s2">"0.00100000"</span><span class="p">,</span>
+                    <span class="s2">"stepSize"</span><span class="p">:</span> <span class="s2">"0.00100000"</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"MARKET_LOT_SIZE"</span><span class="p">,</span>
+                    <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"10000000"</span><span class="p">,</span>
+                    <span class="s2">"minQty"</span><span class="p">:</span> <span class="s2">"0.00100000"</span><span class="p">,</span>
+                    <span class="s2">"stepSize"</span><span class="p">:</span> <span class="s2">"0.00100000"</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"MAX_NUM_ORDERS"</span><span class="p">,</span>
+                    <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">100</span>
+                <span class="p">}</span><span class="err">，</span>
+                <span class="p">{</span>
+                    <span class="s2">"filterType"</span><span class="p">:</span> <span class="s2">"PERCENT_PRICE"</span><span class="p">,</span>
+                    <span class="s2">"multiplierUp"</span><span class="p">:</span> <span class="s2">"1.1500"</span><span class="p">,</span>
+                    <span class="s2">"multiplierDown"</span><span class="p">:</span> <span class="s2">"0.8500"</span><span class="p">,</span>
+                    <span class="s2">"multiplierDecimal"</span><span class="p">:</span> <span class="mi">4</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">"maintMarginPercent"</span><span class="p">:</span> <span class="s2">"2.5000"</span><span class="p">,</span>
+            <span class="s2">"pricePrecision"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">"quantityPrecision"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">"requiredMarginPercent"</span><span class="p">:</span> <span class="s2">"5.0000"</span><span class="p">,</span>
+            <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"TRADING"</span><span class="p">,</span>
+            <span class="s2">"OrderType"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">"LIMIT"</span><span class="p">,</span> 
+                <span class="s2">"MARKET"</span><span class="p">,</span> 
+                <span class="s2">"STOP"</span>
+            <span class="p">],</span>
+            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+            <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">"GTC"</span><span class="p">,</span>    <span class="c1">// Good Till Cancel </span>
+                <span class="s2">"IOC"</span><span class="p">,</span>    <span class="c1">// Immediate or Cancel</span>
+                <span class="s2">"FOK"</span><span class="p">,</span>    <span class="c1">// Fill or Kill</span>
+                <span class="s2">"GTX"</span>     <span class="c1">// Good Till Crossing</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">"timezone"</span><span class="p">:</span> <span class="s2">"UTC"</span>
+<span class="p">}</span>
+
+</code></pre>
+<p><code>
+GET /fapi/v1/exchangeInfo
+</code></p>
+
+<p>Current exchange trading rules and symbol information</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong>
+NONE</p>
+<h2 id='order-book'>Order Book</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"lastUpdateId"</span><span class="p">:</span> <span class="mi">1027024</span><span class="p">,</span>
+  <span class="s2">"bids"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">[</span>
+      <span class="s2">"4.00000000"</span><span class="p">,</span>     <span class="c1">// PRICE</span>
+      <span class="s2">"431.00000000"</span>    <span class="c1">// QTY</span>
+    <span class="p">]</span>
+  <span class="p">],</span>
+  <span class="s2">"asks"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">[</span>
+      <span class="s2">"4.00000200"</span><span class="p">,</span>
+      <span class="s2">"12.00000000"</span>
+    <span class="p">]</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/depth
+</code></p>
+
+<p><strong>Weight:</strong></p>
+
+<p>Adjusted based on the limit:</p>
+
+<table><thead>
+<tr>
+<th>Limit</th>
+<th>Weight</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>5, 10, 20, 50, 100</td>
+<td>1</td>
+</tr>
+<tr>
+<td>500</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>10</td>
+</tr>
+</tbody></table>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]</td>
+</tr>
+</tbody></table>
+<h2 id='recent-trades-list'>Recent Trades List</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">28457</span><span class="p">,</span>
+    <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"4.00000100"</span><span class="p">,</span>
+    <span class="s2">"qty"</span><span class="p">:</span> <span class="s2">"12.00000000"</span><span class="p">,</span>
+    <span class="s2">"quoteQty"</span><span class="p">:</span> <span class="s2">"8000.00"</span><span class="p">,</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1499865549590</span><span class="p">,</span>
+    <span class="s2">"isBuyerMaker"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/trades
+</code></p>
+
+<p>Get recent trades (up to last 500).</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 500; max 1000.</td>
+</tr>
+</tbody></table>
+<h2 id='old-trades-lookup'>Old Trades Lookup</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">28457</span><span class="p">,</span>
+    <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"4.00000100"</span><span class="p">,</span>
+    <span class="s2">"qty"</span><span class="p">:</span> <span class="s2">"12.00000000"</span><span class="p">,</span>
+    <span class="s2">"quoteQty"</span><span class="p">:</span> <span class="s2">"8000.00"</span><span class="p">,</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1499865549590</span><span class="p">,</span>
+    <span class="s2">"isBuyerMaker"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/historicalTrades
+</code></p>
+
+<p>Get older market historical trades.</p>
+
+<p><strong>Weight:</strong>
+5</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>fromId</td>
+<td>LONG</td>
+<td>NO</td>
+<td>TradeId to fetch from. Default gets most recent trades.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><code>X-MBX-APIKEY</code> required</li>
+</ul>
+<h2 id='compressed-aggregate-trades-list'>Compressed/Aggregate Trades List</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"a"</span><span class="p">:</span> <span class="mi">26129</span><span class="p">,</span>         <span class="c1">// Aggregate tradeId</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.01633102"</span><span class="p">,</span>  <span class="c1">// Price</span>
+    <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"4.70443515"</span><span class="p">,</span>  <span class="c1">// Quantity</span>
+    <span class="s2">"f"</span><span class="p">:</span> <span class="mi">27781</span><span class="p">,</span>         <span class="c1">// First tradeId</span>
+    <span class="s2">"l"</span><span class="p">:</span> <span class="mi">27781</span><span class="p">,</span>         <span class="c1">// Last tradeId</span>
+    <span class="s2">"T"</span><span class="p">:</span> <span class="mi">1498793709153</span><span class="p">,</span> <span class="c1">// Timestamp</span>
+    <span class="s2">"m"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>          <span class="c1">// Was the buyer the maker?</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/aggTrades
+</code></p>
+
+<p>Get compressed, aggregate trades. Trades that fill at the time, from the same
+order, with the same price will have the quantity aggregated.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>fromId</td>
+<td>LONG</td>
+<td>NO</td>
+<td>ID to get aggregate trades from INCLUSIVE.</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td>Timestamp in ms to get aggregate trades from INCLUSIVE.</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td>Timestamp in ms to get aggregate trades until INCLUSIVE.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 500; max 1000.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If both startTime and endTime are sent, time between startTime and endTime must be less than 1 hour.</li>
+<li>If fromId, startTime, and endTime are not sent, the most recent aggregate trades will be returned.</li>
+</ul>
+<h2 id='kline-candlestick-data'>Kline/Candlestick Data</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">[</span>
+    <span class="mi">1499040000000</span><span class="p">,</span>      <span class="c1">// Open time</span>
+    <span class="s2">"0.01634790"</span><span class="p">,</span>       <span class="c1">// Open</span>
+    <span class="s2">"0.80000000"</span><span class="p">,</span>       <span class="c1">// High</span>
+    <span class="s2">"0.01575800"</span><span class="p">,</span>       <span class="c1">// Low</span>
+    <span class="s2">"0.01577100"</span><span class="p">,</span>       <span class="c1">// Close</span>
+    <span class="s2">"148976.11427815"</span><span class="p">,</span>  <span class="c1">// Volume</span>
+    <span class="mi">1499644799999</span><span class="p">,</span>      <span class="c1">// Close time</span>
+    <span class="s2">"2434.19055334"</span><span class="p">,</span>    <span class="c1">// Quote asset volume</span>
+    <span class="mi">308</span><span class="p">,</span>                <span class="c1">// Number of trades</span>
+    <span class="s2">"1756.87402397"</span><span class="p">,</span>    <span class="c1">// Taker buy base asset volume</span>
+    <span class="s2">"28.46694368"</span><span class="p">,</span>      <span class="c1">// Taker buy quote asset volume</span>
+    <span class="s2">"17928899.62484339"</span> <span class="c1">// Ignore.</span>
+  <span class="p">]</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/klines
+</code></p>
+
+<p>Kline/candlestick bars for a symbol.
+Klines are uniquely identified by their open time.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>interval</td>
+<td>ENUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 500; max 1500.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If startTime and endTime are not sent, the most recent klines are returned.</li>
+</ul>
+<h2 id='mark-price'>Mark Price</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+    <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"11012.80409769"</span><span class="p">,</span>
+    <span class="s2">"lastFundingRate"</span><span class="p">:</span> <span class="s2">"-0.03750000"</span><span class="p">,</span>
+    <span class="s2">"nextFundingTime"</span><span class="p">:</span> <span class="mi">1562569200000</span><span class="p">,</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/premiumIndex
+</code></p>
+
+<p>Mark Price and Funding Rate</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='24hr-ticker-price-change-statistics'>24hr Ticker Price Change Statistics</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+  <span class="s2">"priceChange"</span><span class="p">:</span> <span class="s2">"-94.99999800"</span><span class="p">,</span>
+  <span class="s2">"priceChangePercent"</span><span class="p">:</span> <span class="s2">"-95.960"</span><span class="p">,</span>
+  <span class="s2">"weightedAvgPrice"</span><span class="p">:</span> <span class="s2">"0.29628482"</span><span class="p">,</span>
+  <span class="s2">"prevClosePrice"</span><span class="p">:</span> <span class="s2">"0.10002000"</span><span class="p">,</span>
+  <span class="s2">"lastPrice"</span><span class="p">:</span> <span class="s2">"4.00000200"</span><span class="p">,</span>
+  <span class="s2">"lastQty"</span><span class="p">:</span> <span class="s2">"200.00000000"</span><span class="p">,</span>
+  <span class="s2">"openPrice"</span><span class="p">:</span> <span class="s2">"99.00000000"</span><span class="p">,</span>
+  <span class="s2">"highPrice"</span><span class="p">:</span> <span class="s2">"100.00000000"</span><span class="p">,</span>
+  <span class="s2">"lowPrice"</span><span class="p">:</span> <span class="s2">"0.10000000"</span><span class="p">,</span>
+  <span class="s2">"volume"</span><span class="p">:</span> <span class="s2">"8913.30000000"</span><span class="p">,</span>
+  <span class="s2">"quoteVolume"</span><span class="p">:</span> <span class="s2">"15.30000000"</span><span class="p">,</span>
+  <span class="s2">"openTime"</span><span class="p">:</span> <span class="mi">1499783499040</span><span class="p">,</span>
+  <span class="s2">"closeTime"</span><span class="p">:</span> <span class="mi">1499869899040</span><span class="p">,</span>
+  <span class="s2">"firstId"</span><span class="p">:</span> <span class="mi">28385</span><span class="p">,</span>   <span class="c1">// First tradeId</span>
+  <span class="s2">"lastId"</span><span class="p">:</span> <span class="mi">28460</span><span class="p">,</span>    <span class="c1">// Last tradeId</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">76</span>         <span class="c1">// Trade count</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>OR</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+        <span class="s2">"priceChange"</span><span class="p">:</span> <span class="s2">"-94.99999800"</span><span class="p">,</span>
+        <span class="s2">"priceChangePercent"</span><span class="p">:</span> <span class="s2">"-95.960"</span><span class="p">,</span>
+        <span class="s2">"weightedAvgPrice"</span><span class="p">:</span> <span class="s2">"0.29628482"</span><span class="p">,</span>
+        <span class="s2">"prevClosePrice"</span><span class="p">:</span> <span class="s2">"0.10002000"</span><span class="p">,</span>
+        <span class="s2">"lastPrice"</span><span class="p">:</span> <span class="s2">"4.00000200"</span><span class="p">,</span>
+        <span class="s2">"lastQty"</span><span class="p">:</span> <span class="s2">"200.00000000"</span><span class="p">,</span>
+        <span class="s2">"openPrice"</span><span class="p">:</span> <span class="s2">"99.00000000"</span><span class="p">,</span>
+        <span class="s2">"highPrice"</span><span class="p">:</span> <span class="s2">"100.00000000"</span><span class="p">,</span>
+        <span class="s2">"lowPrice"</span><span class="p">:</span> <span class="s2">"0.10000000"</span><span class="p">,</span>
+        <span class="s2">"volume"</span><span class="p">:</span> <span class="s2">"8913.30000000"</span><span class="p">,</span>
+        <span class="s2">"quoteVolume"</span><span class="p">:</span> <span class="s2">"15.30000000"</span><span class="p">,</span>
+        <span class="s2">"openTime"</span><span class="p">:</span> <span class="mi">1499783499040</span><span class="p">,</span>
+        <span class="s2">"closeTime"</span><span class="p">:</span> <span class="mi">1499869899040</span><span class="p">,</span>
+        <span class="s2">"firstId"</span><span class="p">:</span> <span class="mi">28385</span><span class="p">,</span>   <span class="c1">// First tradeId</span>
+        <span class="s2">"lastId"</span><span class="p">:</span> <span class="mi">28460</span><span class="p">,</span>    <span class="c1">// Last tradeId</span>
+        <span class="s2">"count"</span><span class="p">:</span> <span class="mi">76</span>         <span class="c1">// Trade count</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/ticker/24hr
+</code></p>
+
+<p>24 hour rolling window price change statistics.<br>
+<strong>Careful</strong> when accessing this with no symbol.</p>
+
+<p><strong>Weight:</strong><br>
+1 for a single symbol;<br>
+<strong>40</strong> when the symbol parameter is omitted</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If the symbol is not sent, tickers for all symbols will be returned in an array.</li>
+</ul>
+<h2 id='symbol-price-ticker'>Symbol Price Ticker</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+  <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"6000.01"</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>OR</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+        <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"6000.01"</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/ticker/price
+</code></p>
+
+<p>Latest price for a symbol or symbols.</p>
+
+<p><strong>Weight:</strong><br>
+1 for a single symbol;<br>
+<strong>2</strong> when the symbol parameter is omitted</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If the symbol is not sent, prices for all symbols will be returned in an array.</li>
+</ul>
+<h2 id='symbol-order-book-ticker'>Symbol Order Book Ticker</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+  <span class="s2">"bidPrice"</span><span class="p">:</span> <span class="s2">"4.00000000"</span><span class="p">,</span>
+  <span class="s2">"bidQty"</span><span class="p">:</span> <span class="s2">"431.00000000"</span><span class="p">,</span>
+  <span class="s2">"askPrice"</span><span class="p">:</span> <span class="s2">"4.00000200"</span><span class="p">,</span>
+  <span class="s2">"askQty"</span><span class="p">:</span> <span class="s2">"9.00000000"</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>OR</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+        <span class="s2">"bidPrice"</span><span class="p">:</span> <span class="s2">"4.00000000"</span><span class="p">,</span>
+        <span class="s2">"bidQty"</span><span class="p">:</span> <span class="s2">"431.00000000"</span><span class="p">,</span>
+        <span class="s2">"askPrice"</span><span class="p">:</span> <span class="s2">"4.00000200"</span><span class="p">,</span>
+        <span class="s2">"askQty"</span><span class="p">:</span> <span class="s2">"9.00000000"</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/ticker/bookTicker
+</code></p>
+
+<p>Best price/qty on the order book for a symbol or symbols.</p>
+
+<p><strong>Weight:</strong><br>
+1 for a single symbol;<br>
+<strong>2</strong> when the symbol parameter is omitted</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If the symbol is not sent, bookTickers for all symbols will be returned in an array.</li>
+</ul>
+<h1 id='websocket-market-streams'>Websocket Market Streams</h1>
+<ul>
+<li>The base endpoint is: <strong>wss://testnet.binancefuture.com</strong></li>
+<li>Streams can be access either in a single raw stream or a combined stream</li>
+<li>Raw streams are accessed at <strong>/ws/&lt;streamName&gt;</strong></li>
+<li>Combined streams are accessed at <strong>/stream?streams=&lt;streamName1&gt;/&lt;streamName2&gt;/&lt;streamName3&gt;</strong></li>
+<li>Combined stream events are wrapped as follows: <strong>{&quot;stream&quot;:&quot;&lt;streamName&gt;&quot;,&quot;data&quot;:&lt;rawPayload&gt;}</strong></li>
+<li>All symbols for streams are <strong>lowercase</strong></li>
+<li>The websocket server will send a <code>ping frame</code> every 3 minutes. If the websocket server does not receive a <code>pong frame</code> back from the connection within a 10 minute period, the connection will be disconnected. Unsolicited <code>pong frames</code> are allowed.</li>
+</ul>
+<h2 id='aggregate-trade-streams'>Aggregate Trade Streams</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"aggTrade"</span><span class="p">,</span>  <span class="c1">// Event type</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// Event time</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>    <span class="c1">// Symbol</span>
+  <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.001"</span><span class="p">,</span>     <span class="c1">// Price</span>
+  <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"100"</span><span class="p">,</span>       <span class="c1">// Quantity</span>
+  <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>         <span class="c1">// First trade ID</span>
+  <span class="s2">"l"</span><span class="p">:</span> <span class="mi">105</span><span class="p">,</span>         <span class="c1">// Last trade ID</span>
+  <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123456785</span><span class="p">,</span>   <span class="c1">// Trade time</span>
+  <span class="s2">"m"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>        <span class="c1">// Is the buyer the market maker?</span>
+<span class="p">}</span>
+</code></pre>
+<p>The Aggregate Trade Streams push trade information that is aggregated for a single taker order every 100 milliseconds.</p>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@aggTrade</code></p>
+<h2 id='mark-price-stream'>Mark Price Stream</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPriceUpdate"</span><span class="p">,</span>  <span class="c1">// Event type</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// Event time</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>          <span class="c1">// Symbol</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// Mark price</span>
+    <span class="s2">"r"</span><span class="p">:</span> <span class="s2">"0.00030000"</span><span class="p">,</span>       <span class="c1">// Funding rate</span>
+    <span class="s2">"T"</span><span class="p">:</span> <span class="mi">1562306400000</span>       <span class="c1">// Next funding time</span>
+  <span class="p">}</span>
+</code></pre>
+<p>Mark price for a single symbol pushed every 3 secends. </p>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@markPrice</code></p>
+<h3 id='kline-candlestick-streams'>Kline/Candlestick Streams</h3>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"kline"</span><span class="p">,</span>     <span class="c1">// Event type</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// Event time</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>    <span class="c1">// Symbol</span>
+  <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// Kline start time</span>
+    <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// Kline close time</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>  <span class="c1">// Symbol</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// Interva\</span>
+    <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// First trade ID</span>
+    <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// Last trade ID</span>
+    <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>  <span class="c1">// Open price</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0020"</span><span class="p">,</span>  <span class="c1">// Close price</span>
+    <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>  <span class="c1">// High price</span>
+    <span class="s2">"l"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>  <span class="c1">// Low price</span>
+    <span class="s2">"v"</span><span class="p">:</span> <span class="s2">"1000"</span><span class="p">,</span>    <span class="c1">// Base asset volume</span>
+    <span class="s2">"n"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// Number of trades</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>     <span class="c1">// Is this kline closed?</span>
+    <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"1.0000"</span><span class="p">,</span>  <span class="c1">// Quote asset volume</span>
+    <span class="s2">"V"</span><span class="p">:</span> <span class="s2">"500"</span><span class="p">,</span>     <span class="c1">// Taker buy base asset volume</span>
+    <span class="s2">"Q"</span><span class="p">:</span> <span class="s2">"0.500"</span><span class="p">,</span>   <span class="c1">// Taker buy quote asset volume</span>
+    <span class="s2">"B"</span><span class="p">:</span> <span class="s2">"123456"</span>   <span class="c1">// Ignore</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>The Kline/Candlestick Stream push updates to the current klines/candlestick every 250 milliseconds (if existing).</p>
+
+<p><strong>Kline/Candlestick chart intervals:</strong></p>
+
+<p>m -&gt; minutes; h -&gt; hours; d -&gt; days; w -&gt; weeks; M -&gt; months</p>
+
+<ul>
+<li>1m</li>
+<li>3m</li>
+<li>5m</li>
+<li>15m</li>
+<li>30m</li>
+<li>1h</li>
+<li>2h</li>
+<li>4h</li>
+<li>6h</li>
+<li>8h</li>
+<li>12h</li>
+<li>1d</li>
+<li>3d</li>
+<li>1w</li>
+<li>1M</li>
+</ul>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@kline_&lt;interval&gt;</code></p>
+<h2 id='individual-symbol-mini-ticker-stream'>Individual Symbol Mini Ticker Stream</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrMiniTicker"</span><span class="p">,</span>  <span class="c1">// Event type</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>         <span class="c1">// Event time</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>          <span class="c1">// Symbol</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// Close price</span>
+    <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>          <span class="c1">// Open price</span>
+    <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// High price</span>
+    <span class="s2">"l"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>          <span class="c1">// Low price</span>
+    <span class="s2">"v"</span><span class="p">:</span> <span class="s2">"10000"</span><span class="p">,</span>           <span class="c1">// Total traded base asset volume</span>
+    <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"18"</span>               <span class="c1">// Total traded quote asset volume</span>
+  <span class="p">}</span>
+</code></pre>
+<p>24hr rolling window mini-ticker statistics for a single symbol pushed every 3 seconds. These are NOT the statistics of the UTC day, but a 24hr rolling window from requestTime to 24hrs before.</p>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@miniTicker</code></p>
+<h2 id='individual-symbol-ticker-streams'>Individual Symbol Ticker Streams</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrTicker"</span><span class="p">,</span>  <span class="c1">// Event type</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// Event time</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>      <span class="c1">// Symbol</span>
+  <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>      <span class="c1">// Price change</span>
+  <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"250.00"</span><span class="p">,</span>      <span class="c1">// Price change percent</span>
+  <span class="s2">"w"</span><span class="p">:</span> <span class="s2">"0.0018"</span><span class="p">,</span>      <span class="c1">// Weighted average price</span>
+  <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>      <span class="c1">// Last price</span>
+  <span class="s2">"Q"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span>          <span class="c1">// Last quantity</span>
+  <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>      <span class="c1">// Open price</span>
+  <span class="s2">"h"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>      <span class="c1">// High price</span>
+  <span class="s2">"l"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>      <span class="c1">// Low price</span>
+  <span class="s2">"v"</span><span class="p">:</span> <span class="s2">"10000"</span><span class="p">,</span>       <span class="c1">// Total traded base asset volume</span>
+  <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"18"</span><span class="p">,</span>          <span class="c1">// Total traded quote asset volume</span>
+  <span class="s2">"O"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>             <span class="c1">// Statistics open time</span>
+  <span class="s2">"C"</span><span class="p">:</span> <span class="mi">86400000</span><span class="p">,</span>      <span class="c1">// Statistics close time</span>
+  <span class="s2">"F"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>             <span class="c1">// First trade ID</span>
+  <span class="s2">"L"</span><span class="p">:</span> <span class="mi">18150</span><span class="p">,</span>         <span class="c1">// Last trade Id</span>
+  <span class="s2">"n"</span><span class="p">:</span> <span class="mi">18151</span>          <span class="c1">// Total number of trades</span>
+<span class="p">}</span>
+</code></pre>
+<p>24hr rollwing window ticker statistics for a single symbol pushed every 3 seconds. These are NOT the statistics of the UTC day, but a 24hr rolling window from requestTime to 24hrs before.</p>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@ticker</code></p>
+<h2 id='partial-book-depth-streams'>Partial Book Depth Streams</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"depthUpdate"</span><span class="p">,</span> <span class="c1">// Event type</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// Event time</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>      <span class="c1">// Symbol</span>
+  <span class="s2">"U"</span><span class="p">:</span> <span class="mi">157</span><span class="p">,</span>           <span class="c1">// first update Id from last stream</span>
+  <span class="s2">"u"</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span>           <span class="c1">// last update Id from last stream</span>
+  <span class="s2">"pu"</span><span class="p">:</span> <span class="mi">149</span><span class="p">,</span>          <span class="c1">// last update Id in last stream（ie ‘u’ in last stream）</span>
+  <span class="s2">"b"</span><span class="p">:</span> <span class="p">[</span>              <span class="c1">// Bids to be updated</span>
+    <span class="p">[</span>
+      <span class="s2">"0.0024"</span><span class="p">,</span>       <span class="c1">// Price level to be updated</span>
+      <span class="s2">"10"</span>            <span class="c1">// Quantity</span>
+    <span class="p">]</span>
+  <span class="p">],</span>
+  <span class="s2">"a"</span><span class="p">:</span> <span class="p">[</span>              <span class="c1">// Asks to be updated</span>
+    <span class="p">[</span>
+      <span class="s2">"0.0026"</span><span class="p">,</span>       <span class="c1">// Price level to be updated</span>
+      <span class="s2">"100"</span>          <span class="c1">// Quantity</span>
+    <span class="p">]</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>Bids and asks, pushed every 250 milliseconds (if existing)</p>
+
+<p><strong>Stream Name:</strong><br>
+<code>&lt;symbol&gt;@depth</code></p>
+<h2 id='how-to-manage-a-local-order-book-correctly'>How to manage a local order book correctly</h2>
+<ol>
+<li>Open a stream to <strong>wss://testnet.binancefuture.com/stream?streams=btcusdt@depth</strong>.</li>
+<li>Buffer the events you receive from the stream. For same price, latest received update covers the previous one.</li>
+<li>Get a depth snapshot from <strong>https://testnet.binancefuture.com/fapi/v1/depth?symbol=BTCUSDT&amp;limit=1000</strong> .</li>
+<li>Drop any event where <code>u</code> is &lt; <code>lastUpdateId</code> in the snapshot</li>
+<li>The first processed event should have <code>U</code> &lt;= <code>lastUpdateId</code> <strong>AND</strong> <code>u</code> &gt;= <code>lastUpdateId</code></li>
+<li>While listening to the stream, each new event&#39;s <code>pu</code> should be equal to the previous event&#39;s <code>u</code>, otherwise initialize the process from step 3.</li>
+<li>The data in each event is the <strong>absolute</strong> quantity for a price level</li>
+<li>If the quantity is 0, <strong>remove</strong> the price level</li>
+<li>Receiving an event that removes a price level that is not in your local order book can happen and is normal.</li>
+</ol>
+<h1 id='account-trades-endpoints'>Account/Trades Endpoints</h1><h2 id='new-order-trade'>New Order  (TRADE)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"accountId"</span><span class="p">:</span><span class="w"> </span><span class="mi">10012</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"clientOrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testOrder"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cumQuote"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"executedQty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="mi">22542179</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"origQty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SELL"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NEW"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDT"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"timeInForce"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LIMIT"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"updateTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566818724722</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><code>
+POST /fapi/v1/order  (HMAC SHA256)
+</code></p>
+
+<p>Send in a new order.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>side</td>
+<td>ENUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>type</td>
+<td>ENUM</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>timeInForce</td>
+<td>ENUM</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>DECIMAL</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>price</td>
+<td>DECIMAL</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>newClientOrderId</td>
+<td>STRING</td>
+<td>NO</td>
+<td>A unique id for the order. Automatically generated if not sent.</td>
+</tr>
+<tr>
+<td>stopPrice</td>
+<td>DECIMAL</td>
+<td>NO</td>
+<td>Used with <code>STOP</code> orders.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>Additional mandatory parameters based on <code>type</code>:</p>
+
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Additional mandatory parameters</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>LIMIT</code></td>
+<td><code>timeInForce</code>, <code>quantity</code>, <code>price</code></td>
+</tr>
+<tr>
+<td><code>MARKET</code></td>
+<td><code>quantity</code></td>
+</tr>
+<tr>
+<td><code>STOP</code></td>
+<td><code>quantity</code>,  <code>price</code>, <code>stopPrice</code></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Order with type <code>MARKET</code>, parameter <code>timeInForce</code> cannot be sent.</li>
+<li>Order with type <code>STOP</code>,  parameter <code>timeInForce</code> can be sent ( default <code>GTC</code>).</li>
+</ul>
+<h2 id='query-order-user_data'>Query Order (USER_DATA)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+  <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">"clientOrderId"</span><span class="p">:</span> <span class="s2">"myOrder1"</span><span class="p">,</span>
+  <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"0.1"</span><span class="p">,</span>
+  <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+  <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"0.0"</span><span class="p">,</span>
+  <span class="s2">"cumQuote"</span><span class="p">:</span> <span class="s2">"0.0"</span><span class="p">,</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>
+  <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>
+  <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"BUY"</span><span class="p">,</span>
+  <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"0.0"</span><span class="p">,</span>
+  <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1499827319559</span><span class="p">,</span>
+  <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1499827319559</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/order (HMAC SHA256)
+</code></p>
+
+<p>Check an order&#39;s status.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>origClientOrderId</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>Notes:</p>
+
+<ul>
+<li>Either <code>orderId</code> or <code>origClientOrderId</code> must be sent.</li>
+</ul>
+<h2 id='cancel-order-trade'>Cancel Order (TRADE)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+  <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>
+  <span class="s2">"origClientOrderId"</span><span class="p">:</span> <span class="s2">"myOrder1"</span><span class="p">,</span>
+  <span class="s2">"clientOrderId"</span><span class="p">:</span> <span class="s2">"cancelMyOrder1"</span><span class="p">,</span>
+  <span class="s2">"transactTime"</span><span class="p">:</span> <span class="mi">1507725176595</span><span class="p">,</span>
+  <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"1.00000000"</span><span class="p">,</span>
+  <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"10.00000000"</span><span class="p">,</span>
+  <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"8.00000000"</span><span class="p">,</span>
+  <span class="s2">"cumQuote"</span><span class="p">:</span> <span class="s2">"8.00000000"</span><span class="p">,</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span>
+  <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>
+  <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"SELL"</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+DELETE /fapi/v1/order  (HMAC SHA256)
+</code></p>
+
+<p>Cancel an active order.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>origClientOrderId</td>
+<td>STRING</td>
+<td>NO</td>
+<td>Automatically generated by default.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>Either <code>orderId</code> or <code>origClientOrderId</code> must be sent.</p>
+<h2 id='current-open-orders-user_data'>Current Open Orders (USER_DATA)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+    <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"clientOrderId"</span><span class="p">:</span> <span class="s2">"myOrder1"</span><span class="p">,</span>
+    <span class="s2">"accountId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"0.1"</span><span class="p">,</span>
+    <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+    <span class="s2">"cumQty"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+    <span class="s2">"cumQuote"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+    <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>
+    <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>
+    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>
+    <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"BUY"</span><span class="p">,</span>
+    <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"0.0"</span><span class="p">,</span>
+    <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1499827319559</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/openOrders  (HMAC SHA256)
+</code></p>
+
+<p>Get all open orders on a symbol. <strong>Careful</strong> when accessing this with no symbol.</p>
+
+<p><strong>Weight:</strong>
+1 for a single symbol; <strong>40</strong> when the symbol parameter is omitted</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If the symbol is not sent, orders for all symbols will be returned in an array.</li>
+</ul>
+<h2 id='all-orders-user_data'>All Orders (USER_DATA)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+    <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"clientOrderId"</span><span class="p">:</span> <span class="s2">"myOrder1"</span><span class="p">,</span>
+    <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"0.1"</span><span class="p">,</span>
+    <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+    <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+    <span class="s2">"cumQuote"</span><span class="p">:</span> <span class="s2">"10.0"</span><span class="p">,</span>
+    <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>
+    <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>
+    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>
+    <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"BUY"</span><span class="p">,</span>
+    <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"0.0"</span><span class="p">,</span>
+    <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1499827319559</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/allOrders (HMAC SHA256)
+</code></p>
+
+<p>Get all account orders; active, canceled, or filled.</p>
+
+<p><strong>Weight:</strong>
+5 with symbol</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>If <code>orderId</code> is set, it will get orders &gt;= that <code>orderId</code>. Otherwise most recent orders are returned.</li>
+</ul>
+<h2 id='account-information-user_data'>Account Information (USER_DATA)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"assets"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"USDT"</span><span class="p">,</span>
+            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"9.00000000"</span><span class="p">,</span>
+            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span>
+            <span class="s2">"marginBalance"</span><span class="p">:</span> <span class="s2">"22.12659734"</span><span class="p">,</span>
+            <span class="s2">"maxWithdrawAmount"</span><span class="p">:</span> <span class="s2">"13.12659734"</span><span class="p">,</span>
+            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"9.00000000"</span><span class="p">,</span>
+            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span>
+            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span>
+            <span class="s2">"walletBalance"</span><span class="p">:</span> <span class="s2">"22.12659734"</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">"canDeposit"</span><span class="p">:</span> <span class="nx">True</span><span class="p">,</span>
+    <span class="s2">"canTrade"</span><span class="p">:</span> <span class="nx">True</span><span class="p">,</span>
+    <span class="s2">"canWithdraw"</span><span class="p">:</span> <span class="nx">True</span><span class="p">,</span>
+    <span class="s2">"feeTier"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"maxWithdrawAmount"</span><span class="p">:</span> <span class="s2">"13.12659734"</span><span class="p">,</span>
+    <span class="s2">"totalInitialMargin"</span><span class="p">:</span> <span class="s2">"9.00000000"</span><span class="p">,</span>
+    <span class="s2">"totalMaintMargin"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span>
+    <span class="s2">"totalMarginBalance"</span><span class="p">:</span> <span class="s2">"22.12659734"</span><span class="p">,</span>
+    <span class="s2">"totalOpenOrderInitialMargin"</span><span class="p">:</span> <span class="nx">u</span><span class="s2">"9.00000000"</span><span class="p">,</span>
+    <span class="s2">"totalPositionInitialMargin"</span><span class="p">:</span> <span class="nx">u</span><span class="s2">"0.00000000"</span><span class="p">,</span>
+    <span class="s2">"totalUnrealizedProfit"</span><span class="p">:</span> <span class="nx">u</span><span class="s2">"0.00000000"</span><span class="p">,</span>
+    <span class="s2">"totalWalletBalance"</span><span class="p">:</span> <span class="nx">u</span><span class="s2">"22.12659734"</span><span class="p">,</span>
+    <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">0</span>
+
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/account (HMAC SHA256)
+</code></p>
+
+<p>Get current account information.</p>
+
+<p><strong>Weight:</strong>
+5</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='position-information-user_data'>Position Information (USER_DATA)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"entryPrice"</span><span class="p">:</span> <span class="s2">"9975.12000"</span><span class="p">,</span>
+        <span class="s2">"liquidationPrice"</span><span class="p">:</span> <span class="s2">"7963.54"</span><span class="p">,</span>
+        <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"9973.50770517"</span><span class="p">,</span>
+        <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"0.010"</span><span class="p">,</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+        <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"-0.01612295"</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/positionRisk (HMAC SHA256)
+</code>
+Get current account information.</p>
+
+<p><strong>Weight:</strong>
+5</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='account-trade-list-user_data'>Account Trade List (USER_DATA)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">28457</span><span class="p">,</span>
+    <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">100234</span><span class="p">,</span>
+    <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"4.00000100"</span><span class="p">,</span>
+    <span class="s2">"qty"</span><span class="p">:</span> <span class="s2">"12.00000000"</span><span class="p">,</span>
+    <span class="s2">"quoteQty"</span><span class="p">:</span> <span class="s2">"48.000012"</span><span class="p">,</span>
+    <span class="s2">"commission"</span><span class="p">:</span> <span class="s2">"10.10000000"</span><span class="p">,</span>
+    <span class="s2">"commissionAsset"</span><span class="p">:</span> <span class="s2">"USDT"</span><span class="p">,</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1499865549590</span><span class="p">,</span>
+    <span class="s2">"isBuyer"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">"isMaker"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/userTrades  (HMAC SHA256)
+</code></p>
+
+<p>Get trades for a specific account and symbol.</p>
+
+<p><strong>Weight:</strong>
+5 with symbol</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>fromId</td>
+<td>LONG</td>
+<td>NO</td>
+<td>TradeId to fetch from. Default gets most recent trades.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>INT</td>
+<td>NO</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>If <code>fromId</code> is set, it will get orders &gt;= that <code>fromId</code>.
+Otherwise most recent orders are returned.</li>
+</ul>
+<h1 id='user-data-streams'>User Data Streams</h1>
+<ul>
+<li>The base API endpoint is: <strong>https://testnet.binancefuture.com</strong></li>
+<li>A User Data Stream <code>listenKey</code> is valid for 30 minutes after creation.</li>
+<li>Doing a <code>PUT</code> on a <code>listenKey</code> will extend its validity for 30 minutes.</li>
+<li>Doing a <code>DELETE</code> on a <code>listenKey</code> will close the stream.</li>
+<li>The base websocket endpoint is: <strong>wss://testnet.binancefuture.com</strong></li>
+<li>User Data Streams are accessed at <strong>/ws/&lt;listenKey&gt;</strong></li>
+<li>User data stream payloads are <strong>not guaranteed</strong> to be in order during heavy periods; <strong>make sure to order your updates using E</strong></li>
+</ul>
+<h2 id='start-user-data-stream-user_stream'>Start User Data Stream (USER_STREAM)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"listenKey"</span><span class="p">:</span> <span class="s2">"pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a65a1"</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+POST /fapi/v1/listenKey (HMAC SHA256)
+</code></p>
+
+<p>Start a new user data stream. The stream will close after 30 minutes unless a keepalive is sent.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='keepalive-user-data-stream-user_stream'>Keepalive User Data Stream (USER_STREAM)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{}</span>
+</code></pre>
+<p><code>
+PUT /fapi/v1/listenKey (HMAC SHA256)
+</code></p>
+
+<p>Keepalive a user data stream to prevent a time out. User data streams will close after 30 minutes. It&#39;s recommended to send a ping about every 30 minutes.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='close-user-data-stream-user_stream'>Close User Data Stream (USER_STREAM)</h2>
+<blockquote>
+<p><strong>Response:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{}</span>
+</code></pre>
+<p><code>
+DELETE /fapi/v1/listenKey (HMAC SHA256)
+</code></p>
+
+<p>Close out a user data stream.</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='event-balance-and-position-update'>Event: Balance and Position Update</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"ACCOUNT_UPDATE"</span><span class="p">,</span>        <span class="c1">// Event Type</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1564745798939</span>            <span class="c1">// Event Time</span>
+  <span class="s2">"a"</span><span class="p">:</span> <span class="p">[</span>                        
+    <span class="p">{</span>
+      <span class="s2">"B"</span><span class="p">:[</span>                     <span class="c1">// Balances</span>
+        <span class="p">{</span>
+          <span class="s2">"a"</span><span class="p">:</span><span class="s2">"USDT"</span><span class="p">,</span>           <span class="c1">// Asset</span>
+          <span class="s2">"wb"</span><span class="p">:</span><span class="s2">"122624"</span>         <span class="c1">// Wallet Balance</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s2">"a"</span><span class="p">:</span><span class="s2">"BTC"</span><span class="p">,</span>           
+          <span class="s2">"wb"</span><span class="p">:</span><span class="s2">"0"</span>         
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s2">"P"</span><span class="p">:[</span>                      <span class="c1">// Positions</span>
+        <span class="p">{</span>
+          <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSDT"</span><span class="p">,</span>         <span class="c1">// Symbol</span>
+          <span class="s2">"pa"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">,</span>              <span class="c1">// Position Amount</span>
+          <span class="s2">"ep"</span><span class="p">:</span><span class="s2">"9000"</span><span class="p">,</span>           <span class="c1">// Entry Price</span>
+          <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"200"</span>             <span class="c1">// (Pre-fee) Accumulated Realized</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p>Event type is <code>ACCOUNT_UPDATE</code>.<br>
+When balance or position get updated, will push this event.</p>
+<h2 id='event-order-update'>Event: Order Update</h2>
+<blockquote>
+<p><strong>Payload:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+
+  <span class="s2">"e"</span><span class="p">:</span><span class="s2">"ORDER_TRADE_UPDATE"</span><span class="p">,</span>     <span class="c1">// Event Type</span>
+  <span class="s2">"E"</span><span class="p">:</span><span class="mi">1568879465651</span><span class="p">,</span>            <span class="c1">// Event Time</span>
+  <span class="s2">"o"</span><span class="p">:{</span>                             
+    <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSDT"</span><span class="p">,</span>          <span class="c1">// Symbol</span>
+    <span class="s2">"c"</span><span class="p">:</span><span class="s2">"TEST"</span><span class="p">,</span>             <span class="c1">// Client Order Id</span>
+    <span class="s2">"S"</span><span class="p">:</span><span class="s2">"SELL"</span><span class="p">,</span>             <span class="c1">// Side</span>
+    <span class="s2">"o"</span><span class="p">:</span><span class="s2">"LIMIT"</span><span class="p">,</span>            <span class="c1">// Order Type</span>
+    <span class="s2">"f"</span><span class="p">:</span><span class="s2">"GTC"</span><span class="p">,</span>              <span class="c1">// Time in Force</span>
+    <span class="s2">"q"</span><span class="p">:</span><span class="s2">"0.001"</span><span class="p">,</span>            <span class="c1">// Original Quantity</span>
+    <span class="s2">"p"</span><span class="p">:</span><span class="s2">"9910"</span><span class="p">,</span>             <span class="c1">// Price</span>
+    <span class="s2">"ap"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>               <span class="c1">// Average Price</span>
+    <span class="s2">"sp"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>               <span class="c1">// Stop Price</span>
+    <span class="s2">"x"</span><span class="p">:</span><span class="s2">"NEW"</span><span class="p">,</span>              <span class="c1">// Execution Type</span>
+    <span class="s2">"X"</span><span class="p">:</span><span class="s2">"NEW"</span><span class="p">,</span>              <span class="c1">// Order Status</span>
+    <span class="s2">"i"</span><span class="p">:</span><span class="mi">8886774</span><span class="p">,</span>            <span class="c1">// Order Id</span>
+    <span class="s2">"l"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>                <span class="c1">// Order Last Filled Quantity</span>
+    <span class="s2">"z"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>                <span class="c1">// Order Filled Accumulated Quantity</span>
+    <span class="s2">"L"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>                <span class="c1">// Last Filled Price</span>
+    <span class="s2">"N"</span><span class="p">:</span> <span class="s2">"USDT"</span><span class="p">,</span>                        <span class="c1">// Commission Asset, will not push if no commission</span>
+    <span class="s2">"n"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>                           <span class="c1">// Commission, will not push if no commission</span>
+    <span class="s2">"T"</span><span class="p">:</span><span class="mi">1568879465651</span><span class="p">,</span>              <span class="c1">// Order Trade Time</span>
+    <span class="s2">"t"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>                  <span class="c1">// Trade Id</span>
+    <span class="s2">"b"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>                    <span class="c1">// Bids Notional</span>
+    <span class="s2">"a"</span><span class="p">:</span><span class="s2">"9.91"</span>              <span class="c1">// Ask Notional</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+<p>When new order created, order status changed will push such event.
+event type is <code>ORDER_TRADE_UPDATE</code>.</p>
+
+<p><strong>Side</strong></p>
+
+<ul>
+<li>BUY </li>
+<li>SELL </li>
+</ul>
+
+<p><strong>Order Type</strong></p>
+
+<ul>
+<li>MARKET </li>
+<li>LIMIT</li>
+<li>STOP</li>
+</ul>
+
+<p><strong>Execution Type</strong></p>
+
+<ul>
+<li>NEW</li>
+<li>PARTIAL_FILL</li>
+<li>FILL</li>
+<li>CANCELED</li>
+<li>REJECTED</li>
+<li>CALCULATED         - Liquidation Execution</li>
+<li>EXPIRED</li>
+<li>TRADE</li>
+<li>RESTATED </li>
+</ul>
+
+<p><strong>Order Status</strong></p>
+
+<ul>
+<li>NEW</li>
+<li>PARTIALLY_FILLED</li>
+<li>FILLED</li>
+<li>CANCELED</li>
+<li>REPLACED</li>
+<li>STOPPED</li>
+<li>REJECTED</li>
+<li>EXPIRED</li>
+<li>NEW_INSURANCE     - Liquidation with Insurance Fund</li>
+<li>NEW_ADL               - Counterparty Liquidation`</li>
+</ul>
+
+<p><strong>Time in force</strong></p>
+
+<ul>
+<li>GTC</li>
+<li>IOC</li>
+<li>FOK</li>
+<li>GTX</li>
+</ul>
+<h1 id='error-codes'>Error Codes</h1>
+<blockquote>
+<p>Here is the error JSON payload:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"code"</span><span class="p">:</span><span class="o">-</span><span class="mi">1121</span><span class="p">,</span>
+  <span class="s2">"msg"</span><span class="p">:</span><span class="s2">"Invalid symbol."</span>
+<span class="p">}</span>
+</code></pre>
+<p>Errors consist of two parts: an error code and a message.<br>
+Codes are universal,but messages can vary. </p>
+<h2 id='10xx-general-server-or-network-issues'>10xx - General Server or Network issues</h2><h3 id='1000-unknown'>-1000 UNKNOWN</h3>
+<ul>
+<li>An unknown error occured while processing the request.</li>
+</ul>
+<h3 id='1001-disconnected'>-1001 DISCONNECTED</h3>
+<ul>
+<li>Internal error; unable to process your request. Please try again.</li>
+</ul>
+<h3 id='1002-unauthorized'>-1002 UNAUTHORIZED</h3>
+<ul>
+<li>You are not authorized to execute this request.</li>
+</ul>
+<h3 id='1003-too_many_requests'>-1003 TOO_MANY_REQUESTS</h3>
+<ul>
+<li>Too many requests queued.</li>
+<li>Too many requests; please use the websocket for live updates.</li>
+<li>Too many requests; current limit is %s requests per minute. Please use the websocket for live updates to avoid polling the API.</li>
+<li>Way too many requests; IP banned until %s. Please use the websocket for live updates to avoid bans.</li>
+</ul>
+<h3 id='1004-duplicate_ip'>-1004 DUPLICATE_IP</h3>
+<ul>
+<li>This IP is already on the white list</li>
+</ul>
+<h3 id='1005-no_such_ip'>-1005 NO_SUCH_IP</h3>
+<ul>
+<li>No such IP has been white listed</li>
+</ul>
+<h3 id='1006-unexpected_resp'>-1006 UNEXPECTED_RESP</h3>
+<ul>
+<li>An unexpected response was received from the message bus. Execution status unknown.</li>
+</ul>
+<h3 id='1007-timeout'>-1007 TIMEOUT</h3>
+<ul>
+<li>Timeout waiting for response from backend server. Send status unknown; execution status unknown.</li>
+</ul>
+<h3 id='1010-error_msg_received'>-1010 ERROR_MSG_RECEIVED</h3>
+<ul>
+<li>ERROR_MSG_RECEIVED.<br></li>
+</ul>
+<h3 id='1011-non_white_list'>-1011 NON_WHITE_LIST</h3>
+<ul>
+<li>This IP cannot access this route. </li>
+</ul>
+<h3 id='1013-illegal_message'>-1013 ILLEGAL_MESSAGE</h3>
+<ul>
+<li>INVALID_MESSAGE.</li>
+</ul>
+<h3 id='1014-unknown_order_composition'>-1014 UNKNOWN_ORDER_COMPOSITION</h3>
+<ul>
+<li>Unsupported order combination.</li>
+</ul>
+<h3 id='1015-too_many_orders'>-1015 TOO_MANY_ORDERS</h3>
+<ul>
+<li>Too many new orders.</li>
+<li>Too many new orders; current limit is %s orders per %s.</li>
+</ul>
+<h3 id='1016-service_shutting_down'>-1016 SERVICE_SHUTTING_DOWN</h3>
+<ul>
+<li>This service is no longer available.</li>
+</ul>
+<h3 id='1020-unsupported_operation'>-1020 UNSUPPORTED_OPERATION</h3>
+<ul>
+<li>This operation is not supported.</li>
+</ul>
+<h3 id='1021-invalid_timestamp'>-1021 INVALID_TIMESTAMP</h3>
+<ul>
+<li>Timestamp for this request is outside of the recvWindow.</li>
+<li>Timestamp for this request was 1000ms ahead of the server&#39;s time.</li>
+</ul>
+<h3 id='1022-invalid_signature'>-1022 INVALID_SIGNATURE</h3>
+<ul>
+<li>Signature for this request is not valid.</li>
+</ul>
+<h2 id='11xx-request-issues'>11xx - Request issues</h2><h3 id='1100-illegal_chars'>-1100 ILLEGAL_CHARS</h3>
+<ul>
+<li>Illegal characters found in a parameter.</li>
+<li>Illegal characters found in parameter &#39;%s&#39;; legal range is &#39;%s&#39;.</li>
+</ul>
+<h3 id='1101-too_many_parameters'>-1101 TOO_MANY_PARAMETERS</h3>
+<ul>
+<li>Too many parameters sent for this endpoint.</li>
+<li>Too many parameters; expected &#39;%s&#39; and received &#39;%s&#39;.</li>
+<li>Duplicate values for a parameter detected.</li>
+</ul>
+<h3 id='1102-mandatory_param_empty_or_malformed'>-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED</h3>
+<ul>
+<li>A mandatory parameter was not sent, was empty/null, or malformed.</li>
+<li>Mandatory parameter &#39;%s&#39; was not sent, was empty/null, or malformed.</li>
+<li>Param &#39;%s&#39; or &#39;%s&#39; must be sent, but both were empty/null!</li>
+</ul>
+<h3 id='1103-unknown_param'>-1103 UNKNOWN_PARAM</h3>
+<ul>
+<li>An unknown parameter was sent.</li>
+</ul>
+<h3 id='1104-unread_parameters'>-1104 UNREAD_PARAMETERS</h3>
+<ul>
+<li>Not all sent parameters were read.</li>
+<li>Not all sent parameters were read; read &#39;%s&#39; parameter(s) but was sent &#39;%s&#39;.</li>
+</ul>
+<h3 id='1105-param_empty'>-1105 PARAM_EMPTY</h3>
+<ul>
+<li>A parameter was empty.</li>
+<li>Parameter &#39;%s&#39; was empty.</li>
+</ul>
+<h3 id='1106-param_not_required'>-1106 PARAM_NOT_REQUIRED</h3>
+<ul>
+<li>A parameter was sent when not required.</li>
+<li>Parameter &#39;%s&#39; sent when not required.</li>
+</ul>
+<h3 id='1108-bad_asset'>-1108 BAD_ASSET</h3>
+<ul>
+<li>Invalid asset.</li>
+</ul>
+<h3 id='1109-bad_account'>-1109 BAD_ACCOUNT</h3>
+<ul>
+<li>Invalid account.</li>
+</ul>
+<h3 id='1110-bad_instrument_type'>-1110 BAD_INSTRUMENT_TYPE</h3>
+<ul>
+<li>Invalid symbolType.</li>
+</ul>
+<h3 id='1111-bad_precision'>-1111 BAD_PRECISION</h3>
+<ul>
+<li>Precision is over the maximum defined for this asset.</li>
+</ul>
+<h3 id='1112-no_depth'>-1112 NO_DEPTH</h3>
+<ul>
+<li>No orders on book for symbol.</li>
+</ul>
+<h3 id='1113-withdraw_not_negative'>-1113 WITHDRAW_NOT_NEGATIVE</h3>
+<ul>
+<li>Withdrawal amount must be negative.</li>
+</ul>
+<h3 id='1114-tif_not_required'>-1114 TIF_NOT_REQUIRED</h3>
+<ul>
+<li>TimeInForce parameter sent when not required.</li>
+</ul>
+<h3 id='1115-invalid_tif'>-1115 INVALID_TIF</h3>
+<ul>
+<li>Invalid timeInForce.</li>
+</ul>
+<h3 id='1116-invalid_order_type'>-1116 INVALID_ORDER_TYPE</h3>
+<ul>
+<li>Invalid orderType.</li>
+</ul>
+<h3 id='1117-invalid_side'>-1117 INVALID_SIDE</h3>
+<ul>
+<li>Invalid side.</li>
+</ul>
+<h3 id='1118-empty_new_cl_ord_id'>-1118 EMPTY_NEW_CL_ORD_ID</h3>
+<ul>
+<li>New client order ID was empty.</li>
+</ul>
+<h3 id='1119-empty_org_cl_ord_id'>-1119 EMPTY_ORG_CL_ORD_ID</h3>
+<ul>
+<li>Original client order ID was empty.</li>
+</ul>
+<h3 id='1120-bad_interval'>-1120 BAD_INTERVAL</h3>
+<ul>
+<li>Invalid interval.</li>
+</ul>
+<h3 id='1121-bad_symbol'>-1121 BAD_SYMBOL</h3>
+<ul>
+<li>Invalid symbol.</li>
+</ul>
+<h3 id='1125-invalid_listen_key'>-1125 INVALID_LISTEN_KEY</h3>
+<ul>
+<li>This listenKey does not exist.</li>
+</ul>
+<h3 id='1127-more_than_xx_hours'>-1127 MORE_THAN_XX_HOURS</h3>
+<ul>
+<li>Lookup interval is too big.</li>
+<li>More than %s hours between startTime and endTime.</li>
+</ul>
+<h3 id='1128-optional_params_bad_combo'>-1128 OPTIONAL_PARAMS_BAD_COMBO</h3>
+<ul>
+<li>Combination of optional parameters invalid.</li>
+</ul>
+<h3 id='1130-invalid_parameter'>-1130 INVALID_PARAMETER</h3>
+<ul>
+<li>Invalid data sent for a parameter.</li>
+<li>Data sent for paramter &#39;%s&#39; is not valid.</li>
+</ul>
+<h3 id='2008-bad_api_id'>-2008 BAD_API_ID</h3>
+<ul>
+<li>Invalid Api-Key ID</li>
+</ul>
+<h3 id='2010-new_order_rejected'>-2010 NEW_ORDER_REJECTED</h3>
+<ul>
+<li>NEW_ORDER_REJECTED</li>
+</ul>
+<h3 id='2011-cancel_rejected'>-2011 CANCEL_REJECTED</h3>
+<ul>
+<li>CANCEL_REJECTED</li>
+</ul>
+<h3 id='2013-no_such_order'>-2013 NO_SUCH_ORDER</h3>
+<ul>
+<li>Order does not exist.</li>
+</ul>
+<h3 id='2014-bad_api_key_fmt'>-2014 BAD_API_KEY_FMT</h3>
+<ul>
+<li>API-key format invalid.</li>
+</ul>
+<h3 id='2015-rejected_mbx_key'>-2015 REJECTED_MBX_KEY</h3>
+<ul>
+<li>Invalid API-key, IP, or permissions for action.</li>
+</ul>
+<h3 id='2016-no_trading_window'>-2016 NO_TRADING_WINDOW</h3>
+<ul>
+<li>No trading window could be found for the symbol. Try ticker/24hrs instead.</li>
+</ul>
+<h3 id='4000-invalid_order_status'>-4000 INVALID_ORDER_STATUS</h3>
+<ul>
+<li>Invalid order status.</li>
+</ul>
+<h3 id='4001-price_less_than_zero'>-4001 PRICE_LESS_THAN_ZERO</h3>
+<ul>
+<li>Price less than 0.</li>
+</ul>
+<h3 id='4002-price_greater_than_max_price'>-4002 PRICE_GREATER_THAN_MAX_PRICE</h3>
+<ul>
+<li>Price greater than max price.</li>
+</ul>
+<h3 id='4003-qty_less_than_zero'>-4003 QTY_LESS_THAN_ZERO</h3>
+<ul>
+<li>Quantity less than zero.</li>
+</ul>
+<h3 id='4004-qty_less_than_min_qty'>-4004 QTY_LESS_THAN_MIN_QTY</h3>
+<ul>
+<li>Quantity less than min quantity.</li>
+</ul>
+<h3 id='4005-qty_greater_than_max_qty'>-4005 QTY_GREATER_THAN_MAX_QTY</h3>
+<ul>
+<li>Quantity greater than max quantity. </li>
+</ul>
+<h3 id='4006-stop_price_less_than_zero'>-4006 STOP_PRICE_LESS_THAN_ZERO</h3>
+<ul>
+<li>Stop price less than zero. </li>
+</ul>
+<h3 id='4006-stop_price_greater_than_max_price'>-4006 STOP_PRICE_GREATER_THAN_MAX_PRICE</h3>
+<ul>
+<li>Stop price greater than max price. </li>
+</ul>
+<h2 id='messages-for-1010-error_msg_received-2010-new_order_rejected-and-2011-cancel_rejected'>Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED</h2>
+<p>This code is sent when an error has been returned by the matching engine.
+The following messages which will indicate the specific error:</p>
+
+<table><thead>
+<tr>
+<th>Error message</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>&quot;Unknown order sent.&quot;</td>
+<td>The order (by either <code>orderId</code>, <code>clientOrderId</code>, <code>origClientOrderId</code>) could not be found</td>
+</tr>
+<tr>
+<td>&quot;Duplicate order sent.&quot;</td>
+<td>The <code>clientOrderId</code> is already in use</td>
+</tr>
+<tr>
+<td>&quot;Market is closed.&quot;</td>
+<td>The symbol is not trading</td>
+</tr>
+<tr>
+<td>&quot;Account has insufficient balance for requested action.&quot;</td>
+<td>Not enough funds to complete the action</td>
+</tr>
+<tr>
+<td>&quot;Market orders are not supported for this symbol.&quot;</td>
+<td><code>MARKET</code> is not enabled on the symbol</td>
+</tr>
+<tr>
+<td>&quot;Stop loss orders are not supported for this symbol.&quot;</td>
+<td><code>STOP_LOSS</code> is not enabled on the symbol</td>
+</tr>
+<tr>
+<td>&quot;Stop loss limit orders are not supported for this symbol.&quot;</td>
+<td><code>STOP_LOSS_LIMIT</code> is not enabled on the symbol</td>
+</tr>
+<tr>
+<td>&quot;Take profit orders are not supported for this symbol.&quot;</td>
+<td><code>TAKE_PROFIT</code> is not enabled on the symbol</td>
+</tr>
+<tr>
+<td>&quot;Take profit limit orders are not supported for this symbol.&quot;</td>
+<td><code>TAKE_PROFIT_LIMIT</code> is not enabled on the symbol</td>
+</tr>
+<tr>
+<td>&quot;Price * QTY is zero or less.&quot;</td>
+<td><code>price</code> * <code>quantity</code> is too low</td>
+</tr>
+<tr>
+<td>&quot;This action disabled is on this account.&quot;</td>
+<td>Contact customer support; some actions have been disabled on the account.</td>
+</tr>
+<tr>
+<td>&quot;Unsupported order combination&quot;</td>
+<td>The <code>orderType</code>, <code>timeInForce</code>, <code>stopPrice</code> combination isn&#39;t allowed.</td>
+</tr>
+<tr>
+<td>&quot;Order would trigger immediately.&quot;</td>
+<td>The order&#39;s stop price is not valid when compared to the last traded price.</td>
+</tr>
+<tr>
+<td>&quot;Cancel order is invalid. Check origClientOrderId and orderId.&quot;</td>
+<td>No <code>origClientOrderId</code> or <code>orderId</code> was sent in.</td>
+</tr>
+<tr>
+<td>&quot;Order would immediately match and take.&quot;</td>
+<td><code>LIMIT_MAKER</code> order type would immediately match and trade, and not be a pure maker order.</td>
+</tr>
+</tbody></table>
+<h2 id='9xxx-filter-failures'>-9xxx Filter failures</h2>
+<table><thead>
+<tr>
+<th>Error message</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>&quot;Filter failure: PRICE_FILTER&quot;</td>
+<td><code>price</code> is too high, too low, and/or not following the tick size rule for the symbol.</td>
+</tr>
+<tr>
+<td>&quot;Filter failure: LOT_SIZE&quot;</td>
+<td><code>quantity</code> is too high, too low, and/or not following the step size rule for the symbol.</td>
+</tr>
+<tr>
+<td>&quot;Filter failure: MARKET_LOT_SIZE&quot;</td>
+<td><code>MARKET</code> order&#39;s <code>quantity</code> is too high, too low, and/or not following the step size rule for the symbol.</td>
+</tr>
+<tr>
+<td>&quot;Filter failure: MAX_NUM_ORDERS&quot;</td>
+<td>Account has too many open orders on the symbol.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+      </div>
+    </div>
+    <script>
+      const LG = document.getElementById('LG');
+      const lang_btn = document.getElementById('lang_box');
+      const btn_spot = document.getElementById('btn_spot');
+      const btn_dm = document.getElementById('btn_dm');
+      const btn_tn = document.getElementById('btn_tn');
+      const v1_url = document.getElementById('v1_url');
+      //const v2_url = document.getElementById('v2_url');
+      const url = GetUrlRelativePath();
+      if(url.indexOf('cn') != -1){
+        // for the Chinese Language env.
+        lang_btn.innerHTML = 'English';
+        btn_spot.innerHTML = '现货/杠杆';
+        btn_dm.innerHTML = '合约';
+        btn_tn.innerHTML = '合约testnet API';
+        LG.href = "https://www.binance.com/cn/";
+        lang_btn.href = url.replace('cn/', 'en/');
+        btn_spot.href = btn_spot.href.replace('en/', 'cn/');
+        btn_dm.href = btn_dm.href.replace('en/', 'cn/');
+        btn_tn.href = btn_tn.href.replace('en/', 'cn/');
+        //v1_url.href = '/docs/spot/v1/cn/';
+        //v2_url.href = '/docs/spot/v2/cn/';
+      }else{
+        // for the English Language env.
+        lang_btn.innerHTML = '简体中文';
+        btn_spot.innerHTML = 'Spot/Margin';
+        btn_dm.innerHTML = 'Futures';
+        btn_tn.innerHTML = 'Futures testnet API';
+        LG.href = "https://www.binance.com/en/";
+        lang_btn.href = url.replace('en/', 'cn/');
+        btn_spot.href = btn_spot.href.replace('cn/', 'en/');
+        btn_dm.href = btn_dm.href.replace('cn/', 'en/');
+        btn_tn.href = btn_tn.href.replace('cn/', 'en/');
+        //v1_url.href = '/docs/spot/v1/en/';
+        //v2_url.href = '/docs/spot/v2/en/';
+      }
+      if(location.href.indexOf('apidocs/futures') > 0){
+        btn_spot.className = '';
+        btn_dm.className = 'current';
+        btn_tn.className = '';
+      } else if(location.href.indexOf('apidocs/spot') > 0){
+        btn_spot.className = 'current';
+        btn_dm.className = '';
+        btn_tn.className = '';
+      } else{
+        btn_spot.className = '';
+        btn_dm.className = '';
+        btn_tn.className = 'current';
+      }
+      // language botton
+      lang_btn.style.display = 'block';
+      function GetUrlRelativePath(){
+        let url = document.location.toString();
+        let arrUrl = url.split("//");
+        let start = arrUrl[1].indexOf("/");
+        let relUrl = arrUrl[1].substring(start);
+        if(relUrl.indexOf("?") != -1){
+          relUrl = relUrl.split("?")[0];
+        }
+        if(relUrl.indexOf("#") != -1){
+          relUrl = relUrl.split("#")[0];
+        }
+        return relUrl;
+  　　}
+    </script>
+  </body>
+</html>

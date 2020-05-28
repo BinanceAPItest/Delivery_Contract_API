@@ -51,7 +51,7 @@ under the License.
     </a>
     <header>
       <div class="flex_box">
-        <a href="https://www.binance.com/" class="LG" id="LG"><%= image_tag "logo.svg", class: 'logo' %></a>
+        <a href="https://www.binance.com/cn/futures/BTCUSDT" class="LG" id="LG"><%= image_tag "logo.svg", class: 'logo' %></a>
         <div class="nav_box">
           <span class="nav_cell" style="display: none">
             <a href="javascript:;" class="nav_first">v1<i class="icon_nav"></i></a>
@@ -65,13 +65,10 @@ under the License.
             </ul>
           </span>
           <span class="nav_cell nav_tab">
-            <a href="/apidocs/spot/en/" id="btn_spot">现货/杠杆/币安宝</a>
+            <a href="/apidocs/spot/en/" id="btn_spot">现货API</a>
           </span>
           <span class="nav_cell nav_tab">
-            <a href="/apidocs/futures/en/" id="btn_dm">合约</a>
-          </span>
-          <span class="nav_cell nav_tab">
-            <a href="/apidocs/testnet/en/" id="btn_tn">合约testnet</a>
+            <a href="/apidocs/futures/en/" id="btn_dm">期货API</a>
           </span>
         </div>
       </div>
@@ -139,53 +136,39 @@ under the License.
       </div>
     </div>
     <script>
-      const LG = document.getElementById('LG');
       const lang_btn = document.getElementById('lang_box');
       const btn_spot = document.getElementById('btn_spot');
       const btn_dm = document.getElementById('btn_dm');
-      const btn_tn = document.getElementById('btn_tn');
-      const v1_url = document.getElementById('v1_url');
-      //const v2_url = document.getElementById('v2_url');
+     // const v1_url = document.getElementById('v1_url');
+     // const v2_url = document.getElementById('v2_url');
       const url = GetUrlRelativePath();
       if(url.indexOf('cn') != -1){
         // for the Chinese Language env.
         lang_btn.innerHTML = 'English';
-        btn_spot.innerHTML = '现货/杠杆/币安宝/矿池';
-        btn_dm.innerHTML = '合约';
-        btn_tn.innerHTML = '合约testnet API';
-        LG.href = "https://www.binance.com/cn/";
+        btn_spot.innerHTML = '现货API';
+        btn_dm.innerHTML = '期货 testnet API';
         lang_btn.href = url.replace('cn/', 'en/');
         btn_spot.href = btn_spot.href.replace('en/', 'cn/');
         btn_dm.href = btn_dm.href.replace('en/', 'cn/');
-        btn_tn.href = btn_tn.href.replace('en/', 'cn/');
         //v1_url.href = '/docs/spot/v1/cn/';
         //v2_url.href = '/docs/spot/v2/cn/';
       }else{
         // for the English Language env.
         lang_btn.innerHTML = '简体中文';
-        btn_spot.innerHTML = 'Spot/Margin/Savings/Mining';
-        btn_dm.innerHTML = 'Futures';
-        btn_tn.innerHTML = 'Futures testnet API';
-        LG.href = "https://www.binance.com/en/";
+        btn_spot.innerHTML = 'Spot API';
+        btn_dm.innerHTML = 'Futures testnet API';
         lang_btn.href = url.replace('en/', 'cn/');
         btn_spot.href = btn_spot.href.replace('cn/', 'en/');
         btn_dm.href = btn_dm.href.replace('cn/', 'en/');
-        btn_tn.href = btn_tn.href.replace('cn/', 'en/');
         //v1_url.href = '/docs/spot/v1/en/';
         //v2_url.href = '/docs/spot/v2/en/';
       }
       if(location.href.indexOf('apidocs/futures') > 0){
         btn_spot.className = '';
         btn_dm.className = 'current';
-        btn_tn.className = '';
-      } else if(location.href.indexOf('apidocs/spot') > 0){
+      } else {
         btn_spot.className = 'current';
         btn_dm.className = '';
-        btn_tn.className = '';
-      } else{
-        btn_spot.className = '';
-        btn_dm.className = '';
-        btn_tn.className = 'current';
       }
       // language botton
       lang_btn.style.display = 'block';
