@@ -6,7 +6,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   #- jason
 
 toc_footers:
-  - <a href='https://www.binance.com/en/futures'>Binance Futures</a>
+  - <a href='https://testnet.binancefuture.com/en/futures/'>Binance Future Testnet</a>
 
 includes:
 
@@ -14,9 +14,7 @@ search: true
 
 ---
 
-
 # Change Log
-
 
 
 <font size=4>**2020-05-18**</font>
@@ -37,7 +35,16 @@ search: true
 ---
 
 
-<font size=4>**2020-05-18**</font>
+<font size=4>**2020-05-15**</font>
+
+* New fields in payloads of  `<symbol>@bookTicker` and `!bookTicker`:
+	* `E` for event time
+	* `T` for transactiontime
+
+---
+
+
+<font size=4>**2020-05-14**</font>
 
 * Some orders that were cancelled/expired will be removed gradually from API endpoints, but they are still available from Web UI.
 	* Orders that meet criteria
@@ -48,20 +55,6 @@ search: true
 		* `GET /fapi/v1/order`
 		* `GET /fapi/v1/allOrders`
 
----
-
-<font size=4>**2020-05-15**</font>
-
-* New fields in payloads of  `<symbol>@bookTicker` and `!bookTicker`:
-	* `E` for event time
-	* `T` for transactiontime
-
----
-
-
-
-<font size=4>**2020-05-14**</font>
-
 * New field `time` for transaction time in response to endpoints：
 	* `GET /fapi/v1/ticker/price`
 	* `GET /fapi/v1/ticker/bookTicker`
@@ -69,6 +62,7 @@ search: true
 
 
 ---
+
 
 
 <font size=4>**2020-05-11**</font>
@@ -81,12 +75,18 @@ This rest endpoint means to ensure your open orders are canceled in case of an o
 
 
 
-<font size=4>**2020-05-06**</font>
 
-REST
+<font size=4>**2020-05-06**</font>
 
 * Endpoint ``GET /fapi/v1/leverageBracket`` is changed as "USER-DATA". It need to be signed, and timestamp is needed. 
 
+
+---
+
+
+
+
+<font size=4>**2020-05-01**</font>
 
 WEB SOCKET USER DATA STREAM
 
@@ -96,7 +96,7 @@ WEB SOCKET USER DATA STREAM
 
 ---
 
-<font size=4>**2020-04-25**</font>
+<font size=4>**2020-04-24**</font>
 
 
 * New fields in USER DATA STREAM event `ORDER_TRADE_UPDATE `:
@@ -107,8 +107,6 @@ WEB SOCKET USER DATA STREAM
 * New USER DATA STREAM event `MARGIN_CALL`.
 
 ---
-
-
 
 
 
@@ -124,6 +122,7 @@ WEB SOCKET USER DATA STREAM
 
 
 
+
 <font size=4>**2020-04-14**</font>
 
 WEB SOCKET STREAM
@@ -135,18 +134,10 @@ WEB SOCKET STREAM
 * A connection that goes beyond the limit will be disconnected; IPs that are repeatedly disconnected may be banned.
 * A single connection can listen to a maximum of 1024 streams.
 
----
-
-
-<font size=4>**2020-04-09**</font>
-
-* New endpoint of futures trading data: ``GET /futures/data/takerlongshortRatio`` 
-
 
 ---
 
-
-<font size=4>**2020-04-08**</font>
+<font size=4>**2020-04-05**</font>
 
 * New endpoint ``GET /fapi/v1/positionSide/dual`` to get current position mode.
 * New endpoint ``POST /fapi/v1/batchOrders`` to place multiple orders.
@@ -156,7 +147,7 @@ WEB SOCKET STREAM
 
 
 
-<font size=4>**2020-04-06**</font>
+<font size=4>**2020-03-24**</font>
 
 * Please notice: event `ACCOUNT_UPDATE` in USER-DATA-STREAM will not be pushed without update of account balances or positions.
 	* `ACCOUNT_UPDATE` will be pushed only when update happens on user's account, including changes on balances, positions, or margin type.
@@ -186,15 +177,6 @@ WEB SOCKET STREAM
 
 
 
-<font size=4>**2020-03-30**</font>
-
-* New endpoints of futures trading data: 
-   * ``GET /futures/data/openInterestHist``
-	* ``GET /futures/data/topLongShortAccountRatio``
-	* ``GET /futures/data/topLongShortPositionRatio``
-	* ``GET /futures/data/globalLongShortAccountRatio``
-
-
 <font size=4>**2020-02-26**</font>
 
 * New order type: `TRAILING_STOP_MARKET`
@@ -207,7 +189,6 @@ WEB SOCKET STREAM
 * New endpoint to query specific current open order: ``GET /fapi/v1/openOrder``
 
 ---
-
 
 
 <font size=4>**2020-02-17**</font>
@@ -223,11 +204,9 @@ WEB SOCKET STREAM
 
 * New [SDK and Code Demonstration](#sdk-and-code-demonstration) on Java
 
-* Faster mark price websocket data with 1s updates: 
-	`<symbol>@markPrice@1s` and  `!markPrice@arr@1s` 
-
 
 ---
+
 
 
 <font size=4>**2020-02-05**</font>
@@ -245,6 +224,7 @@ WEB SOCKET STREAM
 --- 
 
 
+
 <font size=4>**2020-01-17**</font>
 
 * New [SDK and Code Demonstration](#sdk-and-code-demonstration) on Python
@@ -256,7 +236,9 @@ WEB SOCKET STREAM
 * Faster diff data with real time updates: `<symbol>@depth@0ms`
 
 ---
-<font size=4>**2020-01-03**</font>
+
+
+<font size=4>**2020-01-02**</font>
 
 * New endpoints related to isolated position：
 	* ``POST /fapi/v1/marginType``
@@ -277,18 +259,6 @@ WEB SOCKET STREAM
 
 ---
 
-<font size=4>**2019-12-19**</font>
-
-* New endpoint ``GET /fapi/v1/openInterest`` to get present open interest of a specific symbol.
-
----
-
-
-<font size=4>**2019-12-18**</font>
-
-* New event type in user data stream：`listenKeyExpired`.
-
----
 <font size=4>**2019-12-12**</font>
 
 * New endpoint ``DELETE /fapi/v1/allOpenOrders`` to cancel all open orders of a specific symbol.
@@ -300,6 +270,7 @@ WEB SOCKET STREAM
 	*  `STOP_MARKET`
 
 ---
+
 <font size=4>**2019-11-29**</font>
 
 * New endpoint ``GET /fapi/v1/allForceOrders`` to get all liquidation orders.
@@ -310,7 +281,8 @@ WEB SOCKET STREAM
 
 ---
 
-<font size=4>**2019-11-25**</font>
+
+<font size=4>**2019-11-23**</font>
 
 * `GET /fapi/v1/account` has new field: `positions`
 * Added new field `time` for order creation time in:
@@ -319,6 +291,8 @@ WEB SOCKET STREAM
 	* `GET /fapi/v1/allOrders`
 
 ---
+
+
 <font size=4>**2019-11-15**</font>
 
 * New websocket streams：
@@ -333,6 +307,7 @@ WEB SOCKET STREAM
 * WSS now supports live subscribing/unsubscribing to streams.
 
 ---
+
 
 <font size=4>**2019-11-05**</font>
 
@@ -358,13 +333,13 @@ order with stop price can be triggered by “CONTRACT_PRICE” or “MARK_PRICE�
 
 ---
 
-
 <font size=4>**2019-10-25**</font>
 
 * Added "up" in event `ACCOUNT_UPDATE` in user data stream: the unrealized PnL of the position.
 * Added "R" in event `ORDER_TRADE_UPDATE` in user data stream, showing if the trade is reduce only.
 
 ---
+
 <font size=4>**2019-10-24**</font>
 
 * New WebSocket streams for booktickers added: `<symbol>@bookTicker` and `!bookTicker`. 
@@ -373,16 +348,12 @@ order with stop price can be triggered by “CONTRACT_PRICE” or “MARK_PRICE�
 * Added ``Update Speed``: to `Websocket Market Streams`
 
 ---
-<font size=4>**2019-10-18**</font>
+
+<font size=4>**2019-10-16**</font>
 
 * New endpoint `POST /fapi/v1/leverage` for changing user's initial leverage in specific symbol market.
 * Added "leverage" for current initial leverage and "maxNotionalValue" for notional value limit of current initial leverage in response to `GET /fapi/v1/positionRisk`.
 * `reduceOnly` now is supported in the `MARKET` orders.
-
----
-<font size=4>**2019-10-14**</font>
-
-* Added ``GET /fapi/v1/fundingRate`` for getting funding fee rate history.
 
 ---
 <font size=4>**2019-10-11**</font>
@@ -390,7 +361,12 @@ order with stop price can be triggered by “CONTRACT_PRICE” or “MARK_PRICE�
 * Added "m" in event `ORDER_TRADE_UPDATE` in user data stream, showing if the trade is the maker side.
 
 ---
-<font size=4>**2019-10-08**</font>
+<font size=4>**2019-10-09**</font>
+
+* The base websocket endpoint is changed as **wss://stream.binancefuture.com**, the old one (wss://testnet.binancefuture.com) is no longer in service.
+
+---
+<font size=4>**2019-09-27**</font>
 
 * New order parameter ``reduceOnly`` for ``LIMIT`` orders.
 * New order type ``TAKE_PROFIT``.
@@ -398,10 +374,10 @@ order with stop price can be triggered by “CONTRACT_PRICE” or “MARK_PRICE�
 ---
 <font size=4>**2019-09-20**</font>
 
-* New retured values in response to GET /fapi/v1/account:      
+* New returned values in response to GET /fapi/v1/account:      
 ``maxWithdrawAmount``, ``openOrderInitialMargin``, ``positionInitialMargin``
 
-* New retured values in response to GET /fapi/v1/positionRisk:     
+* New returned values in response to GET /fapi/v1/positionRisk:     
  ``liquidationPrice``
 
 
@@ -415,18 +391,20 @@ order with stop price can be triggered by “CONTRACT_PRICE” or “MARK_PRICE�
 * The following SDKs are provided by partners and users, and are **not officially** produced. They are only used to help users become familiar with the API endpoint. Please use it with caution and expand R&D according to your own situation.
 * Binance does not make any commitment to the safety and performance of the SDKs, nor will be liable for the risks or even losses caused by using the SDKs.
 
+
 ### Python3
 
-To get the provided SDK for Binance Futures,    
+To get the provied SDK for Binance Futures,    
 please visit [https://github.com/Binance-docs/Binance_Futures_python](https://github.com/Binance-docs/Binance_Futures_python),   
 or use the command below:     
 ``
 git clone https://github.com/Binance-docs/Binance_Futures_python.git
 ``
 
+
 ### Java
 
-To get the provided SDK for Binance Futures,    
+To get the provied SDK for Binance Futures,    
 please visit [https://github.com/Binance-docs/Binance_Futures_Java](https://github.com/Binance-docs/Binance_Futures_Java),   
 or use the command below:     
 ``
@@ -434,10 +412,9 @@ git clone https://github.com/Binance-docs/Binance_Futures_Java.git
 ``
 
 
-## General API Information
 
-* Some endpoints will require an API Key. Please refer to [this page](https://www.binance.com/en/support/articles/360002502072)
-* The base endpoint is: **https://fapi.binance.com**
+## General API Information
+* The base endpoint is: **https://testnet.binancefuture.com**
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.
 * All time and timestamp related fields are in milliseconds.
@@ -534,12 +511,13 @@ MARKET_DATA | Endpoint requires sending a valid API-Key.
 * `totalParams` is defined as the `query string` concatenated with the
   `request body`.
 
-### Timing Security
+### Timing security
 * A `SIGNED` endpoint also requires a parameter, `timestamp`, to be sent which
   should be the millisecond timestamp of when the request was created and sent.
 * An additional parameter, `recvWindow`, may be sent to specify the number of
   milliseconds after `timestamp` the request is valid for. If `recvWindow`
   is not sent, **it defaults to 5000**.
+* If the server determines that the timestamp sent by the client is more than **one second** in the future of the server time, the request will also be rejected.
   
 > The logic is as follows:
 
@@ -599,7 +577,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/fapi/v1/order?symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://testnet.binancefuture.com/fapi/v1/order?symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
     
 ```
 * **queryString:** 
@@ -632,7 +610,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/fapi/v1/order' -d 'symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://testnet.binancefuture.com/fapi/v1/order' -d 'symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
 ```
 
 * **requestBody:**
@@ -663,7 +641,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://fapi.binance.com/fapi/v1/order?symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://testnet.binancefuture.com/fapi/v1/order?symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
 ```
 
 * **queryString:** symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC
@@ -722,12 +700,12 @@ There is no & between "GTC" and "quantity=1".
 * GTC - Good Till Cancel
 * IOC - Immediate or Cancel
 * FOK - Fill or Kill
-* GTX - Good Till Crossing	(Post Only)	
+* GTX - Good Till Crossing	(Post Only)
 
 **Working Type (workingType)**
 
 * MARK_PRICE
-* CONTRACT_PRICE 
+* CONTRACT_PRICE 	
 
 **Response Type (newOrderRespType)**
 
@@ -764,7 +742,7 @@ m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
   	"rateLimitType": "REQUEST_WEIGHT",
   	"interval": "MINUTE",
   	"intervalNum": 1,
-  	"limit": 2400
+  	"limit": 6000
   }
 ```
 
@@ -912,13 +890,14 @@ In order to pass the `percent price`, the following must be true for `price`:
 * BUY: `price` <= `markPrice` * `multiplierUp`
 * SELL: `price` >= `markPrice` * `multiplierDown`
 
-
 ---
 ## Postman Collections
 
 There is now a Postman collection containing the API endpoints for quick and easy use. 
 
 For more information please refer to this page: [Binance API Postman](https://github.com/binance-exchange/binance-api-postman)
+
+
 
 # Market Data Endpoints
 
@@ -946,7 +925,7 @@ NONE
 
 
 
-## Check Server Time
+## Check Server time
 
 > **Response:**
 
@@ -1141,8 +1120,7 @@ limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500,
 GET /fapi/v1/trades
 ``
 
-Get recent trades (up to last 24h).
-
+Get recent trades (up to last 24h）
 **Weight:**
 1
 
@@ -1292,8 +1270,8 @@ limit | INT | NO | Default 500; max 1500.
 ```javascript
 {
     "symbol": "BTCUSDT",
-    "markPrice": "11012.80409769",  
-    "lastFundingRate": "-0.03750000",  // This is the lasted funding rate
+    "markPrice": "11012.80409769",
+    "lastFundingRate": "-0.03750000",    // This is the lasted funding rate
     "nextFundingTime": 1562569200000,
     "time": 1562566020000
 }
@@ -1313,7 +1291,6 @@ limit | INT | NO | Default 500; max 1500.
 ]
 ```
 
-
 ``
 GET /fapi/v1/premiumIndex
 ``
@@ -1328,52 +1305,6 @@ Mark Price and Funding Rate
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO |
-
-
-
-## Get Funding Rate History (MARKET_DATA)
-
-> **Response:**
-
-```javascript
-[
-	{
-    	"symbol": "BTCUSDT",
-    	"fundingRate": "-0.03750000",
-    	"fundingTime": 1570608000000,
-    	"time": 1576566020000
-	},
-	{
-   		"symbol": "BTCUSDT",
-    	"fundingRate": "0.00010000",
-    	"fundingTime": 1570636800000,
-    	"time": 1576566020000
-	}
-]
-```
-
-``
-GET /fapi/v1/fundingRate
-``
-
-
-**Weight:**
-1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-symbol | STRING | YES |
-startTime | LONG | NO | Timestamp in ms to get funding rate from INCLUSIVE.
-endTime | LONG | NO | Timestamp in ms to get funding rate  until INCLUSIVE.
-limit | INT | NO | Default 100; max 1000
-
-
-* If `startTime` and `endTime` are not sent, the most recent `limit` datas are returned.
-* If the number of data between `startTime` and `endTime` is larger than `limit`, return as `startTime` + `limit`.
-* In ascending order.
-
 
 
 
@@ -1458,7 +1389,7 @@ symbol | STRING | NO |
 ```javascript
 {
   "symbol": "BTCUSDT",
-  "price": "6000.01",
+  "price": "9443.15",
   "time": 1589437530011   // Transaction time
 }
 ```
@@ -1470,7 +1401,7 @@ symbol | STRING | NO |
 [
 	{
   		"symbol": "BTCUSDT",
-  		"price": "6000.01",
+  		"price": "9443.15",
   		"time": 1589437530011
 	}
 ]
@@ -1508,7 +1439,7 @@ symbol | STRING | NO |
   "bidQty": "431.00000000",
   "askPrice": "4.00000200",
   "askQty": "9.00000000",
-  "time": 1589437530011   // Transaction time
+  "time": 1589437530011  // Transaction time
 }
 ```
 
@@ -1549,6 +1480,7 @@ symbol | STRING | NO |
 
 
 ##Get all Liquidation Orders
+
 > **Response:**
 
 ```javascript
@@ -1587,8 +1519,7 @@ limit | LONG | NO | Max returned data number from endTime; Default:100 Max:1000
 
 
 
-
-## Open Interest
+## Open Interest 
 
 
 > **Response:**
@@ -1621,276 +1552,24 @@ symbol	| STRING | YES
 
 
 
-## Open Interest Statistics (MARKET_DATA)
 
-> **Response:**
 
-```javascript
-[
-    { 
-         "symbol":"BTCUSDT",
-	      "sumOpenInterest":"20403.63700000",  // total open inerest 
-	      "sumOpenInterestValue": "150570784.07809979",   // total open interet value
-	      "timestamp":"1583127900000"
-    
-     },
-     
-     {
-     
-         "symbol":"BTCUSDT",
-         "sumOpenInterest":"20401.36700000",
-         "sumOpenInterestValue":"149940752.14464448",
-         "timestamp":"1583128200000"
-         
-        },   
-	    
-]
 
-```
-
-
-``
-GET /futures/data/openInterestHist
-``
-
-
-**Weight:** 1
-
-**Parameters:**
-
- Name  |  Type  | Mandatory |  Description
------- | ------ | -------- | ------
-symbol | STRING | YES      | 
-period | NUM    | YES      | "5m","15m","30m","1h","2h","4h","6h","12h","1d"
-limit  | LONG   | NO       | default 30, max 500
-startTime | LONG | NO      |
-endTime   | LONG | NO      |
-
-* If there is no limit of startime and endtime, it will return the value brfore the current time by default.
-* Only the data of the latest 30 days is available.
-
-
-## Top Trader Long/Short Ratio (Accounts)  (MARKET_DATA)
-
-> **Response:**
-
-```javascript
-[
-    { 
-         "symbol":"BTCUSDT",
-	      "longShortRatio":"1.8105",  // long/short account num ratio of top traders
-	      "longAccount": "0.6442",   // long account num ratio of top traders 
-	      "shortAccount":"0.3558",   // long account num ratio of top traders 
-	      "timestamp":"1583139600000"
-    
-     },
-     
-     {
-         
-         "symbol":"BTCUSDT",
-	      "longShortRatio":"0.5576",
-	      "longAccount": "0.3580", 
-	      "shortAccount":"0.6420", 	                
-	      "timestamp":"1583139900000"
-	               
-        },   
-	    
-]
-
-```
-
-
-
-``
-GET /futures/data/topLongShortAccountRatio
-``
-
-
-**Weight:** 1
-
-**Parameters:**
-
- Name  |  Type  | Mandatory |  Description
------- | ------ | -------- | ------
-symbol | STRING | YES      | 
-period | NUM    | YES      | "5m","15m","30m","1h","2h","4h","6h","12h","1d"
-limit  | LONG   | NO       | default 30, max 500
-startTime | LONG | NO      |
-endTime   | LONG | NO      |
-
-* If there is no limit of startime and endtime, it will return the value brfore the current time by default.
-* Only the data of the latest 30 days is available.
-
-
-
-## Top Trader Long/Short Ratio (Positions) (MARKET_DATA)
-
-> **Response:**
-
-```javascript
-[
-    { 
-         "symbol":"BTCUSDT",
-	      "longShortRatio":"1.4342",// long/short position ratio of top traders
-	      "longAccount": "0.5891", // long positions ratio of top traders
-	      "shortAccount":"0.4108", // short positions ratio of top traders
-	      "timestamp":"1583139600000"
-    
-     },
-     
-     {
-         
-         "symbol":"BTCUSDT",
-	      "longShortRatio":"1.4337",
-	      "longAccount": "0.3583", 
-	      "shortAccount":"0.6417", 	                
-	      "timestamp":"1583139900000"
-	               
-        },   
-	    
-]
-
-```
-
-
-
-``
-GET /futures/data/topLongShortPositionRatio
-``
-
-
-**Weight:** 1
-
-**Parameters:**
-
- Name  |  Type  | Mandatory |  Description
------- | ------ | -------- | ------
-symbol | STRING | YES      | 
-period | NUM    | YES      | "5m","15m","30m","1h","2h","4h","6h","12h","1d"
-limit  | LONG   | NO       | default 30, max 500
-startTime | LONG | NO      |
-endTime   | LONG | NO      |
-
-* If there is no limit of startime and endtime, it will return the value brfore the current time by default.
-* Only the data of the latest 30 days is available.
-
-
-
-## Long/Short Ratio (MARKET_DATA)
-
-> **Response:**
-
-
-```javascript
-[
-    { 
-         "symbol":"BTCUSDT",  // long/short account num ratio of all traders
-	      "longShortRatio":"0.1960",  //long account num ratio of all traders
-	      "longAccount": "0.6622",   // short account num ratio of all traders
-	      "shortAccount":"0.3378", 
-	      "timestamp":"1583139600000"
-    
-     },
-     
-     {
-         
-         "symbol":"BTCUSDT",
-	      "longShortRatio":"1.9559",
-	      "longAccount": "0.6617", 
-	      "shortAccount":"0.3382", 	                
-	      "timestamp":"1583139900000"
-	               
-        },   
-	    
-]
-
-```
-
-
-
-``
-GET /futures/data/globalLongShortAccountRatio
-``
-
-**Weight:** 1
-
-**Parameters:**
-
- Name  |  Type  | Mandatory |  Description
------- | ------ | -------- | ------
-symbol | STRING | YES      | 
-period | NUM    | YES      | "5m","15m","30m","1h","2h","4h","6h","12h","1d"
-limit  | LONG   | NO       | default 30, max 500
-startTime | LONG | NO      |
-endTime   | LONG | NO      |
-
-* If there is no limit of startime and endtime, it will return the value brfore the current time by default.
-* Only the data of the latest 30 days is available.
-
-
-## Taker Buy/Sell Volume (MARKET_DATA)
-
-> **Response:**
-
-
-```javascript
-[
-    { 
-	      "buySellRatio":"1.5586",
-	      "buyVol": "387.3300", 
-	      "sellVol":"248.5030", 
-	      "timestamp":"1585614900000"
-    
-     },
-     
-     {
-     
-	      "buySellRatio":"1.3104",
-	      "buyVol": "343.9290", 
-	      "sellVol":"248.5030", 	                
-	      "timestamp":"1583139900000"
-	               
-        },   
-	    
-]
-
-```
-
-
-
-``
-GET /futures/data/takerlongshortRatio
-``
-
-**Weight:** 1
-
-**Parameters:**
-
- Name  |  Type  | Mandatory |  Description
------- | ------ | -------- | ------
-symbol | STRING | YES      | 
-period | NUM    | YES      | "5m","15m","30m","1h","2h","4h","6h","12h","1d"
-limit  | LONG   | NO       | default 30, max 500
-startTime | LONG | NO      |
-endTime   | LONG | NO      |
-
-* If there is no limit of startime and endtime, it will return the value brfore the current time by default.
-* Only the data of the latest 30 days is available. 
 
 
 # Websocket Market Streams
 
-* The base endpoint is: **wss://fstream.binance.com**
+* The base endpoint is: **wss://stream.binancefuture.com**
 * Streams can be access either in a single raw stream or a combined stream
 * Raw streams are accessed at **/ws/\<streamName\>**
 * Combined streams are accessed at **/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
 * Combined stream events are wrapped as follows: **{"stream":"\<streamName\>","data":\<rawPayload\>}**
 * All symbols for streams are **lowercase**
-* A single connection to **fstream.binance.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
+* A single connection to **stream.binancefuture.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
 * The websocket server will send a `ping frame` every 3 minutes. If the websocket server does not receive a `pong frame` back from the connection within a 10 minute period, the connection will be disconnected. Unsolicited `pong frames` are allowed.
 
 
-## Live Subscribing/Unsubscribing to streams
+### Live Subscribing/Unsubscribing to streams
 
 * The following data can be sent through the websocket instance in order to subscribe/unsubscribe from streams. Examples can be seen below.
 * The `id` used in the JSON payloads is an unsigned INT used as an identifier to uniquely identify the messages going back and forth.
@@ -2020,7 +1699,6 @@ The combined property is set to `false` when connecting using `/ws/` ("raw strea
  
 
 
-
 ### Error Messages
 
 Error Message | Description
@@ -2034,6 +1712,7 @@ Error Message | Description
 {"code": 2, "msg": "Invalid request: property name must be a string"} | Property name was not provided
 {"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | `method` was not provided in the data
 {"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON data sent has incorrect syntax.
+
 
 
 
@@ -2083,38 +1762,13 @@ The Aggregate Trade Streams push trade information that is aggregated for a sing
   }
 ```
 
-Mark price and funding rate for a single symbol pushed every 3 seconds or every second.
+Mark price and funding rate for a single symbol pushed every 3 seconds.
 
 **Stream Name:**     
-``<symbol>@markPrice`` or ``<symbol>@markPrice@1s``
+``<symbol>@markPrice``
 
-**Update Speed:** 3000ms or 1000ms
+**Update Speed:** 3000ms
 
-
-
-## Mark Price Stream for All market
-
-> **Payload:**
-
-```javascript
-[ 
-  {
-    "e": "markPriceUpdate",  // Event type
-    "E": 1562305380000,      // Event time
-    "s": "BTCUSDT",          // Symbol
-    "p": "11185.87786614",   // Mark price
-    "r": "0.00030000",       // Funding rate
-    "T": 1562306400000       // Next funding time
-  }
-]
-```
-
-Mark price and funding rate for all symbols pushed every 3 seconds or every second.
-
-**Stream Name:**     
-``!markPrice@arr`` or ``!markPrice@arr@1s``
-
-**Update Speed:** 3000ms or 1000ms
 
 
 
@@ -2310,8 +1964,6 @@ m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 ``!ticker@arr``
 
 **Update Speed:** 1000ms
-
-
 
 
 
@@ -2517,7 +2169,7 @@ Top **<levels\>** bids and asks, Valid **<levels\>** are 5, 10, or 20.
 {
   "e": "depthUpdate", // Event type
   "E": 123456789,     // Event time
-  "T": 123456788,     // transaction time 
+  "T": 123456788,     // Transction time
   "s": "BTCUSDT",      // Symbol
   "U": 157,           // first update Id from last stream
   "u": 160,           // last update Id from last stream
@@ -2547,14 +2199,14 @@ Bids and asks, pushed every 250 milliseconds, 500 milliseconds, 100 milliseconds
 
 
 ## How to manage a local order book correctly
-1. Open a stream to **wss://fstream.binance.com/stream?streams=btcusdt@depth**.
-2. Buffer the events you receive from the stream. For same price, latest received update covers the previous one. 
-3. Get a depth snapshot from **https://fapi.binance.com/fapi/v1/depth?symbol=BTCUSDT&limit=1000** .
-4. Drop any event where `u` is < `lastUpdateId` in the snapshot.
+1. Open a stream to **wss://stream.binancefuture.com/stream?streams=btcusdt@depth**.
+2. Buffer the events you receive from the stream. For same price, latest received update covers the previous one.
+3. Get a depth snapshot from **https://testnet.binancefuture.com/fapi/v1/depth?symbol=BTCUSDT&limit=1000** .
+4. Drop any event where `u` is < `lastUpdateId` in the snapshot
 5. The first processed event should have `U` <= `lastUpdateId` **AND** `u` >= `lastUpdateId`
 6. While listening to the stream, each new event's `pu` should be equal to the previous event's `u`, otherwise initialize the process from step 3.
-7. The data in each event is the **absolute** quantity for a price level.
-8. If the quantity is 0, **remove** the price level.
+7. The data in each event is the **absolute** quantity for a price level
+8. If the quantity is 0, **remove** the price level
 9. Receiving an event that removes a price level that is not in your local order book can happen and is normal.
 
 
@@ -2563,83 +2215,6 @@ Bids and asks, pushed every 250 milliseconds, 500 milliseconds, 100 milliseconds
 
 
 # Account/Trades Endpoints
-
-## New Future Account Transfer 
-
-
-> **Response:**
-
-```javascript
-{
-    "tranId": 100000001    //transaction id
-}
-```
-
-``
-POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
-``
-
-* ***NOTICE: base url for fapi is not available here***
-
-Execute transfer between spot account and futures account.
-
-**Weight:**
-1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-asset | STRING | YES | The asset being transferred, e.g., USDT
-amount | DECIMAL | YES | The amount to be transferred
-type | INT | YES | 1: transfer from spot main account to future account 2: transfer from future account to spot main account
-recvWindow | LONG | NO  | 
-timestamp | LONG | YES
-
-
-
-## Get Future Account Transaction History List (USER_DATA)
-
-
-> **Response:**
-
-```javascript
-{
-  "rows": [
-    {
-      "asset": "USDT",
-      "tranId": 100000001
-      "amount": "40.84624400",
-      "type": "1",
-      "timestamp": 1555056425000,
-      "status": "CONFIRMED"          //one of PENDING (pending to execution), CONFIRMED (successfully transfered), FAILED (execution failed, nothing happened to your account);
-    }
-  ],
-  "total": 1
-}
-```
-
-
-``
-GET https://api.binance.com/sapi/v1/futures/transfer (HMAC SHA256)
-``
-
-* ***NOTICE: base url for fapi is not avalible here***
-
-**Weight:**
-5
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-asset |	STRING | YES	
-startTime |	LONG |	YES	
-endTime | LONG | NO	
-current | LONG | NO | Currently querying page. Start from 1. Default:1
-size |	LONG | NO |	Default:10 Max:100
-recvWindow | LONG | NO | 
-timestamp | LONG | YES
 
 
 ## Change Position Mode（TRADE）
@@ -2699,7 +2274,6 @@ timestamp  | LONG   | YES      |
 
 
 
-
 ## New Order  (TRADE)
 
 
@@ -2713,18 +2287,18 @@ timestamp  | LONG   | YES      |
  	"orderId": 22542179,
  	"avgPrice": "0.00000",
  	"origQty": "10",
- 	"price": "0",
+  	"price": "0",
   	"reduceOnly": false,
   	"side": "BUY",
-  	"positionSide": "SHORT",
+  	"positionSide": "SHORT", 
   	"status": "NEW",
-  	"stopPrice": "9300",		// please ignore when order type is TRAILING_STOP_MARKET
-  	"closePosition": false,   // if Close-All
+  	"stopPrice": "9300",				// please ignore when order type is TRAILING_STOP_MARKET
+  	"closePosition": false,  		   // if Close-All
   	"symbol": "BTCUSDT",
   	"timeInForce": "GTC",
   	"type": "TRAILING_STOP_MARKET",
-  	"activatePrice": "9020",	// activation price, only return with TRAILING_STOP_MARKET order
-  	"priceRate": "0.3",			// callback rate, only return with TRAILING_STOP_MARKET order
+  	"activatePrice": "9020",			// activation price, only return with TRAILING_STOP_MARKET order
+  	"priceRate": "0.3",					// callback rate, only return with TRAILING_STOP_MARKET order
  	"updateTime": 1566818724722,
  	"workingType": "CONTRACT_PRICE"
 }
@@ -2749,8 +2323,8 @@ side | ENUM | YES |
 positionSide | ENUM	| NO | Default `BOTH` for One-way Mode ; `LONG` or `SHORT` for Hedge Mode. It must be sent in Hedge Mode.
 type | ENUM | YES |
 timeInForce | ENUM | NO |
-quantity | DECIMAL | NO | Cannot be sent with `closePosition`=`true`(Close-All)
-reduceOnly | STRING | NO | "true" or "false". Defalt "false". Cannot be sent in Hedge Mode; cannot be sent with `closePosition`=`true`
+quantity | DECIMAL | NO | Cannot be sent with `closePosition`=`true`
+reduceOnly | STRING | NO | "true" or "false". Defalt "false". Cannot be sent in Hedge Mode; cannot be sent with `closePosition`=`true`(Close-All)
 price | DECIMAL | NO |
 newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent.
 stopPrice | DECIMAL | NO | Used with `STOP/STOP_MARKET` or `TAKE_PROFIT/TAKE_PROFIT_MARKET` orders.
@@ -2815,7 +2389,6 @@ Type | Additional mandatory parameters
 	 	"cumQuote": "0",
 	 	"executedQty": "0",
 	 	"orderId": 22542179,
-	 	"avgPrice": "0.00000",
 	 	"origQty": "10",
 	 	"price": "0",
 	  	"reduceOnly": false,
@@ -2880,7 +2453,6 @@ newOrderRespType | ENUM    | NO       | "ACK", "RESULT", default "ACK"
 
 
 
-
 ## Query Order (USER_DATA)
 
 
@@ -2898,7 +2470,6 @@ newOrderRespType | ENUM    | NO       | "ACK", "RESULT", default "ACK"
   	"price": "0",
   	"reduceOnly": false,
   	"side": "BUY",
-  	"positionSide": "SHORT",
   	"status": "NEW",
   	"stopPrice": "9300",				// please ignore when order type is TRAILING_STOP_MARKET
   	"closePosition": false,   // if Close-All
@@ -2916,6 +2487,7 @@ newOrderRespType | ENUM    | NO       | "ACK", "RESULT", default "ACK"
 ``
 GET /fapi/v1/order (HMAC SHA256)
 ``
+
 
 Check an order's status.
 
@@ -2959,7 +2531,7 @@ Notes:
   	"price": "0",
   	"reduceOnly": false,
   	"side": "BUY",
-  	"positionSide": "SHORT",
+  	"positionSide": "SHORT", 			
   	"status": "CANCELED",
   	"stopPrice": "9300",				// please ignore when order type is TRAILING_STOP_MARKET
   	"closePosition": false,   // if Close-All
@@ -3079,6 +2651,8 @@ Either `orderIdList` or `origClientOrderIdList ` must be sent.
 
 
 
+
+
 ## Auto-Cancel All Open Orders (TRADE)
 
 > **Response:**
@@ -3122,6 +2696,7 @@ timestamp | LONG | YES |
 
 
 
+
 ## Query Current Open Order (USER_DATA)
 
 > **Response:**
@@ -3142,7 +2717,7 @@ timestamp | LONG | YES |
   	"positionSide": "SHORT",
   	"status": "NEW",
   	"stopPrice": "9300",				// please ignore when order type is TRAILING_STOP_MARKET
-  	"closePosition": false,   			// if Close-All
+  	"closePosition": false,   // if Close-All
   	"symbol": "BTCUSDT",
   	"time": 1579276756075,				// order time
   	"timeInForce": "GTC",
@@ -3297,42 +2872,7 @@ timestamp | LONG | YES |
 
 
 
-## Future Account Balance (USER_DATA)
-
-> **Response:**
-
-```javascript
-[
- 	{
- 		"accountAlias": "SgsR",    // unique account code
- 		"asset": "USDT",
- 		"balance": "122607.35137903",
- 		"withdrawAvailable": "102333.54137903"
-	}
-]
-```
-
-``
-GET /fapi/v1/balance (HMAC SHA256)
-``
-
-**Weight:**
-1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-recvWindow | LONG | NO |
-timestamp | LONG | YES
-
-
-
-
 ## Account Information (USER_DATA)
-
-> **Response:**
-
 
 > **Response:**
 
@@ -3421,6 +2961,7 @@ recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
 
+
 ## Change Initial Leverage (TRADE)
 
 > **Response:**
@@ -3437,7 +2978,8 @@ timestamp | LONG | YES |
 POST /fapi/v1/leverage (HMAC SHA256)
 ``
 
-Change user's initial leverage of specific symbol market.
+Change user's initial leverage in the specific symbol market.   
+For Hedge Mode, LONG and SHORT positions of one symbol use the same initial leverage and share a total notional value.
 
 **Weight:**
 1
@@ -3462,6 +3004,10 @@ timestamp | LONG | YES |
 	"msg": "success"
 }
 ```
+
+Change user's margin type in the specific symbol market.For Hedge Mode, LONG and SHORT positions of one symbol use the same margin type.  
+With ISOLATED margin type, margins of the LONG and SHORT positions are isolated from each other. 
+
 
 ``
 POST /fapi/v1/marginType (HMAC SHA256)
@@ -3564,8 +3110,6 @@ timestamp | LONG | YES
 
 
 ## Position Information (USER_DATA)
-
-> **Response:**
 
 > **Response:**
 
@@ -3684,7 +3228,6 @@ timestamp | LONG | YES |
 
 
 
-
 ## Get Income History(USER_DATA)
 
 
@@ -3697,7 +3240,7 @@ timestamp | LONG | YES |
     	"incomeType": "TRANSFER",
     	"income": "-0.37500000",
     	"asset": "USDT",
-    	"info":"",	
+    	"info":"",					
     	"time": 1570608000000,
 	},
 	{
@@ -3705,7 +3248,7 @@ timestamp | LONG | YES |
     	"incomeType": "COMMISSION", 
     	"income": "-0.01000000",
     	"asset": "USDT",
-    	"info":"",	
+    	"info":"",
     	"time": 1570636800000,
 	}
 ]
@@ -3735,7 +3278,7 @@ timestamp|LONG|YES|
 
 
 
-## Notional and Leverage Brackets (USER_DATA)
+## Notional Bracket (USER_DATA)
 
 
 > **Response:**
@@ -3794,17 +3337,19 @@ timestamp|LONG|YES|
 
 
 
+
+
 # User Data Streams
 
-* The base API endpoint is: **https://fapi.binance.com**
+* The base API endpoint is: **https://testnet.binancefuture.com**
 * A User Data Stream `listenKey` is valid for 60 minutes after creation.
 * Doing a `PUT` on a `listenKey` will extend its validity for 60 minutes.
 * Doing a `DELETE` on a `listenKey` will close the stream and invalidate the `listenKey`.
 * Doing a `POST` on an account with an active `listenKey` will return the currently active `listenKey` and extend its validity for 60 minutes.
-* The base websocket endpoint is: **wss://fstream.binance.com**
+* The base websocket endpoint is: **wss://stream.binancefuture.com**
 * User Data Streams are accessed at **/ws/\<listenKey\>**
 * User data stream payloads are **not guaranteed** to be in order during heavy periods; **make sure to order your updates using E**
-* A single connection to **fstream.binance.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
+* A single connection to **stream.binancefuture.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
 
 
 ## Start User Data Stream (USER_STREAM)
@@ -3889,28 +3434,6 @@ timestamp | LONG | YES |
 
 
 
-## Event: User Data Stream Expired
-
-> **Payload:**
-
-```javascript
-{
-	'e': 'listenKeyExpired',      // event type
-	'E': 1576653824250				// event time
-}
-```
-
-When the `listenKey` used for the user data stream turns expired, this event will be pushed.
-
-**Notice:**
-
-* This event is not related to the websocket disconnection.
-* This event will be received only when a valid `listenKey` in connection got expired.
-* No more user data event will be updated after this event received until a new valid `listenKey` used.
-
-
-
-
 
 ##Event: Margin Call
 
@@ -3941,7 +3464,6 @@ When the `listenKey` used for the user data stream turns expired, this event wil
 * When the user's position risk ratio is too high, this stream will be pushed.
 * This message is only used as risk guidance information and is not recommended for investment strategies.
 * In the case of a highly volatile market, there may be the possibility that the user's position has been liquidated at the same time when this stream is pushed out.
-
 
 
 
@@ -4006,7 +3528,7 @@ When the `listenKey` used for the user data stream turns expired, this event wil
 }
 ```
 
-Event type is `ACCOUNT_UPDATE`.
+Event type is `ACCOUNT_UPDATE`.   
 
 * When balance or position get updated, this event will be pushed.
 	* `ACCOUNT_UPDATE` will be pushed only when update happens on user's account, including changes on balances, positions, or margin type.
@@ -4028,35 +3550,37 @@ Event type is `ACCOUNT_UPDATE`.
   
   "e":"ORDER_TRADE_UPDATE",		// Event Type
   "E":1568879465651,			// Event Time
-  "T": 1568879465650,			//	Transaction Time
+  "T":1568879465650,			// Trasaction Time
   "o":{								
-    "s":"BTCUSDT",			    // Symbol
-    "c":"TEST",				    // Client Order Id
+    "s":"BTCUSDT",				// Symbol
+    "c":"TEST",					// Client Order Id
       // special client order id:
       // starts with "autoclose-": liquidation order
       // "adl_autoclose": ADL auto close order
-    "S":"SELL",				    // Side
-    "o":"LIMIT",			    // Order Type
-    "f":"GTC",				    // Time in Force
-    "q":"0.001",			    // Original Quantity
-    "p":"9910",				    // Original Price
-    "ap":"0",				    // Average Price
-    "sp":"0",				    // Stop Price
-    "x":"NEW",				    // Execution Type
-    "X":"NEW",				    // Order Status
-    "i":8886774,			    // Order Id
-    "l":"0",				    // Order Last Filled Quantity
-    "z":"0",				    // Order Filled Accumulated Quantity
-    "L":"0",				    // Last Filled Price
-    "N": "USDT",                // Commission Asset, will not push if no commission
-    "n": "0",                   // Commission, will not push if no commission
-    "T":1568879465651,		    // Order Trade Time
-    "t":0,			            // Trade Id
-    "b":"0",			        // Bids Notional
-    "a":"9.91",				    // Ask Notional
-    "m": false,				    // Is this trade the maker side?
+    "S":"SELL",					// Side
+    "o":"TRAILING_STOP_MARKET",	// Order Type
+    "f":"GTC",					// Time in Force
+    "q":"0.001",				// Original Quantity
+    "p":"0",					// Original Price
+    "ap":"0",					// Average Price
+    "sp":"7103.04",				// Stop Price. Please ignore with TRAILING_STOP_MARKET order
+    "x":"NEW",					// Execution Type
+    "X":"NEW",					// Order Status
+    "i":8886774,				// Order Id
+    "l":"0",					// Order Last Filled Quantity
+    "z":"0",					// Order Filled Accumulated Quantity
+    "L":"0",					// Last Filled Price
+    "N":"USDT",            	// Commission Asset, will not push if no commission
+    "n":"0",               	// Commission, will not push if no commission
+    "T":1568879465651,			// Order Trade Time
+    "t":0,			        	// Trade Id
+    "b":"0",			    	// Bids Notional
+    "a":"9.91",					// Ask Notional
+    "m":false,					// Is this trade the maker side?
     "R":false,					// Is this reduce only
-    "wt": "CONTRACT_PRICE",      // stop price working type
+    "wt":"CONTRACT_PRICE", 		// Stop Price Working Type
+    "ot":"TRAILING_STOP_MARKET",	// Original Order Type
+    "ps":"LONG",						// Position Side
     "cp":false,						// If Close-All, pushed with conditional order
     "AP":"7476.89",				// Activation Price, only puhed with TRAILING_STOP_MARKET order
     "cr":"5.0"					// Callback Rate, only puhed with TRAILING_STOP_MARKET order
@@ -4064,6 +3588,7 @@ Event type is `ACCOUNT_UPDATE`.
   
 }
 ```
+
 
 When new order created, order status changed will push such event.
 event type is `ORDER_TRADE_UPDATE`.
@@ -4075,6 +3600,12 @@ event type is `ORDER_TRADE_UPDATE`.
 
 * BUY 
 * SELL 
+
+**Position side:**
+
+* BOTH 
+* LONG 
+* SHORT 
 
 **Order Type**
 
@@ -4116,10 +3647,6 @@ event type is `ORDER_TRADE_UPDATE`.
 * FOK
 * GTX
 
-**Working Type**
-
-* MARK_PRICE
-* CONTRACT_PRICE 
 
 #Error Codes
 
@@ -4481,7 +4008,6 @@ Codes are universal,but messages can vary.
 ### -4055 AMOUNT_MUST_BE_POSITIVE
  * Amount must be positive.
 
- 
 ## Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
 This code is sent when an error has been returned by the matching engine.
 The following messages which will indicate the specific error:
