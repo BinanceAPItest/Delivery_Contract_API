@@ -6,7 +6,7 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="images/favicon.ico" rel="icon" type="image/ico" />
-    <title>Binance API 使用文档</title>
+    <title>Binance API Documentation</title>
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -303,9 +303,6 @@
                   <li>
                     <a href="#f6cc22e496" class="toc-h2 toc-link" data-title="获取未平仓合约数">获取未平仓合约数</a>
                   </li>
-                  <li>
-                    <a href="#user_data" class="toc-h2 toc-link" data-title="杠杆分层标准 (USER_DATA)">杠杆分层标准 (USER_DATA)</a>
-                  </li>
               </ul>
           </li>
           <li>
@@ -380,22 +377,31 @@
                     <a href="#trade" class="toc-h2 toc-link" data-title="更改持仓模式（TRADE）">更改持仓模式（TRADE）</a>
                   </li>
                   <li>
+                    <a href="#user_data" class="toc-h2 toc-link" data-title="查询持仓模式（USER_DATA）">查询持仓模式（USER_DATA）</a>
+                  </li>
+                  <li>
                     <a href="#trade-2" class="toc-h2 toc-link" data-title="下单 (TRADE)">下单 (TRADE)</a>
                   </li>
                   <li>
                     <a href="#trade-3" class="toc-h2 toc-link" data-title="测试下单接口 (TRADE)">测试下单接口 (TRADE)</a>
                   </li>
                   <li>
+                    <a href="#trade-4" class="toc-h2 toc-link" data-title="批量下单 (TRADE)">批量下单 (TRADE)</a>
+                  </li>
+                  <li>
                     <a href="#user_data-2" class="toc-h2 toc-link" data-title="查询订单 (USER_DATA)">查询订单 (USER_DATA)</a>
                   </li>
                   <li>
-                    <a href="#trade-4" class="toc-h2 toc-link" data-title="撤销订单 (TRADE)">撤销订单 (TRADE)</a>
+                    <a href="#trade-5" class="toc-h2 toc-link" data-title="撤销订单 (TRADE)">撤销订单 (TRADE)</a>
                   </li>
                   <li>
-                    <a href="#trade-5" class="toc-h2 toc-link" data-title="撤销全部订单 (TRADE)">撤销全部订单 (TRADE)</a>
+                    <a href="#trade-6" class="toc-h2 toc-link" data-title="撤销全部订单 (TRADE)">撤销全部订单 (TRADE)</a>
                   </li>
                   <li>
-                    <a href="#trade-6" class="toc-h2 toc-link" data-title="批量撤销订单 (TRADE)">批量撤销订单 (TRADE)</a>
+                    <a href="#trade-7" class="toc-h2 toc-link" data-title="批量撤销订单 (TRADE)">批量撤销订单 (TRADE)</a>
+                  </li>
+                  <li>
+                    <a href="#trade-8" class="toc-h2 toc-link" data-title="倒计时撤销所有订单 (TRADE)">倒计时撤销所有订单 (TRADE)</a>
                   </li>
                   <li>
                     <a href="#user_data-3" class="toc-h2 toc-link" data-title="查询当前挂单 (USER_DATA)">查询当前挂单 (USER_DATA)</a>
@@ -410,16 +416,16 @@
                     <a href="#user_data-6" class="toc-h2 toc-link" data-title="账户信息 (USER_DATA)">账户信息 (USER_DATA)</a>
                   </li>
                   <li>
-                    <a href="#trade-7" class="toc-h2 toc-link" data-title="调整开仓杠杆 (TRADE)">调整开仓杠杆 (TRADE)</a>
+                    <a href="#trade-9" class="toc-h2 toc-link" data-title="调整开仓杠杆 (TRADE)">调整开仓杠杆 (TRADE)</a>
                   </li>
                   <li>
-                    <a href="#trade-8" class="toc-h2 toc-link" data-title="变换逐全仓模式 (TRADE)">变换逐全仓模式 (TRADE)</a>
+                    <a href="#trade-10" class="toc-h2 toc-link" data-title="变换逐全仓模式 (TRADE)">变换逐全仓模式 (TRADE)</a>
                   </li>
                   <li>
-                    <a href="#trade-9" class="toc-h2 toc-link" data-title="调整逐仓保证金 (TRADE)">调整逐仓保证金 (TRADE)</a>
+                    <a href="#trade-11" class="toc-h2 toc-link" data-title="调整逐仓保证金 (TRADE)">调整逐仓保证金 (TRADE)</a>
                   </li>
                   <li>
-                    <a href="#trade-10" class="toc-h2 toc-link" data-title="逐仓保证金变动历史 (TRADE)">逐仓保证金变动历史 (TRADE)</a>
+                    <a href="#trade-12" class="toc-h2 toc-link" data-title="逐仓保证金变动历史 (TRADE)">逐仓保证金变动历史 (TRADE)</a>
                   </li>
                   <li>
                     <a href="#479ce129f6" class="toc-h2 toc-link" data-title="用户持仓风险">用户持仓风险</a>
@@ -429,6 +435,9 @@
                   </li>
                   <li>
                     <a href="#user_data-8" class="toc-h2 toc-link" data-title="获取账户损益资金流水(USER_DATA)">获取账户损益资金流水(USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#user_data-9" class="toc-h2 toc-link" data-title="杠杆分层标准 (USER_DATA)">杠杆分层标准 (USER_DATA)</a>
                   </li>
               </ul>
           </li>
@@ -479,6 +488,9 @@
               </ul>
           </li>
       </ul>
+        <ul class="toc-footer">
+            <li><a href='https://testnet.binancefuture.com/en/futures/'>Binance Future Testnet</a></li>
+        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -629,7 +641,7 @@ apikey、secret仅供示范</p>
 </thead><tbody>
 <tr>
 <td>symbol</td>
-<td>BTCUSD_200930</td>
+<td>BTCUSD_200925</td>
 </tr>
 <tr>
 <td>side</td>
@@ -649,7 +661,7 @@ apikey、secret仅供示范</p>
 </tr>
 <tr>
 <td>price</td>
-<td>0.1</td>
+<td>6000</td>
 </tr>
 <tr>
 <td>recvWindow</td>
@@ -665,72 +677,72 @@ apikey、secret仅供示范</p>
 <p><strong>示例1:</strong>
 <strong>HMAC SHA256 签名:</strong></p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
+<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
     <span class="o">(</span>stdin<span class="o">)=</span> c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
 </code></pre>
 <blockquote>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
 </code></pre>
 <ul>
-<li><strong>queryString:</strong> </li>
-</ul>
+<li><p><strong>queryString:</strong> </p>
 
-<p>symbol=BTCUSD_200930<br>
+<p>symbol=BTCUSD_200925<br>
 &amp;side=BUY<br>
 &amp;type=LIMIT<br>
 &amp;timeInForce=GTC<br>
 &amp;quantity=1<br>
 &amp;price=6000<br>
 &amp;recvWindow=5000<br>
-&amp;timestamp=1499827319559</p>
+&amp;timestamp=1499827319559</p></li>
+</ul>
 <h3 id='2-request-body'>示例 2: 所有参数通过 request body 发送</h3>
 <blockquote>
 <p><strong>示例2:</strong>
 <strong>HMAC SHA256 签名:</strong></p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
+<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
     <span class="o">(</span>stdin<span class="o">)=</span> c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
 </code></pre>
 <blockquote>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'</span>
 </code></pre>
 <ul>
-<li><strong>requestBody:</strong> </li>
-</ul>
+<li><p><strong>requestBody:</strong> </p>
 
-<p>symbol=BTCUSD_200930<br>
+<p>symbol=BTCUSD_200925<br>
 &amp;side=BUY<br>
 &amp;type=LIMIT<br>
 &amp;timeInForce=GTC<br>
 &amp;quantity=1<br>
 &amp;price=6000<br>
 &amp;recvWindow=5000<br>
-&amp;timestamp=1499827319559</p>
+&amp;timestamp=1499827319559</p></li>
+</ul>
 <h3 id='3-query-string-request-body'>示例 3: 混合使用 query string 与 request body</h3>
 <blockquote>
 <p><strong>示例3:</strong>
 <strong>HMAC SHA256 签名:</strong></p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTCquantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
+<pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTCquantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559"</span> | openssl dgst -sha256 -hmac <span class="s2">"NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"</span>
     <span class="o">(</span>stdin<span class="o">)=</span> 0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77
 </code></pre>
 <blockquote>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=6000&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'</span>
 </code></pre>
 <ul>
 <li><strong>queryString:</strong> </li>
 </ul>
 
-<p>symbol=BTCUSD_200930&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC</p>
+<p>symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC</p>
 
 <ul>
 <li><strong>requestBody:</strong> </li>
@@ -742,14 +754,16 @@ apikey、secret仅供示范</p>
 There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 <h2 id='api'>公开API参数</h2><h3 id='6db415da2a'>术语解释</h3>
 <ul>
-<li><code>base asset</code> 指一个交易对的交易对象，即写在靠前部分的资产名</li>
-<li><code>quote asset</code> 指一个交易对的定价资产，即写在靠后部分资产名</li>
+<li><code>symbol</code> 指合约交易对名称</li>
+<li><code>pair</code> 指合约交易对的标的物交易对</li>
+<li><code>base asset</code> 指合约交易对的交易对象，即标的物交易对交易对象</li>
+<li><code>quote asset</code> 指合约交易对的定价资产，即标的物交易对的定价资产</li>
+<li><code>margin asset</code> 指合约交易对使用的保证金资产</li>
 </ul>
 <h3 id='8c6d51826c'>枚举定义</h3>
 <p><strong>交易对类型:</strong></p>
 
 <ul>
-<li>FUTURE 期货</li>
 <li>DELIVERY_CONTRACT 交割合约</li>
 </ul>
 
@@ -823,6 +837,13 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 <li>CONTRACT_PRICE </li>
 </ul>
 
+<p><strong>响应类型 (newOrderRespType)</strong></p>
+
+<ul>
+<li>ACK</li>
+<li>RESULT</li>
+</ul>
+
 <p><strong>K线间隔:</strong></p>
 
 <p>m -&gt; 分钟; h -&gt; 小时; d -&gt; 天; w -&gt; 周; M -&gt; 月</p>
@@ -847,28 +868,36 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
 
 <p><strong>限制种类 (rateLimitType)</strong></p>
 
+<blockquote>
+<p>REQUEST_WEIGHT</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"rateLimitType"</span><span class="p">:</span> <span class="s2">"REQUEST_WEIGHT"</span><span class="p">,</span>
+    <span class="s2">"interval"</span><span class="p">:</span> <span class="s2">"MINUTE"</span><span class="p">,</span>
+    <span class="s2">"intervalNum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">6000</span>
+  <span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>ORDERS</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"rateLimitType"</span><span class="p">:</span> <span class="s2">"ORDERS"</span><span class="p">,</span>
+    <span class="s2">"interval"</span><span class="p">:</span> <span class="s2">"MINUTE"</span><span class="p">,</span>
+    <span class="s2">"intervalNum"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">1200</span>
+   <span class="p">}</span>
+</code></pre>
 <ul>
-<li>REQUESTS_WEIGHT  单位时间请求权重之和上限</li>
+<li><p>REQUESTS_WEIGHT  单位时间请求权重之和上限</p></li>
+<li><p>ORDERS    单位时间下单(撤单)次数上限</p></li>
 </ul>
-<pre class="highlight json tab-json"><code><span class="w">    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"rateLimitType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"REQUEST_WEIGHT"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MINUTE"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"intervalNum"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">2400</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span></code></pre>
+
+<p><strong>限制间隔</strong></p>
+
 <ul>
-<li>ORDERS    单位时间下单(撤单)次数上限</li>
+<li>MINUTE</li>
 </ul>
-<pre class="highlight json tab-json"><code><span class="w">    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"rateLimitType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ORDERS"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MINUTE"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"intervalNum"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p><strong>限制间隔</strong>
-* MINUTE</p>
 <h2 id='cc81fff589'>过滤器</h2>
 <p>过滤器，即Filter，定义了一系列交易规则。
 共有两类，分别是针对交易对的过滤器<code>symbol filters</code>，和针对整个交易所的过滤器<code>exchange filters</code>(暂不支持)</p>
@@ -883,11 +912,14 @@ There is no &amp; between &quot;GTC&quot; and &quot;quantity=1&quot;.</p>
     <span class="s2">"tickSize"</span><span class="p">:</span> <span class="s2">"0.00000100"</span>
   <span class="p">}</span>
 </code></pre>
-<p>价格过滤器用于检测order订单中price参数的合法性
-* <code>minPrice</code> 定义了 <code>price</code>/<code>stopPrice</code> 允许的最小值
-* <code>maxPrice</code> 定义了 <code>price</code>/<code>stopPrice</code> 允许的最大值。
-* <code>tickSize</code> 定义了 <code>price</code>/<code>stopPrice</code> 的步进间隔，即price必须等于minPrice+(tickSize的整数倍)
-以上每一项均可为0，为0时代表这一项不再做限制。</p>
+<p>价格过滤器用于检测order订单中price参数的合法性</p>
+
+<ul>
+<li><code>minPrice</code> 定义了 <code>price</code>/<code>stopPrice</code> 允许的最小值</li>
+<li><code>maxPrice</code> 定义了 <code>price</code>/<code>stopPrice</code> 允许的最大值。</li>
+<li><code>tickSize</code> 定义了 <code>price</code>/<code>stopPrice</code> 的步进间隔，即price必须等于minPrice+(tickSize的整数倍)
+以上每一项均可为0，为0时代表这一项不再做限制。</li>
+</ul>
 
 <p>逻辑伪代码如下：</p>
 
@@ -1043,10 +1075,6 @@ NONE</p>
                     <span class="s2">"multiplierDecimal"</span><span class="p">:</span> <span class="mi">4</span>
                 <span class="p">}</span>
             <span class="p">],</span>
-            <span class="s2">"maintMarginPercent"</span><span class="p">:</span> <span class="s2">"2.5000"</span><span class="p">,</span> <span class="c1">// 维持保证金比例</span>
-            <span class="s2">"pricePrecision"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">// 价格小数点位数</span>
-            <span class="s2">"quantityPrecision"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="c1">// 数量小数点位数</span>
-            <span class="s2">"requiredMarginPercent"</span><span class="p">:</span> <span class="s2">"5.0000"</span><span class="p">,</span> <span class="c1">// 所需保证金比例</span>
             <span class="s2">"OrderType"</span><span class="p">:</span> <span class="p">[</span> <span class="c1">// 订单类型</span>
                 <span class="s2">"LIMIT"</span><span class="p">,</span>  <span class="c1">// 限价单</span>
                 <span class="s2">"MARKET"</span><span class="p">,</span>  <span class="c1">// 市价单</span>
@@ -1060,7 +1088,7 @@ NONE</p>
                 <span class="s2">"FOK"</span><span class="p">,</span> <span class="c1">// 无法全部立即成交就撤销</span>
                 <span class="s2">"GTX"</span> <span class="c1">// 无法成为挂单方就撤销</span>
             <span class="p">],</span>
-            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
             <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
             <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span><span class="p">,</span>   <span class="c1">// 合约类型</span>
             <span class="s2">"deliveryDate"</span><span class="p">:</span> <span class="s2">"20200930"</span><span class="p">,</span>
@@ -1069,7 +1097,13 @@ NONE</p>
             <span class="s2">"contractSize"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>     <span class="c1">//</span>
             <span class="s2">"quoteAsset"</span><span class="p">:</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="c1">// 报价币种</span>
             <span class="s2">"baseAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>   
-            <span class="s2">"marginAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span>    <span class="c1">// 保证金币种 </span>
+            <span class="s2">"marginAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>   <span class="c1">// 保证金币种</span>
+            <span class="s2">"pricePrecision"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>   <span class="c1">// 价格小数点位数</span>
+            <span class="s2">"quantityPrecision"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// 数量小数点位数</span>
+            <span class="s2">"baseAssetPrecision"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+            <span class="s2">"quotePrecision"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> 
+            <span class="s2">"maintMarginPercent"</span><span class="p">:</span> <span class="s2">"2.5000"</span><span class="p">,</span>
+            <span class="s2">"requiredMarginPercent"</span><span class="p">:</span> <span class="s2">"5.0000"</span>
         <span class="p">}</span>
     <span class="p">],</span>
     <span class="s2">"timezone"</span><span class="p">:</span> <span class="s2">"UTC"</span> <span class="c1">// 服务器所用的时间区域</span>
@@ -1093,7 +1127,9 @@ NONE</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"lastUpdateId"</span><span class="p">:</span> <span class="mi">1027024</span><span class="p">,</span>
-  <span class="s2">"bids"</span><span class="p">:</span> <span class="p">[</span>             <span class="c1">// 买单</span>
+  <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1589436922972</span><span class="p">,</span>   <span class="c1">// 消息时间</span>
+  <span class="s2">"T"</span><span class="p">:</span> <span class="mi">1589436922959</span><span class="p">,</span>   <span class="c1">// 撮合时间</span>
+  <span class="s2">"bids"</span><span class="p">:</span> <span class="p">[</span>              <span class="c1">// 买单</span>
     <span class="p">[</span>
       <span class="s2">"4.00000000"</span><span class="p">,</span>     <span class="c1">// 价格</span>
       <span class="s2">"431.00000000"</span>    <span class="c1">// 数量</span>
@@ -1101,7 +1137,7 @@ NONE</p>
   <span class="p">],</span>
   <span class="s2">"asks"</span><span class="p">:</span> <span class="p">[</span>             <span class="c1">// 卖单</span>
     <span class="p">[</span>
-      <span class="s2">"4.00000200"</span><span class="p">,</span>     <span class="c1">// 价格</span>
+      <span class="s2">"4.00000000"</span><span class="p">,</span>     <span class="c1">// 价格</span>
       <span class="s2">"12.00000000"</span>     <span class="c1">// 数量</span>
     <span class="p">]</span>
   <span class="p">]</span>
@@ -1334,11 +1370,11 @@ GET /dapi/v1/aggTrades
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                   <span class="c1">// 标的</span>
         <span class="s2">"indexPrice"</span><span class="p">:</span> <span class="s2">"11180.12345678"</span><span class="p">,</span> <span class="c1">// 指数价格</span>
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"11186.12345678"</span><span class="p">,</span>  <span class="c1">// mark price</span>
-        <span class="s2">"estimatedSettlePrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
+        <span class="s2">"estimatedSettlePrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>    <span class="c1">// 预估结算价，仅在交割开始前最后一小时有价值</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1562566020000</span>               <span class="c1">// 更新时间</span>
     <span class="p">}</span>
 <span class="p">]</span>
@@ -1683,7 +1719,7 @@ GET /dapi/v1/markPriceKlines
     <span class="p">{</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
         <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span><span class="p">,</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
         <span class="s2">"priceChange"</span><span class="p">:</span> <span class="s2">"-94.99999800"</span><span class="p">,</span>    <span class="c1">//24小时价格变动</span>
         <span class="s2">"priceChangePercent"</span><span class="p">:</span> <span class="s2">"-95.960"</span><span class="p">,</span>  <span class="c1">//24小时价格变动百分比</span>
         <span class="s2">"weightedAvgPrice"</span><span class="p">:</span> <span class="s2">"0.29628482"</span><span class="p">,</span> <span class="c1">//加权平均价</span>
@@ -1708,9 +1744,12 @@ GET /dapi/v1/ticker/24hr
 
 <p>请注意，不携带symbol参数会返回全部交易对数据，不仅数据庞大，而且权重极高</p>
 
-<p><strong>权重:</strong>
-* 带symbol为<code>1</code>
-* 不带为<code>40</code></p>
+<p><strong>权重:</strong></p>
+
+<ul>
+<li>带symbol为<code>1</code></li>
+<li>不带为<code>40</code></li>
+</ul>
 
 <p><strong>参数:</strong></p>
 
@@ -1747,7 +1786,7 @@ GET /dapi/v1/ticker/24hr
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
         <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>  <span class="c1">// 标的交易对</span>
         <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"6000.01"</span><span class="p">,</span>     <span class="c1">// 价格</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1590495240353</span>  <span class="c1">// 时间</span>
@@ -1802,11 +1841,13 @@ GET /dapi/v1/ticker/price
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
         <span class="s2">"bidPrice"</span><span class="p">:</span> <span class="s2">"9994.00000000"</span><span class="p">,</span><span class="c1">//最优买单价</span>
         <span class="s2">"bidQty"</span><span class="p">:</span> <span class="s2">"431.00000000"</span><span class="p">,</span><span class="c1">//挂单量</span>
         <span class="s2">"askPrice"</span><span class="p">:</span> <span class="s2">"9994.00000200"</span><span class="p">,</span><span class="c1">//最优卖单价</span>
         <span class="s2">"askQty"</span><span class="p">:</span> <span class="s2">"9.00000000"</span><span class="c1">//挂单量</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1589437530011</span>
     <span class="p">}</span>
 <span class="p">]</span>
 </code></pre>
@@ -1856,14 +1897,14 @@ GET /dapi/v1/ticker/bookTicker
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
 
 <span class="err"> </span> <span class="err"> </span> <span class="p">{</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 交易对</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 交易对</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"7918.33"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单价格</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"0.014"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单数量</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"0.014"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>  <span class="c1">// 成交数量</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"avragePrice"</span><span class="p">:</span> <span class="s2">"7918.33"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 成交均价</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"FILLED"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单状态</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"IOC"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 有效方式</span>
-<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>                   <span class="c1">// 订单类型</span>
+<span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"LIMIT"</span><span class="p">,</span>                       <span class="c1">// 订单类型</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"SELL"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单方向</span>
 <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1568014460893</span> 
 <span class="err"> </span> <span class="err"> </span> <span class="p">},</span>
@@ -1925,10 +1966,11 @@ GET /dapi/v1/ticker/bookTicker
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"10659.509"</span><span class="p">,</span> <span class="c1">// 未平仓合约数量</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span> <span class="c1">// 交易对</span>
-    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="c1">// 标的交易对</span>
-    <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span>  <span class="c1">// 合约类型</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
+    <span class="s2">"openInterest"</span><span class="p">:</span> <span class="s2">"957"</span><span class="p">,</span>
+    <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"NEXT_QUARTER"</span><span class="p">,</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1590570131566</span>
 <span class="p">}</span>
 
 </code></pre>
@@ -1955,55 +1997,13 @@ GET /dapi/v1/openInterest
 <td>交易对</td>
 </tr>
 </tbody></table>
-<h2 id='user_data'>杠杆分层标准 (USER_DATA)</h2>
-<blockquote>
-<p><strong>响应:</strong></p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
-        <span class="s2">"brackets"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="s2">"bracket"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>   <span class="c1">// 层级</span>
-                <span class="s2">"initialLeverage"</span><span class="p">:</span> <span class="mi">75</span><span class="p">,</span>  <span class="c1">// 该层允许的最高初始杠杆倍数</span>
-                <span class="s2">"qtyCap"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>  <span class="c1">// 该层对应的数量上限</span>
-                <span class="s2">"qtylFloor"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// 该层对应的数量下限 </span>
-                <span class="s2">"maintMarginRatio"</span><span class="p">:</span> <span class="mf">0.0065</span> <span class="c1">// 该层对应的维持保证金率</span>
-            <span class="p">},</span>
-        <span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">[</span>
-</code></pre>
-<p><code>
-GET /dapi/v1/leverageBracket
-</code></p>
-
-<p><strong>权重:</strong> 1</p>
-
-<p><strong>参数:</strong></p>
-
-<table><thead>
-<tr>
-<th>名称</th>
-<th>类型</th>
-<th>是否必需</th>
-<th>描述</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>pair</td>
-<td>STRING</td>
-<td>NO</td>
-<td></td>
-</tr>
-</tbody></table>
 <h1 id='websocket'>Websocket 行情推送</h1>
 <ul>
 <li>本篇所列出的所有wss接口的baseurl为: <strong>wss://dstream.binance.com</strong></li>
 <li>订阅单一stream格式为 <strong>/ws/&lt;streamName&gt;</strong></li>
 <li>组合streams的URL格式为 <strong>/stream?streams=&lt;streamName1&gt;/&lt;streamName2&gt;/&lt;streamName3&gt;</strong></li>
 <li>stream名称中所有交易对均为<strong>小写</strong></li>
-<li>每个到<strong>dstream.binancefuture.com</strong>的链接有效期不超过24小时，请妥善处理断线重连。</li>
+<li>每个到<strong>dstream.binance.com</strong>的链接有效期不超过24小时，请妥善处理断线重连。</li>
 <li>每3分钟，服务端会发送ping帧，客户端应当在10分钟内回复pong帧，否则服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于10分钟每次的频率发送pong帧保持链接)。</li>
 <li><strong>原始信息将以gzip方式压缩并推送</strong>，请在收到推送信息后先解压缩</li>
 </ul>
@@ -2016,7 +2016,7 @@ GET /dapi/v1/leverageBracket
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"aggTrade"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// 事件时间</span>
-  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
   <span class="s2">"a"</span><span class="p">:</span> <span class="mi">5933014</span><span class="p">,</span>     <span class="c1">// 归集成交ID</span>
   <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.001"</span><span class="p">,</span>     <span class="c1">// 成交价格</span>
   <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"100"</span><span class="p">,</span>       <span class="c1">// 成交数量</span>
@@ -2038,9 +2038,9 @@ GET /dapi/v1/leverageBracket
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"indexPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
-    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
-    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>          <span class="c1">// 标的交易对</span>
-    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 指数价格</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>       <span class="c1">// 事件时间</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>            <span class="c1">// 标的交易对</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>    <span class="c1">// 指数价格</span>
   <span class="p">}</span>
 </code></pre>
 <p><strong>Stream Name:</strong><br>
@@ -2055,8 +2055,8 @@ GET /dapi/v1/leverageBracket
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
     <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200630"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
-    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
-    <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"0"</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"9561.51117251"</span><span class="p">,</span>    <span class="c1">// 标记价格</span>
+    <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"9487.51622509"</span>     <span class="c1">// 预估结算价，仅在结算前最后一小时有参考价值</span>
   <span class="p">}</span>
 </code></pre>
 <p><strong>Stream Name:</strong><br>
@@ -2071,9 +2071,9 @@ GET /dapi/v1/leverageBracket
      <span class="p">{</span>
         <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"markPriceUpdate"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
         <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span><span class="p">,</span>      <span class="c1">// 事件时间</span>
-        <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200630"</span><span class="p">,</span>          <span class="c1">// 交易对</span>
+        <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200630"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
         <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"11185.87786614"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
-        <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"0"</span>    <span class="c1">// 预估结算价，0 表示暂无</span>
+        <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"9487.51622509"</span>     <span class="c1">// 预估结算价，仅在结算前最后一小时有参考价值</span>
     <span class="p">}</span>
  <span class="p">]</span>
 </code></pre>
@@ -2088,11 +2088,11 @@ GET /dapi/v1/leverageBracket
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"kline"</span><span class="p">,</span>     <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>   <span class="c1">// 事件时间</span>
-  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>    <span class="c1">// 交易对</span>
   <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
     <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// 这根K线的结束时间</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
     <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// K线间隔</span>
     <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// 这根K线期间第一笔成交ID</span>
     <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// 这根K线期间末一笔成交ID</span>
@@ -2263,7 +2263,7 @@ GET /dapi/v1/leverageBracket
   <span class="s2">"k"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"t"</span><span class="p">:</span> <span class="mi">123400000</span><span class="p">,</span> <span class="c1">// 这根K线的起始时间</span>
     <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123460000</span><span class="p">,</span> <span class="c1">// 这根K线的结束时间</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
     <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"1m"</span><span class="p">,</span>      <span class="c1">// K线间隔</span>
     <span class="s2">"f"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>       <span class="c1">// 这根K线期间第一笔数据Id</span>
     <span class="s2">"L"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>       <span class="c1">// 这根K线期间末一笔数据Id</span>
@@ -2316,7 +2316,7 @@ GET /dapi/v1/leverageBracket
 <pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrMiniTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>         <span class="c1">// 事件时间（毫秒）</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>  <span class="c1">// 交易对</span>
     <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>          <span class="c1">// 标的交易对</span>
     <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// 最新成交价格</span>
     <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>          <span class="c1">// 24小时前开始第一笔成交价格</span>
@@ -2340,7 +2340,7 @@ GET /dapi/v1/leverageBracket
   <span class="p">{</span>
     <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrMiniTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
     <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>         <span class="c1">// 事件时间（毫秒）</span>
-    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>   <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>   <span class="c1">// 交易对</span>
     <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>          <span class="c1">// 标的交易对</span>
     <span class="s2">"c"</span><span class="p">:</span> <span class="s2">"0.0025"</span><span class="p">,</span>          <span class="c1">// 最新成交价格</span>
     <span class="s2">"o"</span><span class="p">:</span> <span class="s2">"0.0010"</span><span class="p">,</span>          <span class="c1">// 24小时前开始第一笔成交价格</span>
@@ -2364,7 +2364,7 @@ GET /dapi/v1/leverageBracket
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// 事件时间</span>
-  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
   <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
   <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化</span>
   <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"250.00"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化（百分比）</span>
@@ -2397,7 +2397,7 @@ GET /dapi/v1/leverageBracket
     <span class="p">{</span>
       <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"24hrTicker"</span><span class="p">,</span>  <span class="c1">// 事件类型</span>
       <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// 事件时间</span>
-      <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+      <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
       <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
       <span class="s2">"p"</span><span class="p">:</span> <span class="s2">"0.0015"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化</span>
       <span class="s2">"P"</span><span class="p">:</span> <span class="s2">"250.00"</span><span class="p">,</span>      <span class="c1">// 24小时价格变化（百分比）</span>
@@ -2429,7 +2429,7 @@ GET /dapi/v1/leverageBracket
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"u"</span><span class="p">:</span><span class="mi">400900217</span><span class="p">,</span>     <span class="c1">// 更新ID</span>
-  <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>     <span class="c1">// 交易对</span>
+  <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span>     <span class="c1">// 交易对</span>
   <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
   <span class="s2">"b"</span><span class="p">:</span><span class="s2">"25.35190000"</span><span class="p">,</span> <span class="c1">// 买单最优挂单价格</span>
   <span class="s2">"B"</span><span class="p">:</span><span class="s2">"31.21000000"</span><span class="p">,</span> <span class="c1">// 买单最优挂单数量</span>
@@ -2465,7 +2465,7 @@ GET /dapi/v1/leverageBracket
     <span class="s2">"E"</span><span class="p">:</span><span class="mi">1568014460893</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 事件时间</span>
     <span class="s2">"o"</span><span class="p">:{</span>
 
-        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>   <span class="c1">// 交易对</span>
+        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>   <span class="c1">// 交易对</span>
         <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                     <span class="c1">// 标的交易对</span>
         <span class="s2">"S"</span><span class="p">:</span><span class="s2">"SELL"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 订单方向</span>
         <span class="s2">"o"</span><span class="p">:</span><span class="s2">"LIMIT"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单类型</span>
@@ -2476,7 +2476,7 @@ GET /dapi/v1/leverageBracket
         <span class="s2">"X"</span><span class="p">:</span><span class="s2">"FILLED"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 订单状态</span>
         <span class="s2">"l"</span><span class="p">:</span><span class="s2">"0.014"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单最近成交数量</span>
         <span class="s2">"z"</span><span class="p">:</span><span class="s2">"0.014"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单累计成交数量</span>
-        <span class="s2">"T"</span><span class="p">:</span><span class="mi">1568014460893</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>     <span class="c1">// 交易时间</span>
+        <span class="s2">"T"</span><span class="p">:</span><span class="mi">1568014460893</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>        <span class="c1">// 交易时间</span>
 
     <span class="p">}</span>
 
@@ -2497,7 +2497,7 @@ GET /dapi/v1/leverageBracket
     <span class="s2">"E"</span><span class="p">:</span><span class="mi">1568014460893</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 事件时间</span>
     <span class="s2">"o"</span><span class="p">:{</span>
 
-        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>   <span class="c1">// 交易对</span>
+        <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span>   <span class="c1">// 交易对</span>
         <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>                     <span class="c1">// 标的交易对</span>
         <span class="s2">"S"</span><span class="p">:</span><span class="s2">"SELL"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="c1">// 订单方向</span>
         <span class="s2">"o"</span><span class="p">:</span><span class="s2">"LIMIT"</span><span class="p">,</span><span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span> <span class="err"> </span><span class="c1">// 订单类型</span>
@@ -2527,7 +2527,7 @@ GET /dapi/v1/leverageBracket
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"depthUpdate"</span><span class="p">,</span>           <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1571889248277</span><span class="p">,</span>           <span class="c1">// 事件时间</span>
   <span class="s2">"T"</span><span class="p">:</span> <span class="mi">1571889248276</span><span class="p">,</span>           <span class="c1">// 交易时间</span>
-  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>         <span class="c1">// 交易对</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>         <span class="c1">// 交易对</span>
   <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>               <span class="c1">// 标的交易对</span>
   <span class="s2">"U"</span><span class="p">:</span> <span class="mi">390497796</span><span class="p">,</span>
   <span class="s2">"u"</span><span class="p">:</span> <span class="mi">390497878</span><span class="p">,</span>
@@ -2591,7 +2591,7 @@ GET /dapi/v1/leverageBracket
   <span class="s2">"e"</span><span class="p">:</span> <span class="s2">"depthUpdate"</span><span class="p">,</span> <span class="c1">// 事件类型</span>
   <span class="s2">"E"</span><span class="p">:</span> <span class="mi">123456789</span><span class="p">,</span>     <span class="c1">// 事件时间</span>
   <span class="s2">"T"</span><span class="p">:</span> <span class="mi">123456788</span><span class="p">,</span>     <span class="c1">// 撮合时间</span>
-  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
+  <span class="s2">"s"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>      <span class="c1">// 交易对</span>
   <span class="s2">"ps"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>        <span class="c1">// 标的交易对</span>
   <span class="s2">"U"</span><span class="p">:</span> <span class="mi">157</span><span class="p">,</span>           <span class="c1">// 从上次推送至今新增的第一个 update Id</span>
   <span class="s2">"u"</span><span class="p">:</span> <span class="mi">160</span><span class="p">,</span>           <span class="c1">// 从上次推送至今新增的最后一个 update Id</span>
@@ -2613,14 +2613,14 @@ GET /dapi/v1/leverageBracket
 <p>orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时更新（如有刷新）</p>
 
 <p><strong>Stream 名称:</strong><br>
-<code>&lt;symbol&gt;@depth</code> OR <code>&lt;symbol&gt;@depth@500ms</code> OR <code>&lt;symbol&gt;@depth@100ms</code> OR <code>&lt;symbol&gt;@depth@0ms</code></p>
+<code>&lt;symbol&gt;@depth</code> OR <code>&lt;symbol&gt;@depth@500ms</code> OR <code>&lt;symbol&gt;@depth@100ms</code></p>
 
-<p><strong>Update Speed:</strong> 250ms 或 500ms 或 100ms 或 实时</p>
+<p><strong>Update Speed:</strong> 250ms 或 500ms 或 100ms</p>
 <h2 id='orderbook'>如何正确在本地维护一个orderbook副本</h2>
 <ol>
-<li>订阅 <strong>wss://dstream.binance.com/stream?streams=btcusd_200930@depth</strong></li>
+<li>订阅 <strong>wss://dstream.binance.com/stream?streams=BTCUSD_200925@depth</strong></li>
 <li>开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。</li>
-<li>访问Rest接口 <strong>https://dapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200930&amp;limit=1000</strong>获得一个1000档的深度快照</li>
+<li>访问Rest接口 <strong>https://dapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200925&amp;limit=1000</strong>获得一个1000档的深度快照</li>
 <li>将目前缓存到的信息中<code>u</code>&lt; 步骤3中获取到的快照中的<code>lastUpdateId</code>的部分丢弃(丢弃更早的信息，已经过期)。</li>
 <li>将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个<code>U</code> &lt;= <code>lastUpdateId</code> <strong>且</strong> <code>u</code> &gt;= <code>lastUpdateId</code> 的event开始继续更新本地副本。</li>
 <li>每一个新event的<code>pu</code>应该等于上一个event的<code>u</code>，否则可能出现了丢包，请从step3重新进行初始化。</li>
@@ -2674,6 +2674,46 @@ POST /dapi/v1/positionSide/dual (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
+<h2 id='user_data'>查询持仓模式（USER_DATA）</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"dualSidePosition"</span><span class="p">:</span> <span class="kc">true</span> <span class="c1">// "true": 双向持仓模式；"false": 单向持仓模式</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET /fapi/v1/positionSide/dual (HMAC SHA256)
+</code></p>
+
+<p>查询用户目前在 <strong><em>所有symbol</em></strong> 合约上的持仓模式：双向持仓或单向持仓。     </p>
+
+<p><strong>权重:</strong>
+30</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='trade-2'>下单 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -2692,14 +2732,15 @@ POST /dapi/v1/positionSide/dual (HMAC SHA256)
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 订单类型</span>
     <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span> <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1566818724722</span><span class="p">,</span> <span class="c1">// 更新时间</span>
-    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span> <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span> <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span>            <span class="c1">// 是否开启条件单触发保护</span>
  <span class="p">}</span>
 </code></pre>
 <p><code>
@@ -2804,6 +2845,12 @@ POST /dapi/v1/order  (HMAC SHA256)
 <td>stopPrice 触发类型: <code>MARK_PRICE</code>(标记价格), <code>CONTRACT_PRICE</code>(合约最新价). 默认 <code>CONTRACT_PRICE</code></td>
 </tr>
 <tr>
+<td>priceProtect</td>
+<td>STRING</td>
+<td>NO</td>
+<td>条件单触发保护：&quot;true&quot;，&quot;false&quot;, 默认&quot;false&quot;. 仅 <code>STOP</code>, <code>STOP_MARKET</code>, <code>TAKE_PROFIT</code>, <code>TAKE_PROFIT_MARKET</code> 需要此参数</td>
+</tr>
+<tr>
 <td>newOrderRespType</td>
 <td>ENUM</td>
 <td>NO</td>
@@ -2876,6 +2923,7 @@ POST /dapi/v1/order  (HMAC SHA256)
 <li>卖出: 当合约价格/标记价格区间最高价格高于激活价格<code>activationPrice</code>,且最新合约价格/标记价低于等于最高价设定回调幅度。</li>
 </ul></li>
 </ul></li>
+<li><p>如果开启条件单触发保护: <code>priceProtect</code> = &quot;true&quot;, 则 <code>STOP/STOP_MARKET</code> 或<code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> 订单不会在 &quot;MARK_PRICE&quot; 与 &quot;CONTRACT_PRICE&quot; 之间的价差大于系统设定的比率时被触发。系统设定的保护比率一般为5%。</p></li>
 <li><p><code>TRAILING_STOP_MARKET</code> 跟踪止损单如果遇到报错 <code>{&quot;code&quot;: -2021, &quot;msg&quot;: &quot;Order would immediately trigger.&quot;}</code><br>
 表示订单不满足以下条件:</p>
 
@@ -2917,6 +2965,186 @@ POST /dapi/v1/order/test (HMAC SHA256)
 <p><strong>参数:</strong></p>
 
 <p>参考 <code>POST /dapi/v1/order</code></p>
+<h2 id='trade-4'>批量下单 (TRADE)</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"clientOrderId"</span><span class="p">:</span> <span class="s2">"testOrder"</span><span class="p">,</span> <span class="c1">// 用户自定义的订单号</span>
+        <span class="s2">"cumQuote"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 成交金额</span>
+        <span class="s2">"executedQty"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 成交数量</span>
+        <span class="s2">"orderId"</span><span class="p">:</span> <span class="mi">22542179</span><span class="p">,</span> <span class="c1">// 系统订单号</span>
+        <span class="s2">"avgPrice"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span>  <span class="c1">// 平均成交价</span>
+        <span class="s2">"origQty"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span> <span class="c1">// 原始委托数量</span>
+        <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 委托价格</span>
+        <span class="s2">"reduceOnly"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// 仅减仓</span>
+        <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"SELL"</span><span class="p">,</span> <span class="c1">// 买卖方向</span>
+        <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
+        <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
+        <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
+        <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
+        <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 订单类型</span>
+        <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
+        <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span> <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
+        <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1566818724722</span><span class="p">,</span> <span class="c1">// 更新时间</span>
+        <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span> <span class="c1">// 条件价格触发类型</span>
+        <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span>            <span class="c1">// 是否开启条件单触发保护</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">2022</span><span class="p">,</span> 
+        <span class="s2">"msg"</span><span class="p">:</span> <span class="s2">"ReduceOnly Order is rejected."</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+POST /fapi/v1/batchOrders  (HMAC SHA256)
+</code></p>
+
+<p><strong>权重:</strong>
+5</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>batchOrders</td>
+<td>list<JSON></td>
+<td>YES</td>
+<td>订单列表，最多支持5个订单</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p><strong>其中<code>batchOrders</code>应以list of JSON格式填写订单参数</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td>交易对</td>
+</tr>
+<tr>
+<td>side</td>
+<td>ENUM</td>
+<td>YES</td>
+<td>买卖方向 <code>SELL</code>, <code>BUY</code></td>
+</tr>
+<tr>
+<td>positionSide</td>
+<td>ENUM</td>
+<td>NO</td>
+<td>持仓方向，单向持仓模式下非必填，默认且仅可填<code>BOTH</code>;在双向持仓模式下必填,且仅可选择 <code>LONG</code> 或 <code>SHORT</code></td>
+</tr>
+<tr>
+<td>type</td>
+<td>ENUM</td>
+<td>YES</td>
+<td>订单类型 <code>LIMIT</code>, <code>MARKET</code>, <code>STOP</code>, <code>TAKE_PROFIT</code>, <code>STOP_MARKET</code>, <code>TAKE_PROFIT_MARKET</code>, <code>TRAILING_STOP_MARKET</code></td>
+</tr>
+<tr>
+<td>reduceOnly</td>
+<td>STRING</td>
+<td>NO</td>
+<td><code>true</code>, <code>false</code>; 非双开模式下默认<code>false</code>；双开模式下不接受此参数。</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>DECIMAL</td>
+<td>YES</td>
+<td>下单数量</td>
+</tr>
+<tr>
+<td>price</td>
+<td>DECIMAL</td>
+<td>NO</td>
+<td>委托价格</td>
+</tr>
+<tr>
+<td>newClientOrderId</td>
+<td>STRING</td>
+<td>NO</td>
+<td>用户自定义的订单号，不可以重复出现在挂单中。如空缺系统会自动赋值</td>
+</tr>
+<tr>
+<td>stopPrice</td>
+<td>DECIMAL</td>
+<td>NO</td>
+<td>触发价, 仅 <code>STOP</code>, <code>STOP_MARKET</code>, <code>TAKE_PROFIT</code>, <code>TAKE_PROFIT_MARKET</code> 需要此参数</td>
+</tr>
+<tr>
+<td>activationPrice</td>
+<td>DECIMAL</td>
+<td>NO</td>
+<td>追踪止损激活价格，仅<code>TRAILING_STOP_MARKET</code> 需要此参数, 默认为下单当前市场价格（支持不同<code>workingType</code>)</td>
+</tr>
+<tr>
+<td>callbackRate</td>
+<td>DECIMAL</td>
+<td>NO</td>
+<td>追踪止损回调比例，可取值范围[0.1, 4],其中 1代表1% ,仅<code>TRAILING_STOP_MARKET</code> 需要此参数</td>
+</tr>
+<tr>
+<td>timeInForce</td>
+<td>ENUM</td>
+<td>NO</td>
+<td>有效方法</td>
+</tr>
+<tr>
+<td>workingType</td>
+<td>ENUM</td>
+<td>NO</td>
+<td>stopPrice 触发类型: <code>MARK_PRICE</code>(标记价格), <code>CONTRACT_PRICE</code>(合约最新价). 默认 <code>CONTRACT_PRICE</code></td>
+</tr>
+<tr>
+<td>priceProtect</td>
+<td>STRING</td>
+<td>NO</td>
+<td>条件单触发保护：&quot;true&quot;，&quot;false&quot;, 默认&quot;false&quot;. 仅 <code>STOP</code>, <code>STOP_MARKET</code>, <code>TAKE_PROFIT</code>, <code>TAKE_PROFIT_MARKET</code> 需要此参数</td>
+</tr>
+<tr>
+<td>newOrderRespType</td>
+<td>ENUM</td>
+<td>NO</td>
+<td>&quot;ACK&quot;, &quot;RESULT&quot;, 默认 &quot;ACK&quot;</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>具体订单条件规则，与普通下单一致</li>
+<li>批量下单采取并发处理，不保证订单撮合顺序</li>
+<li>批量下单的返回内容顺序，与订单列表顺序一致</li>
+</ul>
 <h2 id='user_data-2'>查询订单 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -2936,7 +3164,7 @@ POST /dapi/v1/order/test (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
@@ -2944,7 +3172,8 @@ POST /dapi/v1/order/test (HMAC SHA256)
     <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span>            <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span>                 <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>        <span class="c1">// 更新时间</span>
-    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span>     <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span>        <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span>            <span class="c1">// 是否开启条件单触发保护</span>
 <span class="p">}</span>
 </code></pre>
 <p><code>
@@ -3003,7 +3232,7 @@ GET /dapi/v1/order (HMAC SHA256)
 <ul>
 <li>至少需要发送 <code>orderId</code> 与 <code>origClientOrderId</code>中的一个</li>
 </ul>
-<h2 id='trade-4'>撤销订单 (TRADE)</h2>
+<h2 id='trade-5'>撤销订单 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3021,7 +3250,8 @@ GET /dapi/v1/order (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
     <span class="s2">"origType"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 触发前订单类型</span>
@@ -3029,7 +3259,8 @@ GET /dapi/v1/order (HMAC SHA256)
     <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span> <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1571110484038</span><span class="p">,</span> <span class="c1">// 更新时间</span>
-    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span> <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span> <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span>            <span class="c1">// 是否开启条件单触发保护</span>
 <span class="p">}</span>
 </code></pre>
 <p><code>
@@ -3082,7 +3313,7 @@ DELETE /dapi/v1/order  (HMAC SHA256)
 </tbody></table>
 
 <p><code>orderId</code> 与 <code>origClientOrderId</code> 必须至少发送一个</p>
-<h2 id='trade-5'>撤销全部订单 (TRADE)</h2>
+<h2 id='trade-6'>撤销全部订单 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3127,7 +3358,7 @@ DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='trade-6'>批量撤销订单 (TRADE)</h2>
+<h2 id='trade-7'>批量撤销订单 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3146,13 +3377,15 @@ DELETE /dapi/v1/allOpenOrders  (HMAC SHA256)
         <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CANCELED"</span><span class="p">,</span> <span class="c1">// 订单状态</span>
         <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span> <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
         <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
         <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span> <span class="c1">// 有效方法</span>
         <span class="s2">"origType"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 触发前订单类型</span>
         <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"TRAILING_STOP_MARKET"</span><span class="p">,</span> <span class="c1">// 订单类型</span>
         <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
         <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span> <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
+        <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span> <span class="c1">// 条件价格触发类型</span>
+        <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>            <span class="c1">// 是否开启条件单触发保护</span>
         <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1571110484038</span> <span class="c1">// 更新时间</span>
     <span class="p">},</span>
     <span class="p">{</span>
@@ -3211,6 +3444,67 @@ DELETE /dapi/v1/batchOrders  (HMAC SHA256)
 </tbody></table>
 
 <p><code>orderIdList</code> 与 <code>origClientOrderIdList</code> 必须至少发送一个，不可同时发送</p>
+<h2 id='trade-8'>倒计时撤销所有订单 (TRADE)</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSDT"</span><span class="p">,</span> 
+    <span class="s2">"countdownTime"</span><span class="p">:</span> <span class="s2">"100000"</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+POST /fapi/v1/countdownCancelAll  (HMAC SHA256)
+</code></p>
+
+<p><strong>权重:</strong>
+10</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>symbol</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>countdownTime</td>
+<td>LONG</td>
+<td>YES</td>
+<td>倒计时。 1000 表示 1 秒； 0 表示取消倒计时撤单功能。</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><p>该接口可以被用于确保在发生故障时撤销指定symbol上的所有挂单。 在使用这个功能时，接口应像心跳一样在倒计时内被反复调用，以便可以取消既有的倒计时并开始新的倒数计时设置。</p></li>
+<li><p>用法示例：
+以30s的间隔重复此接口，每次倒计时countdownTime设置为120000（120s）。<br>
+如果在120秒内未再次调用此接口，则您指定symbol上的所有挂单都会被自动撤销。<br>
+如果在120秒内以将countdownTime设置为0，则倒数计时器将终止，自动撤单功能取消。</p></li>
+<li><p>系统会<strong>大约每10毫秒</strong>检查一次所有倒计时情况，因此请注意，使用此功能时应考虑足够的冗余。<br>
+我们不建议将倒记时设置得太精确或太小。</p></li>
+</ul>
 <h2 id='user_data-3'>查询当前挂单 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
@@ -3230,7 +3524,7 @@ DELETE /dapi/v1/batchOrders  (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
@@ -3238,7 +3532,8 @@ DELETE /dapi/v1/batchOrders  (HMAC SHA256)
     <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span> <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>        <span class="c1">// 更新时间</span>
-    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span>     <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span>        <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span>           <span class="c1">// 是否开启条件单触发保护</span>
 <span class="p">}</span>
 </code></pre>
 <p><code>
@@ -3315,7 +3610,7 @@ GET /dapi/v1/openOrder  (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
@@ -3323,7 +3618,8 @@ GET /dapi/v1/openOrder  (HMAC SHA256)
     <span class="s2">"activatePrice"</span><span class="p">:</span> <span class="s2">"9020"</span><span class="p">,</span> <span class="c1">// 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"priceRate"</span><span class="p">:</span> <span class="s2">"0.3"</span><span class="p">,</span> <span class="c1">// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段</span>
     <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>        <span class="c1">// 更新时间</span>
-    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span>     <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"workingType"</span><span class="p">:</span> <span class="s2">"CONTRACT_PRICE"</span><span class="p">,</span>        <span class="c1">// 条件价格触发类型</span>
+    <span class="s2">"priceProtect"</span><span class="p">:</span> <span class="kc">false</span>            <span class="c1">// 是否开启条件单触发保护</span>
   <span class="p">}</span>
 <span class="p">]</span>
 </code></pre>
@@ -3399,7 +3695,7 @@ GET /dapi/v1/openOrders  (HMAC SHA256)
     <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"NEW"</span><span class="p">,</span>                    <span class="c1">// 订单状态</span>
     <span class="s2">"stopPrice"</span><span class="p">:</span> <span class="s2">"9300"</span><span class="p">,</span>                    <span class="c1">// 触发价，对`TRAILING_STOP_MARKET`无效</span>
     <span class="s2">"closePosition"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// 是否条件全平仓</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1579276756075</span><span class="p">,</span>              <span class="c1">// 订单时间</span>
     <span class="s2">"timeInForce"</span><span class="p">:</span> <span class="s2">"GTC"</span><span class="p">,</span>               <span class="c1">// 有效方法</span>
@@ -3491,64 +3787,54 @@ GET /dapi/v1/allOrders (HMAC SHA256)
     <span class="s2">"assets"</span><span class="p">:</span> <span class="p">[</span> <span class="c1">// 资产内容</span>
         <span class="p">{</span>
             <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span> <span class="c1">// 资产名</span>
-            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.33683000"</span><span class="p">,</span> <span class="c1">// 起始保证金</span>
+            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.33683000"</span><span class="p">,</span> <span class="c1">// 当前所需起始保证金(按最新标标记价格)</span>
             <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.02695000"</span><span class="p">,</span> <span class="c1">// 维持保证金</span>
             <span class="s2">"marginBalance"</span><span class="p">:</span> <span class="s2">"8.74947592"</span><span class="p">,</span> <span class="c1">// 保证金余额</span>
             <span class="s2">"maxWithdrawAmount"</span><span class="p">:</span> <span class="s2">"8.41264592"</span><span class="p">,</span> <span class="c1">// 最大可提款金额</span>
-            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> <span class="c1">// 挂单起始保证金</span>
-            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.33683000"</span><span class="p">,</span> <span class="c1">// 持仓起始保证金</span>
+            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> <span class="c1">// 当前所需挂单起始保证金(按最新标标记价格)</span>
+            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.33683000"</span><span class="p">,</span> <span class="c1">// 当前所需持仓起始保证金(按最新标标记价格)</span>
             <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"-0.44537584"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
             <span class="s2">"walletBalance"</span><span class="p">:</span> <span class="s2">"9.19485176"</span> <span class="c1">// 账户余额</span>
         <span class="p">}</span>
+     <span class="p">],</span>
+     <span class="s2">"positions"</span><span class="p">:</span> <span class="p">[</span> <span class="c1">// 头寸</span>
+         <span class="p">{</span>
+            <span class="s2">"isolated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// 是否是逐仓模式</span>
+            <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span> <span class="c1">// 杠杆倍率</span>
+            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.33683"</span><span class="p">,</span> <span class="c1">// 当前所需起始保证金(按最新标标记价格)</span>
+            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.02695"</span><span class="p">,</span> <span class="c1">// 维持保证金</span>
+            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 当前所需挂单起始保证金(按最新标标记价格)</span>
+            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.33683"</span><span class="p">,</span> <span class="c1">// 当前所需持仓起始保证金(按最新标标记价格)</span>
+            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对 </span>
+            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"-0.44537584"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
+            <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"BOTH"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
+         <span class="p">},</span>
+         <span class="p">{</span>
+            <span class="s2">"isolated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+            <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span> 
+            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span> 
+            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span>
+            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span>           <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span>            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> 
+            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> 
+            <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"LONG"</span><span class="p">,</span> 
+         <span class="p">},</span>
+         <span class="p">{</span>
+            <span class="s2">"isolated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+            <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span> 
+            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span> 
+            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span> 
+            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span> 
+            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00"</span><span class="p">,</span>
+            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
+            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span>
+            <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span>
+         <span class="p">}</span>
      <span class="p">],</span>
      <span class="s2">"canDeposit"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// 是否可以入金</span>
      <span class="s2">"canTrade"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// 是否可以交易</span>
      <span class="s2">"canWithdraw"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// 是否可以出金</span>
      <span class="s2">"feeTier"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="c1">// 手续费等级</span>
-     <span class="s2">"positions"</span><span class="p">:</span> <span class="p">[</span> <span class="c1">// 头寸</span>
-         <span class="p">{</span>
-            <span class="s2">"isolated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// 是否是逐仓模式</span>
-            <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span> <span class="c1">// 杠杆倍率</span>
-            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.33683"</span><span class="p">,</span> <span class="c1">// 起始保证金</span>
-            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.02695"</span><span class="p">,</span> <span class="c1">// 维持保证金</span>
-            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 挂单起始保证金</span>
-            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.33683"</span><span class="p">,</span> <span class="c1">// 持仓起始保证金</span>
-            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对 </span>
-            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"-0.44537584"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
-            <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"BOTH"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
-         <span class="p">},</span>
-         <span class="p">{</span>
-            <span class="s2">"isolated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// 是否是逐仓模式</span>
-            <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span> <span class="c1">// 杠杆倍率</span>
-            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 起始保证金</span>
-            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 维持保证金</span>
-            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 挂单起始保证金</span>
-            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 持仓起始保证金</span>
-            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对 </span>
-            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
-            <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"LONG"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
-         <span class="p">},</span>
-         <span class="p">{</span>
-            <span class="s2">"isolated"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="c1">// 是否是逐仓模式</span>
-            <span class="s2">"leverage"</span><span class="p">:</span> <span class="s2">"20"</span><span class="p">,</span> <span class="c1">// 杠杆倍率</span>
-            <span class="s2">"initialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 起始保证金</span>
-            <span class="s2">"maintMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 维持保证金</span>
-            <span class="s2">"openOrderInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 挂单起始保证金</span>
-            <span class="s2">"positionInitialMargin"</span><span class="p">:</span> <span class="s2">"0.00000"</span><span class="p">,</span> <span class="c1">// 持仓起始保证金</span>
-            <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对 </span>
-            <span class="s2">"unrealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
-            <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
-         <span class="p">}</span>
-     <span class="p">],</span>
-     <span class="c1">// 以下跨资产总额不需要了</span>
-     <span class="c1">//"totalInitialMargin": "0.33683000", // 起始保证金总额（存在逐仓请忽略）</span>
-     <span class="c1">//"totalMaintMargin": "0.02695000", // 维持保证金总额</span>
-     <span class="c1">//"totalMarginBalance": "8.74947592", // 保证金总余额</span>
-     <span class="c1">//"totalOpenOrderInitialMargin": "0.00000000", // 挂单起始保证金总额</span>
-     <span class="c1">//"totalPositionInitialMargin": "0.33683000", // 持仓起始保证金总额</span>
-     <span class="c1">//"totalUnrealizedProfit": "-0.44537584", // 持仓未实现盈亏总额</span>
-     <span class="c1">//"totalWalletBalance": "9.19485176", // 账户总余额</span>
-     <span class="c1">// 以上跨资产总额不需要了</span>
+     <span class="s2">"maxWithdrawAmount"</span><span class="p">:</span> <span class="nx">None</span><span class="p">,</span>  <span class="c1">// 请忽略</span>
      <span class="s2">"updateTime"</span><span class="p">:</span> <span class="mi">0</span>
  <span class="p">}</span>
 
@@ -3583,21 +3869,21 @@ GET /dapi/v1/account (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='trade-7'>调整开仓杠杆 (TRADE)</h2>
+<h2 id='trade-9'>调整开仓杠杆 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
     <span class="s2">"leverage"</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="c1">// 杠杆倍数</span>
-    <span class="s2">"maxNotionalValue"</span><span class="p">:</span> <span class="s2">"1000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数下允许的最大名义价值</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span>   <span class="c1">// 交易对</span>
+    <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"1000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数下允许的最大base asset数量</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span>   <span class="c1">// 交易对</span>
 <span class="p">}</span>
 </code></pre>
 <p><code>
 POST /dapi/v1/leverage (HMAC SHA256)
 </code></p>
 
-<p>调整用户在指定symbol合约的开仓杠杆。不同持仓方向上使用相同杠杆倍数，共享允许的最大名义价值。</p>
+<p>调整用户在指定symbol合约的开仓杠杆。不同持仓方向上使用相同杠杆倍数，共享允许的最大交易标的资产数量。</p>
 
 <p><strong>权重:</strong>
 1</p>
@@ -3637,7 +3923,7 @@ POST /dapi/v1/leverage (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='trade-8'>变换逐全仓模式 (TRADE)</h2>
+<h2 id='trade-10'>变换逐全仓模式 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3691,7 +3977,7 @@ POST /dapi/v1/marginType (HMAC SHA256)
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='trade-9'>调整逐仓保证金 (TRADE)</h2>
+<h2 id='trade-11'>调整逐仓保证金 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3762,7 +4048,7 @@ POST /dapi/v1/positionMargin (HMAC SHA256)
 <ul>
 <li>只针对逐仓symbol 与 positionSide(如有)</li>
 </ul>
-<h2 id='trade-10'>逐仓保证金变动历史 (TRADE)</h2>
+<h2 id='trade-12'>逐仓保证金变动历史 (TRADE)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3770,7 +4056,7 @@ POST /dapi/v1/positionMargin (HMAC SHA256)
     <span class="p">{</span>
         <span class="s2">"amount"</span><span class="p">:</span> <span class="s2">"23.36332311"</span><span class="p">,</span> <span class="c1">// 数量</span>
         <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span> <span class="c1">// 资产</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1578047897183</span><span class="p">,</span> <span class="c1">// 时间</span>
         <span class="s2">"type"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1">// 调整方向</span>
         <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"BOTH"</span>  <span class="c1">// 持仓方向</span>
@@ -3778,7 +4064,7 @@ POST /dapi/v1/positionMargin (HMAC SHA256)
     <span class="p">{</span>
         <span class="s2">"amount"</span><span class="p">:</span> <span class="s2">"100"</span><span class="p">,</span>
         <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1578047900425</span><span class="p">,</span>
         <span class="s2">"type"</span><span class="p">:</span> <span class="mi">1</span><span class="err">，</span>
         <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"LONG"</span> 
@@ -3860,7 +4146,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"6679.50671178"</span><span class="p">,</span>   <span class="c1">// 当前标记价格</span>
         <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的数量上限</span>
         <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"0.000"</span><span class="p">,</span> <span class="c1">// 头寸数量，符号代表多空方向, 正数为多，负数为空</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"0.00000000"</span><span class="p">,</span> <span class="c1">// 持仓未实现盈亏</span>
         <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"BOTH"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="p">},</span>
@@ -3874,7 +4160,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"6679.50671178"</span><span class="p">,</span>   <span class="c1">// 当前标记价格</span>
         <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
         <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"20.000"</span><span class="p">,</span> <span class="c1">// 头寸数量，符号代表多空方向, 正数为多，负数为空</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"2316.83423560"</span> <span class="c1">// 持仓未实现盈亏</span>
         <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"LONG"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="p">},</span>
@@ -3888,7 +4174,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
         <span class="s2">"markPrice"</span><span class="p">:</span> <span class="s2">"6679.50671178"</span><span class="p">,</span>   <span class="c1">// 当前标记价格</span>
         <span class="s2">"maxQty"</span><span class="p">:</span> <span class="s2">"20000000"</span><span class="p">,</span> <span class="c1">// 当前杠杆倍数允许的名义价值上限</span>
         <span class="s2">"positionAmt"</span><span class="p">:</span> <span class="s2">"-10.000"</span><span class="p">,</span> <span class="c1">// 头寸数量，符号代表多空方向, 正数为多，负数为空</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
         <span class="s2">"unRealizedProfit"</span><span class="p">:</span> <span class="s2">"-1156.46711780"</span> <span class="c1">// 持仓未实现盈亏</span>
         <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span> <span class="c1">// 持仓方向</span>
     <span class="p">}</span>
@@ -3955,10 +4241,11 @@ GET /dapi/v1/positionRisk (HMAC SHA256)
     <span class="s2">"price"</span><span class="p">:</span> <span class="s2">"7819.01"</span><span class="p">,</span> <span class="c1">// 成交价</span>
     <span class="s2">"qty"</span><span class="p">:</span> <span class="s2">"0.002"</span><span class="p">,</span> <span class="c1">// 成交数量</span>
     <span class="s2">"quoteQty"</span><span class="p">:</span> <span class="s2">"15.63802"</span><span class="p">,</span> <span class="c1">// 成交额</span>
+    <span class="s2">"marginAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>  <span class="c1">// 保证金币种</span>
     <span class="s2">"realizedPnl"</span><span class="p">:</span> <span class="s2">"-0.91539999"</span><span class="p">,</span>   <span class="c1">// 实现盈亏</span>
     <span class="s2">"side"</span><span class="p">:</span> <span class="s2">"SELL"</span><span class="p">,</span> <span class="c1">// 买卖方向</span>
     <span class="s2">"positionSide"</span><span class="p">:</span> <span class="s2">"SHORT"</span><span class="p">,</span>  <span class="c1">// 持仓方向</span>
-    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对</span>
+    <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对</span>
     <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>   <span class="c1">// 标的交易对</span>
     <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1569514978020</span> <span class="c1">// 时间</span>
   <span class="p">}</span>
@@ -3970,8 +4257,9 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 
 <p>获取成交历史</p>
 
-<p><strong>权重:</strong>
-传symbol <strong>20</strong><br>
+<p><strong>权重:</strong></p>
+
+<p>传symbol <strong>20</strong><br>
 传pairs <strong>40</strong></p>
 
 <p><strong>参数:</strong></p>
@@ -4043,7 +4331,7 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span> <span class="c1">// 交易对，仅针对涉及交易对的资金流</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span> <span class="c1">// 交易对，仅针对涉及交易对的资金流</span>
         <span class="s2">"incomeType"</span><span class="p">:</span> <span class="s2">"TRANSFER"</span><span class="p">,</span>   <span class="c1">// 资金流类型</span>
         <span class="s2">"income"</span><span class="p">:</span> <span class="s2">"-0.37500000"</span><span class="p">,</span> <span class="c1">// 资金流数量，正数代表流入，负数代表流出</span>
         <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span> <span class="c1">// 资产内容</span>
@@ -4051,7 +4339,7 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
         <span class="s2">"time"</span><span class="p">:</span> <span class="mi">1570608000000</span><span class="p">,</span> <span class="c1">// 时间</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+        <span class="s2">"symbol"</span><span class="p">:</span> <span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
         <span class="s2">"incomeType"</span><span class="p">:</span> <span class="s2">"COMMISSION"</span><span class="p">,</span> 
         <span class="s2">"income"</span><span class="p">:</span> <span class="s2">"-0.01000000"</span><span class="p">,</span>
         <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>
@@ -4124,6 +4412,60 @@ GET /dapi/v1/income (HMAC SHA256)
 <ul>
 <li>如果<code>incomeType</code>没有发送，返回所有类型账户损益资金流水。</li>
 </ul>
+<h2 id='user_data-9'>杠杆分层标准 (USER_DATA)</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
+        <span class="s2">"brackets"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"bracket"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>   <span class="c1">// 层级</span>
+                <span class="s2">"initialLeverage"</span><span class="p">:</span> <span class="mi">75</span><span class="p">,</span>  <span class="c1">// 该层允许的最高初始杠杆倍数</span>
+                <span class="s2">"qtyCap"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>  <span class="c1">// 该层对应的数量上限</span>
+                <span class="s2">"qtylFloor"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// 该层对应的数量下限 </span>
+                <span class="s2">"maintMarginRatio"</span><span class="p">:</span> <span class="mf">0.0065</span> <span class="c1">// 该层对应的维持保证金率</span>
+            <span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">[</span>
+</code></pre>
+<p><code>
+GET /dapi/v1/leverageBracket
+</code></p>
+
+<p><strong>权重:</strong> 1</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pair</td>
+<td>STRING</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
 <h1 id='websocket-2'>Websocket 账户信息推送</h1>
 <ul>
 <li>本篇所列出REST接口的baseurl <strong>https://dapi.binance.com</strong></li>
@@ -4270,7 +4612,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
         <span class="s2">"mt"</span><span class="p">:</span><span class="s2">"CROSSED"</span><span class="p">,</span>     <span class="c1">// 保证金模式</span>
         <span class="s2">"iw"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>           <span class="c1">// 若为逐仓，仓位保证金</span>
         <span class="s2">"mp"</span><span class="p">:</span><span class="s2">"187.17127"</span><span class="p">,</span>   <span class="c1">// 标记价格</span>
-        <span class="s2">"up"</span><span class="p">:</span><span class="s2">"-1.166074"</span><span class="p">,</span>   <span class="c1">// 为实现盈亏</span>
+        <span class="s2">"up"</span><span class="p">:</span><span class="s2">"-1.166074"</span><span class="p">,</span>   <span class="c1">// 未实现盈亏</span>
         <span class="s2">"mm"</span><span class="p">:</span><span class="s2">"1.614445"</span>     <span class="c1">// 持仓需要的维持保证金</span>
       <span class="p">}</span>
     <span class="p">]</span>
@@ -4307,7 +4649,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
       <span class="p">],</span>
       <span class="s2">"P"</span><span class="p">:[</span>
        <span class="p">{</span>
-          <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
+          <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span>              <span class="c1">// 交易对</span>
           <span class="s2">"pa"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>                 <span class="c1">// 仓位</span>
           <span class="s2">"ep"</span><span class="p">:</span><span class="s2">"0.00000"</span><span class="p">,</span>            <span class="c1">// 入仓价格</span>
           <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"200"</span><span class="p">,</span>               <span class="c1">// (费前)累计实现损益</span>
@@ -4317,7 +4659,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
           <span class="s2">"ps"</span><span class="p">:</span><span class="s2">"BOTH"</span>                   <span class="c1">// 持仓方向</span>
        <span class="p">}</span><span class="err">，</span>
        <span class="p">{</span>
-            <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+            <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
             <span class="s2">"pa"</span><span class="p">:</span><span class="s2">"20"</span><span class="p">,</span>
             <span class="s2">"ep"</span><span class="p">:</span><span class="s2">"6563.66500"</span><span class="p">,</span>
             <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span>
@@ -4327,7 +4669,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
             <span class="s2">"ps"</span><span class="p">:</span><span class="s2">"LONG"</span>
          <span class="p">},</span>
        <span class="p">{</span>
-            <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>
+            <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span>
             <span class="s2">"pa"</span><span class="p">:</span><span class="s2">"-10"</span><span class="p">,</span>
             <span class="s2">"ep"</span><span class="p">:</span><span class="s2">"6563.86000"</span><span class="p">,</span>
             <span class="s2">"cr"</span><span class="p">:</span><span class="s2">"-45.04000000"</span><span class="p">,</span>
@@ -4358,7 +4700,7 @@ DELETE /dapi/v1/listenKey (HMAC SHA256)
   <span class="s2">"T"</span><span class="p">:</span><span class="mi">1568879465650</span><span class="p">,</span>                <span class="c1">// 撮合时间</span>
   <span class="s2">"i"</span><span class="p">:</span> <span class="s2">"SfsR"</span><span class="p">,</span>                          <span class="c1">// 账户唯一识别码 accountAlias</span>
   <span class="s2">"o"</span><span class="p">:{</span>                             
-    <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200930"</span><span class="p">,</span>                    <span class="c1">// 交易对</span>
+    <span class="s2">"s"</span><span class="p">:</span><span class="s2">"BTCUSD_200925"</span><span class="p">,</span>                    <span class="c1">// 交易对</span>
     <span class="s2">"c"</span><span class="p">:</span><span class="s2">"TEST"</span><span class="p">,</span>                     <span class="c1">// 客户端自定订单ID</span>
       <span class="c1">// 特殊的自定义订单ID:</span>
       <span class="c1">// "autoclose-"开头的字符串: 系统强平订单</span>
