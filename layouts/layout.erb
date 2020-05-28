@@ -51,7 +51,7 @@ under the License.
     </a>
     <header>
       <div class="flex_box">
-        <a href="https://www.binance.com/" class="LG" id="LG"><%= image_tag "logo.svg", class: 'logo' %></a>
+        <%= image_tag "logo.svg", class: 'logo' %>
         <div class="nav_box">
           <span class="nav_cell" style="display: none">
             <a href="javascript:;" class="nav_first">v1<i class="icon_nav"></i></a>
@@ -65,7 +65,7 @@ under the License.
             </ul>
           </span>
           <span class="nav_cell nav_tab">
-            <a href="/apidocs/spot/en/" id="btn_spot">现货/杠杆/币安宝</a>
+            <a href="/apidocs/spot/en/" id="btn_spot">现货/杠杆</a>
           </span>
           <span class="nav_cell nav_tab">
             <a href="/apidocs/futures/en/" id="btn_dm">合约</a>
@@ -139,7 +139,6 @@ under the License.
       </div>
     </div>
     <script>
-      const LG = document.getElementById('LG');
       const lang_btn = document.getElementById('lang_box');
       const btn_spot = document.getElementById('btn_spot');
       const btn_dm = document.getElementById('btn_dm');
@@ -150,10 +149,9 @@ under the License.
       if(url.indexOf('cn') != -1){
         // for the Chinese Language env.
         lang_btn.innerHTML = 'English';
-        btn_spot.innerHTML = '现货/杠杆/币安宝/矿池';
+        btn_spot.innerHTML = '现货/杠杆';
         btn_dm.innerHTML = '合约';
         btn_tn.innerHTML = '合约testnet API';
-        LG.href = "https://www.binance.com/cn/";
         lang_btn.href = url.replace('cn/', 'en/');
         btn_spot.href = btn_spot.href.replace('en/', 'cn/');
         btn_dm.href = btn_dm.href.replace('en/', 'cn/');
@@ -163,10 +161,9 @@ under the License.
       }else{
         // for the English Language env.
         lang_btn.innerHTML = '简体中文';
-        btn_spot.innerHTML = 'Spot/Margin/Savings/Mining';
+        btn_spot.innerHTML = 'Spot/Margin';
         btn_dm.innerHTML = 'Futures';
         btn_tn.innerHTML = 'Futures testnet API';
-        LG.href = "https://www.binance.com/en/";
         lang_btn.href = url.replace('en/', 'cn/');
         btn_spot.href = btn_spot.href.replace('cn/', 'en/');
         btn_dm.href = btn_dm.href.replace('cn/', 'en/');

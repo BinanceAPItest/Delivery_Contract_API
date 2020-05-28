@@ -6,7 +6,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   #- jason
 
 toc_footers:
-  - <a href='https://www.binance.com/cn/'>Binance Exchange</a>
+  - <a href='https://www.binance.com/'>Binance Exchange</a>
 
 includes:
 
@@ -15,11 +15,12 @@ search: true
 ---
 
 
-# 更新日志
+# Change Log
+
 
 <font size=4>**2020-05-06**</font>
 
-* 新增矿池接口:
+* New endpoints for Mining:
 	* `GET /sapi/v1/mining/pub/algoList`
 	* `GET /sapi/v1/mining/pub/coinList`
 	* `GET /sapi/v1/mining/worker/detail`
@@ -31,72 +32,73 @@ search: true
 ---
 
 
+
 <font size=4>**2020-05-03**</font>
 
-* 杠杆交易部分接口的新的请求限制
-  * 涉及的接口:
+* New request limit for some margin endpoints
+  * Changes on these endpoints:
     * `POST /sapi/v1/margin/transfer`
     * `POST /sapi/v1/margin/loan`
     * `POST /sapi/v1/margin/repay`
-  * 限制为每2秒一次。
-  * 超过限制的请求会收到HTTP Status Code `429`。
+  * Limit to 1 every 2 seconds。
+  * Request beyond the limit will receive HTTP status code `429`。
 
 ---
 
 <font size=4>**2020-05-01**</font>
 
-* 从2020-05-01 UTC 00:00开始, 所有交易对都会有最多200个挂单的限制, 体现在过滤器[MAX_NUM_ORDERS](https://binance-docs.github.io/apidocs/spot/cn/#cc81fff589)上.
-  * 已经存在的挂单不会被移除或者撤销。
-  * 单交易对(`symbol`)的挂单数量达到或超过200的账号, 无法在此交易对上下新的订单, 除非挂单数量低于200。
-  * OCO订单在被触发成`LIMIT`订单, 或者被触发成`STOP_LOSS`(或者`STOP_LOSS_LIMIT`)前, 被认为是2个挂单量. 一旦OCO订单被触发, 就只被算作一个挂单。
+* From 2020-05-01 UTC 00:00, all symbols will have a limit of 200 open orders using the [MAX_NUM_ORDERS](https://binance-docs.github.io/apidocs/spot/en/#filters) filter.
+    * No existing orders will be removed or canceled.
+    * Accounts that have 200 or more open orders on a symbol will not be able to place new orders on that symbol until the open order count is below 200.
+    * OCO orders count as 2 open orders before the `LIMIT` order is touched or the `STOP_LOSS` (or `STOP_LOSS_LIMIT`) order is triggered; once this happens the other order is canceled and will no longer count as an open order.
 
 ---
 
 <font size=4>**2020-04-25**</font>
 
-<font size=4>现货 API</font>
+<font size=4>SPOT API</font>
 
-* 添加新字段 `permissions`
-    * 这个字段定义了对于账户、交易对(`symbol`)的交易权限。
-    * `permissions` 是个enum数组, 可能的值:
-      * `SPOT`
-      * `MARGIN`
-    * 在未来的版本(v4)中, `permissions` 将会在 `GET api/v3/exchangeInfo` 中替换 `isSpotTradingAllowed` 和 `isMarginTradingAllowed`。
-    * 如果账户想在一个交易对下做交易, 账户和交易对必须同时拥有对应的权限。
-* 接口 `GET api/v3/exchangeInfo` 的更新
-    *  添加新字段 `permissions`。
-    *  添加新字段 `quoteAssetPrecision`。此字段和 `quotePrecision` 重复。在未来的版本(v4)中 `quotePrecision` 会被移除。
-* 接口 `GET api/v3/account` 的更新
-    * 添加新字段 `permissions` 。
-* 添加新接口 `DELETE api/v3/openOrders`
-    * 此接口便于用户撤销单一交易对的所有挂单, 包括OCO的挂单。
-* 如果交易对处于 `BREAK` 或者 `HALT` 状态, 挂单也可以被撤销。
+* New field `permissions`
+    * Defines the trading permissions that are allowed on accounts and symbols.
+    * `permissions` is an enum array; values:
+        * `SPOT` 
+        * `MARGIN`
+    * `permissions` will replace `isSpotTradingAllowed` and `isMarginTradingAllowed` on `GET api/v3/exchangeInfo` in future API versions (v4+).
+    * For an account to trade on a symbol, the account and symbol must share at least 1 permission in common.
+* Updates to GET `api/v3/exchangeInfo`
+    *  New field `permissions` added.
+    *  New field `quoteAssetPrecision` added; a duplicate of the `quotePrecision` field. `quotePrecision` will be removed in future API versions (v4+).
+* Updates to GET `api/v3/account`
+    * New field `permissions` added.
+* New endpoint DELETE `api/v3/openOrders`
+    * This will allow a user to cancel all open orders on a single symbol.
+    * This endpoint will cancel all open orders including OCO orders.
+* Orders can be canceled via the API on symbols in the `BREAK` or `HALT` status.
 
-<font size=4> 用户数据 STREAM </font>
+<font size=4> USER DATA STREAM </font>
 
-* `OutboundAccountInfo` 消息会显示一个新字段 `P`, 用来显示账户的交易权限。
+* `OutboundAccountInfo` has new field `P` which shows the trading permissions of the account.
 
 ---
 
 <font size=4>**2020-04-23**</font>
 
-WEB SOCKET 连接限制
+WEB SOCKET STREAM
 
-* Websocket服务器每秒最多接受5个消息。消息包括:
-	* PING帧
-	* PONG帧
-	* JSON格式的消息, 比如订阅, 断开订阅.
-* 如果用户发送的消息超过限制，连接会被断开连接。反复被断开连接的IP有可能被服务器屏蔽。
-* 单个连接最多可以订阅 **1024** 个Streams。
+* WebSocket connections have a limit of 5 incoming messages per second. A message is considered:
+    * A PING frame
+    * A PONG frame
+    * A JSON control message (e.g. subscribe, unsubscribe)
+* A connection that goes beyond the limit will be disconnected; IPs that are repeatedly disconnected may be banned.
+* A single connection can listen to a maximum of 1024 streams.
 
----
 
 <font size=4>**2020-04-16**</font>
 
-* 币安宝接口``GET /sapi/v1/lending/daily/token/position``返回内容新增字段：
-	* `todayPurchasedAmount` 表示用户今日申购的活期产品数量
+* New fields in response to endpoint``GET /sapi/v1/lending/daily/token/position``：
+	* `todayPurchasedAmount` for user's purchased amount today
 
-* 新增以下币安宝接口用以支持灵活定期产品:
+* New lending endpoints for customized fixed projects:
 	* ``GET /sapi/v1/lending/project/list``
 	* ``POST /sapi/v1/lending/customizedFixed/purchase``
 	* ``GET /sapi/v1/lending/project/position/list`` 
@@ -106,59 +108,61 @@ WEB SOCKET 连接限制
 
 
 
+
 <font size=4>**2020-04-02**</font>
 
-* 接口 ``GET /sapi/v1/capital/config/getall`` 返回内容新增字段：
-	* `minConfirm` 表示资产上账所需的最小确认数
-	* `unLockConfirm` 表示资产解锁需所需确认数
+* New fields in response to endpoint``GET /sapi/v1/capital/config/getall``：
+	* `minConfirm` for min number for balance confirmation
+	* `unLockConfirm` for confirmation number for balance unlcok
 
 ---
 
 
+
 <font size=4>**2020-03-24**</font>
 
-* 添加过滤器 `MAX_POSITION`.
-    * 这个过滤器定义账户允许的基于`base asset`的最大仓位。一个用户的仓位可以定义为如下资产的总和:
-        * `base asset`的可用余额
-        * `base asset`的锁定余额
-        * 所有处于open的买单的数量总和
+* `MAX_POSITION` filter added.
+    * This filter defines the allowed maximum position an account can have on the base asset of a symbol. An account's position defined as the sum of the account's:
+        * free balance of the base asset
+        * locked balance of the base asset
+        * sum of the qty of all open BUY orders
 
-    * 如果用户的仓位大于最大的允许仓位，买单会被拒绝。
+    * `BUY` orders will be rejected if the account's position is greater than the maximum position allowed.
 
 ---
 
 <font size=4>**2020-03-13**</font>
 
-* 新增可选参数 `transactionFeeFlag` 于以下提币接口:
-	* ``POST /sapi/v1/capital/withdraw/apply``
+* New parameter `transactionFeeFlag` is available in endpoint:
+	* ``POST /sapi/v1/capital/withdraw/apply`` and
 	* ``POST /wapi/v3/withdraw.html``
 
 ---
 
-
 <font size=4>**2020-02-05**</font>
 
-* 新增子账户相关接口:
-	* ``POST /sapi/v1/sub-account/futures/transfer``: 对子账户实施futures账户划转
-	* ``POST /sapi/v1/sub-account/margin/transfer``: 对子账户实施margin账户划转
-	* ``POST /sapi/v1/sub-account/transfer/subToSub``: 向兄弟子账户划转
-	* ``POST /sapi/v1/sub-account/transfer/subToMaster``: 向母账户划转
-	* ``GET /sapi/v1/sub-account/transfer/subUserHistory``: 子账户获取自身划转历史
-	
----
+* New sub account endpoints:
+	* ``POST /sapi/v1/sub-account/futures/transfer`` to transfer between futures and spot accout of sub-account.
+	* ``POST /sapi/v1/sub-account/margin/transfer`` to transfer between margin and spot accout of sub-account.
+	* ``POST /sapi/v1/sub-account/transfer/subToSub`` to transfer to master account by sub-account.
+	* ``POST /sapi/v1/sub-account/transfer/subToMaster`` to transfer to another sub-account of same master by sub-account.
+	* ``GET /sapi/v1/sub-account/transfer/subUserHistory`` to get transfer history of sub-account.
+ 
 
+---
 
 <font size=4>**2020-01-15**</font>
 
-* 接口``POST /wapi/v3/withdraw.html`` 新增参数 `withdrawOrderId`: 用户自定义提币id
+* New parameter `withdrawOrderId` for client customized withdraw id for endpoint ``POST /wapi/v3/withdraw.html``.
 
-* 接口``GET /wapi/v3/withdrawHistory.html`` 返回内容新增字段 `withdrawOrderId`: 该笔提币的用户自定义id
+* New field `withdrawOrderId` in response to ``GET /wapi/v3/withdrawHistory.html``
 
 
 ---
+
 <font size=4>**2019-12-25**</font>
 
-* 新增币安宝接口：
+* New endpoints for Binance Savings:
 	* ``GET /sapi/v1/lending/daily/product/list``
 	* ``GET /sapi/v1/lending/daily/userLeftQuota``
 	* ``POST /sapi/v1/lending/daily/purchase ``
@@ -170,67 +174,65 @@ WEB SOCKET 连接限制
 	* ``GET /sapi/v1/lending/union/redemptionRecord``
 	* ``GET /sapi/v1/lending/union/interestHistory``
 
-* 新增请求时间间隔于以下接口    
+* Added time interval limit in    
 ``GET  /sapi/v1/capital/withdraw/history``,    
 ``GET /wapi/v3/withdrawHistory.html``,    
 ``GET /sapi/v1/capital/deposit/hisrec`` and    
 ``GET /wapi/v3/depositHistory.html``:
-	* 默认`startTime`为当前时间起90天前， 默认`endTime`为当前时间；
-	* 请注意`startTime` 与 `endTime` 的默认时间戳，保证请求时间间隔不超过90天；
-	* 同时提交`startTime` 与 `endTime`间隔不得超过90天.
+	* The default `startTime` is 90 days from current time, and the default `endTime` is current time. 
+	* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+	* If both ``startTime`` and ``endTime`` are sent, time between ``startTime`` and ``endTime`` must be less than 90 days.
 
 
+---
 <font size=4>**2019-12-18**</font>
 
-* 新增接口用以获取账户每日资产快照:   
-	`GET /sapi/v1/accountSnapshot`
+* New endpoint to get daily snapshot of account:   
+	``GET /sapi/v1/accountSnapshot``
 
 ---
 <font size=4>**2019-11-30**</font>
 
-* 接口`POST  /sapi/v1/margin/order (HMAC SHA256)`新增参数`sideEffectType`，可选内容如下:
-	* `NO_SIDE_EFFECT`: 普通交易订单;
-	* `MARGIN_BUY`: 自动借款交易订单;
-	* `AUTO_REPAY`: 自动还款交易订单.
+* Added parameter `sideEffectType` in `POST  /sapi/v1/margin/order (HMAC SHA256)` with enums:
+	* `NO_SIDE_EFFECT` for normal trade order;
+	* `MARGIN_BUY` for margin trade order;
+	* `AUTO_REPAY` for making auto repayment after order filled.
 
 * New field `marginBuyBorrowAmount` and `marginBuyBorrowAsset` in `FULL` response to `POST  /sapi/v1/margin/order (HMAC SHA256)`
 
 ---
-
-
 <font size=4>**2019-11-28**</font>
 
-* 新增SAPI接口用以关闭账户站内划转功能：    
+* New SAPI endpont to disable fast withdraw switch:    
 ``
 POST /sapi/v1/account/disableFastWithdrawSwitch (HMAC SHA256)
 ``
-* 新增SAPI接口用以开启账户站内划转功能：     
+* New SAPI endpont to enable fast withdraw switch:    
 ``
 POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 ``
 
 ---
+
+
 <font size=4>**2019-11-22**</font>
 
-* “报价总额市价单”作为新的市价单方式已在各交易对投入使用。
-    * “报价总额市价单” 允许用户在市价单`MARKET`中设置总的购买投入金额或卖出预计回收金额 `quoteOrderQty`。
-    * “报价总额市价单”不会突破`LOT_SIZE`的限制规则; 报单会按给定的`quoteOrderQty`尽可能接近地被执行。
-    * 以`BNBBTC`交易对为例:
+* Quote Order Qty Market orders have been enabled on all symbols.
+    * Quote Order Qty `MARKET` orders allow a user to specify the total `quoteOrderQty` spent or received in the `MARKET` order.
+    * Quote Order Qty `MARKET` orders will not break `LOT_SIZE` filter rules; the order will execute a quantity that will have the notional value as close as possible to `quoteOrderQty`.
+    * Using `BNBBTC` as an example:
         * On the `BUY` side, the order will buy as many BNB as `quoteOrderQty` BTC can.
-        * 买单: 给定`quoteOrderQty`的BTC会被用来市价买入尽可能多的BNB。 
         * On the `SELL` side, the order will sell as much BNB as needed to receive `quoteOrderQty` BTC.
-        * 卖单: 持有BNB会被尽可能多地以市价卖出以获取给定`quoteOrderQty`的BTC。
 
-        
 ---
-
 <font size=4>**2019-11-19**</font>
 
-* `GET /sapi/v1/sub-account/margin/account` 返回内容新增:
- 	`marginTradeCoeffVo` 其中包括
-	* `forceLiquidationBar`: 强平风险率;
-	* `marginCallBar`: 补仓风险率;
-	* `normalBar`: 初始风险率
+* `GET /sapi/v1/sub-account/margin/account` has new field:
+ 	`marginTradeCoeffVo` which contains
+	* `forceLiquidationBar` for liquidation margin ratio
+	* `marginCallBar` for margin call margin ratio
+	* `normalBar` for initial margin ratio
+
 
 
 ---
@@ -238,13 +240,13 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 
 <font size=4>Rest API </font>
 
-* "api/v3/exchangeInfo" 新增内容:
+* api/v3/exchangeInfo has new fields:
     * `quoteOrderQtyMarketAllowed`
     * `baseCommissionDecimalPlaces`
     * `quoteCommissionDecimalPlaces`
-* `MARKET` orders （市价单）新增可选参数: `quoteOrderQty`指定买入或卖出的报价数量，不可与 `quantity`（数量）同时使用.
-    * 能够有效配合该参数使用`MARKET` orders（市价单）的确切时间和进一步详细信息将由后续声明予以通告。
-* 所有订单查询接口增加新的返回内容：`origQuoteOrderQty` (e.g. GET api/v3/allOrders)
+* `MARKET` orders have a new optional field: `quoteOrderQty` used to specify the quote quantity to BUY or SELL. This cannot be used in combination with `quantity`.
+    * The exact timing that `quoteOrderQty` MARKET orders will be enabled is TBD. There will be a separate announcement and further details at that time.
+* All order query endpoints will return a new field `origQuoteOrderQty` in the JSON payload. (e.g. GET api/v3/allOrders)
 
 ```json
 	{
@@ -253,17 +255,17 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 	}
 ```
 
-* 错误代码更新: -1128
-    * 发送`OCO`订单中有`stopLimitPrice`但是没有`stopLimitTimeInForce`，将会受到错误信息:
+* Updated error messages for  -1128
+	* Sending an `OCO` with a `stopLimitPrice` but without a `stopLimitTimeInForce` will return the error:
 
-* 错误代码更新: -1003, 明确了使用请求权重作为限制而不是请求数量。
+* Updated error messages for -1003 to specify the limit is referring to the request weight, not to the number of requests.
+
 
     
+    
+**Deprecation of v1 endpoints**:
 
-
-**v1 接口将被弃用**:
-
-2020年一季度末，以下接口将被移除。目前文档已经将这些接口更新为v3版本。
+By end of Q1 2020, the following endpoints will be removed from the API. The documentation has been updated to use the v3 versions of these endpoints.
 
 * GET api/v1/depth
 * GET api/v1/historicalTrades
@@ -278,12 +280,12 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 * GET api/v1/time
 * GET api/v1/ticker/bookTicker
 
-**以下接口将不会移植到v3版本，请使用新接口予以替换**
+**These endpoints however, will NOT be migrated to v3. Please use the following endpoints instead moving forward.**
 
 <table>
 <tr>
-<th>旧的 V1 接口</th>
-<th>新的 V3 接口</th>
+<th>Old V1 Endpoints</th>
+<th>New V3 Endpoints</th>
 </tr>
 <tr>
 <td>GET api/v1/ticker/allPrices</td>
@@ -295,28 +297,24 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 </tr>
 </table>
 
-
 <font size=4>USER DATA STREAM </font>
 
-* 事件`executionReport`（订单更新）更新内容:
-    * 如果 C 值为空, 将返回 `null`, 而不是`"null"`.
-    * 新增返回值 Q, 表示 `quoteOrderQty`.
+* Changes to`executionReport` event
+    * If the C field is empty, it will now properly return `null`, instead of `"null"`.
+    * New field Q which represents the `quoteOrderQty`.
 
-* 新增事件类型`balanceUpdate`（余额更新）
-    * 当资金存入或从帐户中提取时，发生余额更新。
+* `balanceUpdate` event type added
+    * This event occurs when funds are deposited or withdrawn from your account.
 
 <font size=4> WEB SOCKET STREAM</font>
 
-* WSS 现在支持实时订阅和取消数据流。
+* WSS now supports live subscribing/unsubscribing to streams.
 
 ---
 
-
-
-
 <font size=4>**2019-11-08**</font>
 
-* 新增以下sapi接口用以管理子账户的杠杆与期货：
+* New sapi for subaccount management on margin and futures:
 	* ``GET /sapi/v1/sub-account/status (HMAC SHA256)``
 	* ``POST /sapi/v1/sub-account/margin/enable (HMAC SHA256)``
 	* ``GET /sapi/v1/sub-account/margin/account (HMAC SHA256)``
@@ -328,53 +326,45 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 
 
 ---
-
-
 <font size=4>**2019-11-04**</font>
 
-* 新增管理子账户充值功能相关的sapi接口
-  * `GET /sapi/v1/capital/deposit/subAddress (HMAC SHA256))`: 获取子账户充值地址。
-  * `GET /sapi/v1/capital/deposit/subHisrec (HMAC SHA256))`: 获取子账户充值记录。
+* New sapi endpoints for subaccount wallet.
+  * `GET /sapi/v1/capital/deposit/subAddress (HMAC SHA256))`: fetch subaccount deposit address.
+  * `GET /sapi/v1/capital/deposit/subHisrec (HMAC SHA256))`: fetch subaccount deposit history.
 
 ---
-
 <font size=4>**2019-10-29**</font>
 
-* 新增钱包提币功能相关的sapi接口
-  * `POST /sapi/v1/capital/withdraw/apply (HMAC SHA256)`: 提币。
-  * `Get /sapi/v1/capital/withdraw/history (HMAC SHA256)`: 获取提币历史(支持多网络)。
+* New sapi endpoints for wallet.
+  * `POST /sapi/v1/capital/withdraw/apply (HMAC SHA256)`: withdraw.
+  * `Get /sapi/v1/capital/withdraw/history (HMAC SHA256)`: fetch withdraw history with network.
  
 ---
+
+
 <font size=4>**2019-10-14**</font>
 
-* 新增钱包功能相关的sapi接口
-  * `GET /sapi/v1/capital/config/getall (HMAC SHA256)`: 获取针对用户的所有币种信息。
-  * `GET /sapi/v1/capital/deposit/hisrec (HMAC SHA256)`: 获取充值历史(支持多网络)。
-  * `GET /sapi/v1/capital/deposit/address (HMAC SHA256)`: 获取充值地址(支持多网络).
+* New sapi endpoints for wallet.
+  * `GET /sapi/v1/capital/config/getall (HMAC SHA256)`: get all coins' information for user.
+  * `GET /sapi/v1/capital/deposit/hisrec (HMAC SHA256)`: fetch deposit history with network.
+  * `GET /sapi/v1/capital/deposit/address (HMAC SHA256)`: fetch deposit address with network.
 
 ---
 <font size=4>**2019-10-11**</font>
 
-* `POST /wapi/v3/withdraw.html`,增加参数 `network`,支持多网络提币。
-
+* Added parameter `network` in `POST /wapi/v3/withdraw.html` so that asset can be withdrawed with specific network.
 
 ---
 <font size=4>**2019-09-09**</font>
 
-* 新增bookTicker行情流: `<symbol>@bookTicker` 与`!bookTicker`. 
+* New WebSocket streams for bookTickers added: `<symbol>@bookTicker` and `!bookTicker`. 
 
 ---
 <font size=4>**2019-09-03**</font>
 
-* 更新频率达到100ms的更快的 order book 信息流选项: `<symbol>@depth@100ms` 和 `<symbol>@depth#@100ms`
-* `Websocket Market Streams` 增加 `Update Speed` 更新速度
-
----
-<font size=4>**2019-08-16**</font>
-
-* 10000 `限额`  的接口已被临时删除： GET api/v1/depth 
-
-* 在2017年第四季度，以下接口已被弃用并将其从API文档中删除。 从此版本开始，以下接口已从API中永久删除。 对于原始变更日志如有遗漏，我们深表歉意:
+* Faster order book data with 100ms updates: `<symbol>@depth@100ms` and `<symbol>@depth#@100ms`
+* Added "Update Speed:" to `Websocket Market Streams`
+* Removed deprecated v1 endpoints as per previous announcement:
     * GET api/v1/order
     * GET api/v1/openOrders
     * POST api/v1/order
@@ -383,50 +373,65 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
     * GET api/v1/account
     * GET api/v1/myTrades
 
-* 在此存储库的文档中描述的流、接口、参数、有效负载等均被 **官方认证** 且 **得到支持**。 任何其他流、接口、参数或有效负载等的使用**不受支持， 自行使用的风险将由您自己承担，没有任何保证**。
+
+---
+<font size=4>**2019-08-16**</font>
+
+* GET api/v1/depth `limit` of 10000 has been temporarily removed
+
+* In Q4 2017, the following endpoints were deprecated and removed from the API documentation. They have been permanently removed from the API as of this version. We apologize for the omission from the original changelog:
+    * GET api/v1/order
+    * GET api/v1/openOrders
+    * POST api/v1/order
+    * DELETE api/v1/order
+    * GET api/v1/allOrders
+    * GET api/v1/account
+    * GET api/v1/myTrades
+
+* Streams, endpoints, parameters, payloads, etc. described in the documents in this repository are **considered official** and **supported**. The use of any other streams, endpoints, parameters, or payloads, etc. is **not supported; use them at your own risk and with no guarantees.**
 
 ---
 <font size=4>**2019-09-15**</font>
 
 <font size=4>Rest API</font>
 
-* 新订单类型: OCO ("One Cancels the Other")
-    * 一个 OCO 有 2 个订单: (在财务术语中也称为 legs)
-        * ```STOP_LOSS``` 或 ```STOP_LOSS_LIMIT``` leg
+* New order type: OCO ("One Cancels the Other")
+    * An OCO has 2 orders: (also known as legs in financial terms)
+        * ```STOP_LOSS``` or ```STOP_LOSS_LIMIT``` leg
         * ```LIMIT_MAKER``` leg
 
-    * 价格限制:
-        * ```SELL Orders``` : 限价 > 成交价>止损价
-        * ```BUY Orders``` : 限价<成交价<止损价
-        * 如前所述，价格必须“横跨”交易品种的最后交易价格。 例如：如果最后价格是10:
-            * 卖出OCO的限制价格必须大于10，止损价格小于10。
-            * 买入OCO的限制价格必须小于10，止损价格大于10。
+    * Price Restrictions:
+        * ```SELL Orders``` : Limit Price > Last Price > Stop Price
+        * ```BUY Orders``` : Limit Price < Last Price < Stop Price
+        * As stated, the prices must "straddle" the last traded price on the symbol. EX: If the last price is 10:
+            * A SELL OCO must have the limit price greater than 10, and the stop price less than 10.
+            * A BUY OCO must have a limit price less than 10, and the stop price greater than 10.
 
-    * 数量限制:
-        * 两个 legs 的数量必须相同。
-        * 但是，`ICEBERG`的数量不必相同。
+    * Quantity Restrictions:
+        * Both legs must have the **same quantity**.
+        * ```ICEBERG``` quantities however, do not have to be the same.
 
-    * 执行顺序:
-        * 如果触发了`LIMIT_MAKER`，则在取消止损leg之前将首先执行限价支路。
-        * 如果市场价格移动到将触发“ STOP_LOSS”或“ STOP_LOSS_LIMIT”，则在执行“ STOP_LOSS”支路之前，限价单支路将被取消。
+    * Execution Order:
+        * If the ```LIMIT_MAKER``` is touched, the limit maker leg will be executed first BEFORE canceling the Stop Loss Leg.
+        * if the Market Price moves such that the ```STOP_LOSS``` or ```STOP_LOSS_LIMIT``` will trigger, the Limit Maker leg will be cancelled BEFORE executing the ```STOP_LOSS``` Leg.
 
-    * 取消一个 OCO 订单
-        * 取消任一订单的 leg 将取消整个 OCO 订单.
-        * 可通过```orderListId``` 或 ```listClientOrderId```取消整个 OCO 订单。
+    * Cancelling an OCO
+        * Cancelling either order leg will cancel the entire OCO.
+        * The entire OCO can be canceled via the ```orderListId``` or the ```listClientOrderId```.
 
-    * OCO的新枚举:
+    * New Enums for OCO:
         1. ```ListStatusType```
-            * ```RESPONSE``` - 当ListStatus响应失败的操作时使用。 （下单或取消订单）
-            * ```EXEC_STARTED``` - 在下订单列表或列表状态更新时使用。
-            * ```ALL_DONE``` - 当订单清单完成执行且不再有效时使用。
+            * ```RESPONSE``` - used when ListStatus is responding to a failed action. (either order list placement or cancellation)
+            * ```EXEC_STARTED``` - used when an order list has been placed or there is an update to a list's status.
+            * ```ALL_DONE``` - used when an order list has finished executing and is no longer active.
         1. ```ListOrderStatus```
-            * ```EXECUTING``` - 在下订单列表或列表状态更新时使用。
-            * ```ALL_DONE``` - 当订单清单完成执行且不再有效时使用。
-            * ```REJECT``` - 当ListStatus响应失败的操作时使用。 （下单或取消订单）
+            * ```EXECUTING``` - used when an order list has been placed or there is an update to a list's status.
+            * ```ALL_DONE``` - used when an order list has finished executing and is no longer active.
+            * ```REJECT``` - used when ListStatus is responding to a failed action. (either order list placement or cancellation)
         1. ```ContingencyType```
-            * ```OCO``` - 指定订单列表的类型。
+            * ```OCO``` - specifies the type of order list.
 
-    * 新的接口:
+    * New Endpoints:
         * POST api/v3/order/oco
         * DELETE api/v3/orderList
         * GET api/v3/orderList
@@ -437,222 +442,235 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
     * MINUTE => M
     * HOUR => H
     * DAY => D
-* 新标头“ X-MBX-USED-WEIGHT-（intervalNum）（intervalLetter）”将为（intervalNum）（intervalLetter）速率限制器提供您当前使用的请求权重。 例如，如果设置了一分钟的请求速率权重限制器，则响应中将获得一个“ X-MBX-USED-WEIGHT-1M”标头。 旧标头X-MBX-USED-WEIGHT仍将返回，并代表一分钟请求速率权重限制的当前使用权重。
-* 新标头“ X-MBX-ORDER-COUNT-（intervalNum）（intervalLetter）”会在任何有效的订单位置上更新，并跟踪该间隔的当前订单数； 拒绝/不成功的订单不保证在响应中具有`X-MBX-ORDER-COUNT-**`标头。
-    
-    * 例如： “ X-MBX-ORDER-COUNT-1S”用于“每1秒钟的订单”，`X-MBX-ORDER-COUNT-1D`用于“每1天的订单”
-* GET api / v1 / depth现在支持`limit` 5000和10000; 权重分别是50和100。
-* GET api / v1 / exchangeInfo具有一个新参数“ ocoAllowed”。 
-
-<font size=4>用户数据流</font>
-
-* ```executionReport```事件现在包含具有`orderListId``的“ g”； 对于非OCO订单，它将设置为-1。
-* 新事件类型`listStatus`; `listStatus`是在更新任何OCO订单时发送的。
-* 新事件类型`outboundAccountPosition`; 每当帐户余额发生变化时，就会发送`outboundAccountPosition`，并包含可能导致余额发生变化的事件（存款，提款，交易，下单或取消）更改的资产。
+* New Headers `X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)` will give your current used request weight for the (intervalNum)(intervalLetter) rate limiter. For example, if there is a one minute request rate weight limiter set, you will get a `X-MBX-USED-WEIGHT-1M` header in the response. The legacy header `X-MBX-USED-WEIGHT` will still be returned and will represent the current used weight for the one minute request rate weight limit.
+* New Header `X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)`that is updated on any valid order placement and tracks your current order count for the interval; rejected/unsuccessful orders are not guaranteed to have `X-MBX-ORDER-COUNT-**` headers in the response.
+    * Eg. `X-MBX-ORDER-COUNT-1S` for "orders per 1 second" and `X-MBX-ORDER-COUNT-1D` for orders per "one day"
+* GET api/v1/depth now supports `limit` 5000 and 10000; weights are 50 and 100 respectively.
+* GET api/v1/exchangeInfo has a new parameter `ocoAllowed`.
 
 
-<font size=4>新的错误码</font>
+<font size=4>USER DATA STREAM</font>
+
+* ```executionReport``` event now contains "g" which has the ```orderListId```; it will be set to -1 for non-OCO orders.
+* New Event Type ```listStatus```; ```listStatus``` is sent on an update to any OCO order.
+* New Event Type ```outboundAccountPosition```; ```outboundAccountPosition``` is sent any time an account's balance changes and contains the assets that could have changed by the event that generated the balance change (a deposit, withdrawal, trade, order placement, or cancelation).
+
+
+<font size=4>NEW ERRORS</font>
 
 * **-1131 BAD_RECV_WINDOW**
-    * ```recvWindow``` 必须小于 60000
-* **-1099未被找到，被认证或被授权**
-     *替换错误代码-1999
+    * ```recvWindow``` must be less than 60000
+* **-1099 Not found, authenticated, or authorized**
+    * This replaces error code -1999
 
 
-<font size=4>新的-2011错误内容</font>
+<font size=4>NEW -2011 ERRORS</font>
 
 * **OCO_BAD_ORDER_PARAMS**
-    * 其中一个订单的参数不正确。
+    * A parameter for one of the orders is incorrect.
 * **OCO_BAD_PRICES**
-    * 订单价格之间的关系不正确。
+    * The relationship of the prices for the orders is not correct.
 * **UNSUPPORTED_ORD_OCO**
-    * 此交易对不支持OCO订单。
+    * OCO orders are not supported for this symbol.
 
 ---
 <font size=4>**2019-03-12**</font>
 
 <font size=4>Rest API</font>
 
-* X-MBX-USED-WEIGHT标头已添加到Rest API响应中。
-* Retry-After标头已添加到Rest API 418和429响应中。
-* 取消Rest API时，如果交易对的“状态”不是“ TRADING”，则现在可以返回“errorCode” -1013或-2011。
-*`api/v1/depth`不再具有被忽略和为空的[[]`。
-*`api/v3/myTrades`现在返回`quoteQty`; 价格*交易数量。
+* X-MBX-USED-WEIGHT header added to Rest API responses.
+* Retry-After header added to Rest API 418 and 429 responses.
+* When canceling the Rest API can now return `errorCode` -1013 OR -2011 if the symbol's `status` isn't `TRADING`.
+* `api/v1/depth` no longer has the ignored and empty `[]`.
+* `api/v3/myTrades` now returns `quoteQty`; the price * qty of for the trade.
   
-<font size=4>Websocket 流</font>
 
-* `<symbol>@depth` 和 `<symbol>@depthX` 流不再具有被忽略且为空的“ []”。
+<font size=4>Websocket streams</font>
+
+* `<symbol>@depth` and `<symbol>@depthX` streams no longer have the ignored and empty `[]`.
   
-<font size=4>系统改进</font>
 
-* 匹配引擎稳定性/可靠性改进。
-* Rest API性能改进。
+<font size=4>System improvements</font>
+
+* Matching Engine stability/reliability improvements.
+* Rest API performance improvements.
 
 ---
 <font size=4>**2018-11-13**</font>
 
 <font size=4>Rest API</font>
 
-* 现在可以在限制交易期间通过Rest API取消订单。
-* 新的过滤器：`PERCENT_PRICE`，`MARKET_LOT_SIZE`，`MAX_NUM_ICEBERG_ORDERS`。
-* 添加了`RAW_REQUST`速率限制。 限制取决于`X`分钟内的请求数量（不考虑重量）。
-* 无交易对查询的`/api/v3/ticker/price`权重增加到2。
-* `/api/v3/ticker/bookTicker`对于无符号查询增加了2的权重。
-* `DELETE /api/v3/order`现在将返回订单最终状态的执行报告。
-* `MIN_NOTIONAL`过滤器有两个新参数：
-  * `applyToMarket`（过滤器是否应用于MARKET订单）
-  * `avgPriceMins`（平均价格的分钟数）。
-* `intervalNum`已添加到`/api/v1/exchangeInfo`限制中。 `intervalNum`描述间隔的数量。 例如：`intervalNum` 5，带有`interval`分钟，表示“每5分钟”。
+* Can now cancel orders through the Rest API during a trading ban.
+* New filters: `PERCENT_PRICE`, `MARKET_LOT_SIZE`, `MAX_NUM_ICEBERG_ORDERS`.
+* Added `RAW_REQUST` rate limit. Limits based on the number of requests over X minutes regardless of weight.
+* /api/v3/ticker/price increased to weight of 2 for a no symbol query.
+* /api/v3/ticker/bookTicker increased weight of 2 for a no symbol query.
+* DELETE /api/v3/order will now return an execution report of the final state of the order.
+* `MIN_NOTIONAL` filter has two new parameters: `applyToMarket` (whether or not the filter is applied to MARKET orders) and `avgPriceMins` (the number of minutes over which the price averaged for the notional estimation).
+* `intervalNum` added to /api/v1/exchangeInfo limits. `intervalNum` describes the amount of the interval. For example: `intervalNum` 5, with `interval` minute, means "every 5 minutes".
   
-<font size=4>平均价格的计算规则解释:</font>
 
-1. 前5分钟的所有交易/数量交易的（数量*价格）。
+<font size=4>Explanation for the average price calculation:</font>
 
-2. 如果最近5分钟内没有交易，则以5分钟窗口外发生的第一笔交易为准。
-    例如，如果最后一次交易是在20分钟前，则该交易的价格为5分钟的平均值。
+1. (qty * price) of all trades / numTrades of the trades over previous 5 minutes.
 
-3. 如果代码上没有交易，则没有平均价格，因此无法下达市价单。对于在MIN_NOTIONAL过滤器上启用了applyToMarket的新交易对，除非有至少一笔交易，才能下达市价单。
+2. If there is no trade in the last 5 minutes, it takes the first trade that happened outside of the 5min window.
+   For example if the last trade was 20 minutes ago, that trade's price is the 5 min average.
 
-4. 当前的平均价格可以在这里查看：`https://api.binance.com/api/v3/avgPrice?symbol=<symbol>`
-   例如:
-   `https://api.binance.com/api/v3/avgPrice?symbol=BNBUSDT`
+3. If there is no trade on the symbol, there is no average price and market orders cannot be placed.
+   On a new symbol with `applyToMarket` enabled on the `MIN_NOTIONAL` filter, market orders cannot be placed until there is at least 1 trade.
 
-<font size=4>用户数据流</font>
+4. The current average price can be checked here: `https://api.binance.com/api/v3/avgPrice?symbol=<symbol>`
+   For example:
+   https://api.binance.com/api/v3/avgPrice?symbol=BNBUSDT
 
-* 将“最后报价资产交易量”（作为变量“ Y”）添加到执行报告中。 代表`lastPrice` 
-* `lastQty`（`L` *`l`）。
+
+<font size=4>User data stream</font>
+
+* `Last quote asset transacted quantity` (as variable `Y`) added to execution reports. Represents the `lastPrice` * `lastQty` (`L` * `l`).
 
 ---
 <font size=4>**2018-07-18**</font>
 
 <font size=4>Rest API</font>
 
-* 新的过滤器：`ICEBERG_PARTS`
-* ` post api/v3/order`为newOrderRespType`的新默认值。 ACK，RESULT或FULL； “ MARKET”和“ LIMIT”订单类型默认为“ FULL”，所有其他订单默认为“ ACK”。
-* POST api/v3 order`RESULT`和`FULL`响应现在具有“ cummulativeQuoteQty”
-* GET/api/v3/ openOrders的交易对权重减少到40。
-* GET/api/v3/ ticker / 24hr，且交易对权重未降低至40。
-* GET/api/v1/ trades的最大交易量增加到1000。
-* GET/api/v1/ historicalTrades的最大交易量增加到1000。
-* GET/api/v1/ aggTrades的最大总交易量增加到1000。
-* GET/api/v1/ klines的最大总交易量增加到1000。
-* 剩余的API订单查询现在返回`updateTime`，它代表订单的最后更新时间； time是订单创建时间。
-* 订单查找接口现在将返回“ cummulativeQuoteQty”。如果“ cummulativeQuoteQty”小于0，则表示该时间该数据不可用。
-* REQUESTS速率限制类型更改为REQUEST_WEIGHT。从逻辑上讲，此限制始终是请求权重，并且其先前的名称引起混乱。
+*  New filter: `ICEBERG_PARTS`
+*  `POST api/v3/order` new defaults for `newOrderRespType`. `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` order types default to `FULL`, all other orders default to `ACK`.
+*  POST api/v3/order `RESULT` and `FULL` responses now have `cummulativeQuoteQty`
+*  GET api/v3/openOrders with no symbol weight reduced to 40.
+*  GET api/v3/ticker/24hr with no symbol weight reduced to 40.
+*  Max amount of trades from GET /api/v1/trades increased to 1000.
+*  Max amount of trades from GET /api/v1/historicalTrades increased to 1000.
+*  Max amount of aggregate trades from GET /api/v1/aggTrades increased to 1000.
+*  Max amount of aggregate trades from GET /api/v1/klines increased to 1000.
+*  Rest API Order lookups now return `updateTime` which represents the last time the order was updated; `time` is the order creation time.
+*  Order lookup endpoints will now return `cummulativeQuoteQty`. If `cummulativeQuoteQty` is < 0, it means the data isn't available for this order at this time.
+*  `REQUESTS` rate limit type changed to `REQUEST_WEIGHT`. This limit was always logically request weight and the previous name for it caused confusion.
 
-<font size=4>用户数据流</font>
 
-* 在订单响应和执行报告中添加了“ cummulativeQuoteQty”字段（作为变量“ Z”）。 表示已花费（使用“买入”订单）或已收到（使用“卖出”订单）的“报价”的累计金额。 历史订单在该字段中的值将小于0，这表明该数据目前不可用。 “ cummulativeQuoteQty”除以“ cummulativeQty”将得出订单的平均价格。
-* `O`（订单创建时间）添加到执行报告中
+<font size=4>User data stream</font>
+
+*  `cummulativeQuoteQty` field added to order responses and execution reports (as variable `Z`). Represents the cummulative amount of the `quote` that has been spent (with a `BUY` order) or received (with a `SELL` order). Historical orders will have a value < 0 in this field indicating the data is not available at this time. `cummulativeQuoteQty` divided by `cummulativeQty` will give the average price for an order.
+*  `O` (order creation time) added to execution reports
 
 ---
 <font size=4>**2018-01-23**</font>
 
-* GET/api/v1/ historicalTrades权重降低到5
-* GET/api/v1/ aggTrades权重降至1
-* GET/api/v1/ klines权重降至1
-* GET/api/v1/ticker / 24hr，所有交易品种的权重降低到交易交易品种的数量/ 2
-* GET/api/v3/ allOrders权重降低到5
-* GET/api/v3/ myTrades权重降低到5
-* GET/api/v3/帐户权重降低到5
-* GET/api/v1/深度限制= 500重量减少到5
-* GET/api/v1/深度限制= 1000重量减少到10
-* -1003错误消息已更新，可将用户定向到websocket
+* GET /api/v1/historicalTrades weight decreased to 5
+* GET /api/v1/aggTrades weight decreased to 1
+* GET /api/v1/klines weight decreased to 1
+* GET /api/v1/ticker/24hr all symbols weight decreased to number of trading symbols / 2
+* GET /api/v3/allOrders weight decreased to 5
+* GET /api/v3/myTrades weight decreased to 5
+* GET /api/v3/account weight decreased to 5
+* GET /api/v1/depth limit=500 weight decreased to 5
+* GET /api/v1/depth limit=1000 weight decreased to 10
+* -1003 error message updated to direct users to websockets
 
 ---
 <font size=4>**2018-01-20**</font>
 
-* GET/api/v1/ticker / 24hr单个符号权重降至1
-* GET/api/v3/ openOrders所有交易对权重下降至交易交易品种数量/ 2
-* GET/api/v3/allOrders权重降低到15
-* GET/api/v3/ myTrades权重降低到15
-* GET/api/v3/订单权重降至1
-* myTrades现在将返回自交易/清洗交易的双方
+* GET /api/v1/ticker/24hr single symbol weight decreased to 1
+* GET /api/v3/openOrders all symbols weight decreased to number of trading symbols / 2
+* GET /api/v3/allOrders weight decreased to 15
+* GET /api/v3/myTrades weight decreased to 15
+* GET /api/v3/order weight decreased to 1
+* myTrades will now return both sides of a self-trade/wash-trade
 
 ---
 <font size=4>**2018-01-14**</font>
 
-* GET/api/v1/aggTrades权重更改为2
-* GET/api/v1/klines权重更改为2
-* GET/api/v3/订单权重更改为2
-* GET/api/v3/ allOrders权重更改为20
-* GET/api/v3/帐户权重更改为20
-* GET/api/v3/ myTrades权重更改为20
-* GET/api/v3/ historicalTrades权重更改为20
+* GET /api/v1/aggTrades weight changed to 2
+* GET /api/v1/klines weight changed to 2
+* GET /api/v3/order weight changed to 2
+* GET /api/v3/allOrders weight changed to 20
+* GET /api/v3/account weight changed to 20
+* GET /api/v3/myTrades weight changed to 20
+* GET /api/v3/historicalTrades weight changed to 20
 
 
-# 介绍
 
-## API Key 设置
+# Introduction
 
-* 很多接口需要API Key才可以访问. 请参考[这个页面](https://binance.zendesk.com/hc/zh-cn/articles/360002502072-%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAAPI)来设置API Key.
-* 设置API Key的同时，为了安全，建议设置IP访问白名单.
-* **永远不要把你的API key/secret告诉给任何人**
+## API Key Setup
+
+* Some endpoints will require an API Key. Please refer to [this page](https://binance.zendesk.com/hc/en-us/articles/360002502072-How-to-create-API) regarding API key creation.
+* Once API key is created, it is recommended to set IP restrictions on the key for security reasons.
+* **Never share your API key/secret key to ANYONE.**
 
 <aside class="warning">
-如果不小心泄露了API key，请立刻删除此Key, 并可以另外生产新的Key.
+If the API keys were accidentally shared, please delete them immediately and create a new key.
 </aside>
 
-## API Key 权限设置
+## API Key Restrictions
 
-* 新创建的API的默认权限是 `允许交易`, 可以用来下单。
-* 如果需要通过API提款, 需要在UI修改权限, 选中 `允许提现`。
+* After creating the API key, the default restrictions set will be to enable trade, allowing to make orders on the API.
+* To **enable withdrawals via the API**, the API key restriction needs to be modified through the Binance UI.
 
-## 账户
+## Enabling Accounts
 
-### 现货账户
+### Spot Account
 
-新注册的币安账号都会有一个现货(`SPOT`)账号。
+A `SPOT` account is provided by default upon creation of a Binance Account.
 
-### 杠杆账户
+### Margin Account
 
-为了开设杠杆(`MARGIN`)账户, 可以参考[Binance杠杆交易账户设置指南](https://www.binance.vision/zh/tutorials/binance-margin-trading-guide)
+To enable a `MARGIN` account for Margin Trading, please refer to the [Margin Trading Guide](https://www.binance.vision/tutorials/binance-margin-trading-guide)
 
-## 现货测试网
+## SPOT Testnet
 
-用户可以使用现货的测试网来体验`SPOT`交易. 现在只能通过API来交易。
+Users can use the SPOT Testnet to practice `SPOT` trading.
 
-更多信息请参考[现货测试网](https://testnet.binance.vision/)。
+Currently, this is only available via the API.
+
+Please refer to the [SPOT Testnet page](https://testnet.binance.vision/) for more information and how to set up the Testnet API key.
 
 ## Postman Collections
 
-现在你可以通过`Postman collection`来快速体验、使用API接口。<br/>
-如果想了解更多如果使用Postman，请访问[Binance API Postman](https://github.com/binance-exchange/binance-api-postman)
+There is now a Postman collection containing the API endpoints for quick and easy use.
 
-## 联系我们
+This is recommended for new users who want to get a quick-start into using the API.
 
-* [币安API电报群](https://t.me/Binance_api_Chinese)
-    * 咨询关于API或者Websockets性能方面的问题.
-    * 咨询文档中没有提及的API问题.
-* [币安开发者社区](https://dev.binance.vision/)
-    * 咨询关于API/Websockets代码实现，或者任何API/Websockets的问题.
-* [币安客服](https://www.binance.com/cn/support-center)
-    * 咨询关于账户，钱包，2FA等.
+For more information please refer to this page: [Binance API Postman](https://github.com/binance-exchange/binance-api-postman)
 
+## Contact Us
 
-# 基本信息
-## API 基本信息
+* [Binance API Telegram Group](https://t.me/binance_api_english)
+    * For any questions in sudden drop in performance with the API and/or Websockets.
+    * For any general questions about the API not covered in the documentation.
+* [Binance Developers](https://dev.binance.vision/)
+    * For any questions on your code implementation with the API and/or Websockets.
+* [Binance Customer Support](https://www.binance.com/en/support-center)
+    * For cases such as missing funds, help with 2FA, etc.
 
-* 接口可能需要用户的 API Key，如何创建API-KEY请参考[这里](https://www.binance.com/cn/support/articles/360002502072)
-* 本篇列出接口的baseurl: **https://api.binance.com**
-* 所有接口的响应都是 JSON 格式。
-* 响应中如有数组，数组元素以时间**升序**排列，越早的数据越提前。  
-* 所有时间、时间戳均为UNIX时间，单位为**毫秒**。
+---
 
-### HTTP 返回代码
-* HTTP `4XX` 错误码用于指示错误的请求内容、行为、格式。问题在于请求者。
-* HTTP `403` 错误码表示违反WAF限制(Web应用程序防火墙)。
-* HTTP `429` 错误码表示警告访问频次超限，即将被封IP。
-* HTTP `418` 表示收到429后继续访问，于是被封了。
-* HTTP `5XX` 错误码用于指示Binance服务侧的问题。    
-  使用接口 `/wapi/v3` 时, HTTP `504` 表示API服务端已经向业务核心提交了请求但未能获取响应，特别需要注意的是504代码不代表请求失败，而是未知。很可能已经得到了执行，也有可能执行失败，需要做进一步确认。
+# General Info
+## General API Information
 
-### 错误代码
+* The base endpoint is: **https://api.binance.com**
+* All endpoints return either a JSON object or array.
+* Data is returned in **ascending** order. Oldest first, newest last.
+* All time and timestamp related fields are in **milliseconds**.
 
-* 使用接口 `/api/v3`, 以及 `/sapi/v1/margin`时, 每个接口都有可能抛出异常; 
+### HTTP Return Codes
+* HTTP `4XX` return codes are used for malformed requests;
+  the issue is on the sender's side.
+* HTTP `403` return code is used when the WAF Limit (Web Application Firewall) has been violated.
+* HTTP `429` return code is used when breaking a request rate limit.
+* HTTP `418` return code is used when an IP has been auto-banned for continuing to send requests after receiving `429` codes.
+* HTTP `5XX` return codes are used for internal errors; the issue is on
+  Binance's side.
+* With using `/wapi/v3` , HTTP `504` return code is used when the API successfully sent the message but not get a response within the timeout period.
+  It is important to **NOT** treat this as a failure operation; the execution status is
+  **UNKNOWN** and could have been a success.
 
-> API 与 SAPI 的错误代码返回形式如下:
+### Error Codes
 
+* If there is an error, the API will return an error with a message of the reason.
+
+> The error payload on API and SAPI is as follows:
+ 
 ```javascript
 {
   "code": -1121,
@@ -660,10 +678,10 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 }
 ```
 
-* 当使用`/wapi/v3`, 任何接口都可能返回错误; 
+* When using `/wapi/v3`, any endpoint can return an ERROR; 
 
-> WAPI 的错误代码返回形式如下:
-
+> The error payload on WAPI is as follows:
+ 
 ```javascript
 {
   "success": false,
@@ -671,81 +689,92 @@ POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 }
 ```
 
+* Specific error codes and messages defined in [Error Codes](#error-codes).
 
-* 具体的错误码及其解释在 [错误代码](#cf68bca02a).
+### General Information on Endpoints
 
-### 接口的基本信息
+* For `GET` endpoints, parameters must be sent as a `query string`.
+* For `POST`, `PUT`, and `DELETE` endpoints, the parameters may be sent as a
+  `query string` or in the `request body` with content type
+  `application/x-www-form-urlencoded`. You may mix parameters between both the
+  `query string` and `request body` if you wish to do so.
+* Parameters may be sent in any order.
+* If a parameter sent in both the `query string` and `request body`, the
+  `query string` parameter will be used.
 
-* `GET` 方法的接口, 参数必须在 `query string`中发送。
-* `POST`, `PUT`, 和 `DELETE` 方法的接口,参数可以在内容形式为`application/x-www-form-urlencoded`的 `query string` 中发送，也可以在 `request body` 中发送。 如果你喜欢，也可以混合这两种方式发送参数。
-* 对参数的顺序不做要求。
-* 但如果同一个参数名在query string和request body中都有，query string中的会被优先采用。
-  
 ---
-## 访问限制
-### 访问限制基本信息
-* 以下 是`intervalLetter` 作为头部值:
+## LIMITS
+
+### General Info on Limits
+* The following `intervalLetter` values for headers:
     * SECOND => S
     * MINUTE => M
     * HOUR => H
     * DAY => D
-   
-* 在/api/v3/exchangeInfo`rateLimits数组中包含与交易的有关RAW_REQUEST，REQUEST_WEIGHT和ORDER速率限制相关的对象。这些在“ Rate limiters（rateLimitType）”下的“ ENUM definitions”部分中进一步定义。
+* `intervalNum` describes the amount of the interval. For example, `intervalNum` 5 with `intervalLetter` M means "Every 5 minutes".
+* The `/api/v3/exchangeInfo` `rateLimits` array contains objects related to the exchange's `RAW_REQUEST`, `REQUEST_WEIGHT`, and `ORDER` rate limits. These are further defined in the `ENUM definitions` section under `Rate limiters (rateLimitType)`.
+* A 429 will be returned when either rate limit is violated.
 
-* 违反任何一个速率限制时，将返回429。
-
-### IP 访问限制
-* 每个请求将包含一个`X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)`的头，其中包含当前IP所有请求的已使用权重。
-* 每个路由都有一个“权重”，该权重确定每个接口计数的请求数。较重的接口和对多个交易对进行操作的接口将具有较重的“权重”。
-* 收到429时，您有责任作为API退回而不向其发送更多的请求。
-* **如果屡次违反速率限制和/或在收到429后未能退回，将导致API的IP被禁（http状态418）。**
-* 频繁违反限制，封禁时间会逐渐延长 ，**对于重复违反者，将会被封从2分钟到3天**。
-* `Retry-After`的头会与带有418或429的响应发送，并且会给出**以秒为单位**的等待时长（如果是429）以防止禁令，或者如果是418，直到禁令结束。
-* **访问限制是基于IP的，而不是API Key**
+### IP Limits
+* Every request will contain `X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)` in the response headers which has the current used weight for the IP for all request rate limiters defined.
+* Each route has a `weight` which determines for the number of requests each endpoint counts for. Heavier endpoints and endpoints that do operations on multiple symbols will have a heavier `weight`.
+* When a 429 is received, it's your obligation as an API to back off and not spam the API.
+* **Repeatedly violating rate limits and/or failing to back off after receiving 429s will result in an automated IP ban (HTTP status 418).**
+* IP bans are tracked and **scale in duration** for repeat offenders, **from 2 minutes to 3 days**.
+* A `Retry-After` header is sent with a 418 or 429 responses and will give the **number of seconds** required to wait, in the case of a 429, to prevent a ban, or, in the case of a 418, until the ban is over.
+* **The limits on the API are based on the IPs, not the API keys.**
 
 <aside class="notice">
-建议您尽可能多地使用websocket消息获取相应数据，以减少请求带来的访问限制压力。
+We recommend using the websocket for getting data as much as possible, as this will not count to the request rate limit.
 </aside>
 
+### Order Rate Limits
+* Every successful order response will contain a `X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)` header which has the current order count for the account for all order rate limiters defined.
+* Rejected/unsuccessful orders are not guaranteed to have `X-MBX-ORDER-COUNT-**` headers in the response.
+* **The order rate limit is counted against each account**.
 
-###下单频率限制
-* 每个成功的下单回报将包含一个`X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)`的头，其中包含当前账户已用的下单限制数量。
-* 被拒绝或不成功的下单并不保证回报中包含以上头内容。
-* **下单频率限制是基于每个账户计数的。**
+## Endpoint security type
+* Each endpoint has a security type that determines the how you will
+  interact with it. This is stated next to the NAME of the endpoint.
+    * If no security type is stated, assume the security type is NONE.
+* API-keys are passed into the Rest API via the `X-MBX-APIKEY`
+  header.
+* API-keys and secret-keys **are case sensitive**.
+* API-keys can be configured to only access certain types of secure endpoints.
+ For example, one API-key could be used for TRADE only, while another API-key
+ can access everything except for TRADE routes.
+* By default, API-keys can access all secure routes.
 
----
-## 接口鉴权类型
-* 每个接口都有自己的鉴权类型，鉴权类型决定了访问时应当进行何种鉴权。
-* 鉴权类型会在本文档中各个接口名称旁声明，如果没有特殊声明即默认为 `NONE`。
-* 如果需要 API-keys，应当在HTTP头中以 `X-MBX-APIKEY`字段传递。
-* API-keys 与 secret-keys **是大小写敏感的**。
-* API-keys可以被配置为只拥有访问一些接口的权限。
- 例如, 一个 API-key 仅可用于发送交易指令, 而另一个 API-key 则可访问除交易指令外的所有路径。
-* 默认 API-keys 可访问所有鉴权路径.
-
-鉴权类型 | 描述
+Security Type | Description
 ------------ | ------------
-NONE | 不需要鉴权的接口
-TRADE | 需要有效的 API-Key 和签名
-USER_DATA | 需要有效的 API-Key 和签名
-USER_STREAM | 需要有效的 API-Key
-MARKET_DATA | 需要有效的 API-Key
+NONE | Endpoint can be accessed freely.
+TRADE | Endpoint requires sending a valid API-Key and signature.
+USER_DATA | Endpoint requires sending a valid API-Key and signature.
+USER_STREAM | Endpoint requires sending a valid API-Key.
+MARKET_DATA | Endpoint requires sending a valid API-Key.
 
 
-* `TRADE`, `MARGIN` 和`USER_DATA` 接口是 签名（SIGNED）接口.
+* `TRADE`, `MARGIN` and `USER_DATA` endpoints are `SIGNED` endpoints.
+
 
 ---
-## SIGNED (TRADE、USER_DATA AND MARGIN) Endpoint security
-* 调用`SIGNED` 接口时，除了接口本身所需的参数外，还需要在`query string` 或 `request body`中传递 `signature`, 即签名参数。
-* 签名使用`HMAC SHA256`算法. API-KEY所对应的API-Secret作为 `HMAC SHA256` 的密钥，其他所有参数作为`HMAC SHA256`的操作对象，得到的输出即为签名。
-* `签名` **大小写不敏感**.
-* “ totalParams”定义为与“ request body”串联的“ query string”。
+## SIGNED (TRADE, USER_DATA, AND MARGIN) Endpoint security
+* `SIGNED` endpoints require an additional parameter, `signature`, to be
+  sent in the  `query string` or `request body`.
+* Endpoints use `HMAC SHA256` signatures. The `HMAC SHA256 signature` is a keyed `HMAC SHA256` operation.
+  Use your `secretKey` as the key and `totalParams` as the value for the HMAC operation.
+* The `signature` is **not case sensitive**.
+* `totalParams` is defined as the `query string` concatenated with the
+  `request body`.
 
-### 时间同步安全
-* 签名接口均需要传递 `timestamp`参数，其值应当是请求发送时刻的unix时间戳（毫秒）。
-* 服务器收到请求时会判断请求中的时间戳，如果是5000毫秒之前发出的，则请求会被认为无效。这个时间空窗值可以通过发送可选参数 `recvWindow`来定义。
+### Timing security
+* A `SIGNED` endpoint also requires a parameter, `timestamp`, to be sent which
+  should be the millisecond timestamp of when the request was created and sent.
+* An additional parameter, `recvWindow`, may be sent to specify the number of
+  milliseconds after `timestamp` the request is valid for. If `recvWindow`
+  is not sent, **it defaults to 5000**.
 
-> 逻辑伪代码如下:
+> The logic is as follows:
 
 ```javascript
   if (timestamp < (serverTime + 1000) && (serverTime - timestamp) <= recvWindow)
@@ -758,14 +787,19 @@ MARKET_DATA | 需要有效的 API-Key
   }
 ```
 
-**关于交易时效性** 互联网状况并不完全稳定可靠,因此你的程序本地到币安服务器的时延会有抖动。这是我们设置`recvWindow`的目的所在，如果你从事高频交易，对交易时效性有较高的要求，可以灵活设置`recvWindow`以达到你的要求。
+**Serious trading is about timing.** Networks can be unstable and unreliable,
+which can lead to requests taking varying amounts of time to reach the
+servers. With `recvWindow`, you can specify that the request must be
+processed within a certain number of milliseconds or be rejected by the
+server.
 
 <aside class="notice">
-推荐使用5秒以下的 recvWindow! 最多不能超过 60秒!
+It is recommended to use a small recvWindow of 5000 or less! The max cannot go beyond 60,000!
 </aside>
 
-### POST /api/v3/order 的示例
-以下是在linux bash环境下使用 echo openssl 和curl工具实现的一个调用接口下单的示例 apikey、secret仅供示范
+### SIGNED Endpoint Examples for POST /api/v3/order
+Here is a step-by-step example of how to send a vaild signed payload from the
+Linux command line using `echo`, `openssl`, and `curl`.
 
 Key | Value
 ------------ | ------------
@@ -773,7 +807,7 @@ apiKey | vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A
 secretKey | NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j
 
 
-参数 | 取值
+Parameter | Value
 ------------ | ------------
 symbol | LTCBTC
 side | BUY
@@ -785,7 +819,8 @@ recvWindow | 5000
 timestamp | 1499827319559
 
 
-#### 示例 1: 所有参数通过 request body 发送
+#### Example 1: As a request body
+
 
 > **Example 1**
 
@@ -817,7 +852,7 @@ symbol=LTCBTC
 &timestamp=1499827319559
 
 
-#### 示例 2: 所有参数通过 query string 发送
+#### Example 2: As a query string
 
 > **Example 2**
 
@@ -828,6 +863,7 @@ symbol=LTCBTC
     (stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
     
 ```
+
 > **curl command:**
 
 ```shell
@@ -835,7 +871,8 @@ symbol=LTCBTC
    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.binance.com/api/v3/order?symbol=LTCBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
     
 ```
-* **queryString:**  
+
+*  **queryString:** 
 
 symbol=LTCBTC   
 &side=BUY   
@@ -847,7 +884,7 @@ symbol=LTCBTC
 &timestamp=1499827319559
 
 
-#### 示例 3: 混合使用 query string 和 request body
+#### Example 3: Mixed query string and request body
 
 > **Example 3**
 
@@ -875,13 +912,13 @@ symbol=LTCBTC&side=BUY&type=LIMIT&timeInForce=GTC
 quantity=1&price=0.1&recvWindow=5000&timestamp=1499827319559
 
 
-请注意，签名与示例3不同。
-“ GTC”和“ quantity = 1”之间没有＆。
+Note that the signature is different in example 3.
+There is no & between "GTC" and "quantity=1".
 
 
-### POST的签名接口示例/wapi/v3/withdraw.html
-这是一个分步示例，说明如何从
-使用`echo`，`openssl`和`curl`的Linux命令行。
+### SIGNED Endpoint Examples for POST /wapi/v3/withdraw.html
+Here is a step-by-step example of how to send a vaild signed payload from the
+Linux command line using `echo`, `openssl`, and `curl`.
 
 Key | Value
 ------------ | ------------
@@ -889,7 +926,7 @@ apiKey | vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A
 secretKey | NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j
 
 
-参数 | 取值
+Parameter | Value
 ------------ | ------------
 asset | ETH
 address  |0x6915f16f8791d0a1cc2bf47c13a6b2a92000504b
@@ -901,7 +938,7 @@ timestamp | 1508396497000
 signature  | 157fb937ec848b5f802daa4d9f62bea08becbf4f311203bda2bd34cd9853e320
 
 
-#### 示例 1: 所有参数通过 query string 发送
+#### Example 1: As a query string
 
 > **HMAC SHA256 signature:**
 
@@ -926,81 +963,82 @@ asset=ETH
 &address=0x6915f16f8791d0a1cc2bf47c13a6b2a92000504b
 &amount=1&recvWindow=5000&name=test&timestamp=1510903211000
 
-注意，对于`wapi`，参数必须以查询字符串的形式发送。
+Note that for `wapi`, parameters must be sent in query strings.
+
 
 ---
 
-## 公开 API 参数
-### 术语
-* `base asset` 指一个交易对的交易对象，即写在靠前部分的资产名。
-* `quote asset` 指一个交易对的定价资产，即写在靠后部分的资产名。
+## Public API Definitions
+### Terminology
+* `base asset` refers to the asset that is the `quantity` of a symbol.
+* `quote asset` refers to the asset that is the `price` of a symbol.
 
-### 枚举定义
-**交易对状态 (状态):**
+### ENUM definitions
+**Symbol status (status):**
 
-* PRE_TRADING 交易前
-* TRADING 交易中
-* POST_TRADING 交易后
-* END_OF_DAY 
+* PRE_TRADING
+* TRADING
+* POST_TRADING
+* END_OF_DAY
 * HALT
 * AUCTION_MATCH
 * BREAK
 
-**交易对类型:**
+**Symbol type:**
 
-* SPOT 现货
+* SPOT
 
-**订单状态 (状态):**
+**Order status (status):**
 
-* NEW 新建订单
-* PARTIALLY_FILLED 部分成交
-* FILLED 全部成交
-* CANCELED 已撤销
-* PENDING_CANCEL  撤销中（目前并未使用）
-* REJECTED 订单被拒绝
-* EXPIRED 订单过期（根据timeInForce参数规则）
+* NEW - The order has been accepted by the engine.
+* PARTIALLY_FILLED - A part of the order has been filled.
+* FILLED - The order has been completely filled.
+* CANCELED - The order has been canceled by the user.
+* PENDING_CANCEL (currently unused)
+* REJECTED - The order was not accepted by the engine and not processed.
+* EXPIRED - The order was canceled according to the order type's rules (e.g. LIMIT FOK orders with no fill, LIMIT IOC or MARKET orders that partially fill) or by the exchange, (e.g. orders canceled during liquidation, orders canceled during maintenance)
 
-**OCO 状态 (状态类型集):**
+**OCO Status (listStatusType):**
 
-* RESPONSE 当ListStatus响应失败的操作时使用。 （订单完成或取消订单）
-* EXEC_STARTED 当已经下单或者订单有更新时
-* ALL_DONE 当订单执行结束或者不在激活状态
+* RESPONSE
+* EXEC_STARTED
+* ALL_DONE
 
-**OCO 订单状态 (订单状态集):**
+**OCO Order Status (listOrderStatus):**
 
-* EXECUTING 当已经下单或者订单有更新时
-* ALL_DONE 当订单执行结束或者不在激活状态
-* REJECT 当订单状态响应失败（订单完成或取消订单）
+* EXECUTING
+* ALL_DONE
+* REJECT
 
-**指定订单的类型**
+**ContingencyType**
 
-* OCO 选择性委托订单
+* OCO
 
 
-**订单类型 (orderTypes, type):**
+**Order types (orderTypes, type):**
 
-* LIMIT 限价单
-* MARKET 市价单
-* STOP_LOSS 止损单
-* STOP_LOSS_LIMIT 限价止损单
-* TAKE_PROFIT 止盈单
-* TAKE_PROFIT_LIMIT 限价止盈单
-* LIMIT_MAKER 限价卖单
+* LIMIT
+* MARKET
+* STOP_LOSS
+* STOP_LOSS_LIMIT
+* TAKE_PROFIT
+* TAKE_PROFIT_LIMIT
+* LIMIT_MAKER
 
-**订单方向 (方向):**
+**Order side (side):**
 
-* BUY 买入
-* SELL 卖出
+* BUY
+* SELL
 
-**有效方式 (timeInForce):**
+**Time in force (timeInForce):**
 
-* GTC 成交为止
-* IOC 无法立即成交的部分就撤销
-* FOK 无法全部立即成交就撤销
+* GTC
+* IOC
+* FOK
 
-**K线间隔:**
+**Kline/Candlestick chart intervals:**
 
-m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
+m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 
 * 1m
 * 3m
@@ -1018,7 +1056,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 * 1w
 * 1M
 
-**限制种类 (rateLimitType)**
+**Rate limiters (rateLimitType)**
 
 > REQUEST_WEIGHT
 
@@ -1059,27 +1097,27 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
     }
 ```
 
-* REQUEST_WEIGHT 单位时间请求权重之和上限
+* REQUEST_WEIGHT
 
-* ORDERS 单位时间下单次数限制
+* ORDERS
 
-* RAW_REQUESTS 单位时间请求次数上限
+* RAW_REQUESTS
 
-**限制间隔 (interval)**
+**Rate limit intervals (interval)**
 
-* SECOND 秒
-* MINUTE 分
-* DAY 天
+* SECOND
+* MINUTE
+* DAY
 
 ---
-## 过滤器
-过滤器，即Filter，定义了一系列交易规则。 共有两类，分别是针对交易对的过滤器`symbol filters`，和针对整个交易所的过滤器 `exchange filters`
+## Filters
+Filters define trading rules on a symbol or an exchange.
+Filters come in two forms: `symbol filters` and `exchange filters`.
 
+### Symbol Filters
+#### PRICE_FILTER
 
-### 交易对过滤器
-#### PRICE_FILTER 价格过滤器
-
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1090,48 +1128,46 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
   }
 ```
 
-`价格过滤器` 用于检测订单中 `price` 参数的合法性。包含以下三个部分:
+The `PRICE_FILTER` defines the `price` rules for a symbol. There are 3 parts:
 
-* `minPrice` 定义了 `price`/`stopPrice` 允许的最小值。
-* `maxPrice` 定义了 `price`/`stopPrice` 允许的最大值。
-* `tickSize` 定义了 `price`/`stopPrice` 的步进间隔，即price必须等于minPrice+(tickSize的整数倍)
+* `minPrice` defines the minimum `price`/`stopPrice` allowed; disabled on `minPrice` == 0.
+* `maxPrice` defines the maximum `price`/`stopPrice` allowed; disabled on `maxPrice` == 0.
+* `tickSize` defines the intervals that a `price`/`stopPrice` can be increased/decreased by; disabled on `tickSize` == 0.
 
-以上每一项均可为0，为0时代表这一项不再做限制。
-
-逻辑伪代码如下:
+Any of the above variables can be set to 0, which disables that rule in the `price filter`. In order to pass the `price filter`, the following must be true for `price`/`stopPrice` of the enabled rules:
 
 * `price` >= `minPrice` 
 * `price` <= `maxPrice`
 * (`price`-`minPrice`) % `tickSize` == 0
 
 
-#### PERCENT_PRICE 价格振幅过滤器
+#### PERCENT_PRICE
 
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
     "filterType": "PERCENT_PRICE",
-    "multiplierUp": "5",
-    "multiplierDown": "0.2",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
     "avgPriceMins": 5
   }
 ```
 
-`PERCENT_PRICE`过滤器基于先前交易的平均值来定义价格的有效范围。   
-`avgPriceMins`是计算平均价格的分钟数。 0表示使用最后的价格。
+The `PERCENT_PRICE` filter defines valid range for a price based on the average of the previous trades.
+`avgPriceMins` is the number of minutes the average price is calculated over. 0 means the last price is used.
 
-为了通过“价格百分比”，“价格”必须符合以下条件：
+In order to pass the `percent price`, the following must be true for `price`:
 
-* `price` <=`weightedAveragePrice` *`multiplierUp`
-* `price`> =`weightedAveragePrice` *`multiplierDown`
-
-
-
-#### LOT_SIZE 订单尺寸
+* `price` <= `weightedAveragePrice` * `multiplierUp`
+* `price` >= `weightedAveragePrice` * `multiplierDown`
 
 
-> **/exchangeInfo 响应中的格式:**
+
+#### LOT_SIZE
+
+
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1142,22 +1178,22 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
   }
 ```
 
-Lots是拍卖术语，`LOT_SIZE` 过滤器对订单中的 `quantity` 也就是数量参数进行合法性检查。包含三个部分:
+The `LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for a symbol. There are 3 parts:
 
-* `minQty` 表示 `quantity`/`icebergQty` 允许的最小值。
-* `maxQty` 表示 `quantity`/`icebergQty` 允许的最大值。
-* `stepSize` 表示 `quantity`/`icebergQty` 允许的步进值。
+* `minQty` defines the minimum `quantity`/`icebergQty` allowed.
+* `maxQty` defines the maximum `quantity`/`icebergQty` allowed.
+* `stepSize` defines the intervals that a `quantity`/`icebergQty` can be increased/decreased by.
 
-逻辑伪代码如下:
+In order to pass the `lot size`, the following must be true for `quantity`/`icebergQty`:
 
 * `quantity` >= `minQty`
 * `quantity` <= `maxQty`
 * (`quantity`-`minQty`) % `stepSize` == 0
 
 
-#### MIN_NOTIONAL 最小名义价值(成交额)
+#### MIN_NOTIONAL
 
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1168,17 +1204,18 @@ Lots是拍卖术语，`LOT_SIZE` 过滤器对订单中的 `quantity` 也就是�
   }
 ```
 
-MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成交额)。
-订单的名义价值是`价格`*`数量`。   
-`applyToMarket`确定 `MIN_NOTIONAL`过滤器是否也将应用于`MARKET`订单。   
-由于`MARKET`订单没有价格，因此会在最后`avgPriceMins`分钟内使用平均价格。   
-`avgPriceMins`是计算平均价格的分钟数。 0表示使用最后的价格。 
+The `MIN_NOTIONAL` filter defines the minimum notional value allowed for an order on a symbol.
+An order's notional value is the `price` * `quantity`.
+`applyToMarket` determines whether or not the `MIN_NOTIONAL` filter will also be applied to `MARKET` orders.
+Since `MARKET` orders have no price, the average price is used over the last `avgPriceMins` minutes.
+`avgPriceMins` is the number of minutes the average price is calculated over. 0 means the last price is used.
 
 
 
-#### ICEBERG_PARTS 冰山订单拆分数
 
-> **/exchangeInfo 响应中的格式:**
+#### ICEBERG_PARTS
+
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1187,13 +1224,12 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
   }
 ```
 
-`ICEBERG_PARTS` 代表冰山订单最多可以拆分成多少个小订单。   
-计算方法为 `向上取整(qty / icebergQty)`。
+The `ICEBERG_PARTS` filter defines the maximum parts an iceberg order can have. The number of `ICEBERG_PARTS` is defined as `CEIL(qty / icebergQty)`.
 
 
-#### MARKET_LOT_SIZE 市价订单尺寸
+#### MARKET_LOT_SIZE
 
-> ***/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1205,13 +1241,13 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
 ```
 
 
-`MARKET_LOT_SIZE`过滤器为交易对上的`MARKET`订单定义了`数量`（即拍卖中的“手数”）规则。 共有3部分：
+The `MARKET_LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for `MARKET` orders on a symbol. There are 3 parts:
 
-* `minQty`定义了允许的最小`quantity`。
-* `maxQty`定义了允许的最大数量。
-* `stepSize`定义了可以增加/减少数量的间隔。
+* `minQty` defines the minimum `quantity` allowed.
+* `maxQty` defines the maximum `quantity` allowed.
+* `stepSize` defines the intervals that a `quantity` can be increased/decreased by.
 
-为了通过`market lot size`，`quantity`必须满足以下条件：
+In order to pass the `market lot size`, the following must be true for `quantity`:
 
 * `quantity` >= `minQty`
 * `quantity` <= `maxQty`
@@ -1219,9 +1255,9 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
 
 
 
-#### MAX_NUM_ORDERS 最多订单数
+#### MAX_NUM_ORDERS
 
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1230,14 +1266,14 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
   }
 ```
 
-定义了某个交易对最多允许的挂单数量（不包括已关闭的订单)       
-普通订单与条件订单均计算在内
+The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on a symbol.
+Note that both "algo" orders and normal orders are counted for this filter.
 
 
 
-#### MAX_NUM_ALGO_ORDERS 最多条件单数
+#### MAX_NUM_ALGO_ORDERS
 
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1246,16 +1282,16 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
   }
 ```
 
-`MAX_NUM_ALGO_ORDERS`过滤器定义允许账户在交易对上开设的“algo”订单的最大数量。    
-"Algo”订单是`STOP_LOSS`，`STOP_LOSS_LIMIT`，`TAKE_PROFIT`和`TAKE_PROFIT_LIMIT`止盈止损单。
+The `MAX_NUM_ALGO_ORDERS` filter defines the maximum number of "algo" orders an account is allowed to have open on a symbol.
+"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
 
 
 
-#### MAX_NUM_ICEBERG_ORDERS 最多冰山单数
-`MAX_NUM_ICEBERG_ORDERS`过滤器定义了允许在交易对上开设账户的`ICEBERG`订单的最大数量。     
-`ICEBERG`订单是icebergQty大于0的任何订单。.
+#### MAX_NUM_ICEBERG_ORDERS
+The `MAX_NUM_ICEBERG_ORDERS` filter defines the maximum number of `ICEBERG` orders an account is allowed to have open on a symbol.
+An `ICEBERG` order is any order where the `icebergQty` is > 0.
 
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1264,28 +1300,31 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
   }
 ```
 
-### MAX_POSITION 过滤器
+#### MAX_POSITION FILTER
 
-这个过滤器定义账户允许的基于`base asset`的最大仓位。一个用户的仓位可以定义为如下资产的总和:
-1. `base asset`的可用余额
-1. `base asset`的锁定余额
-1. 所有处于open的买单的数量总和
+The `MAX_POSITION` filter defines the allowed maximum position an account can have on the base asset of a symbol. 
+An account's position defined as the sum of the account's:
 
-如果用户的仓位大于最大的允许仓位，买单会被拒绝。
+1. free balance of the base asset
+1. locked balance of the base asset
+1. sum of the qty of all open BUY orders
 
-> **/exchangeInfo 响应中的格式:**
+`BUY` orders will be rejected if the account's position is greater than the maximum position allowed.
+
+> **ExchangeInfo format:**
 
 ```javascript
 {
-  "filterType": "MAX_POSITION",
-  "maxPosition": "10.00000000"
+  "filterType":"MAX_POSITION",
+  "maxPosition":"10.00000000"
 }
 ```
 
-### 交易所级别过滤器
-#### EXCHANGE_MAX_NUM_ORDERS 最多订单数
 
-> **/exchangeInfo 响应中的格式:**
+### Exchange Filters
+#### EXCHANGE_MAX_NUM_ORDERS
+
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1294,14 +1333,14 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
   }
 ```
 
-`MAX_NUM_ORDERS`过滤器定义了允许在交易对上开设账户的最大订单数。    
-请注意，此过滤器同时计算“algo”订单和常规订单。
+The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on the exchange.
+Note that both "algo" orders and normal orders are counted for this filter.
 
 
 
-#### EXCHANGE_MAX_NUM_ALGO_ORDERS 交易最大ALGO订单数
+#### EXCHANGE_MAX_NUM_ALGO_ORDERS
 
-> **/exchangeInfo 响应中的格式:**
+> **ExchangeInfo format:**
 
 ```javascript
   {
@@ -1310,22 +1349,22 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
   }
 ```
 
-`MAX_ALGO_ORDERS`过滤器定义了允许在交易上开设账户的“algo”订单的最大数量。    
-“Algo”订单是`STOP_LOSS`，`STOP_LOSS_LIMIT`，`TAKE_PROFIT`和`TAKE_PROFIT_LIMIT`订单。
+The `MAX_ALGO_ORDERS` filter defines the maximum number of "algo" orders an account is allowed to have open on the exchange.
+"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
 
 ---
 
-# 钱包接口
+# Wallet Endpoints
 
-## 系统状态 (System)
+## System Status (System)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 { 
-    "status": 0,              // 0: 正常，1：系统维护
-    "msg": "normal"           // normal|system maintenance
+    "status": 0,              // 0: normal，1：system maintenance
+    "msg": "normal"           // normal or system maintenance
 }
 ```
 
@@ -1333,15 +1372,15 @@ MIN_NOTIONAL过滤器定义了交易对订单所允许的最小名义价值(成�
 GET /wapi/v3/systemStatus.html
 ``
 
-获取系统状态。
+Fetch system status.
 
 
 
-## 获取所有币信息 (USER_DATA)
+## All Coins' Information (USER_DATA)
 
-获取针对用户的所有（Binance支持充提操作的）币种信息。
+Get information of coins (available for deposit and withdraw) for user.
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -1359,17 +1398,17 @@ GET /wapi/v3/systemStatus.html
 	 		{
 	 			"addressRegex": "^(bnb1)[0-9a-z]{38}$",
 	   			"coin": "BTC",
-	   			"depositDesc": "Wallet Maintenance, Deposit Suspended", // 仅在充值关闭时返回
+	   			"depositDesc": "Wallet Maintenance, Deposit Suspended", // shown only when "depositEnable" is false.
 	   			"depositEnable": false,
 	   			"isDefault": false,        
 	   			"memoRegex": "^[0-9A-Za-z\\-_]{1,120}$",
-	   			"minConfirm": 1,  // 上账所需的最小确认数
+	   			"minConfirm": 1,  // min number for balance confirmation
 	   			"name": "BEP2",
 	   			"network": "BNB",            
 	   			"resetAddressStatus": false,
 	   			"specialTips": "Both a MEMO and an Address are required to successfully deposit your BEP2-BTCB tokens to Binance.",
-	   			"unLockConfirm": 0,  // 解锁需要的确认数 
-	   			"withdrawDesc": "Wallet Maintenance, Withdrawal Suspended", // 仅在提现关闭时返回
+	   			"unLockConfirm": 0,  // confirmation number for balance unlcok 
+	   			"withdrawDesc": "Wallet Maintenance, Withdrawal Suspended", // shown only when "withdrawEnable" is false.
 	   			"withdrawEnable": false,
 	   			"withdrawFee": "0.00000220",
 	   			"withdrawMin": "0.00000440"
@@ -1377,16 +1416,16 @@ GET /wapi/v3/systemStatus.html
 	  		{
 	  			"addressRegex": "^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$|^(bc1)[0-9A-Za-z]{39,59}$",
 	   			"coin": "BTC",
-	   			"depositEnable": true,
+	   			"depositEnable": ture,
 	   			"insertTime": 1563532929000,
 	   			"isDefault": true,
 	   			"memoRegex": "",
-	   			"minConfirm": 1,  // 上账所需的最小确认数
+	   			"minConfirm": 1, 
 	   			"name": "BTC",
 	   			"network": "BTC",
 	   			"resetAddressStatus": false,
 	   			"specialTips": "",
-	   			"unLockConfirm": 0,  // 解锁需要的确认数 
+	   			"unLockConfirm": 2,
 	   			"updateTime": 1571014804000, 
 	   			"withdrawEnable": true,
 	   			"withdrawFee": "0.00050000",
@@ -1408,25 +1447,26 @@ GET /sapi/v1/capital/config/getall (HMAC SHA256)
 
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
 
-## 查询每日资产快照 (USER_DATA)
 
-> **响应**
+## Daily Account Snapshot (USER_DATA)
+
+> **Response:**
 
 ```javascript
 {
-   "code":200, // 200表示返回正确，否则即为错误码
-   "msg":"", // 与错误码对应的报错信息
+   "code":200, // 200 for success; others are error codes
+   "msg":"", // error message
    "snapshotVos":[
       {
          "data":{
@@ -1452,12 +1492,12 @@ timestamp | LONG | YES
 
 ```
 
-> 或
+> OR
 
 ```javascript
 {
-   "code":200, // 200表示返回正确，否则即为错误码
-   "msg":"", // 与错误码对应的报错信息
+   "code":200, // 200 for success; others are error codes
+   "msg":"", // error message
    "snapshotVos":[
       {
          "data":{
@@ -1482,12 +1522,12 @@ timestamp | LONG | YES
    ]
 }
 ```
-> 或
+> OR
 
 ```javascript
 {
-   "code":200, // 200表示返回正确，否则即为错误码
-   "msg":"", // 与错误码对应的报错信息
+   "code":200, // 200 for success; others are error codes
+   "msg":"", // error message
    "snapshotVos":[
       {
          "data":{
@@ -1519,12 +1559,12 @@ timestamp | LONG | YES
 GET /sapi/v1/accountSnapshot (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 type | STRING | YES | "SPOT", "MARGIN", "FUTURES"
 startTime	| LONG | NO	
@@ -1537,9 +1577,11 @@ timestamp | LONG | YES
 
 
 
-## 关闭站内划转 (USER_DATA)
 
-> **响应**
+
+## Disable Fast Withdraw Switch (USER_DATA)
+
+> **Response:**
 
 ```
 {}
@@ -1549,25 +1591,26 @@ timestamp | LONG | YES
 POST /sapi/v1/account/disableFastWithdrawSwitch (HMAC SHA256)
 ``
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO 
 timestamp | LONG | YES 
 
-* **注意:**
+* **Caution:**
 
-	此请求会关闭您账户的站内快速划转。您需要为api-key开通“trade”权限才能发送此请求。
+	This request will disable fastwithdraw switch under your account. <br>
+	You need to enable "trade" option for the api key which requests this 	endpoint.
 	
 
 
 
 
 
-## 开启站内划转 (USER_DATA)
+## Enable Fast Withdraw Switch (USER_DATA)
 
-> **响应**
+> **Response:**
 
 ```
 {}
@@ -1577,21 +1620,22 @@ timestamp | LONG | YES
 POST /sapi/v1/account/enableFastWithdrawSwitch (HMAC SHA256)
 ``
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO 
 timestamp | LONG | YES 
  
-* 此请求会开启您账户的站内快速划转。您需要为api-key开通“trade”权限才能发送此请求。
-* 开启以后, 如果收款方为币安账户地址，转账费用为0, 速度快, 不需要提交上链请求。
+* This request will enable fastwithdraw switch under your  account. <br>
+	You need to enable "trade" option for the api key which requests this endpoint.
+* When Fast Withdraw Switch is on, transferring funds to a Binance account will be done instantly. There is no on-chain transaction, no transaction ID and no withdrawal fee.
 
 
 
-## 提币[SAPI]
+## Withdraw [SAPI]
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -1605,33 +1649,31 @@ POST /sapi/v1/capital/withdraw/apply (HMAC SHA256)
 
 Submit a withdraw request.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 coin	|  STRING |	YES	
-withdrawOrderId | STRING | NO |  自定义提币ID
-network | STRING | NO | 提币网络
-address	 | STRING | YES	| 提币地址
-addressTag | STRING | NO | 某些币种例如 XRP,XMR 允许填写次级地址标签
-amount | DECIMAL | YES	| 数量
-transactionFeeFlag | BOOLEAN | NO | 当站内转账时免手续费, `true`: 手续费归资金转入方; `false`: 手续费归资金转出方; . 默认 `false`.
-name | STRING | NO | 地址的备注，填写该参数后会加入该币种的提现地址簿。地址簿上限为20，超出后会造成提现失败。
+withdrawOrderId | STRING | NO |  client id for withdraw
+network | STRING | NO
+address	 | STRING | YES	
+addressTag | STRING | NO | Secondary address identifier for coins like XRP,XMR etc.
+amount | DECIMAL | YES	
+transactionFeeFlag | BOOLEAN | NO | When making internal transfer, `true` for returning the fee to the destination account; `false` for returning the fee back to the departure account. Default `false`.
+name | STRING | NO | Description of the address
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 如果不发送 `network`, 将按该币种默认网络返回结果；
-* 可以在接口`Get /sapi/v1/capital/config/getall (HMAC SHA256)`的返回值中某币种的`networkList` 获取 `network`网络字段和`isDefault`是否为默认网络。
+* If `network` not send, return with default network of the coin.
+* You can get `network` and `isDefault` in `networkList` of a coin in the response of `Get /sapi/v1/capital/config/getall (HMAC SHA256)`.
 
 
+## Withdraw
 
-
-## 提币
-
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -1645,33 +1687,34 @@ timestamp | LONG | YES
 POST /wapi/v3/withdraw.html (HMAC SHA256)
 ``
 
-提交提现请求。
+Submit a withdraw request.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset	|  STRING |	YES	 | 
-withdrawOrderId | STRING | NO |  自定义提币ID
-network | STRING | NO | 提币网络
-address	 | STRING | YES	| 提币地址
-addressTag | STRING | NO | 某些币种例如 XRP,XMR 允许填写次级地址标签
+asset	|  STRING |	YES	 |
+withdrawOrderId | STRING | NO | client customize id for withdraw order
+network | STRING | NO | 
+address	 | STRING | YES	
+addressTag | STRING | NO | Secondary address identifier for coins like XRP,XMR etc.
 amount | DECIMAL | YES	
-transactionFeeFlag | BOOLEAN | NO | 当站内转账时免手续费, `true`: 手续费归资金转入方; `false`: 手续费归资金转出方; . 默认 `false`.
-name | STRING | NO | 地址的备注，填写该参数后会加入该币种的提现地址簿。地址簿上限为20，超出后会造成提现失败。
+transactionFeeFlag | BOOLEAN | NO | When making internal transfer, `true` for returning the fee to the destination account; `false` for returning the fee back to the departure account. Default `false`.
+name | STRING | NO | Description of the address
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 如果不发送 `network`, 将按该币种默认网络返回结果；
-* 可以在接口`Get /sapi/v1/capital/config/getall (HMAC SHA256)`的返回值中某币种的`networkList` 获取 `network`网络字段和`isDefault`是否为默认网络。
+* If `network` not send, return with default network of the coin.
+* You can get `network` and `isDefault` in `networkList` of a coin in the response of `Get /sapi/v1/capital/config/getall (HMAC SHA256)`. 
 
 
-## 获取充值历史（支持多网络） (USER_DATA)
 
-> **响应**
+## Deposit History（supporting network） (USER_DATA)
+
+> **Response:**
 
 ```javascript
 [
@@ -1693,41 +1736,45 @@ timestamp | LONG | YES
 GET /sapi/v1/capital/deposit/hisrec (HMAC SHA256)
 ``
 
+Fetch deposit history.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称| 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 coin | STRING | NO	
 status | INT | NO | 0(0:pending,6: credited but cannot withdraw, 1:success)
-startTime | LONG | NO | 默认当前时间90天前的时间戳
-endTime | LONG | NO | 默认当前时间戳
-offset	| INT | NO | default:0
+startTime | LONG | NO | Default: 90 days from current timestamp 
+endTime | LONG | NO	|  Default: present timestamp
+offest	| INT | NO | default:0
 limit | INT | NO | 
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 请注意`startTime` 与 `endTime` 的默认时间戳，保证请求时间间隔不超过90天.
-* 同时提交``startTime`` 与 ``endTime``间隔不得超过90天.
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* If both ``startTime`` and ``endTime`` are sent, time between ``startTime`` and ``endTime`` must be less than 90 days.
 
 
 
-## 获取充值历史 (USER_DATA)
 
-> **响应**
+
+
+## Deposit History (USER_DATA)
+
+> **Response:**
 
 ```javascript
 {
     "depositList": [
         {
-            "insertTime": 1508198532000,   //币安系统记录该笔充值的时间
-            "amount": 0.04670582,   //充值金额
-            "asset": "ETH",   //充值资产
-            "address": "0x6915f16f8791d0a1cc2bf47c13a6b2a92000504b",   //充值来源地址
-            "txId": "0xdf33b22bdb2b28b1f75ccd201a4a4m6e7g83jy5fc5d5a9d1340961598cfcb0a1",   //充值交易id
+            "insertTime": 1508198532000,
+            "amount": 0.04670582,
+            "asset": "ETH",
+            "address": "0x6915f16f8791d0a1cc2bf47c13a6b2a92000504b",
+            "txId": "0xdf33b22bdb2b28b1f75ccd201a4a4m6e7g83jy5fc5d5a9d1340961598cfcb0a1",
             "status": 1
         },
         {
@@ -1748,44 +1795,46 @@ timestamp | LONG | YES
 GET /wapi/v3/depositHistory.html (HMAC SHA256)
 ``
 
+Fetch deposit history.
 
-
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称| 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | NO	
-status | INT | NO | 0(0:充值进行中,1:充值已经成功)
-startTime | LONG | NO | 默认当前时间90天前的时间戳
-endTime | LONG | NO	| 默认当前时间戳
+status | INT | NO | 0(0:pending,6: credited but cannot withdraw, 1:success)
+startTime | LONG | NO | Default: 90 days from current timestamp 
+endTime | LONG | NO |  Default: present timestamp
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 请注意`startTime` 与 `endTime` 的默认时间戳，保证请求时间间隔不超过90天.
-* 同时提交``startTime`` 与 ``endTime``间隔不得超过90天.
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* If both ``startTime`` and ``endTime`` are sent, time between ``startTime`` and ``endTime`` must be less than 90 days.
 
 
-## 获取提币历史 (支持多网络)  (USER_DATA)
 
 
-> **响应**
+## Withdraw History (supporting network) (USER_DATA)
+
+
+> **Response:**
 
 ```javascript
 [
 	{
 		"address": "0x94df8b352de7f46f64b01d3666bf6e936e44ce60",
-  		"amount": "8.91000000",   // 提现转出金额
-  		"applyTime": "2019-10-12 11:12:02",  // UTC 时间
+  		"amount": "8.91000000",
+  		"applyTime": "2019-10-12 11:12:02",
   		"coin": "USDT",
-  		"id": "b6ae22b3aa844210a7041aee7589627c",  // 该笔提现在币安的id
-  		"withdrawOrderId": "WITHDRAWtest123", // 自定义ID, 如果没有则不返回该字段
-  		"network": "ETH",
-  		"transferType": 0 // 1: 站内转账, 0: 站外转账    
+  		"id": "b6ae22b3aa844210a7041aee7589627c",
+  		"withdrawOrderId": "WITHDRAWtest123", // will not be returned if there's no withdrawOrderId for this withdraw.
+  		"network": "ETH", 
+  		"transferType": 0,   // 1 for internal transfer, 0 for external transfer   
   		"status": 6,
-  		"txId": "0xb5ef8c13b968a406cc62a93a8bd80f9e9a906ef1b3fcf20a2e48573c17659268"   // 提现交易id
+  		"txId": "0xb5ef8c13b968a406cc62a93a8bd80f9e9a906ef1b3fcf20a2e48573c17659268"
   	},
  	{
  		"address": "1FZdVHtiBqMrWdjPyRPULCUceZPJ2WLCsB",
@@ -1794,7 +1843,6 @@ timestamp | LONG | YES
   		"coin": "BTC",
   		"id": "156ec387f49b41df8724fa744fa82719",
   		"network": "BTC",
-  		"transferType": 0,  // 1: 站内转账, 0: 站外转账
   		"status": 6,
   		"txId": "60fd9007ebfddc753455f95fafa808c4302c836e4d1eebc5a132c36c1d8ac354"
   	}
@@ -1802,61 +1850,61 @@ timestamp | LONG | YES
 ```
 
 ``
-GET  /sapi/v1/capital/withdraw/history (HMAC SHA256)
+GET /sapi/v1/capital/withdraw/history (HMAC SHA256)
 ``
 
+Fetch withdraw history.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 coin | STRING | NO	
-status | INT | NO | 0(0:已发送确认Email,1:已被用户取消 2:等待确认 3:被拒绝 4:处理中 5:提现交易失败 6 提现完成)
+status | INT | NO | 0(0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6:Completed)
 offset | INT | NO
 limit | INT | NO
-startTime | LONG | NO | 默认当前时间90天前的时间戳
-endTime | LONG | NO	| 默认当前时间戳
+startTime | LONG | NO | Default: 90 days from current timestamp 
+endTime | LONG | NO	| Default: present timestamp
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 支持多网络提币前的历史记录可能不会返回``network``字段.
-* 请注意`startTime` 与 `endTime` 的默认时间戳，保证请求时间间隔不超过90天.
-* 同时提交``startTime`` 与 ``endTime``间隔不得超过90天.
+* ``network`` may not be in the response for old withdraw.
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* If both ``startTime`` and ``endTime`` are sent, time between ``startTime`` and ``endTime`` must be less than 90 days.
 
 
 
 
+## Withdraw History (USER_DATA)
 
-## 获取提币历史 (USER_DATA)
 
-
-> **响应**
+> **Response:**
 
 ```javascript
 {
     "withdrawList": [
         {
             "id":"7213fea8e94b4a5593d507237e5a555b",
-            "withdrawOrderId": None,  
-            "amount": 0.99,   
-            "transactionFee": 0.01,   
-            "address": "0x6915f16f8791d0a1cc2bf47c13a6b2a92000504b",   
+            "withdrawOrderId": None,    
+            "amount": 0.99,
+            "transactionFee": 0.01,
+            "address": "0x6915f16f8791d0a1cc2bf47c13a6b2a92000504b",
             "asset": "ETH",
             "txId": "0xdf33b22bdb2b28b1f75ccd201a4a4m6e7g83jy5fc5d5a9d1340961598cfcb0a1",
             "applyTime": 1508198532000,
             "status": 4
         },
         {
-            "id":"7213fea8e94b4a5534ggsd237e5a555b",   //该笔提现在币安的id
-            "withdrawOrderId": "withdrawtest",    // 该笔提现自定义id
-            "amount": 999.9999,   //提现转出金额
-            "transactionFee": 0.0001,   //提现手续费
-            "address": "463tWEBn5XZJSxLU34r6g7h8jtxuNcDbjLSjkn3XAXHCbLrTTErJrBWYgHJQyrCwkNgYvyV3z8zctJLPCZy24jvb3NiTcTJ",   //提现目的地址
-            "addressTag": "342341222",   //提现备注 只对某些币种存在
-            "txId": "b3c6219639c8ae3f9cf010cdc24fw7f7yt8j1e063f9b4bd1a05cb44c4b6e2509",   //提现交易id
+            "id":"7213fea8e94b4a5534ggsd237e5a555b",
+            "withdrawOrderId": "withdrawtest", 
+            "amount": 999.9999,
+            "transactionFee": 0.0001,
+            "address": "463tWEBn5XZJSxLU34r6g7h8jtxuNcDbjLSjkn3XAXHCbLrTTErJrBWYgHJQyrCwkNgYvyV3z8zctJLPCZy24jvb3NiTcTJ",
+            "addressTag": "342341222",
+            "txId": "b3c6219639c8ae3f9cf010cdc24fw7f7yt8j1e063f9b4bd1a05cb44c4b6e2509",
             "asset": "XMR",
             "applyTime": 1508198532000,
             "status": 4
@@ -1870,30 +1918,31 @@ timestamp | LONG | YES
 GET /wapi/v3/withdrawHistory.html (HMAC SHA256)
 ``
 
+Fetch withdraw history.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | NO	
-status | INT | NO | 0(0:已发送确认Email,1:已被用户取消 2:等待确认 3:被拒绝 4:处理中 5:提现交易失败 6 提现完成)
-startTime | LONG | NO | 默认当前时间90天前的时间戳
-endTime | LONG | NO	默认当前时间戳
+status | INT | NO | 0(0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6:Completed)
+startTime | LONG | NO | Default: 90 days from current timestamp
+endTime | LONG | NO | Default: current timestamp
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 请注意`startTime` 与 `endTime` 的默认时间戳，保证请求时间间隔不超过90天.
-* 同时提交``startTime`` 与 ``endTime``间隔不得超过90天.
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* If both ``startTime`` and ``endTime`` are sent, time between ``startTime`` and ``endTime`` must be less than 90 days.
 
 
 
 
-## 获取充值地址 (支持多网络) (USER_DATA)
+## Deposit Address (supporting network) (USER_DATA)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -1908,28 +1957,31 @@ timestamp | LONG | YES
 GET /sapi/v1/capital/deposit/address (HMAC SHA256)
 ``
 
-**权重:**
+Fetch deposit address with network.
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 coin | STRING | YES	
 network| STRING |NO | 
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
-* 如果不发送 `network`, 将按该币种默认网络返回结果；
-* 可以在接口`Get /sapi/v1/capital/config/getall (HMAC SHA256)`的返回值中某币种的`networkList` 获取 `network`网络字段和`isDefault`是否为默认网络。
+* If `network` is not send, return with default network of the coin.
+* You can get `network` and `isDefault` in `networkList` in the response of `Get /sapi/v1/capital/config/getall (HMAC SHA256)`. 
 
 
 
 
-## 获取充值地址 (USER_DATA)
+
+## Deposit Address (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -1945,13 +1997,14 @@ timestamp | LONG | YES
 GET  /wapi/v3/depositAddress.html (HMAC SHA256)
 ``
 
+Fetch deposit address.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES	
 status | Boolean |NO
@@ -1960,14 +2013,14 @@ timestamp | LONG | YES
 
 
 
-## 账户状态 (USER_DATA)
+## Account Status (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
-    "msg": "Order failed:Low Order fill rate! Will be reactivated after 5 minutes.",    //msg中给出了账户状态，左边的例子表示由于成交率过低被暂停交易权限。
+    "msg": "Order failed:Low Order fill rate! Will be reactivated after 5 minutes.",
     "success": true,
     "objs": [
         "5"
@@ -1979,14 +2032,14 @@ timestamp | LONG | YES
 GET /wapi/v3/accountStatus.html
 ``
 
-获取账户状态详情。
+Fetch account status detail.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
@@ -1994,16 +2047,16 @@ timestamp | LONG | YES
 
 
 
-## 账户API交易状态(USER_DATA)
+## Account API Trading Status (USER_DATA)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
-    "success": true,     // 查询结果
-    "status": {          // 账户API交易状态详情
-        "isLocked": false,   // API交易功能是否被锁
-        "plannedRecoverTime": 0,  // API交易功能被锁情况下的预计恢复时间
+    "success": true,     // Query result
+    "status": {          // API trading status detail
+        "isLocked": false,   // API trading function is locked or not
+        "plannedRecoverTime": 0,  // If API trading function is locked, this is the planned recover time
         "triggerCondition": { 
             "gcr": 150,  // Number of GTC orders
             "ifer": 150, // Number of FOK/IOC orders
@@ -2051,7 +2104,7 @@ timestamp | LONG | YES
             }
             ]
         },
-        "updateTime": 1547630471725   
+        "updateTime": 1547630471725   // The query result return time
     }
 }
 ```
@@ -2061,38 +2114,38 @@ GET /wapi/v3/apiTradingStatus.html
 ``
 
 
-获取 api 账户交易状态详情。
+Fetch account api trading status detail.
 
 
 
-**权重:**
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
 
 
-## 小额资产转换BNB历史 (USER_DATA)
+## DustLog (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
     "success": true, 
     "results": {
-        "total": 2,   //共计发生过的转换笔数
+        "total": 2,   //Total counts of exchange
         "rows": [
             {
-                "transfered_total": "0.00132256",   //本次转换所得BNB
-                "service_charge_total": "0.00002699",   //本次转换手续费(BNB)
+                "transfered_total": "0.00132256",//Total transfered BNB amount for this exchange.
+                "service_charge_total": "0.00002699",   //Total service charge amount for this exchange.
                 "tran_id": 4359321,
-                "logs": [           //本次转换的细节
+                "logs": [           //Details of  this exchange.
                     {
                         "tranId": 4359321,
                         "serviceChargeAmount": "0.000009",
@@ -2118,7 +2171,7 @@ timestamp | LONG | YES
                 "transfered_total": "0.00058795",
                 "service_charge_total": "0.000012",
                 "tran_id": 4357015,
-                "logs": [       
+                "logs": [       // Details of  this exchange.
                     {
                         "tranId": 4357015,
                         "serviceChargeAmount": "0.00001",
@@ -2149,15 +2202,16 @@ timestamp | LONG | YES
 GET /wapi/v3/userAssetDribbletLog.html   (HMAC SHA256)
 ``
 
+Fetch small amounts of assets exchanged BNB records.
 
 
-**权重:**
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
@@ -2165,11 +2219,10 @@ timestamp | LONG | YES
 
 
 
+## Dust Transfer (USER_DATA)
 
-## 小额资产转换 (USER_DATA)
 
-
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -2205,29 +2258,29 @@ timestamp | LONG | YES
 ```
 
 ``
-POST /sapi/v1/asset/dust (HMAC SHA256)
+Post /sapi/v1/asset/dust (HMAC SHA256)
 ``
 
-把小额资产转换成 BNB.
+Convert dust assets to BNB.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | ARRAY | YES | 正在转换的资产。 例如：asset = BTC＆asset = USDT
+asset | ARRAY | YES | The asset being converted. For example: asset=BTC&asset=USDT
 recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
 
 
 
-## 资产利息记录 (USER_DATA)
+## Asset Dividend Record (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -2252,17 +2305,17 @@ timestamp | LONG | YES |
 ```
 
 ``
-GET /sapi/v1/asset/assetDividend (HMAC SHA256)
+Get /sapi/v1/asset/assetDividend (HMAC SHA256)
 ``
 
-获取资产利息记录。
+Query asset dividend record.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | NO |
 startTime | LONG | NO |
@@ -2273,23 +2326,24 @@ timestamp | LONG | YES |
 
 
 
+## Asset Detail (USER_DATA)
 
-## 上架资产详情 (USER_DATA)
+Fetch details of assets supported on Binance.
 
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
     "success": true,
     "assetDetail": {
         "CTR": {
-            "minWithdrawAmount": "70.00000000",   //最小提现数量
-            "depositStatus": false,   //是否可以充值(只有所有网络都关闭充值才为false)
-            "withdrawFee": 35,   // 提现手续费
-            "withdrawStatus": true,    //是否开放提现(只有所有网络都关闭提币才为false)
-            "depositTip": "Delisted, Deposit Suspended"   //暂停充值的原因(如果暂停才有这一项)
+            "minWithdrawAmount": "70.00000000", //min withdraw amount
+            "depositStatus": false,//deposit status (false if ALL of networks' are false)
+            "withdrawFee": 35, // withdraw fee
+            "withdrawStatus": true, //withdraw status (false if ALL of networks' are false)
+            "depositTip": "Delisted, Deposit Suspended" //reason
         },
         "SKY": {
             "minWithdrawAmount": "0.02000000",
@@ -2307,38 +2361,43 @@ GET  /wapi/v3/assetDetail.html (HMAC SHA256)
 
 
 
-**权重:**
+
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
 
-* 充提币信息，建议查询 ``GET /sapi/v1/capital/config/getall`` 获取详情。
+* Please get network and other deposit or withdraw details from ``GET /sapi/v1/capital/config/getall``.
 
 
 
 
-## 交易手续费率查询 (USER_DATA)
+
+## Trade Fee (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
-	"tradeFee": [{
-		"symbol": "ADABNB",
-		"maker": 0.9000,
-		"taker": 1.0000
-	}, {
-		"symbol": "BNBBTC",
-		"maker": 0.3000,
-		"taker": 0.3000
-	}],
+	"tradeFee": [
+    {
+      "symbol": "ADABNB",
+      "maker": 0.9000,
+      "taker": 1.0000
+    },
+    {
+      "symbol": "BNBBTC",
+      "maker": 0.3000,
+      "taker": 0.3000
+    }
+  ],
 	"success": true
 }
 ```
@@ -2347,15 +2406,16 @@ timestamp | LONG | YES
 GET  /wapi/v3/tradeFee.html (HMAC SHA256)
 ``
 
+Fetch trade fee, values in percentage.
 
 
-**权重:**
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
@@ -2364,15 +2424,17 @@ symbol | STRING | NO
 
 
 
-# 子母账户接口
 
-* 这些接口的文档适用于[企业账户](https://www.binance.com/cn/support/articles/360020371872)。
-* 关于如何成为企业用户，请参考: [企业账户申请](https://www.binance.com/cn/support/articles/360015552032)。
+# Sub-Account Endpoints
 
-## 查询子账户列表(适用主账户)
+* The endpoints documented in this section are for [Corporate Accounts](https://www.binance.com/en/support/articles/360020371872).
+* To become a corporate account, please refer to this document: [Corporate Account Application](https://www.binance.com/en/support/articles/360015552032)
 
 
-> **响应**
+## Query Sub-account List(For Master Account)
+
+
+> **Response:**
 
 ```javascript
 {
@@ -2402,30 +2464,30 @@ symbol | STRING | NO
 GET   /wapi/v3/sub-account/list.html (HMAC SHA256)
 ``
 
+Fetch sub account list.
 
 
-
-**权重:**
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | NO | 子账户邮箱 [备注](#request-email-address)
-status | STRING | NO | 子账户状态: 启用或禁用
-page | INT | NO | 默认值: 1
-limit | INT | NO | 默认值: 500
+email | STRING | NO | [Sub-account email](#email-address)
+status | STRING | NO | Sub-account status: enabled or disabled
+page | INT | NO | Default value: 1
+limit | INT | NO | Default value: 500
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
 
 
 
-## 查询子账户划转历史(适用主账户)
+## Query Sub-account Transfer History(For Master Account)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -2453,30 +2515,31 @@ timestamp | LONG | YES
 GET   /wapi/v3/sub-account/transfer/history.html (HMAC SHA256)
 ``
 
+Fetch transfer history list
 
 
-**权重:**
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES | 子账户邮箱 [备注](#request-email-address)
-startTime | LONG | NO | 默认返回100天内历史记录
-endTime | LONG | NO | 默认返回100天内历史记录
-page | INT | NO | 默认值: 1
-limit | INT | NO | 默认值: 500
+email | STRING | YES | [Sub-account email](#email-address)
+startTime | LONG | NO | Default return the history with in 100 days
+endTime | LONG | NO | Default return the history with in 100 days
+page | INT | NO | Default value: 1
+limit | INT | NO | Default value: 500
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
 
 
 
-## 执行子账户划转(适用主账户)
+## Sub-account Transfer(For Master Account)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -2490,16 +2553,19 @@ timestamp | LONG | YES
 POST   /wapi/v3/sub-account/transfer.html (HMAC SHA256)
 ``
 
-**权重:**
+Execute sub-account transfer
+
+
+**Weight:**
 1
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-fromEmail | STRING | YES | 发送者邮箱 [备注](#request-email-address)
-toEmail | STRING | YES | 接收者邮箱 [备注](#request-email-address)
+fromEmail | STRING | YES | Sender email
+toEmail | STRING | YES | Recipient email
 asset | STRING | YES
 amount | DECIMAL | YES
 recvWindow | LONG | NO  
@@ -2508,10 +2574,10 @@ timestamp | LONG | YES
 
 
 
-## 查询子账户资产(适用主账户)
+## Query Sub-account Assets(For Master Account)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -2551,14 +2617,16 @@ timestamp | LONG | YES
 GET   /wapi/v3/sub-account/assets.html (HMAC SHA256)
 ``
 
-**权重:**
+Fetch sub-account assets
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES  | 子账户邮箱 [备注](#request-email-address)
+email | STRING | YES  | Sub account email
 recvWindow | LONG | NO  
 timestamp | LONG | YES  
 
@@ -2567,11 +2635,10 @@ timestamp | LONG | YES
 
 
 
+## Get Sub-account Deposit Address (For Master Account)
 
-## 获取子账户充值地址(适用主账户)
 
-
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -2586,16 +2653,16 @@ timestamp | LONG | YES
 GET /sapi/v1/capital/deposit/subAddress (HMAC SHA256)
 ``
 
+Fetch sub-account deposit address
 
-
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES  | 子账户邮箱 [备注](#request-email-address)
+email | STRING | YES  | Sub account email
 coin | STRING | YES|
 network | STRING | NO
 recvWindow | LONG | NO  
@@ -2603,10 +2670,10 @@ timestamp | LONG | YES
 
 
 
-## 获取子账户充值记录 (适用主账户)
+## Get Sub-account Deposit History (For Master Account)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -2644,16 +2711,16 @@ timestamp | LONG | YES
 GET /sapi/v1/capital/deposit/subHisrec (HMAC SHA256)
 ``
 
+Fetch sub-account deposit history
 
-
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES  | 子账户邮箱 [备注](#request-email-address)
+email | STRING | YES  | Sub account email
 coin | STRING | NO	
 status | INT | NO | 0(0:pending,6: credited but cannot withdraw, 1:success)
 startTime | LONG | NO	
@@ -2666,9 +2733,10 @@ timestamp | LONG | YES
 
 
 
-## 查询子账户Margin/Futures状态  (适用主账户)
 
-> **响应**
+## Get Sub-account's Status on Margin/Futures(For Master Account)
+
+> **Response**
 
 ```javascript
 [
@@ -2686,24 +2754,24 @@ timestamp | LONG | YES
 
 `GET /sapi/v1/sub-account/status (HMAC SHA256)`
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING |	NO | 子账户邮箱 [备注](#request-email-address)
+email | STRING |	NO | [Sub-account email](#email-address)
 recvWindow | LONG |	NO	
 timestamp | LONG |	YES	
 
-* 如果不提交子账户email，返回所有子账户情况。 
+* If no email sent, all sub-accounts' information will be returned. 
 
 
 
-##为子账户开通Margin  (适用主账户)
+## Enable Margin for Sub-account  (For Master Account)
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -2718,22 +2786,22 @@ timestamp | LONG |	YES
 ``POST /sapi/v1/sub-account/margin/enable (HMAC SHA256)``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES |	子账户邮箱 [备注](#request-email-address)
+email | STRING | YES |	[Sub-account email](#email-address)
 recvWindow | LONG |	NO	
 timestamp | LONG | YES	
 
 
 
-##查询子账户Margin账户详情  (适用主账户)
+## Get Detail on Sub-account's Margin Account (For Master Account)
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -2743,9 +2811,9 @@ timestamp | LONG | YES
       "totalLiabilityOfBtc": "0.58633215",
       "totalNetAssetOfBtc": "6.24095242",
       "marginTradeCoeffVo": {
-			"forceLiquidationBar": "1.10000000",  // 强平风险率
-			"marginCallBar": "1.50000000",        // 补仓风险率
-			"normalBar": "2.00000000"		      // 初始风险率
+			"forceLiquidationBar": "1.10000000",  // Liquidation margin ratio
+			"marginCallBar": "1.50000000",        // Margin call margin ratio
+			"normalBar": "2.00000000"		      // Initial margin ratio
 		},
       "marginUserAssetVoList": [
           {
@@ -2787,22 +2855,22 @@ timestamp | LONG | YES
 
 ``GET /sapi/v1/sub-account/margin/account (HMAC SHA256)``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES |	子账户邮箱 [备注](#request-email-address)
+email | STRING | YES |	[Sub-account email](#email-address)
 recvWindow |LONG | NO	
 timestamp	LONG	YES	
 
 
-##查询子账户Margin账户汇总  (适用主账户)
+## Get Summary of Sub-account's Margin Account (For Master Account)
 
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -2829,21 +2897,21 @@ timestamp	LONG	YES
 ``GET /sapi/v1/sub-account/margin/accountSummary (HMAC SHA256)``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG |	NO	
 timestamp | LONG | YES	
 
 
 
-##为子账户开通Futures  (适用主账户)
+## Enable Futures for Sub-account (For Master Account)
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -2858,22 +2926,22 @@ timestamp | LONG | YES
 ``POST /sapi/v1/sub-account/futures/enable (HMAC SHA256)``
 
 
-**权重:**
+**Response:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES | 	子账户邮箱 [备注](#request-email-address)
+email | STRING | YES | 	[Sub-account email](#email-address)
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
 
 
-##查询子账户Futures账户详情  (适用主账户)
+## Get Detail on Sub-account's Futures Account (For Master Account)
 
-> **响应**
+> **Response**
 
 ```javascript
 
@@ -2913,23 +2981,23 @@ timestamp | LONG | YES
 
 ``GET /sapi/v1/sub-account/futures/account (HMAC SHA256)``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES | 子账户邮箱 [备注](#request-email-address)
+email | STRING | YES | [Sub-account email](#email-address)
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
 
 
 
-##查询子账户Futures账户汇总  (适用主账户)
+## Get Summary of Sub-account's Futures Account  (For Master Account)
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -2956,8 +3024,8 @@ timestamp | LONG | YES
         { 
             "email": "345@test.com",
             "totalInitialMargin": "0.83137400", 
-            "totalMaintMargin": "0.41568700",
-            "totalMarginBalance": "0.90575887",
+            "totalMaintMargin": "0.41568700", 
+            "totalMarginBalance": "0.90575887", 
             "totalOpenOrderInitialMargin": "0.00000000",
             "totalPositionInitialMargin": "0.83137400",
             "totalUnrealizedProfit": "0.03219710",
@@ -2966,25 +3034,31 @@ timestamp | LONG | YES
         }
     ]
 }
+
 ```
+
+
+
 
 ``GET /sapi/v1/sub-account/futures/accountSummary (HMAC SHA256)``
 
-**权重:**
+**Weight:**
 20
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
 
 
-##查询子账户合约持仓信息 (仅适用主账户)
 
-> **响应**
+
+## Get Futures Postion-Risk of Sub-account (For Master Account)
+
+> **Response**
 
 ```javascript
 [
@@ -3003,21 +3077,23 @@ timestamp | LONG | YES
 
 ``GET /sapi/v1/sub-account/futures/positionRisk (HMAC SHA256)`` 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | STRING | YES | 子账户邮箱 [备注](#request-email-address)
+email | String | YES | [Sub-account email](#email-address)
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
 
-## 子账户Futures划转（仅适用主账户） 
 
-> **响应**
+
+## Futures Transfer for Sub-account（For Master Account） 
+
+> **Response**
 
 ```javascript
 {
@@ -3027,23 +3103,23 @@ timestamp | LONG | YES
 
 ``POST /sapi/v1/sub-account/futures/transfer (HMAC SHA256)`` 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | String | YES | 子账户邮箱 [备注](#request-email-address)
-asset | STRING | YES | 划转资产, e.g., USDT
-amount | DECIMAL | YES | 划转数量
+email | String | YES | [Sub-account email](#email-address)
+asset | STRING | YES | The asset being transferred, e.g., USDT
+amount | DECIMAL | YES | The amount to be transferred
 type| INT | YES | 1: transfer from spot main account to future account 2: transfer from future account to spot main account
 timestamp | LONG | YES	
 
 
-## 子账户Margin划转（仅适用主账户） 
+## Margin Transfer for Sub-account（For Master Account 
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -3053,24 +3129,24 @@ timestamp | LONG | YES
 
 ``POST /sapi/v1/sub-account/margin/transfer (HMAC SHA256)`` 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-email | String | YES | 子账户邮箱 [备注](#request-email-address)
-asset | STRING | YES | 划转资产, e.g., USDT
-amount | DECIMAL | YES | 划转数量
+email | String | YES | [Sub-account email](#email-address)
+asset | STRING | YES | The asset being transferred, e.g., BTC
+amount | DECIMAL | YES | The amount to be transferred
 type| INT | YES | 1: transfer from spot main account to margin account 2: transfer from margin account to spot main account
 timestamp | LONG | YES	
 
 
 
-## 向共同主账户下的子账户主动划转（仅适用子账户） 
+## Transfer to Sub-account of Same Master（For Sub-account） 
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -3080,23 +3156,23 @@ timestamp | LONG | YES
 
 ``POST /sapi/v1/sub-account/transfer/subToSub (HMAC SHA256)`` 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-toEmail | STRING | YES | 接收者子邮箱地址 [备注](#request-email-address)
+toEmail | String | YES | [Sub-account email](#email-address)
 asset | STRING | YES	
 amount | DECIMAL | YES	
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
 
-## 向主账户主动划转（仅适用子账户） 
+## Transfer to Master（For Sub-account） 
 
-> **响应**
+> **Response**
 
 ```javascript
 {
@@ -3106,12 +3182,12 @@ timestamp | LONG | YES
 
 ``POST /sapi/v1/sub-account/transfer/subToMaster (HMAC SHA256)`` 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES	
 amount | DECIMAL | YES	
@@ -3119,9 +3195,9 @@ recvWindow | LONG | NO
 timestamp | LONG | YES	
 
 
-## 查询子账户划转历史 (仅适用子账户) 
+## Sub-account Transfer History (For Sub-account) 
 
-> **响应**
+> **Response**
 
 ```javascript
 [
@@ -3148,18 +3224,18 @@ timestamp | LONG | YES
 
 ``GET /sapi/v1/sub-account/transfer/subUserHistory (HMAC SHA256)`` 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | STRING | NO | 如不提供，返回所有asset 划转记录
-type | INT | NO | 1: transfer in, 2: transfer out; 如不提供，返回所有方向划转记录
+asset | STRING | NO | If not sent, result of all assets will be returned
+type | INT | NO | 1: transfer in, 2: transfer out
 startTime | LONG | NO	
 endTime | LONG | NO	
-limit | INT | NO | 默认值: 500
+limit | INT | NO | Default 500
 recvWindow | LONG | NO	
 timestamp | LONG | YES	
 
@@ -3167,13 +3243,17 @@ timestamp | LONG | YES
 
 
 
-# 行情接口
-
-## 测试服务器连通性
 
 
 
-> **响应**
+
+# Market Data Endpoints
+
+## Test Connectivity
+
+
+
+> **Response:**
 
 ```javascript
 {}
@@ -3183,22 +3263,22 @@ timestamp | LONG | YES
 GET /api/v3/ping
 ``
 
-测试能否联通 Rest API。
+Test connectivity to the Rest API.
 
-**权重:**
+**Weight:**
 
 1
 
-**参数:**
+**Parameters:**
 
 NONE
 
 
 
-## 获取服务器时间
+## Check Server Time
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -3210,68 +3290,68 @@ NONE
 GET /api/v3/time
 ``
 
-测试能否联通 Rest API 并 获取服务器时间。
+Test connectivity to the Rest API and get the current server time.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
 NONE
 
 
 
-## 交易规范信息
+## Exchange Information
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
-    "timezone": "UTC",
-    "serverTime": 1565246363776,
-    "rateLimits": [
-        {
-            //These are defined in the `ENUM definitions` section under `Rate Limiters (rateLimitType)`.
-            //All limits are optional
-        }
-    ],
-    "exchangeFilters": [
-            //These are the defined filters in the `Filters` section.
-            //All filters are optional.
-    ],
-    "symbols": [
-        {
-            "symbol": "ETHBTC",
-            "status": "TRADING",
-            "baseAsset": "ETH",
-            "baseAssetPrecision": 8,
-            "quoteAsset": "BTC",
-            "quotePrecision": 8,
-            "quoteAssetPrecision": 8,
-            "orderTypes": [
-                "LIMIT",
-                "LIMIT_MAKER",
-                "MARKET",
-                "STOP_LOSS",
-                "STOP_LOSS_LIMIT",
-                "TAKE_PROFIT",
-                "TAKE_PROFIT_LIMIT"
-            ],
-            "icebergAllowed": true,
-            "ocoAllowed": true,
-            "isSpotTradingAllowed": true,
-            "isMarginTradingAllowed": true,
-            "filters": [
-            //These are defined in the Filters section.
-            //All filters are optional
-            ],
-            "permissions": [
-              "SPOT",
-              "MARGIN"
-            ]
-        }
-    ]
+  "timezone": "UTC",
+  "serverTime": 1565246363776,
+  "rateLimits": [
+    {
+      //These are defined in the `ENUM definitions` section under `Rate Limiters (rateLimitType)`.
+      //All limits are optional
+    }
+  ],
+  "exchangeFilters": [
+    //These are the defined filters in the `Filters` section.
+    //All filters are optional.
+  ],
+  "symbols": [
+    {
+      "symbol": "ETHBTC",
+      "status": "TRADING",
+      "baseAsset": "ETH",
+      "baseAssetPrecision": 8,
+      "quoteAsset": "BTC",
+      "quotePrecision": 8,
+      "quoteAssetPrecision": 8,
+      "orderTypes": [
+        "LIMIT",
+        "LIMIT_MAKER",
+        "MARKET",
+        "STOP_LOSS",
+        "STOP_LOSS_LIMIT",
+        "TAKE_PROFIT",
+        "TAKE_PROFIT_LIMIT"
+      ],
+      "icebergAllowed": true,
+      "ocoAllowed": true,
+      "isSpotTradingAllowed": true,
+      "isMarginTradingAllowed": true,
+      "filters": [
+        //These are defined in the Filters section.
+        //All filters are optional
+      ],
+      "permissions": [
+         "SPOT",
+         "MARGIN"
+      ]
+    }
+  ]
 }
 ```
 
@@ -3279,12 +3359,12 @@ NONE
 GET /api/v3/exchangeInfo
 ``
 
-获取交易规则和交易对信息。
+Current exchange trading rules and symbol information
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
 NONE
 
@@ -3292,18 +3372,18 @@ NONE
 
 
 
-## 深度信息
+## Order Book
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
   "lastUpdateId": 1027024,
   "bids": [
     [
-      "4.00000000",     // 价位
-      "431.00000000"    // 挂单量
+      "4.00000000",     // PRICE
+      "431.00000000"    // QTY
     ]
   ],
   "asks": [
@@ -3319,12 +3399,12 @@ NONE
 GET /api/v3/depth
 ``
 
-**权重:**
+**Weight:**
 
-基于限制调整:
+Adjusted based on the limit:
 
 
-限制 | 权重
+Limit | Weight
 ------------ | ------------
 5, 10, 20, 50, 100 | 1
 500 | 5
@@ -3332,57 +3412,18 @@ GET /api/v3/depth
 5000 | 50
 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-limit | INT | NO | 默认 100; 最大 1000. 可选值:[5, 10, 20, 50, 100, 500, 1000, 5000]
+limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
 
 
+## Recent Trades List
 
 
-
-## 近期成交列表
-
-
-> **响应**
-
-```javascript
-[
-  {
-    "id": 28457,
-    "price": "4.00000100",
-    "qty": "12.00000000",
-    "time": 1499865549590, // 交易成交时间, 和websocket中的T一致.
-    "isBuyerMaker": true,
-    "isBestMatch": true
-  }
-]
-```
-
-``
-GET /api/v3/trades
-``
-
-获取近期成交
-
-**权重:**
-1
-
-**参数:**
-
-名称 | 类型 | 是否必需 | 描述
------------- | ------------ | ------------ | ------------
-symbol | STRING | YES |
-limit | INT | NO | 默认 500; 最大值 1000.
-
-
-
-## 查询历史成交
-
-
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -3399,41 +3440,78 @@ limit | INT | NO | 默认 500; 最大值 1000.
 ```
 
 ``
-GET /api/v3/historicalTrades
+GET /api/v3/trades
 ``
 
-获取历史成交。
+Get recent trades (up to last 500).
 
-**权重:**
-5
+**Weight:**
+1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-limit | INT | NO | 默认 500; 最大值 1000.
-fromId | LONG | NO | 从哪一条成交id开始返回. 缺省返回最近的成交记录。
-
-* 需要提交`X-MBX-APIKEY` 
+limit | INT | NO | Default 500; max 1000.
 
 
-## 近期成交（归集）
+
+## Old Trade Lookup
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
   {
-    "a": 26129,         // 归集成交ID
-    "p": "0.01633102",  // 成交价
-    "q": "4.70443515",  // 成交量
-    "f": 27781,         // 被归集的首个成交ID
-    "l": 27781,         // 被归集的末个成交ID
-    "T": 1498793709153, // 成交时间
-    "m": true,          // 是否为主动卖出单
-    "M": true           // 是否为最优撮合单(可忽略，目前总为最优撮合)
+    "id": 28457,
+    "price": "4.00000100",
+    "qty": "12.00000000",
+    "quoteQty": "48.000012",
+    "time": 1499865549590, // Trade executed timestamp, as same as `T` in the stream
+    "isBuyerMaker": true,
+    "isBestMatch": true
+  }
+]
+```
+
+``
+GET /api/v3/historicalTrades
+``
+
+Get older market trades.
+
+**Weight:**
+5
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES |
+limit | INT | NO | Default 500; max 1000.
+fromId | LONG | NO | Trade id to fetch from. Default gets most recent trades.
+
+* `X-MBX-APIKEY` required
+
+
+## Compressed/Aggregate Trades List
+
+
+> **Response:**
+
+```javascript
+[
+  {
+    "a": 26129,         // Aggregate tradeId
+    "p": "0.01633102",  // Price
+    "q": "4.70443515",  // Quantity
+    "f": 27781,         // First tradeId
+    "l": 27781,         // Last tradeId
+    "T": 1498793709153, // Timestamp
+    "m": true,          // Was the buyer the maker?
+    "M": true           // Was the trade the best price match?
   }
 ]
 ```
@@ -3442,46 +3520,47 @@ fromId | LONG | NO | 从哪一条成交id开始返回. 缺省返回最近的成�
 GET /api/v3/aggTrades
 ``
 
-归集交易与逐笔交易的区别在于，同一价格、同一方向、同一时间的trade会被聚合为一条
+Get compressed, aggregate trades. Trades that fill at the time, from the same
+order, with the same price will have the quantity aggregated.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-fromId | LONG | NO | 从包含fromId的成交id开始返回结果
-startTime | LONG | NO | 从该时刻之后的成交记录开始返回结果
-endTime | LONG | NO | 返回该时刻为止的成交记录
-limit | INT | NO | 默认 500; 最大 1000.
+fromId | LONG | NO | id to get aggregate trades from INCLUSIVE.
+startTime | LONG | NO | Timestamp in ms to get aggregate trades from INCLUSIVE.
+endTime | LONG | NO | Timestamp in ms to get aggregate trades until INCLUSIVE.
+limit | INT | NO | Default 500; max 1000.
 
-* 如果发送startTime和endTime，间隔必须小于一小时。
-* 如果没有发送任何筛选参数(fromId, startTime,endTime)，默认返回最近的成交记录
-
-
-
-## K线数据
+* If startTime and endTime are sent, time between startTime and endTime must be less than 1 hour.
+* If fromId, startTime, and endTime are not sent, the most recent aggregate trades will be returned.
 
 
-> **响应**
+
+## Kline/Candlestick Data
+
+
+> **Response:**
 
 ```javascript
 [
   [
-    1499040000000,      // 开盘时间
-    "0.01634790",       // 开盘价
-    "0.80000000",       // 最高价
-    "0.01575800",       // 最低价
-    "0.01577100",       // 收盘价(当前K线未结束的即为最新价)
-    "148976.11427815",  // 成交量
-    1499644799999,      // 收盘时间
-    "2434.19055334",    // 成交额
-    308,                // 成交笔数
-    "1756.87402397",    // 主动买入成交量
-    "28.46694368",      // 主动买入成交额
-    "17928899.62484339" // 请忽略该参数
+    1499040000000,      // Open time
+    "0.01634790",       // Open
+    "0.80000000",       // High
+    "0.01575800",       // Low
+    "0.01577100",       // Close
+    "148976.11427815",  // Volume
+    1499644799999,      // Close time
+    "2434.19055334",    // Quote asset volume
+    308,                // Number of trades
+    "1756.87402397",    // Taker buy base asset volume
+    "28.46694368",      // Taker buy quote asset volume
+    "17928899.62484339" // Ignore.
   ]
 ]
 ```
@@ -3490,29 +3569,33 @@ limit | INT | NO | 默认 500; 最大 1000.
 GET /api/v3/klines
 ``
 
-每根K线代表一个交易对。   
-每根K线的开盘时间可视为唯一ID
+Kline/candlestick bars for a symbol.   
+Klines are uniquely identified by their open time.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 interval | ENUM | YES |
 startTime | LONG | NO |
 endTime | LONG | NO |
-limit | INT | NO | 默认 500; 最大 1000.
+limit | INT | NO | Default 500; max 1000.
 
-* 如果未发送 startTime 和 endTime ，默认返回最近的交易。
+* If startTime and endTime are not sent, the most recent klines are returned.
 
 
 
-## 当前平均价格
 
-> **响应**
+## Current Average Price
+
+
+
+
+> **Response:**
 
 ```javascript
 {
@@ -3525,13 +3608,14 @@ limit | INT | NO | 默认 500; 最大 1000.
 GET /api/v3/avgPrice
 ``
 
+Current average price for a symbol.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 
@@ -3539,10 +3623,10 @@ symbol | STRING | YES |
 
 
 
-## 24hr 价格变动情况
+## 24hr Ticker Price Change Statistics
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -3562,9 +3646,9 @@ symbol | STRING | YES |
   "quoteVolume": "15.30000000",
   "openTime": 1499783499040,
   "closeTime": 1499869899040,
-  "firstId": 28385,   // 首笔成交id
-  "lastId": 28460,    // 末笔成交id
-  "count": 76         // 成交笔数
+  "firstId": 28385,   // First tradeId
+  "lastId": 28460,    // Last tradeId
+  "count": 76         // Trade count
 }
 ```
 > OR
@@ -3588,9 +3672,9 @@ symbol | STRING | YES |
     "quoteVolume": "15.30000000",
     "openTime": 1499783499040,
     "closeTime": 1499869899040,
-    "firstId": 28385,  
-    "lastId": 28460,   
-    "count": 76      
+    "firstId": 28385,   // First tradeId
+    "lastId": 28460,    // Last tradeId
+    "count": 76         // Trade count
   }
 ]
 ```
@@ -3600,28 +3684,28 @@ symbol | STRING | YES |
 GET /api/v3/ticker/24hr
 ``
 
-24 小时滚动窗口价格变动数据。 请注意，不携带symbol参数会返回全部交易对数据，不仅数据庞大，而且权重极高
+24 hour rolling window price change statistics. **Careful** when accessing this with no symbol.
 
-**权重:**
+**Weight:**
 
-1 单一交易对;    
-**40** 交易对参数缺失
+1 for a single symbol;    
+**40** when the symbol parameter is omitted
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO |
 
-* 请注意，不携带symbol参数会返回全部交易对数据
+* If the symbol is not sent, tickers for all symbols will be returned in an array.
 
 
 
 
-## 最新价格
+## Symbol Price Ticker
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -3649,27 +3733,27 @@ symbol | STRING | NO |
 GET /api/v3/ticker/price
 ``
 
-获取交易对最新价格
+Latest price for a symbol or symbols.
 
-**权重:**
+**Weight:**
 
-1 单一交易对;    
-**2** 交易对参数缺失
+1 for a single symbol;    
+**2** when the symbol parameter is omitted
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO |
 
-* 不发送交易对参数，则会返回所有交易对信息
+* If the symbol is not sent, prices for all symbols will be returned in an array.
 
 
 
-## 当前最优挂单
+## Symbol Order Book Ticker
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -3705,55 +3789,54 @@ symbol | STRING | NO |
 GET /api/v3/ticker/bookTicker
 ``
 
-返回当前最优的挂单(最高买单，最低卖单)
+Best price/qty on the order book for a symbol or symbols.
 
-**权重:**
+**Weight:**
 
-1 单一交易对;    
-**2** 交易对参数缺失
+1 for a single symbol;    
+**2** when the symbol parameter is omitted
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO |
 
-* 不发送交易对参数，则会返回所有交易对信息
+* If the symbol is not sent, bookTickers for all symbols will be returned in an array.
 
 
 
 ---
-# Websocket 行情推送
+# Websocket Market Streams
 
 
-* 本篇所列出的所有wss接口的baseurl为: **wss://stream.binance.com:9443**
-* Streams有单一原始 stream 或组合 stream
-* 单一原始 streams 格式为 **/ws/\<streamName\>**
-* 组合streams的URL格式为 **/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
-* 订阅组合streams时，事件payload会以这样的格式封装: **{"stream":"\<streamName\>","data":\<rawPayload\>}**
-* stream名称中所有交易对均为 **小写**
-* 每个到 **stream.binance.com** 的链接有效期不超过24小时，请妥善处理断线重连。
-* 每3分钟，服务端会发送ping帧，客户端应当在10分钟内回复pong帧，否则服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于10分钟每次的频率发送pong帧保持链接)。
+* The base endpoint is: **wss://stream.binance.com:9443**
+* Streams can be accessed either in a single raw stream or in a combined stream
+* Raw streams are accessed at **/ws/\<streamName\>**
+* Combined streams are accessed at **/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
+* Combined stream events are wrapped as follows: **{"stream":"\<streamName\>","data":\<rawPayload\>}**
+* All symbols for streams are **lowercase**
+* A single connection to **stream.binance.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
+* The websocket server will send a `ping frame` every 3 minutes. If the websocket server does not receive a `pong frame` back from the connection within a 10 minute period, the connection will be disconnected. Unsolicited `pong frames` are allowed.
 
+## Live Subscribing/Unsubscribing to streams
 
-## 实时订阅/取消数据流
+* The following data can be sent through the websocket instance in order to subscribe/unsubscribe from streams. Examples can be seen below.
+* The `id` used in the JSON payloads is an unsigned INT used as an identifier to uniquely identify the messages going back and forth.
+* In the response, if the `result` received is `null` this means the request sent was a success.
 
-* 以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。
-* 响应内容中的`id`是无符号整数，作为往来信息的唯一标识。
-* 如果相应内容中的 `result` 为 `null`，表示请求发送成功。
+### Subscribe to a stream
 
-### 订阅一个信息流
-
-> **响应**
+> **Response**
 
   ```javascript
   {
-    "result": null,
+    "result": null,  
     "id": 1
   }
   ```
 
-* **请求**
+* **Request**
 
   	{    
     	"method": "SUBSCRIBE",    
@@ -3767,9 +3850,9 @@ symbol | STRING | NO |
 
 
 
-### 取消订阅一个信息流
+### Unsubscribe to a stream
 
-> **响应**
+> **Response**
   
   ```javascript
   {
@@ -3778,7 +3861,8 @@ symbol | STRING | NO |
   }
   ```
 
-* **请求**
+
+* **Request**
 
   {   
     "method": "UNSUBSCRIBE",    
@@ -3791,9 +3875,9 @@ symbol | STRING | NO |
 
 
 
-### 已订阅信息流
+### Listing Subscriptions
 
-> **响应**
+> **Response**
   
   ```javascript
   {
@@ -3805,7 +3889,7 @@ symbol | STRING | NO |
   ```
 
 
-* **请求**
+* **Request**
 
   {   
     "method": "LIST_SUBSCRIPTIONS",    
@@ -3814,12 +3898,11 @@ symbol | STRING | NO |
  
 
 
-### 设定属性
-当前，唯一可以设置的属性是设置是否启用`combined`(“组合”)信息流。   
-当使用`/ws/`（“原始信息流”）进行连接时，combined属性设置为`false`，而使用 `/stream/`进行连接时则将属性设置为`true`。
+### Setting Properties
+Currently, the only property can be set is to set whether `combined` stream payloads are enabled are not.
+The combined property is set to `false` when connecting using `/ws/` ("raw streams") and `true` when connecting using `/stream/`.
 
-
-> **响应**
+> **Response**
   
   ```javascript
 {
@@ -3828,7 +3911,7 @@ symbol | STRING | NO |
 }
   ```
 
-* **请求**
+* **Request**
 
   {    
     "method": "SET_PROPERTY",    
@@ -3843,9 +3926,9 @@ symbol | STRING | NO |
 
 
 
-### 检索属性
+### Retrieving Properties
 
-> **响应**
+> **Response**
 
   ```javascript
   {
@@ -3854,7 +3937,7 @@ symbol | STRING | NO |
   }
   ```
   
-* **请求**
+* **Request**
   
   {   
     "method": "GET_PROPERTY",    
@@ -3868,117 +3951,124 @@ symbol | STRING | NO |
 
 
 
-###错误信息
+### Error Messages
 
-错误信息 | 描述
+Error Message | Description
 ---|---
-{"code": 0, "msg": "Unknown property"} |  `SET_PROPERTY` 或 `GET_PROPERTY`中应用的参数无效
-{"code": 1, "msg": "Invalid value type: expected Boolean"} | 仅接受`true`或`false`
-{"code": 2, "msg": "Invalid request: property name must be a string"}| 提供的属性名无效
-{"code": 2, "msg": "Invalid request: request ID must be an unsigned integer"}| 参数`id`未提供或`id`值是无效类型
-{"code": 2, "msg": "Invalid request: unknown variant %s, expected one of `SUBSCRIBE`, `UNSUBSCRIBE`, `LIST_SUBSCRIPTIONS`, `SET_PROPERTY`, `GET_PROPERTY` at line 1 column 28"} | 错字提醒，或提供的值不是预期类型
-{"code": 2, "msg": "Invalid request: too many parameters"}| 数据中提供了不必要参数
-{"code": 2, "msg": "Invalid request: property name must be a string"} | 未提供属性名
-{"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | 数据未提供`method`
-{"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON 语法有误.
+{"code": 0, "msg": "Unknown property"} | Parameter used in the `SET_PROPERTY` or `GET_PROPERTY` was invalid
+{"code": 1, "msg": "Invalid value type: expected Boolean"} | Value should only be `true` or `false`
+{"code": 2, "msg": "Invalid request: property name must be a string"}| Property name provided was invalid
+{"code": 2, "msg": "Invalid request: request ID must be an unsigned integer"}| Parameter `id` had to be provided or the value provided in the `id` parameter is an unsupported type
+{"code": 2, "msg": "Invalid request: unknown variant %s, expected one of `SUBSCRIBE`, `UNSUBSCRIBE`, `LIST_SUBSCRIPTIONS`, `SET_PROPERTY`, `GET_PROPERTY` at line 1 column 28"} | Possible typo in the provided method or provided method was neither of the expected values
+{"code": 2, "msg": "Invalid request: too many parameters"}| Unnecessary parameters provided in the data
+{"code": 2, "msg": "Invalid request: property name must be a string"} | Property name was not provided
+{"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | `method` was not provided in the data
+{"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON data sent has incorrect syntax.
 
 
-
-
-## 归集交易流
+## Aggregate Trade Streams
 
 
 > **Payload:**
 
 ```javascript
 {
-  "e": "aggTrade",  // 事件类型
-  "E": 123456789,   // 事件时间
-  "s": "BNBBTC",    // 交易对
-  "a": 12345,       // 归集交易ID
-  "p": "0.001",     // 成交价格
-  "q": "100",       // 成交数量
-  "f": 100,         // 被归集的首个交易ID
-  "l": 105,         // 被归集的末次交易ID
-  "T": 123456785,   // 成交时间
-  "m": true,        // 买方是否是做市方。如true，则此次成交是一个主动卖出单，否则是一个主动买入单。
-  "M": true         // 请忽略该字段
+  "e": "aggTrade",  // Event type
+  "E": 123456789,   // Event time
+  "s": "BNBBTC",    // Symbol
+  "a": 12345,       // Aggregate trade ID
+  "p": "0.001",     // Price
+  "q": "100",       // Quantity
+  "f": 100,         // First trade ID
+  "l": 105,         // Last trade ID
+  "T": 123456785,   // Trade time
+  "m": true,        // Is the buyer the market maker?
+  "M": true         // Ignore
 }
 ```
 
-归集交易 stream 推送交易信息，是对单一订单的集合。
+The Aggregate Trade Streams push trade information that is aggregated for a single taker order.
 
-**Stream 名称:** `<symbol>@aggTrade`   
-**Update Speed:** 实时
+**Stream Name:** `<symbol>@aggTrade`
+
+**Update Speed:** Real-time
 
 
-## 逐笔交易
+## Trade Streams
+
 
 > **Payload:**
 
 ```javascript
 {
-  "e": "trade",     // 事件类型
-  "E": 123456789,   // 事件时间
-  "s": "BNBBTC",    // 交易对
-  "t": 12345,       // 交易ID
-  "p": "0.001",     // 成交价格
-  "q": "100",       // 成交数量
-  "b": 88,          // 买方的订单ID
-  "a": 50,          // 卖方的订单ID
-  "T": 123456785,   // 成交时间
-  "m": true,        // 买方是否是做市方。如true，则此次成交是一个主动卖出单，否则是一个主动买入单。
-  "M": true         // 请忽略该字段
+  "e": "trade",     // Event type
+  "E": 123456789,   // Event time
+  "s": "BNBBTC",    // Symbol
+  "t": 12345,       // Trade ID
+  "p": "0.001",     // Price
+  "q": "100",       // Quantity
+  "b": 88,          // Buyer order ID
+  "a": 50,          // Seller order ID
+  "T": 123456785,   // Trade time
+  "m": true,        // Is the buyer the market maker?
+  "M": true         // Ignore
 }
 ```
+
+The Trade Streams push raw trade information; each trade has a unique buyer and seller.
 
 **Stream Name:** `<symbol>@trade`
 
-逐笔交易推送每一笔成交的信息。**成交**，或者说交易的定义是仅有一个吃单者与一个挂单者相互交易
+**Update Speed:** Real-time
 
 
 
 
-## K线 Streams
+
+
+
+
+## Kline/Candlestick Streams
+
 
 > **Payload:**
 
 ```javascript
 {
-  "e": "kline",     // 事件类型
-  "E": 123456789,   // 事件时间
-  "s": "BNBBTC",    // 交易对
+  "e": "kline",     // Event type
+  "E": 123456789,   // Event time
+  "s": "BNBBTC",    // Symbol
   "k": {
-    "t": 123400000, // 这根K线的起始时间
-    "T": 123460000, // 这根K线的结束时间
-    "s": "BNBBTC",  // 交易对
-    "i": "1m",      // K线间隔
-    "f": 100,       // 这根K线期间第一笔成交ID
-    "L": 200,       // 这根K线期间末一笔成交ID
-    "o": "0.0010",  // 这根K线期间第一笔成交价
-    "c": "0.0020",  // 这根K线期间末一笔成交价
-    "h": "0.0025",  // 这根K线期间最高成交价
-    "l": "0.0015",  // 这根K线期间最低成交价
-    "v": "1000",    // 这根K线期间成交量
-    "n": 100,       // 这根K线期间成交数量
-    "x": false,     // 这根K线是否完结（是否已经开始下一根K线）
-    "q": "1.0000",  // 这根K线期间成交额
-    "V": "500",     // 主动买入的成交量
-    "Q": "0.500",   // 主动买入的成交额
-    "B": "123456"   // 忽略此参数
+    "t": 123400000, // Kline start time
+    "T": 123460000, // Kline close time
+    "s": "BNBBTC",  // Symbol
+    "i": "1m",      // Interval
+    "f": 100,       // First trade ID
+    "L": 200,       // Last trade ID
+    "o": "0.0010",  // Open price
+    "c": "0.0020",  // Close price
+    "h": "0.0025",  // High price
+    "l": "0.0015",  // Low price
+    "v": "1000",    // Base asset volume
+    "n": 100,       // Number of trades
+    "x": false,     // Is this kline closed?
+    "q": "1.0000",  // Quote asset volume
+    "V": "500",     // Taker buy base asset volume
+    "Q": "0.500",   // Taker buy quote asset volume
+    "B": "123456"   // Ignore
   }
 }
 ```
 
-K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。
+The Kline/Candlestick Stream push updates to the current klines/candlestick every second.
 
-**Stream Name:** `<symbol>@kline_<interval>`    
+**Stream Name:** `<symbol>@kline_<interval>`
 
 **Update Speed:** 2000ms
 
-**K线图间隔参数:**
+**Kline/Candlestick chart intervals:**
 
-m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
+m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 
 * 1m
 * 3m
@@ -3999,94 +4089,105 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 
 
-## 按 Symbol 的精简Ticker
+## Individual Symbol Mini Ticker Stream
 
 > **Payload:**
 
 ```javascript
   {
-    "e": "24hrMiniTicker",  // 事件类型
-    "E": 123456789,         // 事件时间
-    "s": "BNBBTC",          // 交易对
-    "c": "0.0025",          // 最新成交价格
-    "o": "0.0010",          // 24小时前开始第一笔成交价格
-    "h": "0.0025",          // 24小时内最高成交价
-    "l": "0.0010",          // 24小时内最低成交加
-    "v": "10000",           // 成交量
-    "q": "18"               // 成交额
+    "e": "24hrMiniTicker",  // Event type
+    "E": 123456789,         // Event time
+    "s": "BNBBTC",          // Symbol
+    "c": "0.0025",          // Close price
+    "o": "0.0010",          // Open price
+    "h": "0.0025",          // High price
+    "l": "0.0010",          // Low price
+    "v": "10000",           // Total traded base asset volume
+    "q": "18"               // Total traded quote asset volume
   }
 ```
 
-按Symbol刷新的最近24小时精简ticker信息
+24hr rolling window mini-ticker statistics. These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.
 
-**Stream 名称:** `<symbol>@miniTicker`
+**Stream Name:** `<symbol>@miniTicker`
 
 **Update Speed:** 1000ms
 
 
 
-## 全市场所有Symbol的精简Ticker
+
+
+
+
+## All Market Mini Tickers Stream
 
 > **Payload:**
+
 ```javascript
 [
   {
-    // 数组每一个元素对应一个交易对，内容与 \<symbol\>@miniTicker相同
+    // Same as <symbol>@miniTicker payload
   }
 ]
 ```
 
-同上，只是推送所有交易对.需要注意的是，只有更新的ticker才会被推送.
+24hr rolling window mini-ticker statistics for all symbols that changed in an array. These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs. Note that only tickers that have changed will be present in the array.
 
-**Stream名称:** !miniTicker@arr
+**Stream Name:** `!miniTicker@arr`
 
 **Update Speed:** 1000ms
 
 
 
-## 按Symbol的完整Ticker
+
+
+
+## Individual Symbol Ticker Streams
 
 
 > **Payload:**
 
 ```javascript
 {
-  "e": "24hrTicker",  // 事件类型
-  "E": 123456789,     // 事件时间
-  "s": "BNBBTC",      // 交易对
-  "p": "0.0015",      // 24小时价格变化
-  "P": "250.00",      // 24小时价格变化（百分比）
-  "w": "0.0018",      // 平均价格
-  "x": "0.0009",      // 整整24小时之前，向前数的最后一次成交价格
-  "c": "0.0025",      // 最新成交价格
-  "Q": "10",          // 最新成交交易的成交量
-  "b": "0.0024",      // 目前最高买单价
-  "B": "10",          // 目前最高买单价的挂单量
-  "a": "0.0026",      // 目前最低卖单价
-  "A": "100",         // 目前最低卖单价的挂单量
-  "o": "0.0010",      // 整整24小时前，向后数的第一次成交价格
-  "h": "0.0025",      // 24小时内最高成交价
-  "l": "0.0010",      // 24小时内最低成交加
-  "v": "10000",       // 24小时内成交量
-  "q": "18",          // 24小时内成交额
-  "O": 0,             // TODO 0 ??? 统计开始时间？？？
-  "C": 86400000,      // TODO 3600*24*1000，24小时的毫秒数 ??? 统计关闭时间？？？
-  "F": 0,             // 24小时内第一笔成交交易ID
-  "L": 18150,         // 24小时内最后一笔成交交易ID
-  "n": 18151          // 24小时内成交数
+  "e": "24hrTicker",  // Event type
+  "E": 123456789,     // Event time
+  "s": "BNBBTC",      // Symbol
+  "p": "0.0015",      // Price change
+  "P": "250.00",      // Price change percent
+  "w": "0.0018",      // Weighted average price
+  "x": "0.0009",      // First trade(F)-1 price (first trade before the 24hr rolling window)
+  "c": "0.0025",      // Last price
+  "Q": "10",          // Last quantity
+  "b": "0.0024",      // Best bid price
+  "B": "10",          // Best bid quantity
+  "a": "0.0026",      // Best ask price
+  "A": "100",         // Best ask quantity
+  "o": "0.0010",      // Open price
+  "h": "0.0025",      // High price
+  "l": "0.0010",      // Low price
+  "v": "10000",       // Total traded base asset volume
+  "q": "18",          // Total traded quote asset volume
+  "O": 0,             // Statistics open time
+  "C": 86400000,      // Statistics close time
+  "F": 0,             // First trade ID
+  "L": 18150,         // Last trade Id
+  "n": 18151          // Total number of trades
 }
 ```
 
 
-每秒推送单个交易对的过去24小时滚动窗口标签统计信息。
+24hr rollwing window ticker statistics for a single symbol. These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs.
 
-**Stream 名称:** `<symbol>@ticker`
+**Stream Name:** `<symbol>@ticker`
 
 **Update Speed:** 1000ms
 
 
 
-## 全市场所有交易对的完整Ticker
+
+
+
+## All Market Tickers Stream
 
 > **Payload:**
 
@@ -4098,42 +4199,43 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 ]
 ```
 
+24hr rolling window ticker statistics for all symbols that changed in an array. These are NOT the statistics of the UTC day, but a 24hr rolling window for the previous 24hrs. Note that only tickers that have changed will be present in the array.
+
 **Stream Name:** `!ticker@arr`
 
 **Update Speed:** 1000ms
 
-推送全市场所有交易对刷新的24小时完整ticker信息。需要注意的是，没有更新的ticker不会被推送。
 
 
 
 
-## 按Symbol的最优挂单信息
+## Individual Symbol Book Ticker Streams
 
 > **Payload:**
 
 ```javascript
 {
   "u":400900217,     // order book updateId
-  "s":"BNBUSDT",     // 交易对
-  "b":"25.35190000", // 买单最优挂单价格
-  "B":"31.21000000", // 买单最优挂单数量
-  "a":"25.36520000", // 卖单最优挂单价格
-  "A":"40.66000000"  // 卖单最优挂单数量
+  "s":"BNBUSDT",     // symbol
+  "b":"25.35190000", // best bid price
+  "B":"31.21000000", // best bid qty
+  "a":"25.36520000", // best ask price
+  "A":"40.66000000"  // best ask qty
 }
 ```
 
 
-实时推送指定交易对最优挂单信息
+Pushes any update to the best bid or ask's price or quantity in real-time for a specified symbol.
 
 **Stream Name:** `<symbol>@bookTicker`
 
-**Update Speed:** 实时
+**Update Speed:** Real-time
 
 
 
 
 
-## 全市场最优挂单信息
+## All Book Tickers Stream
 
 > **Payload:**
 
@@ -4143,17 +4245,20 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 }
 ```
 
-实时推送所有交易对交易对最优挂单信息
+Pushes any update to the best bid or ask's price or quantity in real-time for all symbols.
 
 **Stream Name:** `!bookTicker`
 
-**Update Speed:** 实时
+**Update Speed:** Real-time
 
 
 
 
 
-## 有限档深度信息
+
+
+
+## Partial Book Depth Streams
 
 > **Payload:**
 
@@ -4175,78 +4280,84 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 }
 ```
 
-每秒或每100毫秒推送有限档深度信息。levels表示几档买卖单信息, 可选 5/10/20档
+Top **<levels\>** bids and asks, Valid **<levels\>** are 5, 10, or 20.
 
-**Stream Names:** `<symbol>@depth<levels>` 或 `<symbol>@depth<levels>@100ms`.  
+**Stream Names:** `<symbol>@depth<levels>` OR `<symbol>@depth<levels>@100ms`.  
 
-**Update Speed:** 1000ms 或 100ms
-
-
+**Update Speed:** 1000ms or 100ms
 
 
 
 
 
-## 增量深度信息
+
+
+## Diff. Depth Stream
 
 
 > **Payload:**
 
 ```javascript
 {
-  "e": "depthUpdate", // 事件类型
-  "E": 123456789,     // 事件时间
-  "s": "BNBBTC",      // 交易对
-  "U": 157,           // 从上次推送至今新增的第一个 update Id
-  "u": 160,           // 从上次推送至今新增的最后一个 update Id
-  "b": [              // 变动的买单深度
+  "e": "depthUpdate", // Event type
+  "E": 123456789,     // Event time
+  "s": "BNBBTC",      // Symbol
+  "U": 157,           // First update ID in event
+  "u": 160,           // Final update ID in event
+  "b": [              // Bids to be updated
     [
-      "0.0024",       // 变动的价格档位
-      "10"            // 数量
+      "0.0024",       // Price level to be updated
+      "10"            // Quantity
     ]
   ],
-  "a": [              // 变动的卖单深度
+  "a": [              // Asks to be updated
     [
-      "0.0026",       // 变动的价格档位
-      "100"           // 数量
+      "0.0026",       // Price level to be updated
+      "100"           // Quantity
     ]
   ]
 }
 ```
 
-每秒或每100毫秒推送orderbook的变化部分（如果有）
-
-**Stream Name:** `<symbol>@depth` 或 `<symbol>@depth@100ms`
-
-**Update Speed:** 1000ms 或 100ms
 
 
+**Stream Name:** `<symbol>@depth` OR `<symbol>@depth@100ms`
 
+**Update Speed:** 1000ms or 100ms
 
-
-
-## 如何正确在本地维护一个orderbook副本
-1. 订阅 **wss://stream.binance.com:9443/ws/bnbbtc@depth**
-2. 开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。
-3. 访问Rest接口 **https://www.binance.com/api/v1/depth?symbol=BNBBTC&limit=1000** 获得一个1000档的深度快照
-4. 将目前缓存到的信息中`u` <= 步骤3中获取到的快照中的`lastUpdateId`的部分丢弃(丢弃更早的信息，已经过期)。
-5. 将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个`U` <= `lastUpdateId`+1 **且** `u` >= `lastUpdateId`+1 的event开始继续更新本地副本。
-6. 每一个新event的`U`应该恰好等于上一个event的`u`+1，否则可能出现了丢包，请从step3重新进行初始化。
-7. 每一个event中的挂单量代表这个价格目前的挂单量**绝对值**，而不是相对变化。
-8. 如果某个价格对应的挂单量为0，表示该价位的挂单已经撤单或者被吃，应该移除这个价位。
+Order book price and quantity depth updates used to locally manage an order book.
 
 
 
 
+## How to manage a local order book correctly
+1. Open a stream to **wss://stream.binance.com:9443/ws/bnbbtc@depth**.
+2. Buffer the events you receive from the stream.
+3. Get a depth snapshot from **https://www.binance.com/api/v3/depth?symbol=BNBBTC&limit=1000** .
+4. Drop any event where `u` is <= `lastUpdateId` in the snapshot.
+5. The first processed event should have `U` <= `lastUpdateId`+1 **AND** `u` >= `lastUpdateId`+1.
+6. While listening to the stream, each new event's `U` should be equal to the previous event's `u`+1.
+7. The data in each event is the **absolute** quantity for a price level.
+8. If the quantity is 0, **remove** the price level.
+9. Receiving an event that removes a price level that is not in your local order book can happen and is normal.
 
 
-# 现货账户和交易接口
 
 
-## 测试下单 (TRADE)
 
 
-> **响应**
+
+
+
+
+
+# Spot Account/Trade
+
+
+## Test New Order (TRADE)
+
+
+> **Response:**
 
 ```javascript
 {}
@@ -4257,20 +4368,21 @@ POST /api/v3/order/test (HMAC SHA256)
 ``
 
 
-用于测试订单请求，但不会提交到撮合引擎
+Test new order creation and signature/recvWindow long.
+Creates and validates a new order but does not send it into the matching engine.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-同于 `POST /api/v3/order`
-
-
+Same as `POST /api/v3/order`
 
 
 
-## 下单  (TRADE)
+
+
+## New Order  (TRADE)
 
 > **Response ACK:**
 
@@ -4361,14 +4473,14 @@ POST /api/v3/order/test (HMAC SHA256)
 POST /api/v3/order  (HMAC SHA256)
 ``
 
-发送下单。
+Send in a new order.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 side | ENUM | YES |
@@ -4377,16 +4489,16 @@ timeInForce | ENUM | NO |
 quantity | DECIMAL | NO |
 quoteOrderQty|DECIMAL|NO|
 price | DECIMAL | NO |
-newClientOrderId | STRING | NO | 客户自定义的唯一订单ID。 如果未发送，则自动生成
-stopPrice | DECIMAL | NO | 仅 `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, 和`TAKE_PROFIT_LIMIT` 需要此参数。
-icebergQty | DECIMAL | NO | 仅使用 `LIMIT`, `STOP_LOSS_LIMIT`, 和 `TAKE_PROFIT_LIMIT` 创建新的 iceberg 订单时需要此参数
-newOrderRespType | ENUM | NO | 设置响应JSON。 ACK，RESULT或FULL； “MARKET”和“ LIMIT”订单类型默认为“FULL”，所有其他订单默认为“ACK”。
-recvWindow | LONG | NO |赋值不能大于 ```60000```
+newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent.
+stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
+icebergQty | DECIMAL | NO | Used with `LIMIT`, `STOP_LOSS_LIMIT`, and `TAKE_PROFIT_LIMIT` to create an iceberg order.
+newOrderRespType | ENUM | NO | Set the response JSON. `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` order types default to `FULL`, all other orders default to `ACK`.
+recvWindow | LONG | NO |The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
-基于订单 `type`不同，强制要求某些参数:
+Additional mandatory parameters based on `type`:
 
-类型 | 强制要求的参数
+Type | Additional mandatory parameters
 ------------ | ------------
 `LIMIT` | `timeInForce`, `quantity`, `price`
 `MARKET` | `quantity` or `quoteOrderQty`
@@ -4396,38 +4508,29 @@ timestamp | LONG | YES |
 `TAKE_PROFIT_LIMIT` | `timeInForce`, `quantity`, `price`, `stopPrice`
 `LIMIT_MAKER` | `quantity`, `price`
 
-其他信息:
+Other info:
 
-* `LIMIT_MAKER`是`LIMIT`订单，如果它们立即匹配并成为吃单方将被拒绝。
-* 当触发`stopPrice`时，`STOP_LOSS`和`TAKE_PROFIT`将执行`MARKET`订单。
-* 任何`LIMIT`或`LIMIT_MAKER`类型的订单都可以通过发送`icebergQty`而成为`iceberg`订单。
-* 任何带有`icebergQty`的订单都必须将`timeInForce`设置为`GTC`。
-* 使用 `quantity` 的市价单 `MARKET` 明确的是用户想用市价单买入或卖出的数量。
-* 使用 `quoteOrderQty` 的市价单`MARKET` 明确的是通过买入(或卖出)想要花费(或获取)的报价资产数量; 此时的正确报单数量将会以市场流动性和`quoteOrderQty`被计算出来。
+* `LIMIT_MAKER` are `LIMIT` orders that will be rejected if they would immediately match and trade as a taker.
+* `STOP_LOSS` and `TAKE_PROFIT` will execute a `MARKET` order when the `stopPrice` is reached.
+* Any `LIMIT` or `LIMIT_MAKER` type order can be made an iceberg order by sending an `icebergQty`.
+* Any order with an `icebergQty` MUST have `timeInForce` set to `GTC`.
+* `MARKET` orders using `quantity` specifies how much a user wants to buy or sell based on the market price.
+* `MARKET` orders using `quoteOrderQty` specifies the amount the user wants to spend (when buying) or receive (when selling) of the quote asset; the correct `quantity` will be determined based on the market liquidity and `quoteOrderQty`.
 * `MARKET` orders using `quoteOrderQty` will not break `LOT_SIZE` filter rules; the order will execute a `quantity` that will have the notional value as close as possible to `quoteOrderQty`.
-* 使用 `quoteOrderQty` 的市价单`MARKET`不会突破`LOT_SIZE`的限制规则; 报单会按给定的`quoteOrderQty`尽可能接近地被执行。
-* 除非之前的订单已经成交, 不然设置了相同的`newClientOrderId`订单会被拒绝。
+* same `newClientOrderId` can be accepted only when the previous one is filled, otherwise the order will be rejected.
 
+Trigger order price rules against market price for both MARKET and LIMIT versions:
 
-MARKET版本和LIMIT版本针对市场价格触发订单价格规则：
-
-* 价格高于市价：`止损``买入`，`获利``卖出`    
-* 价格低于市价：`止损``卖出`，`获利``买入`
-
-
-关于 newOrderRespType的三种选择
-
-* **Response ACK:** 返回速度最快，不包含成交信息，信息量最少
-* **Response RESULT:**返回速度居中，返回吃单成交的少量信息
-* **Response FULL:** 返回速度最慢，返回吃单成交的详细信息
+* Price above market price: `STOP_LOSS` `BUY`, `TAKE_PROFIT` `SELL`
+* Price below market price: `STOP_LOSS` `SELL`, `TAKE_PROFIT` `BUY`
 
 
 
 
-## 撤销订单 (TRADE)
+## Cancel Order (TRADE)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -4451,26 +4554,26 @@ MARKET版本和LIMIT版本针对市场价格触发订单价格规则：
 DELETE /api/v3/order  (HMAC SHA256)
 ``
 
-取消有效订单。
+Cancel an active order.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | LONG | NO |
 origClientOrderId | STRING | NO |
-newClientOrderId | STRING | NO |  用户自定义的本次撤销操作的ID(注意不是被撤销的订单的自定义ID)。如无指定会自动赋值。
-recvWindow | LONG | NO | 赋值不得大于 ```60000```
+newClientOrderId | STRING | NO |  Used to uniquely identify this cancel. Automatically generated by default.
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
-`orderId` 或 `origClientOrderId` 必须至少发送一个
+Either `orderId` or `origClientOrderId` must be sent.
 
 
-## 撤销单一交易对的所有挂单 (TRADE)
+## Cancel all Open Orders on a Symbol (TRADE)
 
 > **Response:**
 
@@ -4569,7 +4672,8 @@ timestamp | LONG | YES |
 DELETE api/v3/openOrders
 ``
 
-撤销单一交易对下所有挂单, 包括OCO的挂单。
+Cancels all active orders on a symbol.<br>
+This includes OCO orders.
 
 **Weight:**
 1
@@ -4579,14 +4683,15 @@ DELETE api/v3/openOrders
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
 
-## 查询订单 (USER_DATA)
+
+## Query Order (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -4616,33 +4721,37 @@ timestamp | LONG | YES |
 GET /api/v3/order (HMAC SHA256)
 ``
 
-查询订单状态。
+Check an order's status.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | LONG | NO |
 origClientOrderId | STRING | NO |
-recvWindow | LONG | NO | 赋值不得大于 ```60000``` 
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
-注意:
+Notes:
 
-* 至少需要发送 `orderId` 与 `origClientOrderId`中的一个
-* 某些订单中`cummulativeQuoteQty`<0，是由于这些订单是cummulativeQuoteQty功能上线之前的订单。
-
-
+* Either `orderId` or `origClientOrderId` must be sent.
+* For some historical orders `cummulativeQuoteQty` will be < 0, meaning the data is not available at this time.
 
 
-## 当前挂单 (USER_DATA)
 
 
-> **响应**
+
+
+
+
+## Current Open Orders (USER_DATA)
+
+
+> **Response:**
 
 ```javascript
 [
@@ -4673,28 +4782,27 @@ timestamp | LONG | YES |
 GET /api/v3/openOrders  (HMAC SHA256)
 ``
 
-获取交易对的所有当前挂单， 请小心使用不带交易对参数的调用。
+Get all open orders on a symbol. **Careful** when accessing this with no symbol.
 
-**权重:**
-1 单一交易对;   
-2交易对参数缺失
+**Weight:**
+1 for a single symbol; **40** when the symbol parameter is omitted
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO |
-recvWindow | LONG | NO | 赋值不得大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
-* 不带symbol参数，会返回所有交易对的挂单
+* If the symbol is not sent, orders for all symbols will be returned in an array.
 
 
 
-## 查询所有订单 (USER_DATA)
+## All Orders (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -4725,36 +4833,36 @@ timestamp | LONG | YES |
 GET /api/v3/allOrders (HMAC SHA256)
 ``
 
-获取所有帐户订单； 有效，已取消或已完成。
+Get all account orders; active, canceled, or filled.
 
-**权重:**
-5 带有symbol
+**Weight:**
+5 with symbol
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | LONG | NO |
 startTime | LONG | NO |
 endTime | LONG | NO |
-limit | INT | NO | 默认 500; 最大 1000.
-recvWindow | LONG | NO | 赋值不得大于 ```60000``` 
+limit | INT | NO | Default 500; max 1000.
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
-**注意:**
+**Notes:**
 
-* 如设置 `orderId` , 订单量将 >=  `orderId`。否则将返回最新订单。
-* 一些历史订单 `cummulativeQuoteQty`  < 0, 是指数据此时不存在。
-
-
-
-
-## OCO下单(TRADE)
+* If `orderId` is set, it will get orders >= that `orderId`. Otherwise most recent orders are returned.
+* For some historical orders `cummulativeQuoteQty` will be < 0, meaning the data is not available at this time.
 
 
 
-> **响应**
+
+## New OCO (TRADE)
+
+
+
+> **Response:**
 
 ```json
 {
@@ -4813,48 +4921,50 @@ timestamp | LONG | YES |
 }
 ```
 
+
 ``
 POST /api/v3/order/oco (HMAC SHA256)
 ``
 
-**权重**: 1
+**Weight**: 1
 
-发送新 OCO 订单
+Send in a new OCO
 
-**参数**:
+**Parameters**:
 
-名称 |类型| 是否必需 | 描述
+Name |Type| Mandatory | Description
 -----|-----|----------| -----------
 symbol|STRING| YES|
-listClientOrderId|STRING|NO| 整个orderList的唯一ID
+listClientOrderId|STRING|NO| A unique Id for the entire orderList
 side|ENUM|YES|
 quantity|DECIMAL|YES|
-limitClientOrderId|STRING|NO| 限价单的唯一ID
+limitClientOrderId|STRING|NO| A unique Id for the limit order
 price|DECIMAL|YES|
 limitIcebergQty|DECIMAL|NO|
-stopClientOrderId |STRING|NO| 止损/止损限价单的唯一ID
+stopClientOrderId |STRING|NO| A unique Id for the stop loss/stop loss limit leg
 stopPrice |DECIMAL| YES
-stopLimitPrice|DECIMAL|NO| 如果提供，须配合提交`stopLimitTimeInForce`
+stopLimitPrice|DECIMAL|NO| If provided, `stopLimitTimeInForce` is required.
 stopIcebergQty|DECIMAL|NO|
-stopLimitTimeInForce|ENUM|NO| 有效值 `GTC`/`FOK`/`IOC`
+stopLimitTimeInForce|ENUM|NO| Valid values are ```GTC```/```FOK```/```IOC```
 newOrderRespType|ENUM|NO| Set the response JSON.
-recvWindow|LONG|NO| 不能大于 `60000`
+recvWindow|LONG|NO| The value cannot be greater than ```60000```
 timestamp|LONG|YES|
 
 
-其他信息:
+Other Info:
 
-* 价格限制:
-    * `SELL`: 限价 > 最新成交价 >触发价
-    * `BUY`: 限价 < 最新成交价 < 触发价
-* 数量限制:
-    * 两个 legs 必须具有同样的数量。
-    * `ICEBERG`数量不必相同
-
-
+* Price Restrictions:
+    * ```SELL```: Limit Price > Last Price > Stop Price
+    * ```BUY```: Limit Price < Last Price < Stop Price
+* Quantity Restrictions:
+    * Both legs must have the same quantity
+    * ```ICEBERG``` quantities however do not have to be the same
 
 
-## 取消 OCO 订单(TRADE)
+
+
+## Cancel OCO (TRADE)
+
 
 > **Response:**
 
@@ -4915,57 +5025,56 @@ timestamp|LONG|YES|
 }
 ```
 
-
 ``
 DELETE /api/v3/orderList (HMAC SHA256)
 ``
 
-**权重**: 1
+**Weight**: 1
 
-取消整个订单列表。
+Cancel an entire Order List
 
-**参数**
+**Parameters:**
 
-名称| 类型| 是否必需| 描述
+Name| Type| Mandatory| Description
 ----| ----|------|------
 symbol| STRING| YES|
-orderListId|LONG|NO| `orderListId` 或 `listClientOrderId` 必须被提供
-listClientOrderId|STRING|NO| `orderListId` 或 `listClientOrderId` 必须被提供
-newClientOrderId|STRING|NO| 用户自定义的本次撤销操作的ID(注意不是被撤销的订单的自定义ID)。如无指定会自动赋值。
-recvWindow|LONG|NO|不能大于 `60000`
+orderListId|LONG|NO| Either ```orderListId``` or ```listClientOrderId``` must be provided
+listClientOrderId|STRING|NO| Either ```orderListId``` or ```listClientOrderId``` must be provided
+newClientOrderId|STRING|NO| Used to uniquely identify this cancel. Automatically generated by default
+recvWindow|LONG|NO| The value cannot be greater than ```60000```
 timestamp|LONG|YES|
 
-其他注意点:
+Additional notes:
 
-* 取消单个 leg 将取消整个 OCO 订单。
-
-
-## 查询 OCO (USER_DATA)
+* Canceling an individual leg will cancel the entire OCO
 
 
-> **响应**
+## Query OCO (USER_DATA)
+
+
+> **Response:**
 
 ```javascript
 {
-    "orderListId": 27,
-    "contingencyType": "OCO",
-    "listStatusType": "EXEC_STARTED",
-    "listOrderStatus": "EXECUTING",
-    "listClientOrderId": "h2USkA5YQpaXHPIrkd96xE",
-    "transactionTime": 1565245656253,
-    "symbol": "LTCBTC",
-    "orders": [
-        {
-            "symbol": "LTCBTC",
-            "orderId": 4,
-            "clientOrderId": "qD1gy3kc3Gx0rihm9Y3xwS"
-        },
-        {
-            "symbol": "LTCBTC",
-            "orderId": 5,
-            "clientOrderId": "ARzZ9I00CPM8i3NhmU9Ega"
-        }
-    ]
+  "orderListId": 27,
+  "contingencyType": "OCO",
+  "listStatusType": "EXEC_STARTED",
+  "listOrderStatus": "EXECUTING",
+  "listClientOrderId": "h2USkA5YQpaXHPIrkd96xE",
+  "transactionTime": 1565245656253,
+  "symbol": "LTCBTC",
+  "orders": [
+    {
+      "symbol": "LTCBTC",
+      "orderId": 4,
+      "clientOrderId": "qD1gy3kc3Gx0rihm9Y3xwS"
+    },
+    {
+      "symbol": "LTCBTC",
+      "orderId": 5,
+      "clientOrderId": "ARzZ9I00CPM8i3NhmU9Ega"
+    }
+  ]
 }
 ```
 
@@ -4974,27 +5083,27 @@ timestamp|LONG|YES|
 GET /api/v3/orderList (HMAC SHA256)
 ``
 
-**权重**: 1
+**Weight**: 1
 
-根据提供的可选参数检索特定的OCO。
+Retrieves a specific OCO based on provided optional parameters
 
-**参数**:
+**Parameters**:
 
-名称| 类型|是否必需| 描述
+Name| Type|Mandatory| Description
 ----|-----|----|----------
-orderListId|LONG|NO|   ```orderListId``` 或 ```listClientOrderId``` 必须提供一个。
-origClientOrderId|STRING|NO|  ```orderListId``` 或 ```listClientOrderId``` 必须提供一个。
-recvWindow|LONG|NO| 赋值不得大于 ```60000```
+orderListId|LONG|NO|  Either ```orderListId``` or ```listClientOrderId``` must be provided
+origClientOrderId|STRING|NO| Either ```orderListId``` or ```listClientOrderId``` must be provided
+recvWindow|LONG|NO| The value cannot be greater than ```60000```
 timestamp|LONG|YES|
 
 
 
 
-## 查询所有 OCO (USER_DATA)
+## Query all OCO (USER_DATA)
 
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -5048,28 +5157,28 @@ timestamp|LONG|YES|
 GET /api/v3/allOrderList (HMAC SHA256)
 ``
 
-**权重**: 10
+**Weight**: 10
 
-根据提供的可选参数检索所有的OCO。
+Retrieves all OCO based on provided optional parameters
 
-**参数**
+**Parameters**
 
-名称|类型| 是否必需| 描述
+Name|Type| Mandatory| Description
 ----|----|----|---------
-fromId|LONG|NO| 提供该项后, `startTime` 和 `endTime` 都不可提供
+fromId|LONG|NO| If supplied, neither ```startTime``` or ```endTime``` can be provided
 startTime|LONG|NO|
 endTime|LONG|NO|
-limit|INT|NO| 默认值: 500; 最大值: 1000
-recvWindow|LONG|NO| 赋值不能超过 `60000`
+limit|INT|NO| Default Value: 500; Max Value: 1000
+recvWindow|LONG|NO| The value cannot be greater than ```60000```
 timestamp|LONG|YES|
 
 
 
-## 查询 OCO 挂单 (USER_DATA)
+## Query Open OCO (USER_DATA)
 
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -5097,17 +5206,18 @@ timestamp|LONG|YES|
 ]
 ```
 
+
 ``
 GET /api/v3/openOrderList (HMAC SHA256)
 ``
 
-权重: 2
+Weight: 2
 
-**参数**
+**Parameters**
 
-名称| 类型|是否必需| 描述
+Name| Type|Mandatory| Description
 ----|-----|---|------------------
-recvWindow|LONG|NO| 赋值不能大于 ```60000```
+recvWindow|LONG|NO| The value cannot be greater than ```60000```
 timestamp|LONG|YES|
 
 
@@ -5116,10 +5226,10 @@ timestamp|LONG|YES|
 
 
 
-## 账户信息 (USER_DATA)
+## Account Information (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -5143,7 +5253,7 @@ timestamp|LONG|YES|
       "free": "4763368.68006011",
       "locked": "0.00000000"
     }
-  ],
+  ]
   "permissions": [
     "SPOT"
   ]
@@ -5154,24 +5264,24 @@ timestamp|LONG|YES|
 GET /api/v3/account (HMAC SHA256)
 ``
 
-获取当前账户信息。
+Get current account information.
 
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需| 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
 
 
-## 账户成交历史 (USER_DATA)
+## Account Trade List (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -5197,38 +5307,38 @@ timestamp | LONG | YES |
 GET /api/v3/myTrades  (HMAC SHA256)
 ``
 
-获取账户指定交易对的成交历史
+Get trades for a specific account and symbol.
 
-**权重:**
+**Weight:**
 5 
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 startTime | LONG | NO |
 endTime | LONG | NO |
-fromId | LONG | NO | 起始Trade id。 默认获取最新交易。
-limit | INT | NO | 默认 500; 最大 1000.
-recvWindow | LONG | NO | 赋值不能超过 ```60000```
+fromId | LONG | NO | TradeId to fetch from. Default gets most recent trades.
+limit | INT | NO | Default 500; max 1000.
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
-**注意:**
+**Notes:**
 
-* 如果设定 `fromId` , 获取订单 >= `fromId`.
-否则返回最近订单。
-
-
+* If `fromId` is set, it will get id >= that `fromId`.
+Otherwise most recent orders are returned.
 
 
 
-# 杠杆账户和交易接口
 
 
-## 杠杆账户划转 (MARGIN)
+# Margin Account/Trade
 
-> **响应**
+
+## Margin Account Transfer (MARGIN)
+
+> **Response:**
 
 ```javascript
 {
@@ -5241,27 +5351,28 @@ timestamp | LONG | YES |
 ``
 POST /sapi/v1/margin/transfer (HMAC SHA256)
 ``
-执行现货账户与杠杆账户之间的划转
 
-**权重:**
+Execute transfer between spot account and margin account.
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型| 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset | STRING | YES | 被划转的资产, 比如, BTC
-amount | DECIMAL | YES | 划转数量
-type | INT | YES | 1: 主账户向杠杆账户划转 2: 杠杆账户向主账户划转
-recvWindow | LONG | NO  | 赋值不能大于 ```60000```
+asset | STRING | YES | The asset being transferred, e.g., BTC
+amount | DECIMAL | YES | The amount to be transferred
+type | INT | YES | 1: transfer from main account to margin account 2: transfer from margin account to main account
+recvWindow | LONG | NO  | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
 
-## 杠杆账户借贷 (MARGIN)
+## Margin Account Borrow (MARGIN)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -5274,25 +5385,26 @@ timestamp | LONG | YES
 ``
 POST /sapi/v1/margin/loan (HMAC SHA256)
 ``
-申请借贷。
 
-**权重:**
+Apply for a loan.
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES | 
 amount | DECIMAL | YES | 
-recvWindow | LONG | NO | 赋值不能超过 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 杠杆账户归还借贷 (MARGIN)
+## Margin Account Repay (MARGIN)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -5305,18 +5417,19 @@ timestamp | LONG | YES
 ``
 POST /sapi/v1/margin/repay (HMAC SHA256)
 ``
-获取杠杆账户归还借贷。
 
-**权重:**
+Repay loan for margin account.
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型| 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES | 
 amount | DECIMAL | YES | 
-recvWindow | LONG | NO | 赋值不能超过 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
@@ -5324,9 +5437,10 @@ timestamp | LONG | YES
 
 
 
-## 查询杠杆资产 (MARKET_DATA)
+## Query Margin Asset (MARKET_DATA)
 
-> **响应**
+
+> **Response:**
 
 ```javascript
 {
@@ -5341,24 +5455,25 @@ timestamp | LONG | YES
 
 
 ``
-GET /sapi/v1/margin/asset
+GET /sapi/v1/margin/asset 
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES |
 
-* 需要提供`X-MBX-APIY` 
+* `X-MBX-APIKEY` required
 
 
-## 查询杠杆交易对 (MARKET_DATA)
+## Query Margin Pair (MARKET_DATA)
 
-> **响应**
+
+> **Response:**
 
 ```javascript
 {
@@ -5372,26 +5487,28 @@ asset | STRING | YES |
 }
 ```
 
+
 ``
-GET /sapi/v1/margin/pair
+GET /sapi/v1/margin/pair 
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 
-* 需要提供`X-MBX-APIY`
+* `X-MBX-APIKEY` required
 
 
-## 获取所有杠杆资产信息 (MARKET_DATA)
+
+## Get All Margin Assets (MARKET_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
   [
@@ -5443,18 +5560,21 @@ symbol | STRING | YES |
 GET /sapi/v1/margin/allAssets
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**    
+**Parameters:**
+
 None
 
-* 必须提供`X-MBX-APIKEY` 
 
 
-## 获取所有杠杆交易对(MARKET_DATA)
+* `X-MBX-APIKEY` required
 
-> **响应**
+
+## Get All Margin Pairs (MARKET_DATA)
+
+> **Response:**
 
 ```javascript
 [
@@ -5506,26 +5626,28 @@ None
 ]
 ```
 
+
+
 ``
 GET /sapi/v1/margin/allPairs 
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
 None
 
 
-* 必须提供`X-MBX-APIKEY` 
+* `X-MBX-APIKEY` required
 
 
 
 
-## 查询杠杆价格指数 (MARKET_DATA)
+## Query Margin PriceIndex (MARKET_DATA)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -5540,25 +5662,23 @@ None
 GET /sapi/v1/margin/priceIndex 
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需| 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 
-
-
-* 需要提供`X-MBX-APIKEY` 。
+* `X-MBX-APIKEY` required
 
 
 
 
 
 
-## 杠杆账户下单 (TRADE)
+## Margin Account New Order (TRADE)
 
 > **Response ACK:**
 
@@ -5596,7 +5716,7 @@ symbol | STRING | YES |
   "orderId": 28,
   "clientOrderId": "6gCrw2kRUAF9CvJDGP16IP",
   "transactTime": 1507725176595,
-  "price": "0.00000000",
+  "price": "1.00000000",
   "origQty": "10.00000000",
   "executedQty": "10.00000000",
   "cummulativeQuoteQty": "10.00000000",
@@ -5604,8 +5724,8 @@ symbol | STRING | YES |
   "timeInForce": "GTC",
   "type": "MARKET",
   "side": "SELL",
-  "marginBuyBorrowAmount": 5,       // 下单后没有发生借款则不返回该字段
-  "marginBuyBorrowAsset": "BTC",    // 下单后没有发生借款则不返回该字段
+  "marginBuyBorrowAmount": 5,       // will not returen if no margin trade happens
+  "marginBuyBorrowAsset": "BTC",    // will not returen if no margin trade happens
   "fills": [
     {
       "price": "4000.00000000",
@@ -5645,33 +5765,34 @@ symbol | STRING | YES |
 ``
 POST  /sapi/v1/margin/order (HMAC SHA256)
 ``
+Post a new order for margin account.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
-side |	ENUM | YES | BUY<br>SELL
-type | ENUM | YES |
-quantity | DECIMAL | YES |	
-price |	DECIMAL | NO	|
-stopPrice | DECIMAL | NO | 与`STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, 和 `TAKE_PROFIT_LIMIT` 订单一起使用.
-newClientOrderId | STRING | NO | 客户自定义的唯一订单ID。若未发送自动生成。
-icebergQty | DECIMAL | NO | 与 `LIMIT`, `STOP_LOSS_LIMIT`, 和 `TAKE_PROFIT_LIMIT` 一起使用创建 iceberg 订单.
-newOrderRespType | ENUM | NO | 设置响应: JSON. ACK, RESULT, 或 FULL; MARKET 和 LIMIT 订单类型默认为 FULL, 所有其他订单默认为 ACK.
-sideEffectType | ENUM | NO | NO_SIDE_EFFECT, MARGIN_BUY, AUTO_REPAY;默认为 NO_SIDE_EFFECT.
+side |	ENUM |YES |	BUY<br>SELL
+type | ENUM | YES	
+quantity | DECIMAL |	YES	
+price |	DECIMAL | NO	
+stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
+newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent.
+icebergQty | DECIMAL | NO | Used with `LIMIT`, `STOP_LOSS_LIMIT`, and `TAKE_PROFIT_LIMIT` to create an iceberg order.
+newOrderRespType | ENUM | NO | Set the response JSON. ACK, RESULT, or FULL; MARKET and LIMIT order types default to FULL, all other orders default to ACK.
+sideEffectType | ENUM | NO | NO_SIDE_EFFECT, MARGIN_BUY, AUTO_REPAY; default NO_SIDE_EFFECT.
 timeInForce | ENUM | NO | GTC,IOC,FOK
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
-timestamp | LONG | YES |
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
+timestamp | LONG | YES
 
 
 
-## 杠杆账户撤销订单 (TRADE)
+## Margin Account Cancel Order (TRADE)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -5688,37 +5809,38 @@ timestamp | LONG | YES |
   "type": "LIMIT",
   "side": "SELL"
 }
-
 ```
 
 
 ``
 DELETE /sapi/v1/margin/order (HMAC SHA256)
 ``
-杠杆账户撤销有效订单。
+Cancel an active order for margin account.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | LONG | NO | 
 origClientOrderId |	STRING | NO	
-newClientOrderId |	STRING | NO | 用于唯一识别此撤销订单，默认自动生成。
-recvWindow | LONG | NO | T赋值不能大于 ```60000```
+newClientOrderId |	STRING | NO | Used to uniquely identify this cancel. Automatically generated by default.
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 必须发送 orderId 或 origClientOrderId 其中一个。
+Either orderId or origClientOrderId must be sent.
 
 
 
 
-## 获取划转历史 (USER_DATA)
 
-> **响应**
+
+## Get Transfer History (USER_DATA)
+
+> **Response:**
 
 ```javascript
 {
@@ -5757,29 +5879,31 @@ timestamp | LONG | YES
 GET /sapi/v1/margin/transfer (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 |类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-asset |	STRING | NO
-type | STRING | NO | 划转类型: ROLL_IN, ROLL_OUT
-startTime |	LONG |	NO	
+asset |	STRING | No
+type | STRING | NO | Tranfer Type: ROLL_IN, ROLL_OUT
+startTime |	LONG |	NO
 endTime | LONG | NO	
-current | LONG | NO | 当前查询页。 从 1开始。 默认:1
-size |	LONG | NO |	默认:10 最大:100
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+current | LONG | NO | Currently querying page. Start from 1. Default:1
+size |	LONG | NO |	Default:10 Max:100
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 响应返回为降序排列。
+
+
+* Response in descending order
 
 
 
-## 查询借贷记录 (USER_DATA)
+## Query Loan Record (USER_DATA)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -5795,35 +5919,38 @@ timestamp | LONG | YES
 }
 ```
 
+
 ``
 GET /sapi/v1/margin/loan (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset |	STRING | YES	
-txId | LONG | NO | `tranId` in POST /sapi/v1/margin/loan
+txId | LONG | NO | the tranId in POST /sapi/v1/margin/loan
 startTime |	LONG |	NO	
 endTime | LONG | NO	
-current | LONG | NO | 当前查询页。 开始值 1。 默认:1
-size |	LONG | NO |	默认:10 最大:100
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+current | LONG | NO | Currently querying page. Start from 1. Default:1
+size |	LONG | NO |	Default:10 Max:100
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 必须发送`txId` 或 `startTime`，`txId` 优先。
-* 响应返回为降序排列。
+* txId or startTime must be sent. txId takes precedence.
 
 
-## 查询还贷记录 (USER_DATA)
+* Response in descending order
 
 
-> **响应**
+## Query Repay Record (USER_DATA)
+
+
+> **Response:**
 
 ```javascript
 {
@@ -5842,35 +5969,41 @@ timestamp | LONG | YES
 }
 ```
 
+
 ``
 GET /sapi/v1/margin/repay (HMAC SHA256)
 ``
 
-**权重**
+
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING |	YES	
-txId | LONG | NO | 返回 /sapi/v1/margin/repay 
+txId | LONG | NO | return of /sapi/v1/margin/repay 
 startTime | LONG | NO	
 endTime | LONG | NO	
-current | LONG | NO	| 当前查询页。开始值 1. 默认:1
-size | LONG | NO | 默认:10 最大:100
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+current | LONG | NO	| Currently querying page. Start from 1. Default:1
+size | LONG | NO | Default:10 Max:100
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 必须发送`txId` 或 `startTime`，`txId` 优先。
-* 响应返回为降序排列。
+* txId or startTime must be sent. txId takes precedence.
+
+
+
+* Response in descending order
 
 
 
 
-## 获取利息历史 (USER_DATA)
+## Get Interest History (USER_DATA)
 
-> **响应**
+> **Response:**
 
 ```javascript
   {
@@ -5925,29 +6058,29 @@ GET /sapi/v1/margin/interestHistory (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset |	STRING | No
 startTime |	LONG |	NO	
 endTime | LONG | NO	
-current | LONG | NO | 当前查询页。 开始值 1. 默认:1
-size |	LONG | NO |	默认:10 最大:100
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+current | LONG | NO | Currently querying page. Start from 1. Default:1
+size |	LONG | NO |	Default:10 Max:100
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 响应返回为降序排列。
+* Response in descending order
 
 
 
-## 获取账户强制平仓记录(USER_DATA)
+## Get Force Liquidation Record (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
   {
@@ -5973,31 +6106,31 @@ GET /sapi/v1/margin/forceLiquidationRec (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 startTime |	LONG |	NO	
 endTime | LONG | NO	
-current | LONG | NO | 当前查询页。 开始值 1. 默认:1
-size |	LONG | NO |	默认:10 最大:100
-recvWindow | LONG | NO |  赋值不能大于 ```60000```
+current | LONG | NO | Currently querying page. Start from 1. Default:1
+size |	LONG | NO |	Default:10 Max:100
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 响应返回为降序排列。
+* Response in descending order
 
 
 
 
 
 
-## 查询杠杆账户详情 (USER_DATA)
+## Query Margin Account Details (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -6051,23 +6184,23 @@ GET /sapi/v1/margin/account (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES |
 
 
 
 
-## 查询杠杆账户订单 (USER_DATA)
+## Query Margin Account's Order (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -6091,31 +6224,32 @@ timestamp | LONG | YES |
 ```
 
 ``
-GET /sapi/v1/margin/order  (HMAC SHA256)
+GET /sapi/v1/margin/order (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | STRING | NO |	
 origClientOrderId | STRING | NO	|
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 必须发送 orderId 或 origClientOrderId 其中一个。
-* 一些历史订单的 cummulativeQuoteQty  < 0, 是指当前数据不存在。
+
+* Either orderId or origClientOrderId must be sent.
+* For some historical orders cummulativeQuoteQty will be < 0, meaning the data is not available at this time.
 
 
 
-## 查询杠杆账户挂单记录 (USER_DATA)
+## Query Margin Account's Open Order (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -6145,26 +6279,26 @@ GET /sapi/v1/margin/openOrders (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | NO |
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 如未发送symbol，返回所有 symbols 订单记录。
-* 当返回所有symbols时，针对限速器计数的请求数量等于当前在交易所交易的symbols数量。
+* If the symbol is not sent, orders for all symbols will be returned in an array.
+* When all symbols are returned, the number of requests counted against the rate limiter is equal to the number of symbols currently trading on the exchange.
 
 
 
 
-## 查询杠杆账户的所有订单 (USER_DATA)
+## Query Margin Account's All Order (USER_DATA)
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -6231,30 +6365,30 @@ GET /sapi/v1/margin/allOrders (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 orderId | LONG | NO	
 startTime |	LONG | NO	
 endTime | LONG | NO	
-limit |	INT | NO | 默认 500;最大 1000.
-recvWindow | LONG | NO | 赋值不能大于 ```60000```
+limit |	INT | NO | Default 500; max 1000.
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
-* 如果设置 orderId , 获取订单 >= orderId， 否则返回近期订单历史。
-* 一些历史订单的 cummulativeQuoteQty  < 0, 是指当前数据不存在。
+* If orderId is set, it will get orders >= that orderId. Otherwise most recent orders are returned.     
+* For some historical orders cummulativeQuoteQty will be < 0, meaning the data is not available at this time.
 
 
 
-## 查询杠杆账户交易历史 (USER_DATA)
+## Query Margin Account's Trade List (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 [
@@ -6270,51 +6404,42 @@ timestamp | LONG | YES
 		"qty": "3.00000000",
 		"symbol": "BNBBTC",
 		"time": 1561973357171
-	},
-	{
-		"commission": "0.00002950",
-		"commissionAsset": "BTC",
-		"id": 32,
-		"isBestMatch": true,
-		"isBuyer": false,
-		"isMaker": true,
-		"orderId": 39319,
-		"price": "0.00590000",
-		"qty": "5.00000000",
-		"symbol": "BNBBTC",
-		"time": 1561964645345
 	}
 ]
 ```
+
 
 ``
 GET  /sapi/v1/margin/myTrades (HMAC SHA256)
 ``
 
-**权重:**
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES |
 startTime |	LONG | NO	
 endTime | LONG | NO	
-fromId | LONG | NO | 获取TradeId，默认获取近期交易历史。
-limit |	INT | NO | 默认 500; 最大 1000.
-recvWindow | LONG | NO | 默认值不能大于 ```60000```
+fromId | LONG | NO | TradeId to fetch from. Default gets most recent trades.
+limit |	INT | NO | Default 500; max 1000.
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
-* 如果设置 fromId , 获取订单 id >= fromId， 否则返回近期订单历史。
+
+* If fromId is set, it will get orders >= that fromId. Otherwise most recent orders are returned.
 
 
 
-## 查询账户最大可借贷额(USER_DATA)
+
+## Query Max Borrow (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -6326,23 +6451,23 @@ timestamp | LONG | YES
 GET /sapi/v1/margin/maxBorrowable (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES |
-recvWindow | LONG | NO | 默认值不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 查询最大可转出额 (USER_DATA)
+## Query Max Transfer-Out Amount (USER_DATA)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
  {
@@ -6355,15 +6480,15 @@ GET /sapi/v1/margin/maxTransferable (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES |
-recvWindow | LONG | NO | 默认值不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
@@ -6372,25 +6497,24 @@ timestamp | LONG | YES
 
 
 
-# Websocket账户信息推送
+# User Data Streams
 
 
-* 本篇所列出API接口的base url : **https://api.binance.com**
-* 用于订阅账户数据的 `listenKey` 从创建时刻起有效期为60分钟
-* 可以通过 `PUT` 一个 `listenKey` 延长60分钟有效期
-* 可以通过`DELETE`一个 `listenKey` 立即关闭当前数据流，并使该`listenKey` 无效
-* 在具有有效`listenKey`的帐户上执行`POST`将返回当前有效的`listenKey`并将其有效期延长60分钟
-* websocket接口的baseurl: **wss://stream.binance.com:9443**
-* U订阅账户数据流的stream名称为 **/ws/\<listenKey\>** 或 **/stream?streams=\<listenKey\>**
-* 每个链接有效期不超过24小时，请妥善处理断线重连。
-* 账户数据流的消息不保证严格时间序; **请使用 E 字段进行排序**
+* The base API endpoint is: **https://api.binance.com**
+* A User Data Stream `listenKey` is valid for 60 minutes after creation.
+* Doing a `PUT` on a `listenKey` will extend its validity for 60 minutes.
+* Doing a `DELETE` on a `listenKey` will close the stream and invalidate the `listenKey`.
+* Doing a `POST` on an account with an active `listenKey` will return the currently active `listenKey` and extend its validity for 60 minutes.
+* The base websocket endpoint is: **wss://stream.binance.com:9443**
+* User Data Streams are accessed at **/ws/\<listenKey\>** or **/stream?streams=\<listenKey\>**
+* A single connection to **stream.binance.com** is only valid for 24 hours; expect to be disconnected at the 24 hour mark
 
 
-## Listen Key（现货账户）
+## LISTEN KEY (SPOT)
 
-### 生成 Listen Key (USER_STREAM)
+### Create a ListenKey (USER_STREAM)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {
@@ -6400,23 +6524,23 @@ timestamp | LONG | YES
 
 
 ``
-POST /api/v3/userDataStream
+POST /api/v3/userDataStream 
 ``
 
-开始一个新的数据流。除非发送 keepalive，否则数据流于60分钟后关闭。如果该帐户具有有效的`listenKey`，则将返回该`listenKey`并将其有效期延长60分钟。
-**权重:**
+Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent. If the account has an active `listenKey`, that `listenKey` will be returned and its validity will be extended for 60 minutes.
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
 NONE
 
 
 
+### Ping/Keep-alive a ListenKey (USER_STREAM)
 
-### 延长 Listen Key 有效期 (USER_STREAM)
-
-> **响应**
+> **Response:**
 
 ```javascript
 {}
@@ -6426,21 +6550,21 @@ NONE
 PUT /api/v3/userDataStream
 ``
 
-有效期延长至本次调用后60分钟,建议每30分钟发送一个 ping 。
+Keepalive a user data stream to prevent a time out. User data streams will close after 60 minutes. It's recommended to send a ping about every 30 minutes.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 listenKey | STRING | YES
 
 
-### 关闭 Listen Key (USER_STREAM)
+### Close a ListenKey (USER_STREAM)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {}
@@ -6450,26 +6574,26 @@ listenKey | STRING | YES
 DELETE /api/v3/userDataStream
 ``
 
-关闭用户数据流。
+Close out a user data stream.
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 listenKey | STRING | YES
 
 
 
 
-## Listen Key（杠杆账户）
+## LISTEN KEY (MARGIN)
 
-### 生成 Listen Key (USER_STREAM)
+### Create a ListenKey (USER_STREAM)
 
 
-> **响应**
+> **Response:**
 
 ```javascript
 {"listenKey":  "T3ee22BIYuWqmvne0HNq2A2WsFlEtLhvWCtItw6ffhhdmjifQ2tRbuKkTHhr"}
@@ -6481,18 +6605,18 @@ POST  /sapi/v1/userDataStream
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
 NONE
 
 
 
-### 延长 Lisen Key 有效期 (USER_STREAM)
+### Ping/Keep-alive a ListenKey (USER_STREAM)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {}
@@ -6502,20 +6626,22 @@ NONE
 PUT  /sapi/v1/userDataStream
 ``
 
-**权重:**
+
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 listenKey | STRING | YES |
 
 
 
-### 关闭 ListenKey (USER_STREAM)
+### Close a ListenKey (USER_STREAM)
 
-> **响应**
+> **Response:**
 
 ```javascript
 {}
@@ -6526,12 +6652,12 @@ DELETE  /sapi/v1/userDataStream
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 listenKey | STRING | YES |
 
@@ -6539,28 +6665,31 @@ listenKey | STRING | YES |
 
 
 
-## Payload: 账户更新
-使用 `outboundAccountInfo` event进行账户更新。
 
-> **Payload**
+
+
+## Payload: Account Update
+Account state is updated with the `outboundAccountInfo` event.
+
+> **Payload:**
 
 ```javascript
 {
-  "e": "outboundAccountInfo",   // 事件类型
-  "E": 1499405658849,           // 事件时间
-  "m": 0,                       // 挂单费率 (基点)
-  "t": 0,                       // 吃单费率 (基点)
-  "b": 0,                       // 买单费率(基点)
-  "s": 0,                       // 卖单费率(基点)
-  "T": true,                    // 是否允许交易
-  "W": true,                    // 是否允许提现
-  "D": true,                    // 是否允许充值
-  "u": 1499405658848,           // 账户末次更新时间戳
-  "B": [                        // 余额
+  "e": "outboundAccountInfo",   // Event type
+  "E": 1499405658849,           // Event time
+  "m": 0,                       // Maker commission rate (bips)
+  "t": 0,                       // Taker commission rate (bips)
+  "b": 0,                       // Buyer commission rate (bips)
+  "s": 0,                       // Seller commission rate (bips)
+  "T": true,                    // Can trade?
+  "W": true,                    // Can withdraw?
+  "D": true,                    // Can deposit?
+  "u": 1499405658848,           // Time of last account update
+  "B": [                        // Balances array
     {
-      "a": "LTC",               // 资产名称
-      "f": "17366.18538083",    // 可用余额
-      "l": "0.00000000"         // 冻结余额
+      "a": "LTC",               // Asset
+      "f": "17366.18538083",    // Free amount
+      "l": "0.00000000"         // Locked amount
     },
     {
       "a": "BTC",
@@ -6582,36 +6711,39 @@ listenKey | STRING | YES |
       "f": "0.00000000",
       "l": "0.00000000"
     }
-  ],
-  "P": [                        // 权限
-    "SPOT"
   ]
+  "P": [                        // Permissions
+        "SPOT"
+  ]  
 }
 ```
 
 
-每当帐户余额发生更改时，都会发送一个附加事件`outboundAccountPosition`，其中包含可能由生成余额变动的事件而变动的资产。
+An additional event `outboundAccountPosition` is sent any time an account balance has changed and contains the assets that were possibly changed by the event that generated the balance change.
 
-> **Payload**
+> **Payload:**
 
 ```javascript
 {
-  "e": "outboundAccountPosition", // 事件类型
-  "E": 1564034571105,             // 事件时间
-  "u": 1564034571073,             // 账户末次更新时间戳
-  "B": [                          // 余额
+  "e": "outboundAccountPosition", //Event type
+  "E": 1564034571105,             //Event Time
+  "u": 1564034571073,             //Time of last account update
+  "B": [                          //Balances Array
     {
-      "a": "ETH",                 // 资产名称
-      "f": "10000.000000",        // 可用余额
-      "l": "0.000000"             // 冻结余额
+      "a": "ETH",                 //Asset
+      "f": "10000.000000",        //Free
+      "l": "0.000000"             //Locked
     }
   ]
 }
 ```
 
+## Payload: Balance Update
 
-## Payload: 余额更新
+Balance Update occurs during the following:
 
+* Deposits or withdrawals from the account
+* Transfer of funds between accounts (e.g. Spot to Margin)
 
 > **Payload**
 
@@ -6619,99 +6751,90 @@ listenKey | STRING | YES |
 {
   "e": "balanceUpdate",         //Event Type
   "E": 1573200697110,           //Event Time
-  "a": "ABC",                   //Asset
+  "a": "BTC",                   //Asset
   "d": "100.00000000",          //Balance Delta
   "T": 1573200697068            //Clear Time
 }
 ```
 
-当下列情形发生时更新:
 
-* 账户发生充值或提取
-* 交易账户之间发生划转（例如 现货向杠杆账户划转）
+## Payload: Order Update
+Orders are updated with the `executionReport` event.
 
+Check the [Public API Definitions](#public-api-definitions) and below for relevant enum definitions.
 
+Average price can be found by doing `Z` divided by `z`.
 
-
-## Payload: 订单更新
-订单通过`executionReport`事件进行更新。 
-
-请查阅文档[公开API参数](#public-api-definitions)以及以下文档，以获取相关的枚举定义。
-
-通过将`Z`除以`z`可以找到平均价格。
-
-> **Payload**
+> **Payload:**
 
 ```javascript
 {
-  "e": "executionReport",        // 事件类型
-  "E": 1499405658658,            // 事件时间
-  "s": "ETHBTC",                 // 交易对
-  "c": "mUvoqJxFIILMdfAW5iGSOW", // clientOrderId
-  "S": "BUY",                    // 订单方向
-  "o": "LIMIT",                  // 订单类型
-  "f": "GTC",                    // 有效方式
-  "q": "1.00000000",             // 订单原始数量
-  "p": "0.10264410",             // 订单原始价格
-  "P": "0.00000000",             // 止盈止损单触发价格
-  "F": "0.00000000",             // 冰山订单数量
-  "g": -1,                       // OCO订单 OrderListId
-  "C": null,                     // 原始订单自定义ID(原始订单，指撤单操作的对象。撤单本身被视为另一个订单)
-  "x": "NEW",                    // 本次事件的具体执行类型
-  "X": "NEW",                    // 订单的当前状态
-  "r": "NONE",                   // 订单被拒绝的原因
-  "i": 4293153,                  // orderId
-  "l": "0.00000000",             // 订单末次成交数量
-  "z": "0.00000000",             // 订单累计已成交数量
-  "L": "0.00000000",             // 订单末次成交价格
-  "n": "0",                      // 手续费数量
-  "N": null,                     // 手续费资产类别
-  "T": 1499405658657,            // 成交时间
-  "t": -1,                       // 成交ID
-  "I": 8641984,                  // 请忽略
-  "w": true,                     // 订单是否在订单簿上？
-  "m": false,                    // 该成交是作为挂单成交吗？
-  "M": false,                    // 请忽略
-  "O": 1499405658657,            // 订单创建时间
-  "Z": "0.00000000",             // 订单累计已成交金额
-  "Y": "0.00000000",              // 订单末次成交金额
+  "e": "executionReport",        // Event type
+  "E": 1499405658658,            // Event time
+  "s": "ETHBTC",                 // Symbol
+  "c": "mUvoqJxFIILMdfAW5iGSOW", // Client order ID
+  "S": "BUY",                    // Side
+  "o": "LIMIT",                  // Order type
+  "f": "GTC",                    // Time in force
+  "q": "1.00000000",             // Order quantity
+  "p": "0.10264410",             // Order price
+  "P": "0.00000000",             // Stop price
+  "F": "0.00000000",             // Iceberg quantity
+  "g": -1,                       // OrderListId
+  "C": null,                     // Original client order ID; This is the ID of the order being canceled
+  "x": "NEW",                    // Current execution type
+  "X": "NEW",                    // Current order status
+  "r": "NONE",                   // Order reject reason; will be an error code.
+  "i": 4293153,                  // Order ID
+  "l": "0.00000000",             // Last executed quantity
+  "z": "0.00000000",             // Cumulative filled quantity
+  "L": "0.00000000",             // Last executed price
+  "n": "0",                      // Commission amount
+  "N": null,                     // Commission asset
+  "T": 1499405658657,            // Transaction time
+  "t": -1,                       // Trade ID
+  "I": 8641984,                  // Ignore
+  "w": true,                     // Is the order on the book?
+  "m": false,                    // Is this trade the maker side?
+  "M": false,                    // Ignore
+  "O": 1499405658657,            // Order creation time
+  "Z": "0.00000000",             // Cumulative quote asset transacted quantity
+  "Y": "0.00000000",             // Last quote asset transacted quantity (i.e. lastPrice * lastQty)
   "Q": "0.00000000"              // Quote Order Qty
 }
 ```
 
+**Execution types:**
+
+* NEW - The order has been accepted into the engine.
+* CANCELED - The order has been canceled by the user. 
+* REPLACED (currently unused)
+* REJECTED - The order has been rejected and was not processed. (This is never pushed into the User Data Stream)
+* TRADE - Part of the order or all of the order's quantity has filled.
+* EXPIRED - The order was canceled according to the order type's rules (e.g. LIMIT FOK orders with no fill, LIMIT IOC or MARKET orders that partially fill) or by the exchange, (e.g. orders canceled during liquidation, orders canceled during maintenance)
 
 
-**执行类型:**
-
-* NEW 新订单
-* CANCELED 订单被取消
-* REPLACED (保留字段，当前未使用)
-* REJECTED 新订单被拒绝
-* TRADE 订单有新成交
-* EXPIRED 订单失效（根据订单的Time In Force参数）
-
-
-如果订单是OCO，则除了显示“ executionReport”事件外，还将显示一个名为“ ListStatus”的事件。
+If the order is an OCO, an event will be displayed named `ListStatus` in addition to the `executionReport` event.
 
 > **Payload**
 
 ```javascript
 {
-  "e": "listStatus",                // 事件类型
-  "E": 1564035303637,               // 事件时间
-  "s": "ETHBTC",                    // 交易对
-  "g": 2,                           // OrderListId
-  "c": "OCO",                       // Contingency Type
-  "l": "EXEC_STARTED",              // List Status Type
-  "L": "EXECUTING",                 // List Order Status
-  "r": "NONE",                      // List 被拒绝的原因
-  "C": "F4QN4G8DlFATFlIUQ0cjdD",    // List Client Order ID
-  "T": 1564035303625,               // 成交时间
-  "O": [                           
+  "e": "listStatus",                //Event Type
+  "E": 1564035303637,               //Event Time
+  "s": "ETHBTC",                    //Symbol
+  "g": 2,                           //OrderListId
+  "c": "OCO",                       //Contingency Type
+  "l": "EXEC_STARTED",              //List Status Type
+  "L": "EXECUTING",                 //List Order Status
+  "r": "NONE",                      //List Reject Reason
+  "C": "F4QN4G8DlFATFlIUQ0cjdD",    //List Client Order ID
+  "T": 1564035303625,               //Transaction Time
+  "O": [                            //An array of objects
     {
-      "s": "ETHBTC",                // 交易对
+      "s": "ETHBTC",                //Symbol
       "i": 17,                      // orderId
-      "c": "AJYsMjErWJesZvqlJCTUgL" // clientOrderId
+      "c": "AJYsMjErWJesZvqlJCTUgL" //ClientOrderId
     },
     {
       "s": "ETHBTC",
@@ -6726,13 +6849,14 @@ listenKey | STRING | YES |
 
 
 
-# 币安宝接口
+# Savings Endpoints
 
-* 这些接口用于币安宝产品。更多细节, 请参考[币安宝](https://www.binance.com/cn/lending)页面。
+* The endpoints below allow you to interact with Binance Savings, previously known as Binance Lending.
+* For more information on this, please refer to the [Binance Savings page](https://www.binance.com/en/lending)
 
-## 获取活期产品列表 (USER_DATA)
+## Get Flexible Product List (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 [
@@ -6772,23 +6896,23 @@ GET /sapi/v1/lending/daily/product/list (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 status | ENUM | NO | "ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"; default "ALL"	
 featured | STRING | NO | “ALL”, "true"; default "ALL"
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 获取用户当日剩余活期可申购余额 (USER_DATA)
+## Get Left Daily Purchase Quota of Flexible Product (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 {
@@ -6802,22 +6926,22 @@ GET /sapi/v1/lending/daily/userLeftQuota (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 productId | STRING | YES | 
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 申购活期产品 (USER_DATA)
+## Purchase Flexible Product (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 {
@@ -6830,24 +6954,24 @@ POST /sapi/v1/lending/daily/purchase (HMAC SHA256)
 ``
 
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 productId | STRING | YES | 
 amount | DECIMAL | YES
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
 
-## 获取用户当日活期可赎回余额 (USER_DATA)
+## Get Left Daily Redemption Quota of Flexible Product (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 {
@@ -6862,23 +6986,23 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/daily/userRedemptionQuota (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 productId | STRING | YES | 
 type | ENUM | YES | "FAST", “NORMAL“
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 赎回活期产品 (USER_DATA)
+## Redeem Flexible Product (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 {}
@@ -6888,25 +7012,25 @@ timestamp | LONG | YES
 POST /sapi/v1/lending/daily/redeem (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 productId | STRING | YES | 
 amount | DECIMAL | YES |
 type | ENUM | YES | "FAST", “NORMAL“
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
 
-## 用户活期产品持仓 (USER_DATA)
+## Get Flexible Product Position (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 [
@@ -6917,8 +7041,8 @@ timestamp | LONG | YES
 	  	"canRedeem": true,
 	  	"dailyInterestRate": "0.00007123",
 	  	"freeAmount": "75.46000000",
-	  	"freezeAmount": "0.00000000", // 弃用
-	  	"lockedAmount": "0.00000000", // 弃用
+	  	"freezeAmount": "0.00000000", // abandoned
+	  	"lockedAmount": "0.00000000", // abandoned
 	  	"productId": "USDT001",
 	  	"productName": "USDT",
 	  	"redeemingAmount": "0.00000000",
@@ -6933,22 +7057,23 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/daily/token/position (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES | 
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 查询定期/灵活定期产品列表 (USER_DATA)
 
-> **响应:**
+## Get Fixed and Customized Fixed Project List(USER_DATA)
+
+> **Response:**
 
 ```javascript
 [
@@ -6977,21 +7102,22 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/project/list (HMAC SHA256)
 ``
 
-**权重:**
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | NO |
 type | ENUM | YES | "REGULAR", "CUSTOMIZED_FIXED"
-status | ENUM | NO | 	"ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"; 默认 "ALL" 
-isSortAsc | BOOLEAN | NO  | 默认 "true"
-sortBy| ENUM | NO | "START_TIME", "LOT_SIZE", "INTEREST_RATE", "DURATION"; 默认 "START_TIME"
-current | LONG | NO | 分页页码. 默认:1
-size | LONG | NO | 单页显示条数，默认:10 最大:100
-recvWindow | LONG | NO | 不能大于 ```60000```
+status | ENUM | NO | 	"ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"; default "ALL" 
+isSortAsc | BOOLEAN | NO  | default "true"
+sortBy| ENUM | NO | "START_TIME", "LOT_SIZE", "INTEREST_RATE", "DURATION"; default "START_TIME"
+current | LONG | NO | Currently querying page. Start from 1. Default:1
+size | LONG | NO | 	Default:10, Max:100
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
@@ -6999,9 +7125,9 @@ timestamp | LONG | YES
 
 
 
-## 申购灵活定期产品 (USER_DATA)
+## Purchase Customized Fixed Project  (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 {
@@ -7013,16 +7139,17 @@ timestamp | LONG | YES
 POST /sapi/v1/lending/customizedFixed/purchase (HMAC SHA256)
 ``
 
-**权重:**
+
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 projectId | STRING | YES |
-lot | LONG | YES | 申购手数
-recvWindow | LONG | NO | 不能大于 ```60000```
+lot | LONG | YES | 
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
@@ -7030,9 +7157,9 @@ timestamp | LONG | YES
 
 
 
-## 用户定期/灵活定期持仓 (USER_DATA)
+## Get Customized Fixed Project Position (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 ```javascript
 [
@@ -7062,28 +7189,26 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/project/position/list (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
+Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 asset | STRING | YES | 
 projectId | STRING | NO |
 status | ENUM | NO | "HOLDING", "REDEEMED"
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
 
 
+## Lending Account (USER_DATA)
 
-
-## 币安宝账户信息 (USER_DATA)
-
-> **响应:**
+> **Response:**
 
 ```javascript
 {
@@ -7114,25 +7239,25 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/union/account (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
------------- | ------------ | ------------ | ------------
-recvWindow | LONG | NO | 不能大于 ```60000```
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------ 
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
 
 
-## 获取申购记录 (USER_DATA)
+## Get Purchase Record (USER_DATA)
 
-> **响应:**
+> **Response:**
 
-> 活期产品
+> Flexible Products
 
 ```javascript
 [
@@ -7147,7 +7272,7 @@ timestamp | LONG | YES
   	}
 ]
 ```
-> 定期/灵活定期产品
+> Fixed Products
 
 ```javascript
 [
@@ -7160,16 +7285,6 @@ timestamp | LONG | YES
   		"productName": "【Special】USDT 7D (8%)",
   		"purchaseId": 36857,
   		"status": "SUCCESS"
-  	},
-  	{
-  		"amount": "100.00000000",
-  		"asset": "USDT",
-  		"createTime": 1587010770000,
-  		"lendingType": "CUSTOMIZED_FIXED",
-  		"lot": 1,
-  		"productName": "USDT",
-  		"purchaseId": 55841,
-  		"status": 'SUCCESS'
   	}
 ]
 ```
@@ -7178,30 +7293,30 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/union/purchaseRecord (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
------------- | ------------ | ------------ | ------------
-lendingType | ENUM | YES | "DAILY" 表示活期, "REGULAR" 表示定期, "CUSTOMIZED_FIXED" 表示灵活定期
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------ 
+lendingType | ENUM | YES | "DAILY" for flexible, "REGULAR" for fixed, "CUSTOMIZED_FIXED" for customized fixed
 asset | STRING | NO | 
 startTime | LONG | NO |
 endTime | LONG | NO |
 current | LONG | NO | Currently querying page. Start from 1. Default:1
 size | LONG | NO | 	Default:10, Max:100
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
 
-## 获取赎回记录 (USER_DATA)
+## Get Redemption Record (USER_DATA)
 
-> **响应:**
+> **Response:**
 
-> 活期产品
+> Flexible Products
 
 ```javascript
 [
@@ -7218,7 +7333,7 @@ timestamp | LONG | YES
 ]
 ```
 
-> 定期产品
+> Fixed Products
 
 ```javascript
 [
@@ -7241,27 +7356,27 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/union/redemptionRecord (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
------------- | ------------ | ------------ | ------------
-lendingType | ENUM | YES | "DAILY" 表示活期, "REGULAR" 表示定期, "CUSTOMIZED_FIXED" 表示灵活定期
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------ 
+lendingType | ENUM | YES | "DAILY" for flexible, "REGULAR" for fixed, "CUSTOMIZED_FIXED" for customized fixed
 asset | STRING | NO | 
 startTime | LONG | NO |
 endTime | LONG | NO |
 current | LONG | NO | Currently querying page. Start from 1. Default:1
 size | LONG | NO | 	Default:10, Max:100
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
 
-## 获取利息历史 (USER_DATA)
+## Get Interest History (USER_DATA)
 
-> **响应:**
+> **Response:**
 
 
 ```javascript
@@ -7287,20 +7402,20 @@ timestamp | LONG | YES
 GET /sapi/v1/lending/union/interestHistory (HMAC SHA256)
 ``
 
-**权重:**
+**Weight:**
 1
 
-**参数:**
+**Parameters:**
 
-名称 | 类型 | 是否必需 | 描述
------------- | ------------ | ------------ | ------------
-lendingType | ENUM | YES | "DAILY" 表示活期, "REGULAR" 表示定期, "CUSTOMIZED_FIXED" 表示灵活定期
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------ 
+lendingType | ENUM | YES | "DAILY" for flexible, "REGULAR" for fixed, "CUSTOMIZED_FIXED" for customized fixed
 asset | STRING | NO | 
 startTime | LONG | NO |
 endTime | LONG | NO |
 current | LONG | NO | Currently querying page. Start from 1. Default:1
 size | LONG | NO | 	Default:10, Max:100
-recvWindow | LONG | NO | 不能大于 ```60000```
+recvWindow | LONG | NO | The value cannot be greater than ```60000```
 timestamp | LONG | YES
 
 
@@ -7309,13 +7424,14 @@ timestamp | LONG | YES
 
 
 
-# 矿池接口
+# Mining Endpoints
 
-* 这些接口作用于币安矿池。更多细节, 参考[币安矿池](https://pool.binance.com/cn)页面。
+* The endpoints below allow to interact with Binance Pool.
+* For more information on this, please refer to the [Binance Pool page](https://pool.binance.com/en)
 
-## 获取算法（MARKET_DATA）
+## Acquiring Algorithm (MARKET_DATA)
 
->**响应:**  
+>**Response:**
 
 ```javascript
 {
@@ -7332,17 +7448,25 @@ timestamp | LONG | YES
 }
 ```
 
-
 `GET /sapi/v1/mining/pub/algoList`
 
-**权重:**  
+**Weight:**  
 1  
-**参数:**
-无
+**Parameter:**
+None
 
-## 获取币种（MARKET_DATA）
 
->**响应:**  
+
+## Acquiring CoinName (MARKET_DATA)
+
+`GET /sapi/v1/mining/pub/coinList`
+
+**Weight:**  
+1  
+**Parameter:**
+None
+
+>**Response:**  
 
 ```javascript
 {
@@ -7360,19 +7484,13 @@ timestamp | LONG | YES
 }
 ```
 
-`GET /sapi/v1/mining/pub/coinList`
-
-**权重:**  
-1  
-**参数:**
-无
-
-
-## 请求矿工列表明细 (USER_DATA)
 
 
 
->**响应:**
+## Request for Detail Miner List (USER_DATA)
+
+
+>**Response:**
 
 ```javascript
 {
@@ -7415,29 +7533,28 @@ timestamp | LONG | YES
     }
   ]
 }
-```
 
+```
 
 `GET /sapi/v1/mining/worker/detail  (HMAC SHA256)`
 
-
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameter:**
 
-Name | Type | Mandatory | Description |  例子
+Name | Type | Mandatory | Description | For Example 
 ------------ | ------------ | ------------ | ------------ | ------------ 
-algo | STRING | YES | 算法名称(sha256) | sha256
-userName | STRING | YES | 挖矿用户名 | test
-workerName | STRING | YES | 矿工用户名，必传 |bhdc1.16A10404B
+algo | STRING | YES | Algorithm(sha256) | sha256
+userName | STRING | YES | Mining account | test
+workerName | STRING | YES | Miner’s name（required） |bhdc1.16A10404B
 
 
 
-## 请求矿工列表 (USER_DATA)
+## Request for Miner List (USER_DATA)
 
 
->**响应:**
+>**Response:**
 
 ```javascript
 {
@@ -7473,27 +7590,26 @@ workerName | STRING | YES | 矿工用户名，必传 |bhdc1.16A10404B
 
 `GET /sapi/v1/mining/worker/list  (HMAC SHA256)`
 
-
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameter:**
 
-Name | Type | Mandatory | Description |  例子
+Name | Type | Mandatory | Description | For Example 
 ------------ | ------------ | ------------ | ------------ | ------------ 
-algo | STRING | YES | 算法名称(sha256) | sha256
-userName | STRING | YES | 挖矿用户名 | test
-pageIndex | INTEGER | NO | 页码，为空默认第一页，从1开始 |
-sort | INTEGER | NO | 排序方向(为空默认为0): 0 正序，1 倒序 |
-sortColumn | INTEGER | NO | 排序方向(为空默认为0): 0 正序，1 倒序 |
-workerStatus | INTEGER | NO | 矿机状态(默认为0)：0 全部，1 有效， 2 无效， 3 失效 |
+algo | STRING | YES | Algorithm(sha256) | sha256
+userName | STRING | YES | Mining account | test
+pageIndex | INTEGER | NO | Page number，default is first page，start form 1             |
+sort | INTEGER | NO | sort sequence（default=0）0 positive sequence，1 negative sequence |
+sortColumn | INTEGER | NO | sort sequence（default=0）0 positive sequence，1 negative sequence |
+workerStatus | INTEGER | NO | miners status（default=0）0 all，1 valid，2 invalid，3failure |
 
 
 
-## 收益列表 (USER_DATA)
+## Revenue List (USER_DATA)
 
 
->**响应:**
+>**Response:**
 
 ```javascript
 {
@@ -7528,28 +7644,28 @@ workerStatus | INTEGER | NO | 矿机状态(默认为0)：0 全部，1 有效， 
 
 `GET /sapi/v1/mining/payment/list  (HMAC SHA256)`
 
-
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameter:**
 
-Name | Type | Mandatory | Description |  例子
+Name | Type | Mandatory | Description | For Example 
 ------------ | ------------ | ------------ | ------------ | ------------ 
-algo | STRING | YES | 算法名称(sha256) | sha256
-userName | STRING | YES | 挖矿用户名 | test
+algo | STRING | YES | Algorithm(sha256) | sha256
+userName | STRING | YES | Mining account | test
 coin | STRING | NO | 币种名称 |
-startDate | Long | NO | 搜索日期 毫秒时间戳，同时为空查询所有 |
-endDate | Long | NO | 搜索日期 毫秒时间戳，同时为空查询所有 |
-pageIndex | INTEGER | NO | 页码，为空默认第一页，从1开始 |
+startDate | Long | NO | miners status（default=0）0 all，1 valid，2      |
+endDate | Long | NO | Search date ms stamp，same default search all    |
+pageIndex | INTEGER | NO | Page number，default is first page，start form 1 |
 
 
 
 
-## 统计列表 (USER_DATA)
+## Statistic List (USER_DATA)
 
 
->**响应:**
+
+>**Response:**
 
 ```javascript
 {
@@ -7569,26 +7685,25 @@ pageIndex | INTEGER | NO | 页码，为空默认第一页，从1开始 |
 }
 ```
 
+
 `GET /sapi/v1/mining/statistics/user/status (HMAC SHA256)`
 
-
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameter:**
 
-Name | Type | Mandatory | Description |  例子
+Name | Type | Mandatory | Description | For Example 
 ------------ | ------------ | ------------ | ------------ | ------------ 
-algo | STRING | YES | 算法名称(sha256) | sha256
-userName | STRING | YES | 挖矿用户名 | test
+algo | STRING | YES | Algorithm(sha256) | sha256
+userName | STRING | YES | Mining account | test
 
 
 
-## 账号列表 (USER_DATA)
+## Account List (USER_DATA)
 
 
-
->**响应:**
+>**Response:**
 
 ```javascript
 {
@@ -7632,27 +7747,28 @@ userName | STRING | YES | 挖矿用户名 | test
 }
 ```
 
+
 `GET /sapi/v1/mining/statistics/user/list (HMAC SHA256)`
 
 
-**权重:**
+**Weight:**
 5
 
-**参数:**
+**Parameter:**
 
-Name | Type | Mandatory | Description |  例子
+Name | Type | Mandatory | Description | For Example 
 ------------ | ------------ | ------------ | ------------ | ------------ 
-algo | STRING | YES | 算法名称(sha256) | sha256
-userName | STRING | YES | 挖矿用户名 | test
+algo | STRING | YES | Algorithm(sha256) | sha256
+userName | STRING | YES | Mining account | test
 
 
 
 
 
-# 错误代码
+# Error Codes
 
-> 错误JSON格式:
-
+> The error JSON payload:
+ 
 ```javascript
 {
   "code":-1121,
@@ -7660,330 +7776,321 @@ userName | STRING | YES | 挖矿用户名 | test
 }
 ```
 
-错误由两部分组成：错误代码和消息。 代码是通用的，但是消息可能会有所不同。 
+Errors consist of two parts: an error code and a message. Codes are universal, but messages can vary. 
+ 
 
 
 
-
-## 10xx -常规服务器或网络问题
+## 10xx - General Server or Network issues
 ### -1000 UNKNOWN
- *处理请求时发生未知错误。
+ * An unknown error occured while processing the request.
 
 ### -1001 DISCONNECTED
- * 内部错误; 无法处理您的请求。 请再试一次.
+ * Internal error; unable to process your request. Please try again.
 
 ### -1002 UNAUTHORIZED
- * 您无权执行此请求。
+ * You are not authorized to execute this request.
 
 ### -1003 TOO_MANY_REQUESTS
- * 排队的请求过多。
- * 请求权重过多； 请使用websocket获取实时更新。
- * 请求权重过多； 当前限制为每分钟％s请求权重。 请使用websocket进行实时更新，以避免轮询API。
- * 请求权重过多； IP被禁止，直到％s。 请使用websocket进行实时更新，以免被禁。
+ * Too many requests queued.
+ * Too much request weight used; please use the websocket for live updates to avoid polling the API.
+ * Too much request weight used; current limit is %s request weight per %s %s. Please use the websocket for live updates to avoid polling the API.
+ * Way too much request weight used; IP banned until %s. Please use the websocket for live updates to avoid bans.
 
 ### -1006 UNEXPECTED_RESP
- * 从消息总线收到意外的响应。 执行状态未知。
+ * An unexpected response was received from the message bus. Execution status unknown.
 
 ### -1007 TIMEOUT
- * 等待后端服务器响应超时。 发送状态未知； 执行状态未知。
+ * Timeout waiting for response from backend server. Send status unknown; execution status unknown.
 
 ### -1014 UNKNOWN_ORDER_COMPOSITION
- * 不支持的订单组合。
+ * Unsupported order combination.
 
 ### -1015 TOO_MANY_ORDERS
- * 新订单太多。
- * 新订单太多； 当前限制为每％s ％s个订单。
+ * Too many new orders.
+ * Too many new orders; current limit is %s orders per %s.
 
 ### -1016 SERVICE_SHUTTING_DOWN
- * 该服务不可用。
+ * This service is no longer available.
 
 ### -1020 UNSUPPORTED_OPERATION
- * 不支持此操作。
+ * This operation is not supported.
 
 ### -1021 INVALID_TIMESTAMP
- * 此请求的时间戳在recvWindow之外。
- * 此请求的时间戳比服务器时间提前1000毫秒。
+ * Timestamp for this request is outside of the recvWindow.
+ * Timestamp for this request was 1000ms ahead of the server's time.
 
 ### -1022 INVALID_SIGNATURE
- * 此请求的签名无效。
+ * Signature for this request is not valid.
 
 ### -1099 Not found, authenticated, or authorized
- * 替换错误代码-1999
+ * This replaces error code -1999
 
 
 ## 11xx - 2xxx Request issues
 ### -1100 ILLEGAL_CHARS
- * 在参数中发现非法字符。
- * 在参数`％s`中发现非法字符； 合法范围是`％s`。
+ * Illegal characters found in a parameter.
+ * Illegal characters found in parameter `%s`; legal range is `%s`.
 
 ### -1101 TOO_MANY_PARAMETERS
- * 为此端点发送的参数太多。
- * 参数太多； 预期为`％s`并收到了`％s`。
- * 检测到的参数值重复。
+ * Too many parameters sent for this endpoint.
+ * Too many parameters; expected `%s` and received `%s`.
+ * Duplicate values for a parameter detected.
 
 ### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
- * 未发送强制性参数，该参数为空/空或格式错误。
- * 强制参数`％s`未发送，为空/空或格式错误。
- * 必须发送参数`％s`或`％s`，但两者均为空！
+ * A mandatory parameter was not sent, was empty/null, or malformed.
+ * Mandatory parameter `%s` was not sent, was empty/null, or malformed.
+ * Param `%s` or `%s` must be sent, but both were empty/null!
 
 ### -1103 UNKNOWN_PARAM
- * 发送了未知参数。
+ * An unknown parameter was sent.
 
 ### -1104 UNREAD_PARAMETERS
- * 并非所有发送的参数都被读取。
- * 并非所有发送的参数都被读取； 读取了`％s`参数，但被发送了`％s`。
+ * Not all sent parameters were read.
+ * Not all sent parameters were read; read `%s` parameter(s) but was sent `%s`.
 
 ### -1105 PARAM_EMPTY
- * 参数为空。
- * 参数`％s`为空。
+ * A parameter was empty.
+ * Parameter `%s` was empty.
 
 ### -1106 PARAM_NOT_REQUIRED
- * 不需要时已发送参数。
- * 不需要时发送参数`％s`。
+ * A parameter was sent when not required.
+ * Parameter `%s` sent when not required.
 
 ### -1111 BAD_PRECISION
- * 精度超过为此资产定义的最大值。
+ * Precision is over the maximum defined for this asset.
 
 ### -1112 NO_DEPTH
- * 交易对没有挂单。
+ * No orders on book for symbol.
 
 ### -1114 TIF_NOT_REQUIRED
- * 不需要时发送了TimeInForce参数。
+ * TimeInForce parameter sent when not required.
 
 ### -1115 INVALID_TIF
- * 无效 timeInForce.
+ * Invalid timeInForce.
 
 ### -1116 INVALID_ORDER_TYPE
- * 无效订单类型。
+ * Invalid orderType.
 
 ### -1117 INVALID_SIDE
- * 无效买卖方向。
+ * Invalid side.
 
 ### -1118 EMPTY_NEW_CL_ORD_ID
- * 新的客户订单ID为空。
+ * New client order ID was empty.
 
 ### -1119 EMPTY_ORG_CL_ORD_ID
- * 客户自定义的订单ID为空。
+ * Original client order ID was empty.
 
 ### -1120 BAD_INTERVAL
- * 无效时间间隔。
+ * Invalid interval.
 
 ### -1121 BAD_SYMBOL
- * 无效的交易对。
+ * Invalid symbol.
 
 ### -1125 INVALID_LISTEN_KEY
- * 该listenKey不存在。
+ * This listenKey does not exist.
 
 ### -1127 MORE_THAN_XX_HOURS
- * 查询间隔太大。
- * 从开始时间到结束时间之间超过％s小时。
+ * Lookup interval is too big.
+ * More than %s hours between startTime and endTime.
 
 ### -1128 OPTIONAL_PARAMS_BAD_COMBO
- * 可选参数组合无效。
+ * Combination of optional parameters invalid.
 
 ### -1130 INVALID_PARAMETER
- * 发送的参数为无效数据。
- * 发送参数`％s`的数据无效。
+ * Invalid data sent for a parameter.
+ * Data sent for paramter `%s` is not valid.
 
 ### -1131 BAD_RECV_WINDOW
- * `recvWindow` 必须小于 60000
+ * recvWindow must be less than 60000
 
 ### -2010 NEW_ORDER_REJECTED
- * 新订单被拒绝
+ * NEW_ORDER_REJECTED
 
 ### -2011 CANCEL_REJECTED
- * 取消订单被拒绝
+ * CANCEL_REJECTED
 
 ### -2013 NO_SUCH_ORDER
- * 订单不存在。
+ * Order does not exist.
 
 ### -2014 BAD_API_KEY_FMT
- * API-key 格式无效。
+ * API-key format invalid.
 
 ### -2015 REJECTED_MBX_KEY
- * 无效的API密钥，IP或操作权限。
+ * Invalid API-key, IP, or permissions for action.
 
 ### -2016 NO_TRADING_WINDOW
- * 找不到该交易对的交易窗口。 尝试改为24小时自动报价。
+ * No trading window could be found for the symbol. Try ticker/24hrs instead.
 
-
-## 3xxx-4xxx SAPI 具体问题
-
+## 3xxx-4xxx SAPI-specific issues
 ### -3021 PAIR_ADMIN_BAN_TRADE
- * 杠杆账户无法交易此交易对。
+ * Margin account are not allowed to trade this trading pair.
 
 ### -3022 ACCOUNT_BAN_TRADE
- * 账号被禁止交易。
+ * You account's trading is banned.
 
 ### -3023 WARNING_MARGIN_LEVEL
- * 无法在当前杠杆倍数下转出资金或者下单
+ * You can't transfer out/place order under current margin level.
 
 ### -3024 FEW_LIABILITY_LEFT
- *  付款之后未付款的债务太小
+ *  The unpaid debt is too small after this repayment.
 
 ### -3025 INVALID_EFFECTIVE_TIME
- * 输入时间有误。
+ * Your input date is invalid.
 
 ### -3026 VALIDATION_FAILED
- * 输入参数有误。
+ * Your input param is invalid.
 
 ### -3027 NOT_VALID_MARGIN_ASSET
- * 无效的杠杆资产。
+ * Not a valid margin asset.
 
 ### -3028 NOT_VALID_MARGIN_PAIR
- * 无效的杠杆交易对。
+ * Not a valid margin pair.
 
 ### -3029 TRANSFER_FAILED
- * 转账失败。
+ * Transfer failed.
 
 ### -3036 ACCOUNT_BAN_REPAY
- * 此账号无法还款。
+ * This account is not allowed to repay.
 
 ### -3037 PNL_CLEARING
- *  `PNL`正在清帐，请稍等。
+ * PNL is clearing. Wait a second.
 
 ### -3038 LISTEN_KEY_NOT_FOUND
- * 找不到`Listen key`
+ * Listen key not found.
 
 ### -3042 PRICE_INDEX_NOT_FOUND
- * 该杠杆交易对无可用价格指数。
+ * PriceIndex not available for this margin pair.
 
 ### -3999 NOT_WHITELIST_USER
- * 此功能只面向邀请的用户。
+ * This function is only available for invited users.
 
 ### -4001 CAPITAL_INVALID
- * 非法操作
+ * Invalid operation.
 
 ### -4002 CAPITAL_IG
- * 非法获取
+ * Invalid get.
 
 ### -4003 CAPITAL_IEV
- * 非法邮箱验证
+ * Your input email is invalid.
 
 ### -4004 CAPITAL_UA
- * 未登录或者认证。
+ * You don't login or auth.
 
 ### -4005 CAPAITAL_TOO_MANY_REQUEST
- * 请求太频繁。
+ * Too many new requests.
 
 ### -4006 CAPITAL_ONLY_SUPPORT_PRIMARY_ACCOUNT
- * 只支持主账号。
+ * Support main account only.
 
 ### -4007 CAPITAL_ADDRESS_VERIFICATION_NOT_PASS
- * 地址的没有通过校验。
+ * Address validation is not passed.
 
 ### -4008 CAPITAL_ADDRESS_TAG_VERIFICATION_NOT_PASS
- * 地址的标记信息(`tag`)没有通过校验。
+ * Address tag validation is not passed.
 
-
-## 6XXX - 币安宝相关
-
+## 6XXX - Savings Issues
 ### -6001 DAILY_PRODUCT_NOT_EXIST
- * 理财产品不存在.
+ * Daily product not exists.
 
 ### -6003 DAILY_PRODUCT_NOT_ACCESSIBLE
- * 产品不存在或者没有权限。
+ * Product not exist or you don't have permission
 
 ### -6004 DAILY_PRODUCT_NOT_PURCHASABLE
- * 产品无法购买。
+ * Product not in purchase status
 
 ### -6005 DAILY_LOWER_THAN_MIN_PURCHASE_LIMIT
- * 低于可以购买的最小限额。
+ * Smaller than min purchase limit
 
 ### -6006 DAILY_REDEEM_AMOUNT_ERROR
- * 赎回额度有误。
+ * Redeem amount error
 
 ### -6007 DAILY_REDEEM_TIME_ERROR
- * 不在赎回的时间内。
+ * Not in redeem time
 
 ### -6008 DAILY_PRODUCT_NOT_REDEEMABLE
- * 产品暂时无法赎回。
+ * Product not in redeem status
 
 ### -6009 REQUEST_FREQUENCY_TOO_HIGH
- * 发送请求太频繁。
+ * Request frequency too high
 
 ### -6011 EXCEEDED_USER_PURCHASE_LIMIT
- * 超购每个月用户可以申购的最大次数。
+ * Exceeding the maximum num allowed to purchase per user
 
 ### -6012 BALANCE_NOT_ENOUGH
- * 余额不足。
+ * Balance not enough
 
 ### -6013 PURCHASING_FAILED
- * 申购失败。
+ * Purchasing failed
 
 ### -6014 UPDATE_FAILED
- * 超过可以申购的最大上限。
+ * Exceed up-limit allowed to purchased
 
 ### -6015 EMPTY_REQUEST_BODY
- * 请求的`body`为空。
+ * Empty request body
 
 ### -6016 PARAMS_ERR
- * 请求的参数有误。
+ * Parameter err
 
 ### -6017 NOT_IN_WHITELIST
- * 不在白名单里面。
+ * Not in whitelist
 
 ### -6018 ASSET_NOT_ENOUGH
- * 资产不足。
+ * Asset not enough
 
 ### -6019 PENDING
- * 需要进一步确认。
+ * Need confirm
 
-
-
-## -9xxx 过滤器故障
-报错信息 | 描述
+## -9xxx Filter failures
+Error message | Description
 ------------ | ------------
-"Filter failure: PRICE_FILTER" | “价格”过高，过低和/或不遵循交易对的最小价格规则。
-"Filter failure: PERCENT_PRICE" | “价格”比最近Y分钟的平均加权价格高X％或X％太低。
-"Filter failure: LOT_SIZE" | “数量”太高，太低和/或不遵循该交易对的步长规则。
-"Filter failure: MIN_NOTIONAL" | 价格*数量太低，无法成为该交易对的有效订单。
-"Filter failure: ICEBERG_PARTS" | `ICEBERG` 订单会分成太多部分； icebergQty太小。
-"Filter failure: MARKET_LOT_SIZE" | “ MARKET”订单的“数量”过高，过低和/或未遵循交易对的步长规则。
-"Filter failure: MAX_NUM_ORDERS" | 客户在交易对上有太多挂单。
-"Filter failure: MAX_ALGO_ORDERS" | 账户有太多未平仓止损和/或在交易对上执行获利指令。
-"Filter failure: MAX_NUM_ICEBERG_ORDERS" | 客户在交易对上有太多 iceberg 挂单。
-"Filter failure: EXCHANGE_MAX_NUM_ORDERS" | 帐户上的交易所有太多挂单。
-"Filter failure: EXCHANGE_MAX_ALGO_ORDERS" | 帐户有太多止损挂单和/或在交易所收取获利指令。
+"Filter failure: PRICE_FILTER" | `price` is too high, too low, and/or not following the tick size rule for the symbol.
+"Filter failure: PERCENT_PRICE" | `price` is X% too high or X% too low from the average weighted price over the last Y minutes.
+"Filter failure: LOT_SIZE" | `quantity` is too high, too low, and/or not following the step size rule for the symbol.
+"Filter failure: MIN_NOTIONAL" | `price` * `quantity` is too low to be a valid order for the symbol.
+"Filter failure: ICEBERG_PARTS" | `ICEBERG` order would break into too many parts; icebergQty is too small.
+"Filter failure: MARKET_LOT_SIZE" | `MARKET` order's `quantity` is too high, too low, and/or not following the step size rule for the symbol.
+"Filter failure: MAX_NUM_ORDERS" | Account has too many open orders on the symbol.
+"Filter failure: MAX_ALGO_ORDERS" | Account has too many open stop loss and/or take profit orders on the symbol.
+"Filter failure: MAX_NUM_ICEBERG_ORDERS" | Account has too many open iceberg orders on the symbol.
+"Filter failure: EXCHANGE_MAX_NUM_ORDERS" | Account has too many open orders on the exchange.
+"Filter failure: EXCHANGE_MAX_ALGO_ORDERS" | Account has too many open stop loss and/or take profit orders on the exchange.
 
+## Order Rejection Issues
 
-
-## 订单拒绝错误
-
-以下错误代码表示撮合引擎返回的订单相关错误:
-
+Error messages like these are indicated when the error is coming specifically from the matching engine:
+   
 * `1010_ERROR_MSG_RECEIVED`
 * `-2010 NEW_ORDER_REJECTED`
 * `2011 CANCEL_REJECTED`
 
-结合以下消息将指示特定的错误：
-
+The following messages which will indicate the specific error:
 
 Error message | Description
 ------------ | ------------
-"Unknown order sent." | 找不到订单（通过“ orderId”，“ clientOrderId”，“ origClientOrderId”）
-"Duplicate order sent." | `clientOrderId`已经被使用
-"Market is closed." | 该交易对不在交易范围
-"Account has insufficient balance for requested action." | 没有足够的资金来完成行动
-"Market orders are not supported for this symbol." | 交易对上未启用“ MARKET”
-"Iceberg orders are not supported for this symbol." | 交易对上未启用`icebergQty` 
-"Stop loss orders are not supported for this symbol." | 交易对上未启用 `STOP_LOSS` 
-"Stop loss limit orders are not supported for this symbol." | 交易对上未启`STOP_LOSS_LIMIT`
-"Take profit orders are not supported for this symbol." | 交易对上未启用`TAKE_PROFIT` 
-"Take profit limit orders are not supported for this symbol." | 交易对上未启用`TAKE_PROFIT_LIMIT`
-"Price * QTY is zero or less." | `price` * `quantity`太小
-"IcebergQty exceeds QTY." | `icebergQty` 必须少于订单数量
-"This action disabled is on this account." | 联系客户支持； 该帐户已禁用了某些操作。
-"Unsupported order combination" | 不允许组合`orderType`, `timeInForce`, `stopPrice`, 和/或 `icebergQty` 。
-"Order would trigger immediately." | 与最后交易价格相比，订单的止损价无效。
-"Cancel order is invalid. Check origClientOrderId and orderId." | 未发送`origClientOrderId` 或`orderId` 。
-"Order would immediately match and take." | `LIMIT_MAKER` 订单类型将立即匹配并进行交易，而不是纯粹的生成订单。
-"The relationship of the prices for the orders is not correct." | `OCO`订单中设置的价格不符合报价规则：<br> The rules are: <br> `SELL Orders`: Limit Price > Last Price > Stop Price <br>`BUY Orders`: Limit Price < Last Price < Stop Price
-"OCO orders are not supported for this symbol" | `OCO`订单不支持该交易对
+"Unknown order sent." | The order (by either `orderId`, `clientOrderId`, `origClientOrderId`) could not be found.
+"Duplicate order sent." | The `clientOrderId` is already in use.
+"Market is closed." | The symbol is not trading.
+"Account has insufficient balance for requested action." | Not enough funds to complete the action.
+"Market orders are not supported for this symbol." | `MARKET` is not enabled on the symbol.
+"Iceberg orders are not supported for this symbol." | `icebergQty` is not enabled on the symbol
+"Stop loss orders are not supported for this symbol." | `STOP_LOSS` is not enabled on the symbol
+"Stop loss limit orders are not supported for this symbol." | `STOP_LOSS_LIMIT` is not enabled on the symbol
+"Take profit orders are not supported for this symbol." | `TAKE_PROFIT` is not enabled on the symbol
+"Take profit limit orders are not supported for this symbol." | `TAKE_PROFIT_LIMIT` is not enabled on the symbol
+"Price * QTY is zero or less." | `price` * `quantity` is too low
+"IcebergQty exceeds QTY." | `icebergQty` must be less than the order quantity
+"This action disabled is on this account." | Contact customer support; some actions have been disabled on the account.
+"Unsupported order combination" | The `orderType`, `timeInForce`, `stopPrice`, and/or `icebergQty` combination isn't allowed.
+"Order would trigger immediately." | The order's stop price is not valid when compared to the last traded price.
+"Cancel order is invalid. Check origClientOrderId and orderId." | No `origClientOrderId` or `orderId` was sent in.
+"Order would immediately match and take." | `LIMIT_MAKER` order type would immediately match and trade, and not be a pure maker order.
+"The relationship of the prices for the orders is not correct." | The prices set in the `OCO` is breaking the Price rules. <br> The rules are: <br> `SELL Orders`: Limit Price > Last Price > Stop Price <br>`BUY Orders`: Limit Price < Last Price < Stop Price
+"OCO orders are not supported for this symbol" | `OCO` is not enabled on the symbol.
 
 
-# 备注说明
-## 请求参数
+# Notes
+## Request Parameters
 
-### <h3 id="request-email-address">Email地址</h3>
-Email地址作为请求参数，需要转译(encode)。比如 `alice@test.com` 转换成 `alice%40test.com`
+### Email Address
+Email address should be encoded. e.g. `alice@test.com` should be encoded into `alice%40test.com`

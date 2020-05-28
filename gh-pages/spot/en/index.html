@@ -251,6 +251,18 @@
                     <a href="#api-key-setup" class="toc-h2 toc-link" data-title="API Key Setup">API Key Setup</a>
                   </li>
                   <li>
+                    <a href="#api-key-restrictions" class="toc-h2 toc-link" data-title="API Key Restrictions">API Key Restrictions</a>
+                  </li>
+                  <li>
+                    <a href="#enabling-accounts" class="toc-h2 toc-link" data-title="Enabling Accounts">Enabling Accounts</a>
+                  </li>
+                  <li>
+                    <a href="#spot-testnet" class="toc-h2 toc-link" data-title="SPOT Testnet">SPOT Testnet</a>
+                  </li>
+                  <li>
+                    <a href="#postman-collections" class="toc-h2 toc-link" data-title="Postman Collections">Postman Collections</a>
+                  </li>
+                  <li>
                     <a href="#contact-us" class="toc-h2 toc-link" data-title="Contact Us">Contact Us</a>
                   </li>
               </ul>
@@ -275,9 +287,6 @@
                   </li>
                   <li>
                     <a href="#filters" class="toc-h2 toc-link" data-title="Filters">Filters</a>
-                  </li>
-                  <li>
-                    <a href="#postman-collections" class="toc-h2 toc-link" data-title="Postman Collections">Postman Collections</a>
                   </li>
               </ul>
           </li>
@@ -1527,7 +1536,7 @@ https://api.binance.com/api/v3/avgPrice?symbol=BNBUSDT</p></li>
 </ul>
 <h1 id='introduction'>Introduction</h1><h2 id='api-key-setup'>API Key Setup</h2>
 <ul>
-<li>Some endpoints will require an API Key. Please refer to <a href="https://www.binance.com/en/support/faq/360002502072">this page</a> regarding API key creation.</li>
+<li>Some endpoints will require an API Key. Please refer to <a href="https://binance.zendesk.com/hc/en-us/articles/360002502072-How-to-create-API">this page</a> regarding API key creation.</li>
 <li>Once API key is created, it is recommended to set IP restrictions on the key for security reasons.</li>
 <li><strong>Never share your API key/secret key to ANYONE.</strong></li>
 </ul>
@@ -1535,6 +1544,27 @@ https://api.binance.com/api/v3/avgPrice?symbol=BNBUSDT</p></li>
 <aside class="warning">
 If the API keys were accidentally shared, please delete them immediately and create a new key.
 </aside>
+<h2 id='api-key-restrictions'>API Key Restrictions</h2>
+<ul>
+<li>After creating the API key, the default restrictions set will be to enable trade, allowing to make orders on the API.</li>
+<li>To <strong>enable withdrawals via the API</strong>, the API key restriction needs to be modified through the Binance UI.</li>
+</ul>
+<h2 id='enabling-accounts'>Enabling Accounts</h2><h3 id='spot-account'>Spot Account</h3>
+<p>A <code>SPOT</code> account is provided by default upon creation of a Binance Account.</p>
+<h3 id='margin-account'>Margin Account</h3>
+<p>To enable a <code>MARGIN</code> account for Margin Trading, please refer to the <a href="https://www.binance.vision/tutorials/binance-margin-trading-guide">Margin Trading Guide</a></p>
+<h2 id='spot-testnet'>SPOT Testnet</h2>
+<p>Users can use the SPOT Testnet to practice <code>SPOT</code> trading.</p>
+
+<p>Currently, this is only available via the API.</p>
+
+<p>Please refer to the <a href="https://testnet.binance.vision/">SPOT Testnet page</a> for more information and how to set up the Testnet API key.</p>
+<h2 id='postman-collections'>Postman Collections</h2>
+<p>There is now a Postman collection containing the API endpoints for quick and easy use.</p>
+
+<p>This is recommended for new users who want to get a quick-start into using the API.</p>
+
+<p>For more information please refer to this page: <a href="https://github.com/binance-exchange/binance-api-postman">Binance API Postman</a></p>
 <h2 id='contact-us'>Contact Us</h2>
 <ul>
 <li><a href="https://t.me/binance_api_english">Binance API Telegram Group</a>
@@ -1554,6 +1584,8 @@ If the API keys were accidentally shared, please delete them immediately and cre
 <li>For cases such as missing funds, help with 2FA, etc.</li>
 </ul></li>
 </ul>
+
+<hr>
 <h1 id='general-info'>General Info</h1><h2 id='general-api-information'>General API Information</h2>
 <ul>
 <li>The base endpoint is: <strong>https://api.binance.com</strong></li>
@@ -2333,10 +2365,6 @@ Note that both &quot;algo&quot; orders and normal orders are counted for this fi
 &quot;Algo&quot; orders are <code>STOP_LOSS</code>, <code>STOP_LOSS_LIMIT</code>, <code>TAKE_PROFIT</code>, and <code>TAKE_PROFIT_LIMIT</code> orders.</p>
 
 <hr>
-<h2 id='postman-collections'>Postman Collections</h2>
-<p>There is now a Postman collection containing the API endpoints for quick and easy use. </p>
-
-<p>For more information please refer to this page: <a href="https://github.com/binance-exchange/binance-api-postman">Binance API Postman</a></p>
 <h1 id='wallet-endpoints'>Wallet Endpoints</h1><h2 id='system-status-system'>System Status (System)</h2>
 <blockquote>
 <p><strong>Response:</strong></p>
