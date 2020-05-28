@@ -22,7 +22,7 @@ search: true
 
 ## Rest 基本信息
 
-* 本篇列出REST接口的baseurl **https://dapi.binance.com**
+* 本篇列出REST接口的baseurl **https://testnet.binancefuture.com**
 * 所有接口的响应都是JSON格式
 * 响应中如有数组，数组元素以时间升序排列，越早的数据越提前。
 * 所有时间、时间戳均为UNIX时间，单位为毫秒
@@ -151,7 +151,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://testnet.binancefuture.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
 ```
 
 * **queryString:** 
@@ -180,7 +180,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://dapi.binance.com/dapi/v1/order' -d 'symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://testnet.binancefuture.com/dapi/v1/order' -d 'symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
 ```
 
 * **requestBody:** 
@@ -209,7 +209,7 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
+    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://testnet.binancefuture.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
 ```
 
 * **queryString:** 
@@ -1205,11 +1205,11 @@ symbol | STRING | YES     | 交易对
 
 # Websocket 行情推送
 
-* 本篇所列出的所有wss接口的baseurl为: **wss://dstream.binance.com**
+* 本篇所列出的所有wss接口的baseurl为: **wss://dstream.binancefuture.com**
 * 订阅单一stream格式为 **/ws/\<streamName\>**
 * 组合streams的URL格式为 **/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
 * stream名称中所有交易对均为**小写**
-* 每个到**dstream.binance.com**的链接有效期不超过24小时，请妥善处理断线重连。
+* 每个到**dstream.binancefuture.com**的链接有效期不超过24小时，请妥善处理断线重连。
 * 每3分钟，服务端会发送ping帧，客户端应当在10分钟内回复pong帧，否则服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于10分钟每次的频率发送pong帧保持链接)。
 * **原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
 
@@ -1927,9 +1927,9 @@ orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时�
 
 
 ## 如何正确在本地维护一个orderbook副本
-1. 订阅 **wss://dstream.binance.com/stream?streams=BTCUSD_200925@depth**
+1. 订阅 **wss://dstream.binancefuture.com/stream?streams=BTCUSD_200925@depth**
 2. 开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。
-3. 访问Rest接口 **https://dapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200925&limit=1000**获得一个1000档的深度快照
+3. 访问Rest接口 **https://testnet.binancefuture.com/dapi/v1/depth?symbol=BTCUSD_200925&limit=1000**获得一个1000档的深度快照
 4. 将目前缓存到的信息中`u`< 步骤3中获取到的快照中的`lastUpdateId`的部分丢弃(丢弃更早的信息，已经过期)。
 5. 将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个`U` <= `lastUpdateId` **且** `u` >= `lastUpdateId` 的event开始继续更新本地副本。
 6. 每一个新event的`pu`应该等于上一个event的`u`，否则可能出现了丢包，请从step3重新进行初始化。
@@ -3075,12 +3075,12 @@ timestamp|LONG|YES|
 # Websocket 账户信息推送
 
 
-* 本篇所列出REST接口的baseurl **https://dapi.binance.com**
+* 本篇所列出REST接口的baseurl **https://testnet.binancefuture.com**
 * 用于订阅账户数据的 `listenKey` 从创建时刻起有效期为60分钟
 * 可以通过`PUT`一个`listenKey`延长60分钟有效期
 * 可以通过`DELETE`一个 `listenKey` 立即关闭当前数据流，并使该`listenKey` 无效
 * 在具有有效`listenKey`的帐户上执行`POST`将返回当前有效的`listenKey`并将其有效期延长60分钟
-* 本篇所列出的websocket接口baseurl: **wss://dstream.binance.com**
+* 本篇所列出的websocket接口baseurl: **wss://dstream.binancefuture.com**
 * 订阅账户数据流的stream名称为 **/ws/\<listenKey\>**
 * 每个链接有效期不超过24小时，请妥善处理断线重连。
 * 账户数据流的消息**不保证**严格时间序; **请使用 E 字段进行排序**
