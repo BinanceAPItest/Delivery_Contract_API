@@ -1990,13 +1990,21 @@ timestamp | LONG | YES
     {
       "asset": "BTC",			// 资产
       "tranId": 100000001,		// 划转ID			
+      "amount": "1.84624400",	// 数量
+      "type": "3",				// 划转类型
+      "timestamp": 1555056425000,	// 时间戳
+      "status": "CONFIRMED"         // PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);
+    },
+    {
+      "asset": "USDT",			// 资产
+      "tranId": 100000011,		// 划转ID			
       "amount": "40.84624400",	// 数量
       "type": "1",				// 划转类型
       "timestamp": 1555056425000,	// 时间戳
       "status": "CONFIRMED"         // PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);
     }
   ],
-  "total": 1
+  "total": 2
 }
 ```
 
