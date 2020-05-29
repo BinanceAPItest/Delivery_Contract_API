@@ -2701,13 +2701,21 @@ POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
     <span class="p">{</span>
       <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>           <span class="c1">// 资产</span>
       <span class="s2">"tranId"</span><span class="p">:</span> <span class="mi">100000001</span><span class="p">,</span>      <span class="c1">// 划转ID         </span>
+      <span class="s2">"amount"</span><span class="p">:</span> <span class="s2">"1.84624400"</span><span class="p">,</span>   <span class="c1">// 数量</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">,</span>              <span class="c1">// 划转类型</span>
+      <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">1555056425000</span><span class="p">,</span>   <span class="c1">// 时间戳</span>
+      <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CONFIRMED"</span>         <span class="c1">// PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"USDT"</span><span class="p">,</span>          <span class="c1">// 资产</span>
+      <span class="s2">"tranId"</span><span class="p">:</span> <span class="mi">100000011</span><span class="p">,</span>      <span class="c1">// 划转ID         </span>
       <span class="s2">"amount"</span><span class="p">:</span> <span class="s2">"40.84624400"</span><span class="p">,</span>  <span class="c1">// 数量</span>
       <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span>              <span class="c1">// 划转类型</span>
       <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">1555056425000</span><span class="p">,</span>   <span class="c1">// 时间戳</span>
       <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CONFIRMED"</span>         <span class="c1">// PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);</span>
     <span class="p">}</span>
   <span class="p">],</span>
-  <span class="s2">"total"</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="s2">"total"</span><span class="p">:</span> <span class="mi">2</span>
 <span class="p">}</span>
 </code></pre>
 <p><code>
