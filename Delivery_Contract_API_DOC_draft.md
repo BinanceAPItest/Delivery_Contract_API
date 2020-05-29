@@ -1960,7 +1960,7 @@ orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时�
 ``
 POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
 ``
-* 请注意：这里不适用fapi base url
+* 请注意：这里不适用 dapi base url
 
 执行现货账户与合约账户之间的划转
 
@@ -2004,7 +2004,7 @@ timestamp | LONG | YES
 ``
 GET https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
 ``
-* 请注意：这里不适用fapi base url
+* 请注意：这里不适用 dapi base url
 
 **权重:**
 5
