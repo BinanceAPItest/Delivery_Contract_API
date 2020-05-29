@@ -374,6 +374,12 @@
             <a href="#93d49cc2e5" class="toc-h1 toc-link" data-title="账户和交易接口">账户和交易接口</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#1045de04a1" class="toc-h2 toc-link" data-title="划转">划转</a>
+                  </li>
+                  <li>
+                    <a href="#87a7130ac5" class="toc-h2 toc-link" data-title="获取划转历史">获取划转历史</a>
+                  </li>
+                  <li>
                     <a href="#trade" class="toc-h2 toc-link" data-title="更改持仓模式（TRADE）">更改持仓模式（TRADE）</a>
                   </li>
                   <li>
@@ -2627,7 +2633,145 @@ GET /dapi/v1/openInterest
 <li>每一个event中的挂单量代表这个价格目前的挂单量<strong>绝对值</strong>，而不是相对变化。</li>
 <li>如果某个价格对应的挂单量为0，表示该价位的挂单已经撤单或者被吃，应该移除这个价位。</li>
 </ol>
-<h1 id='93d49cc2e5'>账户和交易接口</h1><h2 id='trade'>更改持仓模式（TRADE）</h2>
+<h1 id='93d49cc2e5'>账户和交易接口</h1><h2 id='1045de04a1'>划转</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"tranId"</span><span class="p">:</span> <span class="mi">100000001</span>    <span class="c1">// 划转 ID </span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
+</code>
+* 请注意：这里不适用 dapi base url</p>
+
+<p>执行现货账户与合约账户之间的划转</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>asset</td>
+<td>STRING</td>
+<td>YES</td>
+<td>The asset being transferred, e.g., USDT</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>DECIMAL</td>
+<td>YES</td>
+<td>The amount to be transferred</td>
+</tr>
+<tr>
+<td>type</td>
+<td>INT</td>
+<td>YES</td>
+<td>1: 现货账户向永续合约账户划转, 2:永续合约账户向现货账户划转; 3: 现货账户向交割合约账户划转, 2:交割合约账户向现货账户划转</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='87a7130ac5'>获取划转历史</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"rows"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>           <span class="c1">// 资产</span>
+      <span class="s2">"tranId"</span><span class="p">:</span> <span class="mi">100000001</span><span class="p">,</span>      <span class="c1">// 划转ID         </span>
+      <span class="s2">"amount"</span><span class="p">:</span> <span class="s2">"40.84624400"</span><span class="p">,</span>  <span class="c1">// 数量</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span>              <span class="c1">// 划转类型</span>
+      <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">1555056425000</span><span class="p">,</span>   <span class="c1">// 时间戳</span>
+      <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CONFIRMED"</span>         <span class="c1">// PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"total"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
+</code>
+* 请注意：这里不适用 dapi base url</p>
+
+<p><strong>权重:</strong>
+5</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>asset</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>current</td>
+<td>LONG</td>
+<td>NO</td>
+<td>Currently querying page. Start from 1. Default:1</td>
+</tr>
+<tr>
+<td>size</td>
+<td>LONG</td>
+<td>NO</td>
+<td>Default:10 Max:100</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='trade'>更改持仓模式（TRADE）</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
