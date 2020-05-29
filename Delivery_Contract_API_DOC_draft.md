@@ -1944,6 +1944,86 @@ orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时�
 # 账户和交易接口
 
 
+
+
+## 划转
+
+
+> **响应:**
+
+```javascript
+{
+    "tranId": 100000001    // 划转 ID	
+}
+```
+
+``
+POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
+``
+* 请注意：这里不适用fapi base url
+
+执行现货账户与合约账户之间的划转
+
+**Weight:**
+1
+
+**Parameters:**
+
+名称 | 类型 | 是否必需 | 描述
+------------ | ------------ | ------------ | ------------
+asset | STRING | YES | The asset being transferred, e.g., USDT
+amount | DECIMAL | YES | The amount to be transferred
+type | INT | YES | 1: 现货账户向永续合约账户划转, 2:永续合约账户向现货账户划转; 3: 现货账户向交割合约账户划转, 2:交割合约账户向现货账户划转
+recvWindow | LONG | NO  | 
+timestamp | LONG | YES
+
+
+
+## 获取划转历史
+
+
+> **响应:**
+
+```javascript
+{
+  "rows": [
+    {
+      "asset": "BTC",			// 资产
+      "tranId": 100000001,		// 划转ID			
+      "amount": "40.84624400",	// 数量
+      "type": "1",				// 划转类型
+      "timestamp": 1555056425000,	// 时间戳
+      "status": "CONFIRMED"         // PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);
+    }
+  ],
+  "total": 1
+}
+```
+
+
+``
+GET https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
+``
+* 请注意：这里不适用fapi base url
+
+**权重:**
+5
+
+**参数:**
+
+名称 | 类型 | 是否必需 | 描述
+------------ | ------------ | ------------ | ------------
+asset |	STRING | YES	
+startTime |	LONG |	YES
+endTime | LONG | NO	
+current | LONG | NO | Currently querying page. Start from 1. Default:1
+size |	LONG | NO |	Default:10 Max:100
+recvWindow | LONG | NO | 
+timestamp | LONG | YES
+
+
+
+
 ## 更改持仓模式（TRADE）
 
 > **响应:**
