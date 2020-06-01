@@ -312,6 +312,9 @@
                     <a href="#4175575043" class="toc-h2 toc-link" data-title="连接心跳">连接心跳</a>
                   </li>
                   <li>
+                    <a href="#3c863d56da" class="toc-h2 toc-link" data-title="实时订阅/取消数据流">实时订阅/取消数据流</a>
+                  </li>
+                  <li>
                     <a href="#b14c7e3649" class="toc-h2 toc-link" data-title="最新合约价格">最新合约价格</a>
                   </li>
                   <li>
@@ -453,9 +456,6 @@
           <li>
             <a href="#websocket-2" class="toc-h1 toc-link" data-title="Websocket 账户信息推送">Websocket 账户信息推送</a>
               <ul class="toc-list-h2">
-                  <li>
-                    <a href="#3c863d56da" class="toc-h2 toc-link" data-title="实时订阅/取消数据流">实时订阅/取消数据流</a>
-                  </li>
                   <li>
                     <a href="#4175575043-2" class="toc-h2 toc-link" data-title="连接心跳">连接心跳</a>
                   </li>
@@ -2020,15 +2020,14 @@ GET /dapi/v1/openInterest
 <li>stream名称中所有交易对均为<strong>小写</strong></li>
 <li>每个到<strong>dstream.binance.com</strong>的链接有效期不超过24小时，请妥善处理断线重连。</li>
 <li>每3分钟，服务端会发送ping帧，客户端应当在10分钟内回复pong帧，否则服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于10分钟每次的频率发送pong帧保持链接)。</li>
-<li><strong>原始信息将以gzip方式压缩并推送</strong>，请在收到推送信息后先解压缩</li>
-<li>服务端会通过消息体发送&quot;ping&quot;消息，客户端收到后应立即回复&quot;pong&quot;消息。连续三次没有收到客户端的&quot;pong&quot;消息，服务端会主动断开链接。&quot;pong&quot;消息应当以JSON格式发送。</li>
-<li><strong>包括ping消息在内的原始信息将以gzip方式压缩并推送</strong>，请在收到推送信息后先解压缩</li>
+<li>服务端会通过消息体发送&quot;PING&quot;消息，客户端收到后应立即回复&quot;PONG&quot;消息。连续三次没有收到客户端的&quot;PONG&quot;消息，服务端会主动断开链接。&quot;PONG&quot;消息应当以JSON格式发送。</li>
+<li><strong>包括PING消息在内的原始信息将以gzip方式压缩并推送</strong>，请在收到推送信息后先解压缩</li>
 <li>用户端向服务端发送的内容<strong>不需要</strong>经过压缩</li>
 </ul>
 <h2 id='4175575043'>连接心跳</h2>
-<p>服务端会通过消息体发送&quot;ping&quot;消息，客户端收到后应立即回复&quot;pong&quot;消息。连续三次没有收到客户端的&quot;pong&quot;消息，服务端会主动断开链接。&quot;pong&quot;消息应当以JSON格式发送。</p>
+<p>服务端会通过消息体发送&quot;PING&quot;消息，客户端收到后应立即回复&quot;PONG&quot;消息。连续三次没有收到客户端的&quot;PONG&quot;消息，服务端会主动断开链接。&quot;PONG&quot;消息应当以JSON格式发送。</p>
 
-<p>&quot;ping&quot;消息将以gzip方式压缩并推送。</p>
+<p>&quot;PING&quot;消息将以gzip方式压缩并推送。</p>
 
 <p>用户端向服务端发送的&quot;pong&quot;消息<strong>不需要</strong>经过压缩。</p>
 
@@ -2036,23 +2035,188 @@ GET /dapi/v1/openInterest
 <p><strong>ping message from server</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"ping"</span><span class="p">:</span>  <span class="mi">1562305380000</span> <span class="c1">// ping 消息时间戳</span>
+    <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"PING"</span><span class="p">,</span>   <span class="c1">// 心跳PING</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span>  <span class="c1">// 心跳时间</span>
 <span class="p">}</span>
 </code></pre>
 <ul>
-<li>服务端发出的心跳格式压缩前格式为  { &quot;ping&quot;:  <INT> }, 其中 &quot;ping&quot;字段返回的整型数值代表特定的心跳时间戳。</li>
+<li>服务端发出的&quot;PING&quot;消息中会带有字段&quot;E&quot;,表示心跳时间,它应在客户端做出的心跳响应&quot;PONG&quot;消息中被发回给服务端。</li>
 </ul>
 
 <blockquote>
 <p><strong>pong messsage should be from client</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"pong"</span><span class="p">:</span>  <span class="mi">1562305380000</span> <span class="c1">// 响应的ping消息时间戳</span>
+    <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"PONG"</span><span class="p">,</span>   <span class="c1">// 心跳确认PONG</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span>  <span class="c1">// 心跳时间，应与被响应的PING消息心跳时间一致</span>
 <span class="p">}</span>
 </code></pre>
 <ul>
-<li>客户端对心跳的响应格式应为  { &quot;pong&quot;:  <INT> }, 其中 &quot;pong&quot;字段返回的整型数值代表特定的心跳时间戳, 应与响应的&quot;ping&quot;的时间戳一致。</li>
+<li><p>客户端对心跳的响应格式应为  </p>
+
+<p>{  &quot;method&quot;: &quot;PONG&quot;,    &quot;E&quot;: 1562305380000 } , </p>
+
+<p>其中 &quot;E&quot;字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳&quot;PING&quot;消息中收到的心跳时间&quot;E&quot;一致。</p>
+
+<p>简单来说，用户可以直接将收到的&quot;PING&quot;消息中的 &quot;method&quot; 内容由 &quot;PING&quot; 改为 &quot;PONG&quot;, 并立即将消息发还给服务端。</p></li>
 </ul>
+<h2 id='3c863d56da'>实时订阅/取消数据流</h2>
+<ul>
+<li>以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。</li>
+<li>响应内容中的<code>id</code>是无符号整数，作为往来信息的唯一标识。</li>
+</ul>
+<h3 id='2a11d883e8'>订阅一个信息流</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><p><strong>请求</strong></p>
+
+<p>{<br>
+    &quot;method&quot;: &quot;SUBSCRIBE&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+    &quot;btcusd_200626@aggTrade&quot;,<br>
+    &quot;btcusd_200626@depth&quot;<br>
+    ],<br>
+    &quot;id&quot;: 1<br>
+}</p></li>
+</ul>
+<h3 id='122d1b11ee'>取消订阅一个信息流</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">312</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;UNSUBSCRIBE&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+      &quot;btcusd_200626@depth&quot;<br>
+    ],<br>
+    &quot;id&quot;: 312<br>
+  }</p>
+<h3 id='08abf89cc1'>已订阅信息流</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"btcusd_200626@aggTrade"</span>
+    <span class="p">],</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;LIST_SUBSCRIPTIONS&quot;,<br>
+    &quot;id&quot;: 3<br>
+  }     </p>
+<h3 id='e6bedc3d08'>设定属性</h3>
+<p>当前，唯一可以设置的属性是设置是否启用<code>combined</code>(“组合”)信息流。<br>
+当使用<code>/ws/</code>（“原始信息流”）进行连接时，combined属性设置为<code>false</code>，而使用 <code>/stream/</code>进行连接时则将属性设置为<code>true</code>。</p>
+
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">5</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;SET_PROPERTY&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+      &quot;combined&quot;,<br>
+      true<br>
+    ],<br>
+    &quot;id&quot;: 5<br>
+  }</p>
+<h3 id='d6190e3471'>检索属性</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Indicates that combined is set to true.</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;GET_PROPERTY&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+      &quot;combined&quot;<br>
+    ],<br>
+    &quot;id&quot;: 2<br>
+  }   </p>
+<h3 id='a38a81c9d5'>错误信息</h3>
+<table><thead>
+<tr>
+<th>错误信息</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>{&quot;code&quot;: 0, &quot;msg&quot;: &quot;Unknown property&quot;}</td>
+<td><code>SET_PROPERTY</code> 或 <code>GET_PROPERTY</code>中应用的参数无效</td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 1, &quot;msg&quot;: &quot;Invalid value type: expected Boolean&quot;}</td>
+<td>仅接受<code>true</code>或<code>false</code></td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: property name must be a string&quot;}</td>
+<td>提供的属性名无效</td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: request ID must be an unsigned integer&quot;}</td>
+<td>参数<code>id</code>未提供或<code>id</code>值是无效类型</td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: unknown variant %s, expected one of <code>SUBSCRIBE</code>, <code>UNSUBSCRIBE</code>, <code>LIST_SUBSCRIPTIONS</code>, <code>SET_PROPERTY</code>, <code>GET_PROPERTY</code> at line 1 column 28&quot;}</td>
+<td>错字提醒，或提供的值不是预期类型</td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: too many parameters&quot;}</td>
+<td>数据中提供了不必要参数</td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: property name must be a string&quot;}</td>
+<td>未提供属性名</td>
+</tr>
+<tr>
+<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: missing field <code>method</code> at line 1 column 73&quot;}</td>
+<td>数据未提供<code>method</code></td>
+</tr>
+<tr>
+<td>{&quot;code&quot;:3,&quot;msg&quot;:&quot;Invalid JSON: expected value at line %s column %s&quot;}</td>
+<td>JSON 语法有误.</td>
+</tr>
+</tbody></table>
 <h2 id='b14c7e3649'>最新合约价格</h2>
 <p>aggTrade中的价格&#39;p&#39;或ticker/miniTicker中的价格&#39;c&#39;均可以作为最新成交价。</p>
 <h2 id='1e66c0284e'>归集交易</h2>
@@ -4668,172 +4832,15 @@ GET /dapi/v1/leverageBracket
 <li>本篇所列出的websocket接口baseurl: <strong>wss://dstream.binance.com</strong></li>
 <li>订阅账户数据流的stream名称为 <strong>/ws/&lt;listenKey&gt;</strong></li>
 <li>每个链接有效期不超过24小时，请妥善处理断线重连。</li>
-<li>账户数据流的消息<strong>不保证</strong>严格时间序; <strong>请使用 E 字段进行排序</strong></li>
-<li>服务端会通过消息体发送&quot;ping&quot;消息，客户端收到后应立即回复&quot;pong&quot;消息。连续三次没有收到客户端的&quot;pong&quot;消息，服务端会主动断开链接。&quot;pong&quot;消息应当以JSON格式发送。</li>
-<li><strong>包括ping消息在内的原始信息将以gzip方式压缩并推送</strong>，请在收到推送信息后先解压缩</li>
-<li>用户端向服务端发送的内容<strong>不需要</strong>经过压缩</li>
+<li><p>账户数据流的消息<strong>不保证</strong>严格时间序; <strong>请使用 E 字段进行排序</strong></p></li>
+<li><p>服务端会通过消息体发送&quot;PING&quot;消息，客户端收到后应立即回复&quot;PONG&quot;消息。连续三次没有收到客户端的&quot;PONG&quot;消息，服务端会主动断开链接。&quot;PONG&quot;消息应当以JSON格式发送。</p></li>
+<li><p><strong>包括PING消息在内的原始信息将以gzip方式压缩并推送</strong>，请在收到推送信息后先解压缩</p></li>
+<li><p>用户端向服务端发送的内容<strong>不需要</strong>经过压缩</p></li>
 </ul>
-<h2 id='3c863d56da'>实时订阅/取消数据流</h2>
-<ul>
-<li>以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。</li>
-<li>响应内容中的<code>id</code>是无符号整数，作为往来信息的唯一标识。</li>
-</ul>
-<h3 id='2a11d883e8'>订阅一个信息流</h3>
-<blockquote>
-<p><strong>响应</strong></p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
-    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
-  <span class="p">}</span>
-</code></pre>
-<ul>
-<li><p><strong>请求</strong></p>
-
-<p>{<br>
-    &quot;method&quot;: &quot;SUBSCRIBE&quot;,<br>
-    &quot;params&quot;:<br>
-    [<br>
-    &quot;btcusd_200626@aggTrade&quot;,<br>
-    &quot;btcusd_200626@depth&quot;<br>
-    ],<br>
-    &quot;id&quot;: 1<br>
-}</p></li>
-</ul>
-<h3 id='122d1b11ee'>取消订阅一个信息流</h3>
-<blockquote>
-<p><strong>响应</strong></p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
-    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">312</span>
-  <span class="p">}</span>
-</code></pre>
-<ul>
-<li><strong>请求</strong></li>
-</ul>
-
-<p>{<br>
-    &quot;method&quot;: &quot;UNSUBSCRIBE&quot;,<br>
-    &quot;params&quot;:<br>
-    [<br>
-      &quot;btcusd_200626@depth&quot;<br>
-    ],<br>
-    &quot;id&quot;: 312<br>
-  }</p>
-<h3 id='08abf89cc1'>已订阅信息流</h3>
-<blockquote>
-<p><strong>响应</strong></p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
-    <span class="s2">"result"</span><span class="p">:</span> <span class="p">[</span>
-      <span class="s2">"btcusd_200626@aggTrade"</span>
-    <span class="p">],</span>
-    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span>
-  <span class="p">}</span>
-</code></pre>
-<ul>
-<li><strong>请求</strong></li>
-</ul>
-
-<p>{<br>
-    &quot;method&quot;: &quot;LIST_SUBSCRIPTIONS&quot;,<br>
-    &quot;id&quot;: 3<br>
-  }     </p>
-<h3 id='e6bedc3d08'>设定属性</h3>
-<p>当前，唯一可以设置的属性是设置是否启用<code>combined</code>(“组合”)信息流。<br>
-当使用<code>/ws/</code>（“原始信息流”）进行连接时，combined属性设置为<code>false</code>，而使用 <code>/stream/</code>进行连接时则将属性设置为<code>true</code>。</p>
-
-<blockquote>
-<p><strong>响应</strong></p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
-    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
-    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">5</span>
-  <span class="p">}</span>
-</code></pre>
-<ul>
-<li><strong>请求</strong></li>
-</ul>
-
-<p>{<br>
-    &quot;method&quot;: &quot;SET_PROPERTY&quot;,<br>
-    &quot;params&quot;:<br>
-    [<br>
-      &quot;combined&quot;,<br>
-      true<br>
-    ],<br>
-    &quot;id&quot;: 5<br>
-  }</p>
-<h3 id='d6190e3471'>检索属性</h3>
-<blockquote>
-<p><strong>响应</strong></p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
-    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Indicates that combined is set to true.</span>
-    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span>
-  <span class="p">}</span>
-</code></pre>
-<ul>
-<li><strong>请求</strong></li>
-</ul>
-
-<p>{<br>
-    &quot;method&quot;: &quot;GET_PROPERTY&quot;,<br>
-    &quot;params&quot;:<br>
-    [<br>
-      &quot;combined&quot;<br>
-    ],<br>
-    &quot;id&quot;: 2<br>
-  }   </p>
-<h3 id='a38a81c9d5'>错误信息</h3>
-<table><thead>
-<tr>
-<th>错误信息</th>
-<th>描述</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>{&quot;code&quot;: 0, &quot;msg&quot;: &quot;Unknown property&quot;}</td>
-<td><code>SET_PROPERTY</code> 或 <code>GET_PROPERTY</code>中应用的参数无效</td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 1, &quot;msg&quot;: &quot;Invalid value type: expected Boolean&quot;}</td>
-<td>仅接受<code>true</code>或<code>false</code></td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: property name must be a string&quot;}</td>
-<td>提供的属性名无效</td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: request ID must be an unsigned integer&quot;}</td>
-<td>参数<code>id</code>未提供或<code>id</code>值是无效类型</td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: unknown variant %s, expected one of <code>SUBSCRIBE</code>, <code>UNSUBSCRIBE</code>, <code>LIST_SUBSCRIPTIONS</code>, <code>SET_PROPERTY</code>, <code>GET_PROPERTY</code> at line 1 column 28&quot;}</td>
-<td>错字提醒，或提供的值不是预期类型</td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: too many parameters&quot;}</td>
-<td>数据中提供了不必要参数</td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: property name must be a string&quot;}</td>
-<td>未提供属性名</td>
-</tr>
-<tr>
-<td>{&quot;code&quot;: 2, &quot;msg&quot;: &quot;Invalid request: missing field <code>method</code> at line 1 column 73&quot;}</td>
-<td>数据未提供<code>method</code></td>
-</tr>
-<tr>
-<td>{&quot;code&quot;:3,&quot;msg&quot;:&quot;Invalid JSON: expected value at line %s column %s&quot;}</td>
-<td>JSON 语法有误.</td>
-</tr>
-</tbody></table>
 <h2 id='4175575043-2'>连接心跳</h2>
-<p>服务端会通过消息体发送&quot;ping&quot;消息，客户端收到后应立即回复&quot;pong&quot;消息。连续三次没有收到客户端的&quot;pong&quot;消息，服务端会主动断开链接。&quot;pong&quot;消息应当以JSON格式发送。</p>
+<p>服务端会通过消息体发送&quot;PING&quot;消息，客户端收到后应立即回复&quot;PONG&quot;消息。连续三次没有收到客户端的&quot;PONG&quot;消息，服务端会主动断开链接。&quot;PONG&quot;消息应当以JSON格式发送。</p>
 
-<p>&quot;ping&quot;消息将以gzip方式压缩并推送。</p>
+<p>&quot;PING&quot;消息将以gzip方式压缩并推送。</p>
 
 <p>用户端向服务端发送的&quot;pong&quot;消息<strong>不需要</strong>经过压缩。</p>
 
@@ -4841,22 +4848,30 @@ GET /dapi/v1/leverageBracket
 <p><strong>ping message from server</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"ping"</span><span class="p">:</span>  <span class="mi">1562305380000</span> <span class="c1">// ping 消息时间戳</span>
+    <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"PING"</span><span class="p">,</span>   <span class="c1">// 心跳PING</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span>  <span class="c1">// 心跳时间</span>
 <span class="p">}</span>
 </code></pre>
 <ul>
-<li>服务端发出的心跳格式压缩前格式为  { &quot;ping&quot;:  <INT> }, 其中 &quot;ping&quot;字段返回的整型数值代表特定的心跳时间戳。</li>
+<li>服务端发出的&quot;PING&quot;消息中会带有字段&quot;E&quot;,表示心跳时间,它应在客户端做出的心跳响应&quot;PONG&quot;消息中被发回给服务端。</li>
 </ul>
 
 <blockquote>
 <p><strong>pong messsage should be from client</strong></p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-    <span class="s2">"pong"</span><span class="p">:</span>  <span class="mi">1562305380000</span> <span class="c1">// 响应的ping消息时间戳</span>
+    <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"PONG"</span><span class="p">,</span>   <span class="c1">// 心跳确认PONG</span>
+    <span class="s2">"E"</span><span class="p">:</span> <span class="mi">1562305380000</span>  <span class="c1">// 心跳时间，应与被响应的PING消息心跳时间一致</span>
 <span class="p">}</span>
 </code></pre>
 <ul>
-<li>客户端对心跳的响应格式应为  { &quot;pong&quot;:  <INT> }, 其中 &quot;pong&quot;字段返回的整型数值代表特定的心跳时间戳, 应与响应的&quot;ping&quot;的时间戳一致。</li>
+<li><p>客户端对心跳的响应格式应为  </p>
+
+<p>{  &quot;method&quot;: &quot;PONG&quot;,    &quot;E&quot;: 1562305380000 } , </p>
+
+<p>其中 &quot;E&quot;字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳&quot;PING&quot;消息中收到的心跳时间&quot;E&quot;一致。</p>
+
+<p>简单来说，用户可以直接将收到的&quot;PING&quot;消息中的 &quot;method&quot; 内容由 &quot;PING&quot; 改为 &quot;PONG&quot;, 并立即将消息发还给服务端。</p></li>
 </ul>
 <h2 id='listenkey-user_stream'>生成listenKey (USER_STREAM)</h2>
 <blockquote>
