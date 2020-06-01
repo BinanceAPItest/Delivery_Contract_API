@@ -1254,6 +1254,11 @@ symbol | STRING | YES     | 交易对
 	简单来说，用户可以直接将收到的"PING"消息中的 "method" 内容由 "PING" 改为 "PONG", 并立即将消息发还给服务端。
 
 
+**注意**
+
+* 这里的心跳消息，和 websocket协议中的ping帧或pong帧没有关系。
+
+
 
 
 ## 实时订阅/取消数据流
@@ -2107,9 +2112,9 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时更新（如有刷新）
 
 **Stream 名称:**     
-``<symbol>@depth`` OR ``<symbol>@depth@500ms`` OR ``<symbol>@depth@100ms``
+``<symbol>@depth`` OR ``<symbol>@depth@500ms`` OR ``<symbol>@depth@100ms`` OR ``<symbol>@depth@0ms``
 
-**Update Speed:** 250ms 或 500ms 或 100ms
+**Update Speed:** 250ms 或 500ms 或 100ms 或 0ms
 
 
 
@@ -3402,6 +3407,12 @@ timestamp|LONG|YES|
 	其中 "E"字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳"PING"消息中收到的心跳时间"E"一致。
 	
 	简单来说，用户可以直接将收到的"PING"消息中的 "method" 内容由 "PING" 改为 "PONG", 并立即将消息发还给服务端。
+
+
+**注意**
+
+* 这里的心跳消息，和 websocket协议中的ping帧或pong帧没有关系。
+
 
 ## 生成listenKey (USER_STREAM)
 
