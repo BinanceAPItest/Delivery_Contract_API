@@ -1211,17 +1211,16 @@ symbol | STRING | YES     | 交易对
 * stream名称中所有交易对均为**小写**
 * 每个到**dstream.binance.com**的链接有效期不超过24小时，请妥善处理断线重连。
 * 每3分钟，服务端会发送ping帧，客户端应当在10分钟内回复pong帧，否则服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于10分钟每次的频率发送pong帧保持链接)。
-* **原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
-* 服务端会通过消息体发送"ping"消息，客户端收到后应立即回复"pong"消息。连续三次没有收到客户端的"pong"消息，服务端会主动断开链接。"pong"消息应当以JSON格式发送。
-* **包括ping消息在内的原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
+* 服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
+* **包括PING消息在内的原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
 * 用户端向服务端发送的内容**不需要**经过压缩
 
 
 ## 连接心跳
 
-服务端会通过消息体发送"ping"消息，客户端收到后应立即回复"pong"消息。连续三次没有收到客户端的"pong"消息，服务端会主动断开链接。"pong"消息应当以JSON格式发送。
+服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
 
-"ping"消息将以gzip方式压缩并推送。
+"PING"消息将以gzip方式压缩并推送。
 
 用户端向服务端发送的"pong"消息**不需要**经过压缩。
 
@@ -1230,22 +1229,177 @@ symbol | STRING | YES     | 交易对
 
 ```javascript
 {
-	"ping":  1562305380000 // ping 消息时间戳
+	"method": "PING",  	// 心跳PING
+	"E": 1562305380000 	// 心跳时间
 }
 ```
 
-* 服务端发出的心跳格式压缩前格式为  { "ping":  <INT> }, 其中 "ping"字段返回的整型数值代表特定的心跳时间戳。
-	
+* 服务端发出的"PING"消息中会带有字段"E",表示心跳时间,它应在客户端做出的心跳响应"PONG"消息中被发回给服务端。
 
 > **pong messsage should be from client**
  
 ```javascript
 {
-	"pong":  1562305380000 // 响应的ping消息时间戳
+	"method": "PONG",  	// 心跳确认PONG
+	"E": 1562305380000 	// 心跳时间，应与被响应的PING消息心跳时间一致
 }
 ```
 
-* 客户端对心跳的响应格式应为  { "pong":  <INT> }, 其中 "pong"字段返回的整型数值代表特定的心跳时间戳, 应与响应的"ping"的时间戳一致。
+* 客户端对心跳的响应格式应为  
+  
+	{  "method": "PONG",  	"E": 1562305380000 } , 
+	
+	其中 "E"字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳"PING"消息中收到的心跳时间"E"一致。
+	
+	简单来说，用户可以直接将收到的"PING"消息中的 "method" 内容由 "PING" 改为 "PONG", 并立即将消息发还给服务端。
+
+
+
+
+## 实时订阅/取消数据流
+
+* 以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。
+* 响应内容中的`id`是无符号整数，作为往来信息的唯一标识。
+
+### 订阅一个信息流
+
+> **响应**
+
+  ```javascript
+  {
+    "result": null,
+    "id": 1
+  }
+  ```
+
+* **请求**
+
+  	{    
+    	"method": "SUBSCRIBE",    
+    	"params":     
+    	[   
+      	"btcusd_200626@aggTrade",    
+      	"btcusd_200626@depth"     
+    	],    
+    	"id": 1   
+  	}
+
+
+
+### 取消订阅一个信息流
+
+> **响应**
+  
+  ```javascript
+  {
+    "result": null,
+    "id": 312
+  }
+  ```
+
+* **请求**
+
+  {   
+    "method": "UNSUBSCRIBE",    
+    "params":     
+    [    
+      "btcusd_200626@depth"   
+    ],    
+    "id": 312   
+  }
+
+
+
+### 已订阅信息流
+
+> **响应**
+  
+  ```javascript
+  {
+    "result": [
+      "btcusd_200626@aggTrade"
+    ],
+    "id": 3
+  }
+  ```
+
+
+* **请求**
+
+  {   
+    "method": "LIST_SUBSCRIPTIONS",    
+    "id": 3   
+  }     
+ 
+
+
+### 设定属性
+当前，唯一可以设置的属性是设置是否启用`combined`(“组合”)信息流。   
+当使用`/ws/`（“原始信息流”）进行连接时，combined属性设置为`false`，而使用 `/stream/`进行连接时则将属性设置为`true`。
+
+
+> **响应**
+  
+  ```javascript
+  {
+    "result": null
+    "id": 5
+  }
+  ```
+
+* **请求**
+
+  {    
+    "method": "SET_PROPERTY",    
+    "params":     
+    [   
+      "combined",    
+      true   
+    ],    
+    "id": 5   
+  }
+
+
+
+
+### 检索属性
+
+> **响应**
+
+  ```javascript
+  {
+    "result": true, // Indicates that combined is set to true.
+    "id": 2
+  }
+  ```
+  
+* **请求**
+  
+  {   
+    "method": "GET_PROPERTY",    
+    "params":     
+    [   
+      "combined"   
+    ],    
+    "id": 2   
+  }   
+ 
+
+
+###错误信息
+
+错误信息 | 描述
+---|---
+{"code": 0, "msg": "Unknown property"} |  `SET_PROPERTY` 或 `GET_PROPERTY`中应用的参数无效
+{"code": 1, "msg": "Invalid value type: expected Boolean"} | 仅接受`true`或`false`
+{"code": 2, "msg": "Invalid request: property name must be a string"}| 提供的属性名无效
+{"code": 2, "msg": "Invalid request: request ID must be an unsigned integer"}| 参数`id`未提供或`id`值是无效类型
+{"code": 2, "msg": "Invalid request: unknown variant %s, expected one of `SUBSCRIBE`, `UNSUBSCRIBE`, `LIST_SUBSCRIPTIONS`, `SET_PROPERTY`, `GET_PROPERTY` at line 1 column 28"} | 错字提醒，或提供的值不是预期类型
+{"code": 2, "msg": "Invalid request: too many parameters"}| 数据中提供了不必要参数
+{"code": 2, "msg": "Invalid request: property name must be a string"} | 未提供属性名
+{"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | 数据未提供`method`
+{"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON 语法有误.
+
 
 
 
@@ -3206,164 +3360,17 @@ timestamp|LONG|YES|
 * 订阅账户数据流的stream名称为 **/ws/\<listenKey\>**
 * 每个链接有效期不超过24小时，请妥善处理断线重连。
 * 账户数据流的消息**不保证**严格时间序; **请使用 E 字段进行排序**
-* 服务端会通过消息体发送"ping"消息，客户端收到后应立即回复"pong"消息。连续三次没有收到客户端的"pong"消息，服务端会主动断开链接。"pong"消息应当以JSON格式发送。
-* **包括ping消息在内的原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
+
+* 服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
+* **包括PING消息在内的原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
 * 用户端向服务端发送的内容**不需要**经过压缩
-
-
-
-## 实时订阅/取消数据流
-
-* 以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。
-* 响应内容中的`id`是无符号整数，作为往来信息的唯一标识。
-
-### 订阅一个信息流
-
-> **响应**
-
-  ```javascript
-  {
-    "result": null,
-    "id": 1
-  }
-  ```
-
-* **请求**
-
-  	{    
-    	"method": "SUBSCRIBE",    
-    	"params":     
-    	[   
-      	"btcusd_200626@aggTrade",    
-      	"btcusd_200626@depth"     
-    	],    
-    	"id": 1   
-  	}
-
-
-
-### 取消订阅一个信息流
-
-> **响应**
-  
-  ```javascript
-  {
-    "result": null,
-    "id": 312
-  }
-  ```
-
-* **请求**
-
-  {   
-    "method": "UNSUBSCRIBE",    
-    "params":     
-    [    
-      "btcusd_200626@depth"   
-    ],    
-    "id": 312   
-  }
-
-
-
-### 已订阅信息流
-
-> **响应**
-  
-  ```javascript
-  {
-    "result": [
-      "btcusd_200626@aggTrade"
-    ],
-    "id": 3
-  }
-  ```
-
-
-* **请求**
-
-  {   
-    "method": "LIST_SUBSCRIPTIONS",    
-    "id": 3   
-  }     
- 
-
-
-### 设定属性
-当前，唯一可以设置的属性是设置是否启用`combined`(“组合”)信息流。   
-当使用`/ws/`（“原始信息流”）进行连接时，combined属性设置为`false`，而使用 `/stream/`进行连接时则将属性设置为`true`。
-
-
-> **响应**
-  
-  ```javascript
-  {
-    "result": null
-    "id": 5
-  }
-  ```
-
-* **请求**
-
-  {    
-    "method": "SET_PROPERTY",    
-    "params":     
-    [   
-      "combined",    
-      true   
-    ],    
-    "id": 5   
-  }
-
-
-
-
-### 检索属性
-
-> **响应**
-
-  ```javascript
-  {
-    "result": true, // Indicates that combined is set to true.
-    "id": 2
-  }
-  ```
-  
-* **请求**
-  
-  {   
-    "method": "GET_PROPERTY",    
-    "params":     
-    [   
-      "combined"   
-    ],    
-    "id": 2   
-  }   
- 
-
-
-###错误信息
-
-错误信息 | 描述
----|---
-{"code": 0, "msg": "Unknown property"} |  `SET_PROPERTY` 或 `GET_PROPERTY`中应用的参数无效
-{"code": 1, "msg": "Invalid value type: expected Boolean"} | 仅接受`true`或`false`
-{"code": 2, "msg": "Invalid request: property name must be a string"}| 提供的属性名无效
-{"code": 2, "msg": "Invalid request: request ID must be an unsigned integer"}| 参数`id`未提供或`id`值是无效类型
-{"code": 2, "msg": "Invalid request: unknown variant %s, expected one of `SUBSCRIBE`, `UNSUBSCRIBE`, `LIST_SUBSCRIPTIONS`, `SET_PROPERTY`, `GET_PROPERTY` at line 1 column 28"} | 错字提醒，或提供的值不是预期类型
-{"code": 2, "msg": "Invalid request: too many parameters"}| 数据中提供了不必要参数
-{"code": 2, "msg": "Invalid request: property name must be a string"} | 未提供属性名
-{"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | 数据未提供`method`
-{"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON 语法有误.
-
-
 
 
 ## 连接心跳
 
-服务端会通过消息体发送"ping"消息，客户端收到后应立即回复"pong"消息。连续三次没有收到客户端的"pong"消息，服务端会主动断开链接。"pong"消息应当以JSON格式发送。
+服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
 
-"ping"消息将以gzip方式压缩并推送。
+"PING"消息将以gzip方式压缩并推送。
 
 用户端向服务端发送的"pong"消息**不需要**经过压缩。
 
@@ -3372,23 +3379,29 @@ timestamp|LONG|YES|
 
 ```javascript
 {
-	"ping":  1562305380000 // ping 消息时间戳
+	"method": "PING",  	// 心跳PING
+	"E": 1562305380000 	// 心跳时间
 }
 ```
 
-* 服务端发出的心跳格式压缩前格式为  { "ping":  <INT> }, 其中 "ping"字段返回的整型数值代表特定的心跳时间戳。
-	
+* 服务端发出的"PING"消息中会带有字段"E",表示心跳时间,它应在客户端做出的心跳响应"PONG"消息中被发回给服务端。
 
 > **pong messsage should be from client**
  
 ```javascript
 {
-	"pong":  1562305380000 // 响应的ping消息时间戳
+	"method": "PONG",  	// 心跳确认PONG
+	"E": 1562305380000 	// 心跳时间，应与被响应的PING消息心跳时间一致
 }
 ```
 
-* 客户端对心跳的响应格式应为  { "pong":  <INT> }, 其中 "pong"字段返回的整型数值代表特定的心跳时间戳, 应与响应的"ping"的时间戳一致。
-
+* 客户端对心跳的响应格式应为  
+  
+	{  "method": "PONG",  	"E": 1562305380000 } , 
+	
+	其中 "E"字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳"PING"消息中收到的心跳时间"E"一致。
+	
+	简单来说，用户可以直接将收到的"PING"消息中的 "method" 内容由 "PING" 改为 "PONG", 并立即将消息发还给服务端。
 
 ## 生成listenKey (USER_STREAM)
 
