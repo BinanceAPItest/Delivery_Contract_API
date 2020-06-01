@@ -3211,6 +3211,154 @@ timestamp|LONG|YES|
 * 用户端向服务端发送的内容**不需要**经过压缩
 
 
+
+## 实时订阅/取消数据流
+
+* 以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。
+* 响应内容中的`id`是无符号整数，作为往来信息的唯一标识。
+
+### 订阅一个信息流
+
+> **响应**
+
+  ```javascript
+  {
+    "result": null,
+    "id": 1
+  }
+  ```
+
+* **请求**
+
+  	{    
+    	"method": "SUBSCRIBE",    
+    	"params":     
+    	[   
+      	"btcusd_200626@aggTrade",    
+      	"btcusd_200626@depth"     
+    	],    
+    	"id": 1   
+  	}
+
+
+
+### 取消订阅一个信息流
+
+> **响应**
+  
+  ```javascript
+  {
+    "result": null,
+    "id": 312
+  }
+  ```
+
+* **请求**
+
+  {   
+    "method": "UNSUBSCRIBE",    
+    "params":     
+    [    
+      "btcusd_200626@depth"   
+    ],    
+    "id": 312   
+  }
+
+
+
+### 已订阅信息流
+
+> **响应**
+  
+  ```javascript
+  {
+    "result": [
+      "btcusd_200626@aggTrade"
+    ],
+    "id": 3
+  }
+  ```
+
+
+* **请求**
+
+  {   
+    "method": "LIST_SUBSCRIPTIONS",    
+    "id": 3   
+  }     
+ 
+
+
+### 设定属性
+当前，唯一可以设置的属性是设置是否启用`combined`(“组合”)信息流。   
+当使用`/ws/`（“原始信息流”）进行连接时，combined属性设置为`false`，而使用 `/stream/`进行连接时则将属性设置为`true`。
+
+
+> **响应**
+  
+  ```javascript
+  {
+    "result": null
+    "id": 5
+  }
+  ```
+
+* **请求**
+
+  {    
+    "method": "SET_PROPERTY",    
+    "params":     
+    [   
+      "combined",    
+      true   
+    ],    
+    "id": 5   
+  }
+
+
+
+
+### 检索属性
+
+> **响应**
+
+  ```javascript
+  {
+    "result": true, // Indicates that combined is set to true.
+    "id": 2
+  }
+  ```
+  
+* **请求**
+  
+  {   
+    "method": "GET_PROPERTY",    
+    "params":     
+    [   
+      "combined"   
+    ],    
+    "id": 2   
+  }   
+ 
+
+
+###错误信息
+
+错误信息 | 描述
+---|---
+{"code": 0, "msg": "Unknown property"} |  `SET_PROPERTY` 或 `GET_PROPERTY`中应用的参数无效
+{"code": 1, "msg": "Invalid value type: expected Boolean"} | 仅接受`true`或`false`
+{"code": 2, "msg": "Invalid request: property name must be a string"}| 提供的属性名无效
+{"code": 2, "msg": "Invalid request: request ID must be an unsigned integer"}| 参数`id`未提供或`id`值是无效类型
+{"code": 2, "msg": "Invalid request: unknown variant %s, expected one of `SUBSCRIBE`, `UNSUBSCRIBE`, `LIST_SUBSCRIPTIONS`, `SET_PROPERTY`, `GET_PROPERTY` at line 1 column 28"} | 错字提醒，或提供的值不是预期类型
+{"code": 2, "msg": "Invalid request: too many parameters"}| 数据中提供了不必要参数
+{"code": 2, "msg": "Invalid request: property name must be a string"} | 未提供属性名
+{"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | 数据未提供`method`
+{"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON 语法有误.
+
+
+
+
 ## 连接心跳
 
 服务端会通过消息体发送"ping"消息，客户端收到后应立即回复"pong"消息。连续三次没有收到客户端的"pong"消息，服务端会主动断开链接。"pong"消息应当以JSON格式发送。
