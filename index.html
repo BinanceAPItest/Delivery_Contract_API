@@ -2060,6 +2060,12 @@ GET /dapi/v1/openInterest
 
 <p>简单来说，用户可以直接将收到的&quot;PING&quot;消息中的 &quot;method&quot; 内容由 &quot;PING&quot; 改为 &quot;PONG&quot;, 并立即将消息发还给服务端。</p></li>
 </ul>
+
+<p><strong>注意</strong></p>
+
+<ul>
+<li>这里的心跳消息，和 websocket协议中的ping帧或pong帧没有关系。</li>
+</ul>
 <h2 id='3c863d56da'>实时订阅/取消数据流</h2>
 <ul>
 <li>以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。</li>
@@ -2823,9 +2829,9 @@ GET /dapi/v1/openInterest
 <p>orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时更新（如有刷新）</p>
 
 <p><strong>Stream 名称:</strong><br>
-<code>&lt;symbol&gt;@depth</code> OR <code>&lt;symbol&gt;@depth@500ms</code> OR <code>&lt;symbol&gt;@depth@100ms</code></p>
+<code>&lt;symbol&gt;@depth</code> OR <code>&lt;symbol&gt;@depth@500ms</code> OR <code>&lt;symbol&gt;@depth@100ms</code> OR <code>&lt;symbol&gt;@depth@0ms</code></p>
 
-<p><strong>Update Speed:</strong> 250ms 或 500ms 或 100ms</p>
+<p><strong>Update Speed:</strong> 250ms 或 500ms 或 100ms 或 0ms</p>
 <h2 id='orderbook'>如何正确在本地维护一个orderbook副本</h2>
 <ol>
 <li>订阅 <strong>wss://dstream.binance.com/stream?streams=BTCUSD_200925@depth</strong></li>
@@ -4872,6 +4878,12 @@ GET /dapi/v1/leverageBracket
 <p>其中 &quot;E&quot;字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳&quot;PING&quot;消息中收到的心跳时间&quot;E&quot;一致。</p>
 
 <p>简单来说，用户可以直接将收到的&quot;PING&quot;消息中的 &quot;method&quot; 内容由 &quot;PING&quot; 改为 &quot;PONG&quot;, 并立即将消息发还给服务端。</p></li>
+</ul>
+
+<p><strong>注意</strong></p>
+
+<ul>
+<li>这里的心跳消息，和 websocket协议中的ping帧或pong帧没有关系。</li>
 </ul>
 <h2 id='listenkey-user_stream'>生成listenKey (USER_STREAM)</h2>
 <blockquote>
