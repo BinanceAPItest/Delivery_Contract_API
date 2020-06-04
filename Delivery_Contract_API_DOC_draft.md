@@ -1778,7 +1778,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 按Symbol刷新的24小时精简ticker信息.
 
 **Stream Name:**     
-``<symbol>@miniTicker`
+``<symbol>@miniTicker``
 
 **Update Speed:** 500ms
 
