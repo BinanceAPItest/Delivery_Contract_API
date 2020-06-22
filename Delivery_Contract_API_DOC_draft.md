@@ -1,12 +1,13 @@
 ---
-title: Binance API Documentation
+title: Binance API 使用文档
+
 language_tabs: # must be one of https://git.io/vQNgJ
   #- shell
   #- javascript
-  - json
+  #- json
 
 toc_footers:
-  - <a href='https://testnet.binancefuture.com/en/futures/'>Binance Future Testnet</a>
+  - <a href='https://www.binance.com/cn/futures/'>Binance Futures</a>
 
 includes:
 
@@ -15,23 +16,27 @@ search: true
 ---
 
 
+# 更新日志
 
+
+
+---
 
 # 基本信息
 
 
 ## Rest 基本信息
 
-* 本篇列出REST接口的baseurl **https://dapi.binance.com**
+* 本篇列出REST接口的 baseurl **https://dapi.binance.com**
 * 所有接口的响应都是JSON格式
-* 响应中如有数组，数组元素以时间升序排列，越早的数据越提前。
-* 所有时间、时间戳均为UNIX时间，单位为毫秒
+* 响应中如有数组,数组元素以时间升序排列,越早的数据越提前。
+* 所有时间、时间戳均为UNIX时间,单位为毫秒
 * HTTP `4XX` 错误码用于指示错误的请求内容、行为、格式。
 * HTTP `403` 错误码表示违反WAF限制(Web应用程序防火墙)。
-* HTTP `429` 错误码表示警告访问频次超限，即将被封IP
-* HTTP `418` 表示收到429后继续访问，于是被封了。
+* HTTP `429` 错误码表示警告访问频次超限,即将被封IP
+* HTTP `418` 表示收到429后继续访问,于是被封了。
 * HTTP `5XX` 错误码用于指示Binance服务侧的问题。 
-* HTTP `504` 表示API服务端已经向业务核心提交了请求但未能获取响应，特别需要注意的是`504`代码不代表请求失败，而是未知。很可能已经得到了执行，也有可能执行失败，需要做进一步确认。
+* HTTP `504` 表示API服务端已经向业务核心提交了请求但未能获取响应,特别需要注意的是`504`代码不代表请求失败,而是未知。很可能已经得到了执行,也有可能执行失败,需要做进一步确认。
 * 每个接口都有可能抛出异常
 
 > 异常响应格式如下：
@@ -45,36 +50,44 @@ search: true
 
 * 具体的错误码及其解释在[错误代码](#cf68bca02a)
 * `GET`方法的接口, 参数必须在`query string`中发送.
-* `POST`, `PUT`, 和 `DELETE` 方法的接口, 参数可以在 `query string`中发送，也可以在 `request body`中发送(content type `application/x-www-form-urlencoded`)。允许混合这两种方式发送参数。但如果同一个参数名在query string和request body中都有，query string中的会被优先采用。
+* `POST`, `PUT`, 和 `DELETE` 方法的接口, 参数可以在 `query string`中发送,也可以在 `request body`中发送(content type `application/x-www-form-urlencoded`)。允许混合这两种方式发送参数。但如果同一个参数名在query string和request body中都有,query string中的会被优先采用。
 * 对参数的顺序不做要求。
 
 ## 访问限制
 * 在 `/dapi/v1/exchangeInfo`接口中`rateLimits`数组里包含有REST接口(不限于本篇的REST接口)的访问限制。包括带权重的访问频次限制、下单速率限制。本篇`枚举定义`章节有限制类型的进一步说明。
-* 违反上述任何一个访问限制都会收到HTTP 429，这是一个警告.
-
-### IP 访问限制
-* 每个请求将包含一个`X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)`的头，其中包含当前IP所有请求的已使用权重。
-* 每个路由都有一个“权重”，该权重确定每个接口计数的请求数。较重的接口和对多个交易对进行操作的接口将具有较重的“权重”。
-* 收到429时，您有责任作为API退回而不向其发送更多的请求。
-* **如果屡次违反速率限制和/或在收到429后未能退回，将导致API的IP被禁（http状态418）。**
-* 频繁违反限制，封禁时间会逐渐延长 ，**对于重复违反者，将会被封从2分钟到3天**。
-* **访问限制是基于IP的，而不是API Key**
+* 违反上述任何一个访问限制都会收到HTTP 429,这是一个警告.
 
 <aside class="notice">
-建议您尽可能多地使用websocket消息获取相应数据，以减少请求带来的访问限制压力。
+请注意，若用户被认定利用频繁挂撤单且故意低效交易意图发起攻击行为，Binance有权视具体情况进一步加强对其访问限制。
+</aside>
+
+
+### IP 访问限制
+* 每个请求将包含一个`X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)`的头,其中包含当前IP所有请求的已使用权重。
+* 每个路由都有一个“权重”,该权重确定每个接口计数的请求数。较重的接口和对多个交易对进行操作的接口将具有较重的“权重”。
+* 收到429时,您有责任作为API退回而不向其发送更多的请求。
+* **如果屡次违反速率限制和/或在收到429后未能退回,将导致API的IP被禁（http状态418）。**
+* 频繁违反限制,封禁时间会逐渐延长 ,**对于重复违反者,将会被封从2分钟到3天**。
+* **访问限制是基于IP的,而不是API Key**
+
+<aside class="notice">
+强烈建议您尽可能多地使用websocket消息获取相应数据,既可以保障消息的及时性，也可以减少请求带来的访问限制压力。
 </aside>
 
 
 ###下单频率限制
-* 每个下单请求回报将包含一个`X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)`的头，其中包含当前账户已用的下单限制数量。
+* 每个下单请求回报将包含一个`X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)`的头,其中包含当前账户已用的下单限制数量。
 * 被拒绝或不成功的下单并不保证回报中包含以上头内容。
 * **下单频率限制是基于每个账户计数的。**
 
+
+
+
 ## 接口鉴权类型
-* 每个接口都有自己的鉴权类型，鉴权类型决定了访问时应当进行何种鉴权
-* 如果需要 API-key，应当在HTTP头中以`X-MBX-APIKEY`字段传递
+* 每个接口都有自己的鉴权类型,鉴权类型决定了访问时应当进行何种鉴权
+* 如果需要 API-key,应当在HTTP头中以`X-MBX-APIKEY`字段传递
 * API-key 与 API-secret 是大小写敏感的
-* 可以在网页用户中心修改API-key 所具有的权限，例如读取账户信息、发送交易指令、发送提现指令
+* 可以在网页用户中心修改API-key 所具有的权限,例如读取账户信息、发送交易指令、发送提现指令
 
 鉴权类型 | 描述
 ------------ | ------------
@@ -86,15 +99,15 @@ MARKET_DATA | 需要有效的API-KEY
 
 
 ## 需要签名的接口 (TRADE 与 USER_DATA)
-* 调用这些接口时，除了接口本身所需的参数外，还需要传递`signature`即签名参数。
-* 签名使用`HMAC SHA256`算法. API-KEY所对应的API-Secret作为 `HMAC SHA256` 的密钥，其他所有参数作为`HMAC SHA256`的操作对象，得到的输出即为签名。
+* 调用这些接口时,除了接口本身所需的参数外,还需要传递`signature`即签名参数。
+* 签名使用`HMAC SHA256`算法. API-KEY所对应的API-Secret作为 `HMAC SHA256` 的密钥,其他所有参数作为`HMAC SHA256`的操作对象,得到的输出即为签名。
 * 签名大小写不敏感。
-* 当同时使用query string和request body时，`HMAC SHA256`的输入query string在前，request body在后
+* 当同时使用query string和request body时,`HMAC SHA256`的输入query string在前,request body在后
 
 ### 时间同步安全
 * 签名接口均需要传递`timestamp`参数, 其值应当是请求发送时刻的unix时间戳（毫秒）
-* 服务器收到请求时会判断请求中的时间戳，如果是5000毫秒之前发出的，则请求会被认为无效。这个时间窗口值可以通过发送可选参数`recvWindow`来自定义。
-* 另外，如果服务器计算得出客户端时间戳在服务器时间的‘未来’一秒以上，也会拒绝请求。
+* 服务器收到请求时会判断请求中的时间戳,如果是5000毫秒之前发出的,则请求会被认为无效。这个时间窗口值可以通过发送可选参数`recvWindow`来自定义。
+* 另外,如果服务器计算得出客户端时间戳在服务器时间的‘未来’一秒以上,也会拒绝请求。
 
 > 逻辑伪代码：
   
@@ -107,8 +120,8 @@ MARKET_DATA | 需要有效的API-KEY
   ```
 
 **关于交易时效性** 
-互联网状况并不100%可靠，不可完全依赖,因此你的程序本地到币安服务器的时延会有抖动.
-这是我们设置`recvWindow`的目的所在，如果你从事高频交易，对交易时效性有较高的要求，可以灵活设置recvWindow以达到你的要求。
+互联网状况并不100%可靠,不可完全依赖,因此你的程序本地到币安服务器的时延会有抖动.
+这是我们设置`recvWindow`的目的所在,如果你从事高频交易,对交易时效性有较高的要求,可以灵活设置recvWindow以达到你的要求。
 
 <aside class="notice">
 不推荐使用5秒以上的recvWindow
@@ -121,8 +134,8 @@ apikey、secret仅供示范
 
 Key | Value
 ------------ | ------------
-apiKey | vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A
-secretKey | NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j
+apiKey | dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83
+secretKey | 2b5eb11e18796d12d88f13dc27dbbd02c2cc51ff7059765ed9821957d82bb4d9
 
 
 参数 | 取值
@@ -132,18 +145,20 @@ side | BUY
 type | LIMIT
 timeInForce | GTC
 quantity | 1
-price | 6000
+price | 9000
 recvWindow | 5000
-timestamp | 1499827319559
+timestamp | 1591702613943
 
 
 ### 示例 1: 所有参数通过 query string 发送
+
 > **示例1:**
+
 > **HMAC SHA256 签名:**
 
 ```shell
-    $ echo -n "symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
-    (stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
+    $ echo -n "symbol=BTCUSD_200925&side=BUY&type=LIMIT&quantity=1&price=9000&timeInForce=GTC&recvWindow=5000&timestamp=1591702613943" | openssl dgst -sha256 -hmac "2b5eb11e18796d12d88f13dc27dbbd02c2cc51ff7059765ed9821957d82bb4d9"
+    (stdin)= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a
 ```
 
 
@@ -151,57 +166,60 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    $ curl -H "X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83" -X POST 'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&quantity=1&price=9000&timeInForce=GTC&recvWindow=5000&timestamp=1591702613943&signature= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'
 ```
 
 * **queryString:** 
+
+	symbol=BTCUSD_200925    
+	&side=BUY   
+	&type=LIMIT   
+	&timeInForce=GTC   
+	&quantity=1   
+	&price=0.1   
+	&recvWindow=5000   
+	&timestamp=1499827319559
+
+
+### 示例 2: 所有参数通过 request body 发送
+
+> **示例2:**
+
+> **HMAC SHA256 签名:**
+
+```shell
+    $ echo -n "symbol=BTCUSD_200925&side=BUY&type=LIMIT&quantity=1&price=9000&timeInForce=GTC&recvWindow=5000&timestamp=1591702613943" | openssl dgst -sha256 -hmac "2b5eb11e18796d12d88f13dc27dbbd02c2cc51ff7059765ed9821957d82bb4d9"
+    (stdin)= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a
+```
+
+
+> **curl 调用:**
+
+```shell
+    (HMAC SHA256)
+    $ curl -H "X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83" -X POST 'https://dapi.binance.com/dapi/v1/order' -d 'symbol=BTCUSD_200925&side=BUY&type=LIMIT&quantity=1&price=9000&timeInForce=GTC&recvWindow=5000&timestamp=1591702613943&signature= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'
+```
+
+* **requestBody:** 
 
 	symbol=BTCUSD_200925   
 	&side=BUY   
 	&type=LIMIT   
 	&timeInForce=GTC   
 	&quantity=1   
-	&price=6000  
+	&price=9000  
 	&recvWindow=5000   
-	&timestamp=1499827319559
-
-
-### 示例 2: 所有参数通过 request body 发送
-> **示例2:**
-> **HMAC SHA256 签名:**
-
-```shell
-    $ echo -n "symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
-    (stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
-```
-
-
-> **curl 调用:**
-
-```shell
-    (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://dapi.binance.com/dapi/v1/order' -d 'symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
-```
-
-* **requestBody:** 
-
-	symbol=BTCUSD_200925  
-	&side=BUY   
-	&type=LIMIT   
-	&timeInForce=GTC   
-	&quantity=1   
-	&price=6000  
-	&recvWindow=5000   
-	&timestamp=1499827319559
-
+	&timestamp=1591702613943
 
 ### 示例 3: 混合使用 query string 与 request body
+
 > **示例3:**
+
 > **HMAC SHA256 签名:**
 
 ```shell
-    $ echo -n "symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTCquantity=1&price=6000&recvWindow=5000&timestamp=1499827319559" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
-    (stdin)= 0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77
+    $ echo -n "symbol=BTCUSD_200925&side=BUY&type=LIMIT&quantity=1&price=9000&timeInForce=GTC&recvWindow=5000&timestamp=1591702613943" | openssl dgst -sha256 -hmac "2b5eb11e18796d12d88f13dc27dbbd02c2cc51ff7059765ed9821957d82bb4d9"
+    (stdin)= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a
 ```
 
 
@@ -209,20 +227,14 @@ timestamp | 1499827319559
 
 ```shell
     (HMAC SHA256)
-    $ curl -H "X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559&signature=0fd168b8ddb4876a0358a8d14d0c9f3da0e9b20c5d52b2a00fcf7d1c602f9a77'
+    $ curl -H "X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83" -X POST 'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=9000&recvWindow=5000&timestamp=1591702613943&signature=21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'
 ```
 
-* **queryString:** 
+* **queryString:** symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC
+* **requestBody:** quantity=1&price=9000&recvWindow=5000&timestamp= 1591702613943
 
-symbol=BTCUSD_200925&side=BUY&type=LIMIT&timeInForce=GTC
+请注意，示例3中的签名有些许不同，在"GTC"和"quantity=1"之间**没有**"&"字符。
 
-* **requestBody:** 
-
-quantity=1&price=6000&recvWindow=5000&timestamp=1499827319559
-
-
-Note that the signature is different in example 3.
-There is no & between "GTC" and "quantity=1".
 
 
 
@@ -230,8 +242,8 @@ There is no & between "GTC" and "quantity=1".
 ### 术语解释
 * `symbol` 指合约交易对名称
 * `pair` 指合约交易对的标的物交易对
-* `base asset` 指合约交易对的交易对象，即标的物交易对交易对象
-* `quote asset` 指合约交易对的定价资产，即标的物交易对的定价资产
+* `base asset` 指合约交易对的交易对象,即标的物交易对交易对象
+* `quote asset` 指合约交易对的定价资产,即标的物交易对的定价资产
 * `margin asset` 指合约交易对使用的保证金资产
 
 
@@ -359,8 +371,8 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ## 过滤器
 
-过滤器，即Filter，定义了一系列交易规则。
-共有两类，分别是针对交易对的过滤器`symbol filters`，和针对整个交易所的过滤器`exchange filters`(暂不支持)
+过滤器,即Filter,定义了一系列交易规则。
+共有两类,分别是针对交易对的过滤器`symbol filters`,和针对整个交易所的过滤器`exchange filters`(暂不支持)
 
 ### 交易对过滤器
 
@@ -381,8 +393,8 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 * `minPrice` 定义了 `price`/`stopPrice` 允许的最小值
 * `maxPrice` 定义了 `price`/`stopPrice` 允许的最大值。
-* `tickSize` 定义了 `price`/`stopPrice` 的步进间隔，即price必须等于minPrice+(tickSize的整数倍)
-以上每一项均可为0，为0时代表这一项不再做限制。
+* `tickSize` 定义了 `price`/`stopPrice` 的步进间隔,即price必须等于minPrice+(tickSize的整数倍)
+以上每一项均可为0,为0时代表这一项不再做限制。
 
 逻辑伪代码如下：
 
@@ -405,7 +417,7 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
   }
 ```
 
-lots是拍卖术语，这个过滤器对订单中的`quantity`也就是数量参数进行合法性检查。包含三个部分：
+lots是拍卖术语,这个过滤器对订单中的`quantity`也就是数量参数进行合法性检查。包含三个部分：
 
 * `minQty` 表示 `quantity` 允许的最小值.
 * `maxQty` 表示 `quantity` 允许的最大值
@@ -420,7 +432,7 @@ lots是拍卖术语，这个过滤器对订单中的`quantity`也就是数量参
 
 #### MARKET_LOT_SIZE 市价订单尺寸
 
-参考LOT_SIZE，区别仅在于对市价单还是限价单生效
+参考LOT_SIZE,区别仅在于对市价单还是限价单生效
 
 #### MAX_NUM_ORDERS 最多订单数
 
@@ -551,7 +563,7 @@ NONE
      			{
     				"filterType": "MAX_NUM_ORDERS", // 最多挂单数限制
     				"limit": 100
-  				}，
+  				},
   				{
     				"filterType": "PERCENT_PRICE", // 价格比限制
     				"multiplierUp": "1.1500", // 价格上限百分比
@@ -575,9 +587,9 @@ NONE
    			"symbol": "BTCUSD_200925", // 交易对
    			"pair": "BTCUSD",	// 标的交易对
    			"contractType": "CURRENT_QUARTER",   // 合约类型
-   			"deliveryDate": "20200930",
-   			"onboardDate": "20200515",
-   			"contractStatus": "LISTING", // 交易对状态
+   			"deliveryDate": 1601020800000,
+   			"onboardDate": 1590739200000,
+   			"contractStatus": "TRADING", // 交易对状态
    			"contractSize": 100,     //
    			"quoteAsset": "USD", // 报价币种
    			"baseAsset": "BTC",   
@@ -615,19 +627,19 @@ NONE
 
 ```javascript
 {
-  "lastUpdateId": 1027024,
-  "E": 1589436922972,   // 消息时间
-  "T": 1589436922959,   // 撮合时间
+  "lastUpdateId": 16769853,
+  "E": 1591250106370,   // 消息时间
+  "T": 1591250106368,   // 撮合时间
   "bids": [				 // 买单
     [
-      "4.00000000",     // 价格
-      "431.00000000"    // 数量
+      "9638.0",     	// 价格
+      "431"    			// 数量
     ]
   ],
   "asks": [				// 卖单
     [
-      "4.00000000",		// 价格
-      "12.00000000"		// 数量
+      "9638.2",			// 价格
+      "12"				// 数量
     ]
   ]
 }
@@ -662,10 +674,10 @@ limit  | INT    | NO       | 默认 100; 最大 1000. 可选值:[5, 10, 20, 50, 
 [
   {
     "id": 28457,				// 成交ID
-    "price": "4.00000100",		// 成交价格
-    "qty": "12.00000000",		// 成交数量
-    "baseQty": "48.00",			// 成交额(标的数量)
-    "time": 1499865549590,		// 时间
+    "price": "9635.0",			// 成交价格
+    "qty": "1",					// 成交数量
+    "baseQty": "0.01037883",	// 成交额（标的数量）
+    "time": 1591250192508,		// 时间
     "isBuyerMaker": true		// 买方是否为挂单方
   }
 ]
@@ -695,10 +707,10 @@ limit  | INT    | NO       | 默认值:500 最大值:1000.
 ```javascript
 [
   {
-    "id": 28457,				// 成交ID
-    "price": "4.00000100",		// 成交价格
-    "qty": "12.00000000",		// 成交数量
-    "baseQty": "48.00",			// 成交额(标的数量)
+    "id": 595103,				// 成交ID
+    "price": "9642.2",			// 成交价格
+    "qty": "1",					// 成交数量
+    "baseQty": "0.01037108",	// 成交额(标的物数量)
     "time": 1499865549590,		// 时间
     "isBuyerMaker": true		// 买方是否为挂单方
   }
@@ -730,13 +742,13 @@ fromId | LONG   | NO       | 从哪一条成交id开始返回. 缺省返回最�
 ```javascript
 [
   {
-    "a": 26129,         // 归集成交ID
-    "p": "0.01633102",  // 成交价
-    "q": "4.70443515",  // 成交量
-    "f": 27781,         // 被归集的首个成交ID
-    "l": 27781,         // 被归集的末个成交ID
-    "T": 1498793709153, // 成交时间
-    "m": true,          // 是否为主动卖出单
+    "a": 416690,       		// 归集成交ID
+    "p": "9642.4",  		// 成交价
+    "q": "3",  				// 成交量
+    "f": 595259,       		// 被归集的首个成交ID
+    "l": 595259,         	// 被归集的末个成交ID
+    "T": 1591250548649, 	// 成交时间
+    "m": true,          	// 是否为主动卖出单
   }
 ]
 ```
@@ -745,7 +757,7 @@ fromId | LONG   | NO       | 从哪一条成交id开始返回. 缺省返回最�
 GET /dapi/v1/aggTrades
 ``
 
-归集交易与逐笔交易的区别在于，同一价格、同一方向、同一时间（按秒计算）的trade会被聚合为一条
+归集交易与逐笔交易的区别在于,同一价格、同一方向、同一时间（按秒计算）的trade会被聚合为一条
 
 **权重:**
 1
@@ -761,7 +773,7 @@ endTime   | LONG   | NO       | 返回该时刻为止的成交记录
 limit     | INT    | NO       | 默认 500; 最大 1000.
 
 
-* 如果没有发送任何筛选参数(`fromId`, `startTime`, `endTime`)，默认返回最近的成交记录
+* 如果没有发送任何筛选参数(`fromId`, `startTime`, `endTime`),默认返回最近的成交记录
 
 
 
@@ -775,11 +787,11 @@ limit     | INT    | NO       | 默认 500; 最大 1000.
 [
 	{
 	   	"symbol": "BTCUSD_200925",		// 交易对
-	   	"pair": "BTCUSD",					// 标的
-	   	"indexPrice": "11180.12345678",	// 指数价格
-    	"markPrice": "11186.12345678",	// mark price
-    	"estimatedSettlePrice": "0",    // 预估结算价，仅在交割开始前最后一小时有价值
-    	"time": 1562566020000				// 更新时间
+	   	"pair": "BTCUSD",				// 标的
+	   	"indexPrice": "9638.76160000",	// 指数价格
+    	"markPrice": "9637.73796667",	// mark price
+    	"estimatedSettlePrice": "9642.19809219",    // 预估结算价,仅在交割开始前最后一小时有意义
+    	"time": 1591250656000			// 更新时间
 	}
 ]
 ```
@@ -811,18 +823,18 @@ pair   | STRING | NO 		| 标的交易对
 ```javascript
 [
   [
-    1499040000000,      // 开盘时间
-    "0.01634790",       // 开盘价
-    "0.80000000",       // 最高价
-    "0.01575800",       // 最低价
-    "0.01577100",       // 收盘价(当前K线未结束的即为最新价)
-    "148976.11427815",  // 成交量
-    1499644799999,      // 收盘时间
-    "2434.19055334",    // 成交额 (标的数量)
-    308,                // 成交笔数
-    "1756.87402397",    // 主动买入成交量
-    "28.46694368",      // 主动买入成交额（标的数量）
-    "17928899.62484339" // 请忽略该参数
+    1591258320000,    	// 开盘时间
+    "9640.7",       	// 开盘价
+    "9642.4",       	// 最高价
+    "9640.6",       	// 最低价
+    "9642.0",       	// 收盘价(当前K线未结束的即为最新价)
+    "206",  			// 成交量
+    1591258379999,   	// 收盘时间
+    "2.13660389",    	// 成交额（标的数量）
+    48,               	// 成交笔数
+    "119",    			// 主动买入成交量
+    "1.23424865",      // 主动买入成交额(标的数量)
+    "0" 				// 请忽略该参数
   ]
 ]
 ```
@@ -848,6 +860,26 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 * 缺省返回最近的数据
 
 
+* 订阅Kline需要提供间隔参数,最短为分钟线,最长为月线。支持以下间隔:   
+  m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
+
+	* 1m
+	* 3m
+	* 5m
+	* 15m
+	* 30m
+	* 1h
+	* 2h
+	* 4h
+	* 6h
+	* 8h
+	* 12h
+	* 1d
+	* 3d
+	* 1w
+	* 1M
+
+
 ## 连续合约K线数据
 
 > **响应:**
@@ -855,18 +887,18 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```javascript
 [
   [
-    1499040000000,      // 开盘时间
-    "0.01634790",       // 开盘价
-    "0.80000000",       // 最高价
-    "0.01575800",       // 最低价
-    "0.01577100",       // 收盘价(当前K线未结束的即为最新价)
-    "148976.11427815",  // 成交量
-    1499644799999,      // 收盘时间
-    "2434.19055334",    // 成交额 （标的数量）
-    308,                // 成交笔数
-    "1756.87402397",    // 主动买入成交量
-    "28.46694368",      // 主动买入成交额（标的数量）
-    "17928899.62484339" // 请忽略该参数
+    1591258320000,    	// 开盘时间
+    "9640.7",       	// 开盘价
+    "9642.4",       	// 最高价
+    "9640.6",       	// 最低价
+    "9642.0",       	// 收盘价(当前K线未结束的即为最新价)
+    "206",  			// 成交量
+    1591258379999,   	// 收盘时间
+    "2.13660389",    	// 成交额（标的数量）
+    48,               	// 成交笔数
+    "119",    			// 主动买入成交量
+    "1.23424865",      // 主动买入成交额(标的数量)
+    "0" 				// 请忽略该参数
   ]
 ]
 ```
@@ -892,8 +924,9 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 
 * 缺省返回最近的数据
 
-
-
+* 合约类型:
+	* CURRENT_QUARTER 当季合约
+	* NEXT_QUARTER 次季合约
 
 
 ## 价格指数K线数据
@@ -903,18 +936,18 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```javascript
 [
   [
-    1587910140000,      // 开盘时间
-    "0.01634790",       // 开盘价
-    "0.80000000",       // 最高价
-    "0.01575800",       // 最低价
-    "0.01577100",       // 收盘价(当前K线未结束的即为最新价)
-    "0	", 					 // 请忽略 （成交量）
-    1587910199999,      // 收盘时间
-    "0",    				 // 请忽略 （成交额）
-    60,                	 // 构成记录数
-    "0",    				 // 请忽略 （主动买入成交量）
-    "0",      			 // 请忽略 （主动买入成交额）
-    "0" 					 // 请忽略该参数
+    1591256400000,      	// 开盘时间
+    "9653.69440000",    	// 开盘价
+    "9653.69640000",     	// 最高价
+    "9651.38600000",     	// 最低价
+    "9651.55200000",     	// 收盘价(当前K线未结束的即为最新价)
+    "0	", 					// 请忽略
+    1591256459999,      	// 收盘时间
+    "0",    				// 请忽略
+    60,                		// 构成记录数
+    "0",    				// 请忽略
+    "0",      				// 请忽略
+    "0" 					// 请忽略
   ]
 ]
 ```
@@ -922,6 +955,7 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ``
 GET /dapi/v1/indexPriceKlines
 ``
+
 每根K线的开盘时间可视为唯一ID
 
 **权重:**
@@ -949,18 +983,18 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```javascript
 [
   [
-    1587910140000,      // 开盘时间
-    "0.01634790",       // 开盘价
-    "0.80000000",       // 最高价
-    "0.01575800",       // 最低价
-    "0.01577100",       // 收盘价(当前K线未结束的即为最新价)
-    "0	", 					 // 请忽略 （成交量）
-    1587910199999,      // 收盘时间
-    "0",    				 // 请忽略 （成交额）
-    60,                	 // 构成记录数
-    "0",    				 // 请忽略 （主动买入成交量）
-    "0",      			 // 请忽略 （主动买入成交额）
-    "0" 					 // 请忽略该参数
+    1591256400000,      	// 开盘时间
+    "9653.69440000",    	// 开盘价
+    "9653.69640000",     	// 最高价
+    "9651.38600000",     	// 最低价
+    "9651.55200000",     	// 收盘价(当前K线未结束的即为最新价)
+    "0	", 					// 请忽略
+    1591256459999,      	// 收盘时间
+    "0",    				// 请忽略
+    60,                		// 构成记录数
+    "0",    				// 请忽略
+    "0",      				// 请忽略
+    "0" 					// 请忽略
   ]
 ]
 ```
@@ -995,33 +1029,33 @@ limit     | INT    | NO       | 默认值:500 最大值:1500
 ```javascript
 [
 	{
-  		"pair": "BTCUSD",
-  		"contractType": "CURRENT_QUARTER",
-  		"symbol": "BTCUSD_200925",
-  		"priceChange": "-94.99999800",    //24小时价格变动
-  		"priceChangePercent": "-95.960",  //24小时价格变动百分比
-  		"weightedAvgPrice": "0.29628482", //加权平均价
-  		"lastPrice": "4.00000200",        //最近一次成交价
-  		"lastQty": "200.00000000",        //最近一次成交额
-  		"openPrice": "99.00000000",       //24小时内第一次成交的价格
-  		"highPrice": "100.00000000",      //24小时最高价
-  		"lowPrice": "0.10000000",         //24小时最低价
-  		"volume": "8913.30000000",        //24小时成交量
-  		"baseVolume": "15.30000000",     //24小时成交额（标的数量）
-  		"openTime": 1499783499040,        //24小时内，第一笔交易的发生时间
-  		"closeTime": 1499869899040,       //24小时内，最后一笔交易的发生时间
-  		"firstId": 28385,   // 首笔成交id
-  		"lastId": 28460,    // 末笔成交id
-  		"count": 76         // 成交笔数
-    }
+		"symbol": "BTCUSD_200925",
+	  	"pair": "BTCUSD",
+	  	"priceChange": "136.6",				//24小时价格变动
+	  	"priceChangePercent": "1.436", 	//24小时价格变动百分比
+	  	"weightedAvgPrice": "9547.3",		//24小时加权平均价
+	  	"lastPrice": "9651.6",				//最近一次成交价
+	  	"lastQty": "1",						//最近一次成交量
+	  	"openPrice": "9515.0",				//24小时内第一次成交的价格
+	  	"highPrice": "9687.0",				//24小时最高价
+	  	"lowPrice": "9499.5",				//24小时最低价
+	  	"volume": "494109",					//24小时成交量
+	  	"baseVolume": "5192.94797687",	//24小时成交额(标的数量)
+	  	"openTime": 1591170300000,			//24小时内,第一笔交易的发生时间
+	  	"closeTime": 1591256718418,		//24小时内,最后一笔交易的发生时间
+	  	"firstId": 600507, 					// 首笔成交id
+	  	"lastId": 697803,  					// 末笔成交id
+	  	"count": 97297    					// 成交笔数 	
+  	}
 ]
 ```
+
 
 ``
 GET /dapi/v1/ticker/24hr
 ``
 
-请注意，不携带symbol参数会返回全部交易对数据，不仅数据庞大，而且权重极高
+请注意,不携带symbol参数会返回全部交易对数据,不仅数据庞大,而且权重极高
 
 **权重:**
 
@@ -1036,8 +1070,8 @@ symbol | STRING | NO       | 交易对
 pair   | STRING | NO       | 标的交易对
 
 * symbol 和 pair 不接受同时发送
-* 发送 pair的，返回pair对应所有正在交易的symbol数据
-* symbol,pair 都没有发送的，返回所有symbol数据
+* 发送 pair的,返回pair对应所有正在交易的symbol数据
+* symbol,pair 都没有发送的,返回所有symbol数据
 
 
 ## 最新价格
@@ -1049,10 +1083,10 @@ pair   | STRING | NO       | 标的交易对
 ```javascript
 [
 	{
-  		"symbol": "BTCUSD_200925",	// 交易对
-  		"ps": "BTCUSD",  // 标的交易对
-  		"price": "6000.01",		// 价格
-  		"time": 1590495240353  // 时间
+  		"symbol": "BTCUSD_200626",	// 交易对
+  		"ps": "BTCUSD",  			// 标的交易对
+  		"price": "9647.8",			// 价格
+  		"time": 1591257246176  		// 时间
 	}
 ]
 ```
@@ -1076,8 +1110,8 @@ symbol | STRING | NO       | 交易对
 pair   | STRING | NO       | 标的交易对
 
 * symbol 和 pair 不接受同时发送
-* 发送 pair的，返回pair对应所有正在交易的symbol数据
-* symbol,pair 都没有发送的，返回所有symbol数据
+* 发送 pair的,返回pair对应所有正在交易的symbol数据
+* symbol,pair 都没有发送的,返回所有symbol数据
 
 
 
@@ -1085,17 +1119,16 @@ pair   | STRING | NO       | 标的交易对
 
 > **响应:**
 
-
 ```javascript
 [
 	{
-  		"symbol": "BTCUSD_200925",
-  		"pair": "BTCUSD",
-  		"bidPrice": "9994.00000000",//最优买单价
-  		"bidQty": "431.00000000",//挂单量
-  		"askPrice": "9994.00000200",//最优卖单价
-  		"askQty": "9.00000000"//挂单量
-  		"time": 1589437530011
+  		"symbol": "BTCUSD_200626",	// 交易对
+  		"pair": "BTCUSD",			// 标的交易对
+  		"bidPrice": "9650.1",		//最优买单价
+  		"bidQty": "16",				//最优买单挂单量
+  		"askPrice": "9650.3",		//最优卖单价
+  		"askQty": "7",				//最优卖单挂单量
+  		"time": 1591257300345
 	}
 ]
 ```
@@ -1104,7 +1137,7 @@ pair   | STRING | NO       | 标的交易对
 GET /dapi/v1/ticker/bookTicker
 ``
 
-返回当前最优的挂单(最高买单，最低卖单)
+返回当前最优的挂单(最高买单,最低卖单)
 
 **权重:**
 单交易对1   
@@ -1118,8 +1151,8 @@ symbol | STRING | NO       | 交易对
 pair   | STRING | NO       | 标的交易对
 
 * symbol 和 pair 不接受同时发送
-* 发送 pair的，返回pair对应所有正在交易的symbol数据
-* symbol,pair 都没有发送的，返回所有symbol数据
+* 发送 pair的,返回pair对应所有正在交易的symbol数据
+* symbol,pair 都没有发送的,返回所有symbol数据
 
 
 
@@ -1128,21 +1161,21 @@ pair   | STRING | NO       | 标的交易对
 
 > **响应:**
 
+
 ```javascript
 [
-
-    {
-          "symbol": "BTCUSD_200925",          // 交易对
-          "price": "7918.33",                 // 订单价格
-          "origQty": "0.014",                 // 订单数量
-          "executedQty": "0.014",             // 成交数量
-          "avragePrice": "7918.33",           // 成交均价
-          "status": "FILLED",                 // 订单状态
-          "timeInForce": "IOC",               // 有效方式
-          "type": "LIMIT",					      // 订单类型
-          "side": "SELL",                     // 订单方向
-          "time": 1568014460893 
-    },
+	{
+		"symbol": "BTCUSD_200925",  	// 交易对
+		"price": "9425.5",           	// 订单价格
+		"origQty": "1",               	// 订单数量
+		"executedQty": "1",           	// 成交数量
+		"avragePrice": "9496.5",      	// 成交均价
+		"status": "FILLED",          	// 订单状态
+		"timeInForce": "IOC",         	// 有效方式
+		"type": "LIMIT",				// 订单类型
+		"side": "SELL",               	// 订单方向
+		"time": 1591154240949
+	},
 ]
 ```
 
@@ -1163,8 +1196,8 @@ limit     | LONG   | NO       | 默认值:100 最大值:1000
 
 
 * symbol 和 pair 不接受同时发送
-* 发送 pair的，返回pair对应所有正在交易的symbol数据
-* symbol,pair 都没有发送的，返回所有symbol数据
+* 发送 pair的,返回pair对应所有正在交易的symbol数据
+* symbol,pair 都没有发送的,返回所有symbol数据
 
 
 ## 获取未平仓合约数
@@ -1173,11 +1206,11 @@ limit     | LONG   | NO       | 默认值:100 最大值:1000
 
 ```javascript
 {
-	"symbol": "BTCUSD_200925",
+	"symbol": "BTCUSD_200626",
 	"pair": "BTCUSD",
-	"openInterest": "957",
-	"contractType": "NEXT_QUARTER",
-	"time": 1590570131566
+	"openInterest": "15004",
+	"contractType": "CURRENT_QUARTER",
+	"time": 1591261042378
 }
 
 ```
@@ -1205,59 +1238,13 @@ symbol | STRING | YES     | 交易对
 
 # Websocket 行情推送
 
-* 本篇所列出的所有wss接口的baseurl为: **wss://sdstream.binance.com**
+* 本篇所列出的所有wss接口的baseurl为: **wss://dstream.binance.com**
 * 订阅单一stream格式为 **/ws/\<streamName\>**
 * 组合streams的URL格式为 **/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
-* stream名称中所有交易对均为**小写**
-* 每个到**sdstream.binance.com**的链接有效期不超过24小时，请妥善处理断线重连。
-* 每3分钟，服务端会发送ping帧，客户端应当在10分钟内回复pong帧，否则服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于10分钟每次的频率发送pong帧保持链接)。
-* 服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
-* **包括PING消息在内的原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
-* 用户端向服务端发送的内容**不需要**经过压缩
-
-
-## 连接心跳
-
-服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
-
-"PING"消息将以gzip方式压缩并推送。
-
-用户端向服务端发送的"pong"消息**不需要**经过压缩。
-
-
-> **ping message from server**
-
-```javascript
-{
-	"method": "PING",  	// 心跳PING
-	"E": 1562305380000 	// 心跳时间
-}
-```
-
-* 服务端发出的"PING"消息中会带有字段"E",表示心跳时间,它应在客户端做出的心跳响应"PONG"消息中被发回给服务端。
-
-> **pong messsage should be from client**
- 
-```javascript
-{
-	"method": "PONG",  	// 心跳确认PONG
-	"E": 1562305380000 	// 心跳时间，应与被响应的PING消息心跳时间一致
-}
-```
-
-* 客户端对心跳的响应格式应为  
-  
-	{  "method": "PONG",  	"E": 1562305380000 } , 
-	
-	其中 "E"字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳"PING"消息中收到的心跳时间"E"一致。
-	
-	简单来说，用户可以直接将收到的"PING"消息中的 "method" 内容由 "PING" 改为 "PONG", 并立即将消息发还给服务端。
-
-
-**注意**
-
-* 这里的心跳消息，和 websocket协议中的ping帧或pong帧没有关系。
-
+* 订阅组合streams时,事件payload会以这样的格式封装 **{"stream":"\<streamName\>","data":\<rawPayload\>}**
+* stream名称中所有交易对,标的交易对,合约类型均为**小写**
+* 每个到**dstream.binance.com**的链接有效期不超过24小时,请妥善处理断线重连。
+* 服务端会定时发送ping帧,客户端应当立即回复pong帧。如果服务器连续三次ping帧都没有收到任何pong帧,服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于ping帧的频率发送pong帧保持链接)。
 
 
 
@@ -1283,8 +1270,8 @@ symbol | STRING | YES     | 交易对
     	"method": "SUBSCRIBE",    
     	"params":     
     	[   
-      	"btcusd_200626@aggTrade",    
-      	"btcusd_200626@depth"     
+      	"btcusd_200925@aggTrade",    
+      	"btcusd_200925@depth"     
     	],    
     	"id": 1   
   	}
@@ -1308,7 +1295,7 @@ symbol | STRING | YES     | 交易对
     "method": "UNSUBSCRIBE",    
     "params":     
     [    
-      "btcusd_200626@depth"   
+      "btcusd_200925@depth"   
     ],    
     "id": 312   
   }
@@ -1322,7 +1309,7 @@ symbol | STRING | YES     | 交易对
   ```javascript
   {
     "result": [
-      "btcusd_200626@aggTrade"
+      "btcusd_200925@aggTrade"
     ],
     "id": 3
   }
@@ -1391,21 +1378,6 @@ symbol | STRING | YES     | 交易对
  
 
 
-###错误信息
-
-错误信息 | 描述
----|---
-{"code": 0, "msg": "Unknown property"} |  `SET_PROPERTY` 或 `GET_PROPERTY`中应用的参数无效
-{"code": 1, "msg": "Invalid value type: expected Boolean"} | 仅接受`true`或`false`
-{"code": 2, "msg": "Invalid request: property name must be a string"}| 提供的属性名无效
-{"code": 2, "msg": "Invalid request: request ID must be an unsigned integer"}| 参数`id`未提供或`id`值是无效类型
-{"code": 2, "msg": "Invalid request: unknown variant %s, expected one of `SUBSCRIBE`, `UNSUBSCRIBE`, `LIST_SUBSCRIPTIONS`, `SET_PROPERTY`, `GET_PROPERTY` at line 1 column 28"} | 错字提醒，或提供的值不是预期类型
-{"code": 2, "msg": "Invalid request: too many parameters"}| 数据中提供了不必要参数
-{"code": 2, "msg": "Invalid request: property name must be a string"} | 未提供属性名
-{"code": 2, "msg": "Invalid request: missing field `method` at line 1 column 73"} | 数据未提供`method`
-{"code":3,"msg":"Invalid JSON: expected value at line %s column %s"} | JSON 语法有误.
-
-
 
 
 
@@ -1418,16 +1390,16 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 
 ```javascript
 {
-  "e": "aggTrade",  // 事件类型
-  "E": 123456789,   // 事件时间
-  "s": "BTCUSD_200925",    // 交易对
-  "a": 5933014,		// 归集成交ID
-  "p": "0.001",     // 成交价格
-  "q": "100",       // 成交数量
-  "f": 100,         // 被归集的首个交易ID
-  "l": 105,         // 被归集的末次交易ID
-  "T": 123456785,   // 成交时间
-  "m": true         // 买方是否是做市方。如true，则此次成交是一个主动卖出单，否则是一个主动买入单。
+  "e":"aggTrade",		// 事件类型
+  "E":1591261134288,	// 事件时间
+  "a":424951,				// 归集成交ID
+  "s":"BTCUSD_200626",	// 交易对
+  "p":"9643.5",			// 成交价格
+  "q":"2",				// 成交数量
+  "f":606073,				// 被归集的首个交易ID
+  "l":606073,				// 被归集的末次交易ID
+  "T":1591261134199,	// 成交时间
+  "m":false				/ 买方是否是做市方。如true,则此次成交是一个主动卖出单,否则是一个主动买入单。
 }
 ```
 
@@ -1448,9 +1420,9 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 ```javascript
   {
     "e": "indexPriceUpdate",  // 事件类型
-    "E": 1562305380000,       // 事件时间
+    "E": 1591261236000,       // 事件时间
     "i": "BTCUSD",            // 标的交易对
-    "p": "11185.87786614",    // 指数价格
+    "p": "9636.57860000",   	// 指数价格
   }
 ```
 
@@ -1469,10 +1441,10 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 ```javascript
   {
     "e": "markPriceUpdate",  // 事件类型
-    "E": 1562305380000,      // 事件时间
-    "s": "BTCUSD_200630",    // 交易对
-    "p": "9561.51117251",    // 标记价格
-    "P": "9487.51622509"     // 预估结算价，仅在结算前最后一小时有参考价值
+    "E": 1591261293000,      // 事件时间
+    "s": "BTCUSD_200626",    // 交易对
+    "p": "9639.94606000",    // 标记价格
+    "P": "9637.20647312"     // 预估结算价,仅在结算前最后一小时有参考价值
   }
 ```
 
@@ -1489,15 +1461,15 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 > **Payload:**
 
 ```javascript
- [ 
-	 {
-	    "e": "markPriceUpdate",  // 事件类型
-	    "E": 1562305380000,      // 事件时间
-	    "s": "BTCUSD_200630",    // 交易对
-	    "p": "11185.87786614",   // 标记价格
-	    "P": "9487.51622509"     // 预估结算价，仅在结算前最后一小时有参考价值
-  	}
- ]
+[ 
+  {
+    "e": "markPriceUpdate",  // 事件类型
+    "E": 1591261293000,      // 事件时间
+    "s": "BTCUSD_200626",    // 交易对
+    "p": "9639.94606000",    // 标记价格
+    "P": "9637.20647312"     // 预估结算价,仅在结算前最后一小时有参考价值
+  }
+]
 ```
 
 
@@ -1517,34 +1489,34 @@ aggTrade中的价格'p'或ticker/miniTicker中的价格'c'均可以作为最新�
 
 ```javascript
 {
-  "e": "kline",     // 事件类型
-  "E": 123456789,   // 事件时间
-  "s": "BTCUSD_200925",    // 交易对
-  "k": {
-    "t": 123400000, // 这根K线的起始时间
-    "T": 123460000, // 这根K线的结束时间
-    "s": "BTCUSD_200925",  // 交易对
-    "i": "1m",      // K线间隔
-    "f": 100,       // 这根K线期间第一笔成交ID
-    "L": 200,       // 这根K线期间末一笔成交ID
-    "o": "0.0010",  // 这根K线期间第一笔成交价
-    "c": "0.0020",  // 这根K线期间末一笔成交价
-    "h": "0.0025",  // 这根K线期间最高成交价
-    "l": "0.0015",  // 这根K线期间最低成交价
-    "v": "1000",    // 这根K线期间成交量（张数）
-    "n": 100,       // 这根K线期间成交数量
-    "x": false,     // 这根K线是否完结（是否已经开始下一根K线）
-    "q": "1.0000",  // 这根K线期间成交额（标的数量）
-    "V": "500",     // 主动买入的成交量（张数）
-    "Q": "0.500",   // 主动买入的成交额（标的数量）
-    "B": "123456"   // 忽略此参数
+  "e":"kline",				// 事件类型
+  "E":1591261542539,		// 事件时间
+  "s":"BTCUSD_200626",		// 交易对
+  "k":{
+    "t":1591261500000,		// 这根K线的起始时间
+    "T":1591261559999,		// 这根K线的结束时间
+    "s":"BTCUSD_200626",	// 交易对
+    "i":"1m",				// K线间隔
+    "f":606400,				// 这根K线期间第一笔成交ID
+    "L":606430,				// 这根K线期间末一笔成交ID
+    "o":"9638.9",			// 这根K线期间第一笔成交价
+    "c":"9639.8",			// 这根K线期间末一笔成交价
+    "h":"9639.8",			// 这根K线期间最高成交价
+    "l":"9638.6",			// 这根K线期间最低成交价
+    "v":"156",				// 这根K线期间成交量
+    "n":31,					// 这根K线期间成交数量
+    "x":false,				// 这根K线是否完结（是否已经开始下一根K线）
+    "q":"1.61836886",		// 这根K线期间成交额（标的数量）
+    "V":"73",				// 主动买入的成交量
+    "Q":"0.75731156",		// 主动买入的成交额（标的数量）
+    "B":"0"					// 忽略此参数
   }
 }
 ```
 
 K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。
 
-**订阅Kline需要提供间隔参数，最短为分钟线，最长为月线。支持以下间隔:**
+**订阅Kline需要提供间隔参数,最短为分钟线,最长为月线。支持以下间隔:**
 
 m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
@@ -1567,6 +1539,9 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 **Stream Name:**    
 ``<symbol>@kline_<interval>``
 
+例如: btcusd_200626@kline_1m
+
+
 **Update Speed:** 250ms
 
 
@@ -1578,34 +1553,40 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "continuous_kline",     // 事件类型
-  "E": 123456789,   // 事件时间
-  "ps": "BTCUSD",    // 标的交易对
-  "ct": "CURRENT_QUARTER",  // 合约类型
-  "k": {
-    "t": 123400000, // 这根K线的起始时间
-    "T": 123460000, // 这根K线的结束时间
-    "i": "1m",      // K线间隔
-    "f": 100,       // 这根K线期间第一笔成交ID
-    "L": 200,       // 这根K线期间末一笔成交ID
-    "o": "0.0010",  // 这根K线期间第一笔成交价
-    "c": "0.0020",  // 这根K线期间末一笔成交价
-    "h": "0.0025",  // 这根K线期间最高成交价
-    "l": "0.0015",  // 这根K线期间最低成交价
-    "v": "1000",    // 这根K线期间成交量（张数）
-    "n": 100,       // 这根K线期间成交数量
-    "x": false,     // 这根K线是否完结（是否已经开始下一根K线）
-    "q": "1.0000",  // 这根K线期间成交额（标的数量）
-    "V": "500",     // 主动买入的成交量（张数）
-    "Q": "0.500",   // 主动买入的成交额（标的数量）
-    "B": "123456"   // 忽略此参数
+  "e":"continuous_kline",	// 事件类型
+  "E":1591261542539,		// 事件时间
+  "ps":"BTCUSD",			// 标的交易对
+  "ct":"NEXT_QUARTER",		// 合约类型 
+  "k":{
+    "t":1591261500000,		// 这根K线的起始时间
+    "T":1591261559999,		// 这根K线的结束时间
+    "i":"1m",				// K线间隔
+    "f":606400,				// 这根K线期间第一笔成交ID
+    "L":606430,				// 这根K线期间末一笔成交ID
+    "o":"9638.9",			// 这根K线期间第一笔成交价
+    "c":"9639.8",			// 这根K线期间末一笔成交价
+    "h":"9639.8",			// 这根K线期间最高成交价
+    "l":"9638.6",			// 这根K线期间最低成交价
+    "v":"156",				// 这根K线期间成交量
+    "n":31,					// 这根K线期间成交数量
+    "x":false,				// 这根K线是否完结（是否已经开始下一根K线）
+    "q":"1.61836886",		// 这根K线期间成交额（标的数量）
+    "V":"73",				// 主动买入的成交量
+    "Q":"0.75731156",		// 主动买入的成交额（标的数量）
+    "B":"0"					// 忽略此参数
   }
 }
 ```
 
 K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。
 
-**订阅Kline需要提供间隔参数，最短为分钟线，最长为月线。支持以下间隔:**
+
+**合约类型:**
+
+* CURRENT_QUARTER 当季合约
+* NEXT_QUARTER 次季合约
+
+**订阅Kline需要提供间隔参数,最短为分钟线,最长为月线。支持以下间隔:**
 
 m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
@@ -1628,6 +1609,8 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 **Stream Name:**    
 ``<pair>_<contractType>@continuousKline_<interval>``
 
+例如:  "btcusd_next_quarter@continuousKline_1m"
+
 **Update Speed:** 250ms
 
 
@@ -1639,34 +1622,34 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "indexPrice_kline",     // 事件类型
-  "E": 123456789,   // 事件时间
-  "ps": "BTCUSD",    // 标的交易对
-  "k": {
-    "t": 123400000, // 这根K线的起始时间
-    "T": 123460000, // 这根K线的结束时间
-    "s": "0",  // 无意义字段
-    "i": "1m",      // K线间隔
-    "f": 100,       // 这根K线期间第一笔数据Id
-    "L": 200,       // 这根K线期间末一笔数据Id
-    "o": "0.0010",  // 这根K线期间第一笔成交价
-    "c": "0.0020",  // 这根K线期间末一笔成交价
-    "h": "0.0025",  // 这根K线期间最高成交价
-    "l": "0.0015",  // 这根K线期间最低成交价
-    "v": "0",    	// 无意义字段
-    "n": 8,       	// 这根K线更新期间数据数量
-    "x": false,     // 这根K线是否完结（是否已经开始下一根K线）
-    "q": "0",  		// 无意义字段
-    "V": "0",     	// 无意义字段
-    "Q": "0",   		// 无意义字段
-    "B": "0"   		// 无意义字段
+  "e":"indexPrice_kline",		// 事件类型
+  "E":1591267070033,			// 事件时间
+  "ps":"BTCUSD",				// 标的交易对
+  "k":{
+    "t":1591267020000,			// 这根K线的起始时间
+    "T":1591267079999,			// 这根K线的结束时间
+    "s":"0",					// 无意义字段
+    "i":"1m",					// K线间隔
+    "f":1591267020000,			// 无意义字段
+    "L":1591267070000,			// 无意义字段
+    "o":"9542.21900000",		// 这根K线期间第一笔成交价
+    "c":"9542.50440000",		// 这根K线期间末一笔成交价
+    "h":"9542.71640000",		// 这根K线期间最高成交价
+    "l":"9542.21040000",		// 这根K线期间最低成交价
+    "v":"0",					// 无意义字段
+    "n":51,						// 这根K线更新期间数据数量
+    "x":false,					// 这根K线是否完结（是否已经开始下一根K线）
+    "q":"0",					// 无意义字段
+    "V":"0",					// 无意义字段
+    "Q":"0",					// 无意义字段
+    "B":"0"						// 无意义字段
   }
 }
 ```
 
 K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。
 
-**订阅Kline需要提供间隔参数，最短为分钟线，最长为月线。支持以下间隔:**
+**订阅Kline需要提供间隔参数,最短为分钟线,最长为月线。支持以下间隔:**
 
 m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
@@ -1689,6 +1672,10 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 **Stream Name:**    
 ``<pair>@indexPriceKline_<interval>``
 
+例如: btcusd@indexPriceKline_1m
+
+
+
 **Update Speed:** 250ms
 
 
@@ -1700,34 +1687,35 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "markPrice_kline",     // 事件类型
-  "E": 123456789,   // 事件时间
-  "ps": "BTCUSD",    // 标的交易对
-  "k": {
-    "t": 123400000, // 这根K线的起始时间
-    "T": 123460000, // 这根K线的结束时间
-    "s": "BTCUSD_200925",  // 交易对
-    "i": "1m",      // K线间隔
-    "f": 100,       // 这根K线期间第一笔数据Id
-    "L": 200,       // 这根K线期间末一笔数据Id
-    "o": "0.0010",  // 这根K线期间第一笔成交价
-    "c": "0.0020",  // 这根K线期间末一笔成交价
-    "h": "0.0025",  // 这根K线期间最高成交价
-    "l": "0.0015",  // 这根K线期间最低成交价
-    "v": "0",    	// 无意义字段
-    "n": 8,       	// 这根K线更新期间数据数量
-    "x": false,     // 这根K线是否完结（是否已经开始下一根K线）
-    "q": "0",  		// 无意义字段
-    "V": "0",     	// 无意义字段
-    "Q": "0",   		// 无意义字段
-    "B": "0"   		// 无意义字段
+  "e":"markPrice_kline",		// 事件类型
+  "E":1591267398004,			// 事件时间
+  "ps":"BTCUSD",				// 标的交易对
+  "k":{
+    "t":1591267380000,			// 这根K线的起始时间
+    "T":1591267439999,			// 这根K线的结束时间
+    "s":"BTCUSD_200626",		// 交易对
+    "i":"1m",					// K线间隔
+    "f":1591267380000,			// 无意义字段
+    "L":1591267398000,			// 无意义字段
+    "o":"9539.67161333",		// 这根K线期间第一笔成交价
+    "c":"9540.82761333",		// 这根K线期间末一笔成交价
+    "h":"9540.82761333",		// 这根K线期间最高成交价
+    "l":"9539.66961333",		// 这根K线期间最低成交价
+    "v":"0",					// 无意义字段
+    "n":19,						// 这根K线更新期间数据数量
+    "x":false,					// 这根K线是否完结（是否已经开始下一根K线）
+    "q":"0",					// 无意义字段
+    "V":"0",					// 无意义字段
+    "Q":"0",					// 无意义字段
+    "B":"0"						// 无意义字段
   }
 }
 ```
 
+
 K线stream逐秒推送所请求的K线种类(最新一根K线)的更新。
 
-**订阅Kline需要提供间隔参数，最短为分钟线，最长为月线。支持以下间隔:**
+**订阅Kline需要提供间隔参数,最短为分钟线,最长为月线。支持以下间隔:**
 
 m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
@@ -1750,6 +1738,9 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 **Stream Name:**    
 ``<symbol>@markPriceKline_<interval>``
 
+例如: btcusd_200626@markPriceKline_1m
+
+
 **Update Speed:** 250ms
 
 
@@ -1761,24 +1752,25 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 > **Payload:**
 
 ```javascript
-  {
-    "e": "24hrMiniTicker",  // 事件类型
-    "E": 123456789,         // 事件时间（毫秒）
-    "s": "BTCUSD_200925",  // 交易对
-    "ps": "BTCUSD",  		 // 标的交易对
-    "c": "0.0025",          // 最新成交价格
-    "o": "0.0010",          // 24小时前开始第一笔成交价格
-    "h": "0.0025",          // 24小时内最高成交价
-    "l": "0.0010",          // 24小时内最低成交加
-    "v": "10000",           // 成交量
-    "q": "18"               // 成交额（标的数量）
-  }
+{
+  "e":"24hrMiniTicker",			// 事件类型
+  "E":1591267704450,			// 事件时间
+  "s":"BTCUSD_200626",			// 交易对
+  "ps":"BTCUSD",				// 标的交易对
+  "c":"9561.7",					// 最新成交价格
+  "o":"9580.9",					// 24小时前开始第一笔成交价格
+  "h":"10000.0",				// 24小时内最高成交价
+  "l":"7000.0",					// 24小时内最低成交价
+  "v":"487476",					// 24小时成交量
+  "q":"33264343847.22378500"	// 24小时成交额（标的数量
+}
 ```
+
 
 按Symbol刷新的24小时精简ticker信息.
 
 **Stream Name:**     
-``<symbol>@miniTicker``
+``<symbol>@miniTicker`
 
 **Update Speed:** 500ms
 
@@ -1789,22 +1781,22 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 [  
-  {
-    "e": "24hrMiniTicker",  // 事件类型
-    "E": 123456789,         // 事件时间（毫秒）
-    "s": "BTCUSD_200925",   // 交易对
-    "ps": "BTCUSD",  		 // 标的交易对
-    "c": "0.0025",          // 最新成交价格
-    "o": "0.0010",          // 24小时前开始第一笔成交价格
-    "h": "0.0025",          // 24小时内最高成交价
-    "l": "0.0010",          // 24小时内最低成交加
-    "v": "10000",           // 成交量
-    "q": "18"               // 成交额（标的数量）
-  }
+	{
+	  "e":"24hrMiniTicker",			// 事件类型
+	  "E":1591267704450,			// 事件时间
+	  "s":"BTCUSD_200626",			// 交易对
+	  "ps":"BTCUSD",				// 标的交易对
+	  "c":"9561.7",					// 最新成交价格
+	  "o":"9580.9",					// 24小时前开始第一笔成交价格
+	  "h":"10000.0",				// 24小时内最高成交价
+	  "l":"7000.0",					// 24小时内最低成交价
+	  "v":"487476",					// 24小时成交量
+	  "q":"33264343847.22378500"	// 24小时成交额（标的数量
+	}
 ]
 ```
 
-所有symbol24小时精简ticker信息.需要注意的是，只有发生变化的tiker更新才会被推送。
+所有symbol24小时精简ticker信息.需要注意的是,只有发生变化的tiker更新才会被推送。
 
 **Stream Name:**     
 `!miniTicker@arr`
@@ -1820,25 +1812,25 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "24hrTicker",  // 事件类型
-  "E": 123456789,     // 事件时间
-  "s": "BTCUSD_200925",      // 交易对
-  "ps": "BTCUSD",  		 // 标的交易对
-  "p": "0.0015",      // 24小时价格变化
-  "P": "250.00",      // 24小时价格变化（百分比）
-  "w": "0.0018",      // 平均价格
-  "c": "0.0025",      // 最新成交价格
-  "Q": "10",          // 最新成交价格上的成交量
-  "o": "0.0010",      // 24小时内第一比成交的价格
-  "h": "0.0025",      // 24小时内最高成交价
-  "l": "0.0010",      // 24小时内最低成交加
-  "v": "10000",       // 24小时内成交量
-  "q": "18",          // 24小时内成交额（标的数量）
-  "O": 0,             // 统计开始时间
-  "C": 86400000,      // 统计关闭时间
-  "F": 0,             // 24小时内第一笔成交交易ID
-  "L": 18150,         // 24小时内最后一笔成交交易ID
-  "n": 18151          // 24小时内成交数
+  "e":"24hrTicker",				// 事件类型
+  "E":1591268262453,			// 事件时间
+  "s":"BTCUSD_200626",			// 交易对
+  "ps":"BTCUSD",				// 标的交易对
+  "p":"-43.4",					// 24小时价格变化
+  "P":"-0.452",					// 24小时价格变化（百分比）
+  "w":"0.00147974",				// 24小时平均价格
+  "c":"9548.5",					// 最新成交价格
+  "Q":"2",						// 最新成交价格上的成交量
+  "o":"9591.9",					// 24小时前第一笔成交价格
+  "h":"10000.0",				// 24小时内最高成交价
+  "l":"7000.0",					// 24小时内最低成交价
+  "v":"487850",					// 24小时成交量
+  "q":"32968676323.46222700",	// 24小时成交额（标的数量）
+  "O":1591181820000,			// 统计开始时间
+  "C":1591268262442,			// 统计关闭时间
+  "F":512014,					// 24小时内第一笔成交交易ID
+  "L":615289,					// 24小时内最后一笔成交交易ID
+  "n":103272					// 24小时内成交数
 }
 ```
 
@@ -1858,30 +1850,30 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 ```javascript
 [
 	{
-	  "e": "24hrTicker",  // 事件类型
-	  "E": 123456789,     // 事件时间
-	  "s": "BTCUSD_200925",  // 交易对
-	  "ps": "BTCUSD",  		 // 标的交易对
-	  "p": "0.0015",      // 24小时价格变化
-	  "P": "250.00",      // 24小时价格变化（百分比）
-	  "w": "0.0018",      // 平均价格
-	  "c": "0.0025",      // 最新成交价格
-	  "Q": "10",          // 最新成交价格上的成交量
-	  "o": "0.0010",      // 24小时内第一比成交的价格
-	  "h": "0.0025",      // 24小时内最高成交价
-	  "l": "0.0010",      // 24小时内最低成交加
-	  "v": "10000",       // 24小时内成交量
-	  "q": "18",          // 24小时内成交额 (标的数量)
-	  "O": 0,             // 统计开始时间
-	  "C": 86400000,      // 统计关闭时间
-	  "F": 0,             // 24小时内第一笔成交交易ID
-	  "L": 18150,         // 24小时内最后一笔成交交易ID
-	  "n": 18151          // 24小时内成交数
+	  "e":"24hrTicker",				// 事件类型
+	  "E":1591268262453,			// 事件时间
+	  "s":"BTCUSD_200626",			// 交易对
+	  "ps":"BTCUSD",				// 标的交易对
+	  "p":"-43.4",					// 24小时价格变化
+	  "P":"-0.452",					// 24小时价格变化（百分比）
+	  "w":"0.00147974",				// 24小时平均价格
+	  "c":"9548.5",					// 最新成交价格
+	  "Q":"2",						// 最新成交价格上的成交量
+	  "o":"9591.9",					// 24小时前第一笔成交价格
+	  "h":"10000.0",				// 24小时内最高成交价
+	  "l":"7000.0",					// 24小时内最低成交价
+	  "v":"487850",					// 24小时成交量
+	  "q":"32968676323.46222700",	// 24小时成交额（标的数量）
+	  "O":1591181820000,			// 统计开始时间
+	  "C":1591268262442,			// 统计关闭时间
+	  "F":512014,					// 24小时内第一笔成交交易ID
+	  "L":615289,					// 24小时内最后一笔成交交易ID
+	  "n":103272					// 24小时内成交数
 	}
 ]	
 ```
 
-所有symbol 24小时完整ticker信息.需要注意的是，只有发生变化的tiker更新才会被推送。
+所有symbol 24小时完整ticker信息.需要注意的是,只有发生变化的tiker更新才会被推送。
 
 **Stream 名称:**     
 ``!ticker@arr``
@@ -1895,13 +1887,16 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "u":400900217,     // 更新ID
-  "s":"BTCUSD_200925",     // 交易对
-  "ps": "BTCUSD",  		 // 标的交易对
-  "b":"25.35190000", // 买单最优挂单价格
-  "B":"31.21000000", // 买单最优挂单数量
-  "a":"25.36520000", // 卖单最优挂单价格
-  "A":"40.66000000"  // 卖单最优挂单数量
+  "e":"bookTicker",			// 事件类型
+  "u":17242169,				// 更新ID
+  "s":"BTCUSD_200626",		// 交易对
+  "ps":"BTCUSD",				 // 标的交易对
+  "b":"9548.1",				// 买单最优挂单价格
+  "B":"52",					// 买单最优挂单数量
+  "a":"9548.5",				// 卖单最优挂单价格
+  "A":"11",					// 卖单最优挂单数量
+  "T":1591268628155,		// 撮合时间
+  "E":1591268628166			// 事件时间
 }
 ```
 
@@ -1941,25 +1936,24 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 ```javascript
 {
 
-	"e":"forceOrder",                   // 事件类型
-	"E":1568014460893,                  // 事件时间
+	"e":"forceOrder",             		// 事件类型
+	"E": 1591154240950,					// 事件时间
 	"o":{
 	
-		"s":"BTCUSD_200925",            	// 交易对
-		"ps": "BTCUSD",  		 			// 标的交易对
-		"S":"SELL",                      // 订单方向
-		"o":"LIMIT",                     // 订单类型
-		"f":"IOC",                       // 有效方式
-		"q":"0.014",                     // 订单数量
-		"p":"9910",                      // 订单价格
-		"ap":"9910",                     // 平均价格
-		"X":"FILLED",                    // 订单状态
-		"l":"0.014",                     // 订单最近成交数量
-		"z":"0.014",                     // 订单累计成交数量
-		"T":1568014460893,          	 	// 交易时间
+		"s":"BTCUSD_200925", 			// 交易对
+		"ps": "BTCUSD",					// 标的交易对
+		"S":"SELL",						// 订单方向
+		"o":"LIMIT",					// 订单类型
+		"f":"IOC",						// 有效方式
+		"q":"1",						// 订单数量
+		"p":"9425.5",					// 订单价格
+		"ap":"9496.5",					// 平均价格
+		"X":"FILLED",					// 订单状态
+		"l":"1",						// 订单最近成交数量
+		"z":"1",						// 订单累计成交数量
+		"T": 1591154240949,				// 交易时间
 	
 	}
-
 }
 ```
 
@@ -1977,25 +1971,24 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 ```javascript
 {
 
-	"e":"forceOrder",                   // 事件类型
-	"E":1568014460893,                  // 事件时间
+	"e":"forceOrder",             		// 事件类型
+	"E": 1591154240950,					// 事件时间
 	"o":{
 	
-		"s":"BTCUSD_200925",            	// 交易对
-		"ps": "BTCUSD",  		 			// 标的交易对
-		"S":"SELL",                      // 订单方向
-		"o":"LIMIT",                     // 订单类型
-		"f":"IOC",                       // 有效方式
-		"q":"0.014",                     // 订单数量
-		"p":"9910",                      // 订单价格
-		"ap":"9910",                     // 平均价格
-		"X":"FILLED",                    // 订单状态
-		"l":"0.014",                     // 订单最近成交数量
-		"z":"0.014",                     // 订单累计成交数量
-		"T":1568014460893,          	 // 交易时间
+		"s":"BTCUSD_200925", 			// 交易对
+		"ps": "BTCUSD",					// 标的交易对
+		"S":"SELL",						// 订单方向
+		"o":"LIMIT",					// 订单类型
+		"f":"IOC",						// 有效方式
+		"q":"1",						// 订单数量
+		"p":"9425.5",					// 订单价格
+		"ap":"9496.5",					// 平均价格
+		"X":"FILLED",					// 订单状态
+		"l":"1",						// 订单最近成交数量
+		"z":"1",						// 订单累计成交数量
+		"T": 1591154240949,				// 交易时间
 	
 	}
-
 }
 ```
 
@@ -2016,60 +2009,61 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "depthUpdate", 			// 事件类型
-  "E": 1571889248277, 			// 事件时间
-  "T": 1571889248276, 			// 交易时间
-  "s": "BTCUSD_200925",			// 交易对
-  "ps": "BTCUSD",  		 		// 标的交易对
-  "U": 390497796,
-  "u": 390497878,
-  "pu": 390497794,
-  "b": [          				// 买方
+  "e":"depthUpdate",		// 事件类型
+  "E":1591269996801,		// 事件时间
+  "T":1591269996646,		// 撮合时间
+  "s":"BTCUSD_200626",		// 交易对
+  "ps":"BTCUSD",			// 标的交易对
+  "U":17276694,
+  "u":17276701,
+  "pu":17276678,
+  "b":[						// 买方
     [
-      "7403.89",  				// 价格
-      "0.002"     				// 数量
+      "9523.0",				// 价格
+      "5"					// 数量
     ],
     [
-      "7403.90",
-      "3.906"
+      "9522.8",
+      "8"
     ],
     [
-      "7404.00",
-      "1.428"
+      "9522.6",
+      "2"
     ],
     [
-      "7404.85",
-      "5.239"
+      "9522.4",
+      "1"
     ],
     [
-      "7405.43",
-      "2.562"
+      "9522.0",
+      "5"
     ]
   ],
-  "a": [          				// 卖方
+  "a":[						// 卖方
     [
-      "7405.96",  				// 价格
-      "3.340"     				// 数量
+      "9524.6",				// 价格
+      "2"					// 数量
     ],
     [
-      "7406.63",
-      "4.525"
+      "9524.7",
+      "3"
     ],
     [
-      "7407.08",
-      "2.475"
+      "9524.9",
+      "16"
     ],
     [
-      "7407.15",
-      "4.800"
+      "9525.1",
+      "10"
     ],
     [
-      "7407.20",
-      "0.175"
+      "9525.3",
+      "6"
     ]
   ]
 }
 ```
+
 
 推送有限档深度信息。levels表示几档买卖单信息, 可选 5/10/20档
 
@@ -2086,48 +2080,48 @@ m -> 分钟; h -> 小时; d -> 天; w -> 周; M -> 月
 
 ```javascript
 {
-  "e": "depthUpdate", // 事件类型
-  "E": 123456789,     // 事件时间
-  "T": 123456788,     // 撮合时间
-  "s": "BTCUSD_200925",      // 交易对
-  "ps": "BTCUSD",  		 // 标的交易对
-  "U": 157,           // 从上次推送至今新增的第一个 update Id
-  "u": 160,           // 从上次推送至今新增的最后一个 update Id
-  "pu": 149,          // 上次推送的最后一个update Id（即上条消息的‘u’）
-  "b": [              // 变动的买单深度
+  "e": "depthUpdate",			// 事件类型
+  "E": 1591270260907,			// 事件时间
+  "T": 1591270260891,			// 撮合时间
+  "s": "BTCUSD_200626",			// 交易对
+  "ps": "BTCUSD",				// 标的交易对
+  "U": 17285681,				// 从上次推送至今新增的第一个 update Id
+  "u": 17285702,				// 从上次推送至今新增的最后一个 update Id
+  "pu": 17285675,				// 上次推送的最后一个update Id（即上条消息的‘u’）
+  "b": [						// 变动的买单深度
     [
-      "0.0024",       // 价格
-      "10"           // 数量
+      "9517.6",					// 价格
+      "10"						// 数量
     ]
   ],
-  "a": [              // 变动的卖单深度
+  "a": [						// 变动的卖单深度
     [
-      "0.0026",       // 价格
-      "100"          // 数量
+      "9518.5",					// 价格
+      "45"						// 数量
     ]
   ]
 }
 ```
 
-orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时更新（如有刷新）
+orderbook的变化部分,推送间隔250毫秒,500毫秒,100毫秒(如有刷新)
 
 **Stream 名称:**     
-``<symbol>@depth`` OR ``<symbol>@depth@500ms`` OR ``<symbol>@depth@100ms`` OR ``<symbol>@depth@0ms``
+``<symbol>@depth`` OR ``<symbol>@depth@500ms`` OR ``<symbol>@depth@100ms``
 
-**Update Speed:** 250ms 或 500ms 或 100ms 或 0ms
+**Update Speed:** 250ms 或 500ms 或 100ms
 
 
 
 
 ## 如何正确在本地维护一个orderbook副本
-1. 订阅 **wss://sdstream.binance.com/stream?streams=BTCUSD_200925@depth**
-2. 开始缓存收到的更新。同一个价位，后收到的更新覆盖前面的。
+1. 订阅 **wss://dstream.binance.com/stream?streams=btcusd_200925@depth**
+2. 开始缓存收到的更新。同一个价位,后收到的更新覆盖前面的。
 3. 访问Rest接口 **https://dapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200925&limit=1000**获得一个1000档的深度快照
-4. 将目前缓存到的信息中`u`< 步骤3中获取到的快照中的`lastUpdateId`的部分丢弃(丢弃更早的信息，已经过期)。
-5. 将深度快照中的内容更新到本地orderbook副本中，并从websocket接收到的第一个`U` <= `lastUpdateId` **且** `u` >= `lastUpdateId` 的event开始继续更新本地副本。
-6. 每一个新event的`pu`应该等于上一个event的`u`，否则可能出现了丢包，请从step3重新进行初始化。
-7. 每一个event中的挂单量代表这个价格目前的挂单量**绝对值**，而不是相对变化。
-8. 如果某个价格对应的挂单量为0，表示该价位的挂单已经撤单或者被吃，应该移除这个价位。
+4. 将目前缓存到的信息中`u`< 步骤3中获取到的快照中的`lastUpdateId`的部分丢弃(丢弃更早的信息,已经过期)。
+5. 将深度快照中的内容更新到本地orderbook副本中,并从websocket接收到的第一个`U` <= `lastUpdateId` **且** `u` >= `lastUpdateId` 的event开始继续更新本地副本。
+6. 每一个新event的`pu`应该等于上一个event的`u`,否则可能出现了丢包,请从step3重新进行初始化。
+7. 每一个event中的挂单量代表这个价格目前的挂单量**绝对值**,而不是相对变化。
+8. 如果某个价格对应的挂单量为0,表示该价位的挂单已经撤单或者被吃,应该移除这个价位。
 
 
 
@@ -2153,7 +2147,7 @@ orderbook的变化部分，推送间隔250毫秒,500毫秒，100毫秒或实时�
 ``
 POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
 ``
-* 请注意：这里不适用 dapi base url
+* 请注意：这里不适用dapi base url
 
 执行现货账户与合约账户之间的划转
 
@@ -2164,9 +2158,9 @@ POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
 
 名称 | 类型 | 是否必需 | 描述
 ------------ | ------------ | ------------ | ------------
-asset | STRING | YES | The asset being transferred, e.g., USDT
+asset | STRING | YES | The asset being transferred, e.g., BTC
 amount | DECIMAL | YES | The amount to be transferred
-type | INT | YES | 1: 现货账户向永续合约账户划转, 2:永续合约账户向现货账户划转; 3: 现货账户向交割合约账户划转, 2:交割合约账户向现货账户划转
+type | INT | YES | 3: 现货账户向交割合约账户划转 4: 交割合约账户向现货账户划转
 recvWindow | LONG | NO  | 
 timestamp | LONG | YES
 
@@ -2181,23 +2175,15 @@ timestamp | LONG | YES
 {
   "rows": [
     {
-      "asset": "BTC",			// 资产
-      "tranId": 100000001,		// 划转ID			
-      "amount": "1.84624400",	// 数量
-      "type": "3",				// 划转类型
-      "timestamp": 1555056425000,	// 时间戳
-      "status": "CONFIRMED"         // PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);
-    },
-    {
       "asset": "USDT",			// 资产
-      "tranId": 100000011,		// 划转ID			
+      "tranId": 100000001,		// 划转ID			
       "amount": "40.84624400",	// 数量
-      "type": "1",				// 划转类型
+      "type": "1",				// 划转方向
       "timestamp": 1555056425000,	// 时间戳
       "status": "CONFIRMED"         // PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);
     }
   ],
-  "total": 2
+  "total": 1
 }
 ```
 
@@ -2205,7 +2191,7 @@ timestamp | LONG | YES
 ``
 GET https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
 ``
-* 请注意：这里不适用 dapi base url
+* 请注意：这里不适用dapi base url
 
 **权重:**
 5
@@ -2265,7 +2251,7 @@ timestamp  | LONG   | YES      |
 ```
 
 ``
-GET /fapi/v1/positionSide/dual (HMAC SHA256)
+GET /dapi/v1/positionSide/dual (HMAC SHA256)
 ``
 
 查询用户目前在 ***所有symbol*** 合约上的持仓模式：双向持仓或单向持仓。     
@@ -2291,10 +2277,11 @@ timestamp  | LONG   | YES      |
 ```javascript
 {
  	"clientOrderId": "testOrder", // 用户自定义的订单号
- 	"cumBase": "0", // 成交金额(标的数量)
+ 	"cumQty": "0",
+ 	"cumBase": "0", // 成交额(标的数量)
  	"executedQty": "0", // 成交数量
  	"orderId": 22542179, // 系统订单号
- 	"avgPrice": "0.00000",		// 平均成交价
+ 	"avgPrice": "0.0",		// 平均成交价
  	"origQty": "10", // 原始委托数量
  	"price": "0", // 委托价格
  	"reduceOnly": false, // 仅减仓
@@ -2302,11 +2289,12 @@ timestamp  | LONG   | YES      |
  	"side": "SELL", // 买卖方向
  	"positionSide": "SHORT", // 持仓方向
  	"status": "NEW", // 订单状态
- 	"stopPrice": "0", // 触发价，对`TRAILING_STOP_MARKET`无效
+ 	"stopPrice": "0", // 触发价,对`TRAILING_STOP_MARKET`无效
  	"symbol": "BTCUSD_200925", // 交易对
  	"pair": "BTCUSD",	// 标的交易对
  	"timeInForce": "GTC", // 有效方法
  	"type": "TRAILING_STOP_MARKET", // 订单类型
+ 	"origType": "TRAILING_STOP_MARKET",  // 触发前订单类型
  	"activatePrice": "9020", // 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段
   	"priceRate": "0.3",	// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段
  	"updateTime": 1566818724722, // 更新时间
@@ -2328,24 +2316,23 @@ POST /dapi/v1/order  (HMAC SHA256)
 ---------------- | ------- | -------- | -----------------------------------------------------------------------------------------------
 symbol           | STRING  | YES      | 交易对
 side             | ENUM    | YES      | 买卖方向 `SELL`, `BUY`
-positionSide     | ENUM	    | NO       | 持仓方向，单向持仓模式下非必填，默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT`   
+positionSide     | ENUM	    | NO       | 持仓方向,单向持仓模式下非必填,默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT`   
 type             | ENUM    | YES      | 订单类型 `LIMIT`, `MARKET`, `STOP`, `TAKE_PROFIT`, `STOP_MARKET`, `TAKE_PROFIT_MARKET`, `TRAILING_STOP_MARKET`
 reduceOnly       | STRING  | NO       | `true`, `false`; 非双开模式下默认`false`；双开模式下不接受此参数； 使用`closePosition`不支持此参数。
 quantity         | DECIMAL | NO      | 下单数量,使用`closePosition`不支持此参数。
 price            | DECIMAL | NO       | 委托价格
-newClientOrderId | STRING  | NO       | 用户自定义的订单号，不可以重复出现在挂单中。如空缺系统会自动赋值
+newClientOrderId | STRING  | NO       | 用户自定义的订单号,不可以重复出现在挂单中。如空缺系统会自动赋值
 stopPrice        | DECIMAL | NO       | 触发价, 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
-closePosition    | STRING  | NO       | `true`, `false`；触发后全部平仓，仅支持`STOP_MARKET`和`TAKE_PROFIT_MARKET`；不与`quantity`合用；自带只平仓效果，不与`reduceOnly` 合用
-activationPrice  | DECIMAL | NO       | 追踪止损激活价格，仅`TRAILING_STOP_MARKET` 需要此参数, 默认为下单当前市场价格（支持不同`workingType`)
-callbackRate     | DECIMAL | NO       | 追踪止损回调比例，可取值范围[0.1, 4],其中 1代表1% ,仅`TRAILING_STOP_MARKET` 需要此参数
+closePosition    | STRING  | NO       | `true`, `false`；触发后全部平仓,仅支持`STOP_MARKET`和`TAKE_PROFIT_MARKET`；不与`quantity`合用；自带只平仓效果,不与`reduceOnly` 合用
+activationPrice  | DECIMAL | NO       | 追踪止损激活价格,仅`TRAILING_STOP_MARKET` 需要此参数, 默认为下单当前市场价格（支持不同`workingType`)
+callbackRate     | DECIMAL | NO       | 追踪止损回调比例,可取值范围[0.1, 4],其中 1代表1% ,仅`TRAILING_STOP_MARKET` 需要此参数
 timeInForce      | ENUM    | NO       | 有效方法
 workingType      | ENUM    | NO       | stopPrice 触发类型: `MARK_PRICE`(标记价格), `CONTRACT_PRICE`(合约最新价). 默认 `CONTRACT_PRICE`
-priceProtect | STRING | NO | 条件单触发保护："true"，"false", 默认"false". 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
 newOrderRespType | ENUM    | NO       | "ACK", "RESULT", 默认 "ACK"
 recvWindow       | LONG    | NO       |
 timestamp        | LONG    | YES      |
 
-根据 order `type`的不同，某些参数强制要求，具体如下:
+根据 order `type`的不同,某些参数强制要求,具体如下:
 
 Type                 |           强制要求的参数
 ----------------------------------- | ----------------------------------
@@ -2369,8 +2356,6 @@ Type                 |           强制要求的参数
 		* 买入: 当合约价格/标记价格区间最低价格低于激活价格`activationPrice`,且最新合约价格/标记价高于等于最低价设定回调幅度。
 		* 卖出: 当合约价格/标记价格区间最高价格高于激活价格`activationPrice`,且最新合约价格/标记价低于等于最高价设定回调幅度。
 
-* 如果开启条件单触发保护: `priceProtect` = "true", 则 `STOP/STOP_MARKET` 或`TAKE_PROFIT/TAKE_PROFIT_MARKET` 订单不会在 "MARK_PRICE" 与 "CONTRACT_PRICE" 之间的价差大于系统设定的比率时被触发。系统设定的保护比率一般为5%。
-
 
 * `TRAILING_STOP_MARKET` 跟踪止损单如果遇到报错 ``{"code": -2021, "msg": "Order would immediately trigger."}``    
 表示订单不满足以下条件:
@@ -2383,9 +2368,9 @@ Type                 |           强制要求的参数
 
 * `STOP_MARKET`, `TAKE_PROFIT_MARKET` 配合 `closePosition`=`true`:
 	* 条件单触发依照上述条件单触发逻辑
-	* 条件触发后，平掉当时持有所有多头仓位（若为卖单）或当时持有所有空头仓位（若为买单）
+	* 条件触发后,平掉当时持有所有多头仓位（若为卖单）或当时持有所有空头仓位（若为买单）
 	* 不支持 `quantity` 参数
-	* 自带只平仓属性，不支持`reduceOnly`参数
+	* 自带只平仓属性,不支持`reduceOnly`参数
 	* 双开模式下,`LONG`方向上不支持`BUY`; `SHORT` 方向上不支持`SELL`
 
 
@@ -2402,7 +2387,7 @@ Type                 |           强制要求的参数
 POST /dapi/v1/order/test (HMAC SHA256)
 ``
 
-用于测试订单请求，但不会提交到撮合引擎
+用于测试订单请求,但不会提交到撮合引擎
 
 **权重:**
 1
@@ -2424,23 +2409,24 @@ POST /dapi/v1/order/test (HMAC SHA256)
 [
 	{
 	 	"clientOrderId": "testOrder", // 用户自定义的订单号
+	 	"cumQty": "0",
 	 	"cumBase": "0", // 成交金额(标的数量)
 	 	"executedQty": "0", // 成交数量
 	 	"orderId": 22542179, // 系统订单号
-	 	"avgPrice": "0.00000",	// 平均成交价
+	 	"avgPrice": "0.0",	// 平均成交价
 	 	"origQty": "10", // 原始委托数量
 	 	"price": "0", // 委托价格
 	 	"reduceOnly": false, // 仅减仓
 	 	"side": "SELL", // 买卖方向
 	 	"positionSide": "SHORT", // 持仓方向
 	 	"status": "NEW", // 订单状态
-	 	"stopPrice": "0", // 触发价，对`TRAILING_STOP_MARKET`无效
+	 	"stopPrice": "0", // 触发价,对`TRAILING_STOP_MARKET`无效
 	 	"closePosition": false,   // 是否条件全平仓
 	 	"symbol": "BTCUSD_200925", // 交易对
 	 	"pair": "BTCUSD",	// 标的交易对
-	 	"pair": "BTCUSD"
 	 	"timeInForce": "GTC", // 有效方法
 	 	"type": "TRAILING_STOP_MARKET", // 订单类型
+	 	"origType": "TRAILING_STOP_MARKET",  // 触发前订单类型
 	 	"activatePrice": "9020", // 跟踪止损激活价格, 仅`TRAILING_STOP_MARKET` 订单返回此字段
 	  	"priceRate": "0.3",	// 跟踪止损回调比例, 仅`TRAILING_STOP_MARKET` 订单返回此字段
 	 	"updateTime": 1566818724722, // 更新时间
@@ -2455,7 +2441,7 @@ POST /dapi/v1/order/test (HMAC SHA256)
 ```
 
 ``
-POST /fapi/v1/batchOrders  (HMAC SHA256)
+POST /dapi/v1/batchOrders  (HMAC SHA256)
 ``
 
 **权重:**
@@ -2466,7 +2452,7 @@ POST /fapi/v1/batchOrders  (HMAC SHA256)
 
 名称              |  类型   | 是否必需   | 描述
 ---------------- | ------- | -------- | ----
-batchOrders |	list<JSON> | 	YES |	订单列表，最多支持5个订单
+batchOrders |	list<JSON> | 	YES |	订单列表,最多支持5个订单
 recvWindow |	LONG |	NO	
 timestamp	| LONG | YES	
 
@@ -2476,24 +2462,24 @@ timestamp	| LONG | YES
 ---------------- | ------- | -------- | ----
 symbol           | STRING  | YES      | 交易对
 side             | ENUM    | YES      | 买卖方向 `SELL`, `BUY`
-positionSide     | ENUM	    | NO       | 持仓方向，单向持仓模式下非必填，默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT`   
+positionSide     | ENUM	    | NO       | 持仓方向,单向持仓模式下非必填,默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT`   
 type             | ENUM    | YES      | 订单类型 `LIMIT`, `MARKET`, `STOP`, `TAKE_PROFIT`, `STOP_MARKET`, `TAKE_PROFIT_MARKET`, `TRAILING_STOP_MARKET`
 reduceOnly       | STRING  | NO       | `true`, `false`; 非双开模式下默认`false`；双开模式下不接受此参数。
 quantity         | DECIMAL | YES      | 下单数量
 price            | DECIMAL | NO       | 委托价格
-newClientOrderId | STRING  | NO       | 用户自定义的订单号，不可以重复出现在挂单中。如空缺系统会自动赋值
+newClientOrderId | STRING  | NO       | 用户自定义的订单号,不可以重复出现在挂单中。如空缺系统会自动赋值
 stopPrice        | DECIMAL | NO       | 触发价, 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
-activationPrice  | DECIMAL | NO       | 追踪止损激活价格，仅`TRAILING_STOP_MARKET` 需要此参数, 默认为下单当前市场价格（支持不同`workingType`)
-callbackRate     | DECIMAL | NO       | 追踪止损回调比例，可取值范围[0.1, 4],其中 1代表1% ,仅`TRAILING_STOP_MARKET` 需要此参数
+activationPrice  | DECIMAL | NO       | 追踪止损激活价格,仅`TRAILING_STOP_MARKET` 需要此参数, 默认为下单当前市场价格（支持不同`workingType`)
+callbackRate     | DECIMAL | NO       | 追踪止损回调比例,可取值范围[0.1, 4],其中 1代表1% ,仅`TRAILING_STOP_MARKET` 需要此参数
 timeInForce      | ENUM    | NO       | 有效方法
 workingType      | ENUM    | NO       | stopPrice 触发类型: `MARK_PRICE`(标记价格), `CONTRACT_PRICE`(合约最新价). 默认 `CONTRACT_PRICE`
-priceProtect | STRING | NO | 条件单触发保护："true"，"false", 默认"false". 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
+priceProtect | STRING | NO | 条件单触发保护："true","false", 默认"false". 仅 `STOP`, `STOP_MARKET`, `TAKE_PROFIT`, `TAKE_PROFIT_MARKET` 需要此参数
 newOrderRespType | ENUM    | NO       | "ACK", "RESULT", 默认 "ACK"
 
 
-* 具体订单条件规则，与普通下单一致
-* 批量下单采取并发处理，不保证订单撮合顺序
-* 批量下单的返回内容顺序，与订单列表顺序一致
+* 具体订单条件规则,与普通下单一致
+* 批量下单采取并发处理,不保证订单撮合顺序
+* 批量下单的返回内容顺序,与订单列表顺序一致
 
 
 
@@ -2505,9 +2491,9 @@ newOrderRespType | ENUM    | NO       | "ACK", "RESULT", 默认 "ACK"
 
 ```javascript
 {
-  	"avgPrice": "0.00000",				// 平均成交价
+  	"avgPrice": "0.0",				// 平均成交价
   	"clientOrderId": "abc",				// 用户自定义的订单号
-  	"cumBase": "0",						// 成交金额(标的数量)
+  	"cumBase": "0", 						// 成交金额(标的数量)
   	"executedQty": "0",					// 成交数量
   	"orderId": 1573346959,				// 系统订单号
   	"origQty": "0.40",					// 原始委托数量
@@ -2517,7 +2503,7 @@ newOrderRespType | ENUM    | NO       | "ACK", "RESULT", 默认 "ACK"
   	"side": "BUY",						// 买卖方向
   	"positionSide": "SHORT", 			// 持仓方向
   	"status": "NEW",					// 订单状态
-  	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"stopPrice": "9300",					// 触发价,对`TRAILING_STOP_MARKET`无效
   	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200925",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
@@ -2562,6 +2548,7 @@ timestamp         | LONG   | YES      |
 
 ```javascript
 {
+ 	"avgPrice": "0.0",				// 平均成交价
  	"clientOrderId": "myOrder1", // 用户自定义的订单号
  	"cumQty": "0",
  	"cumBase": "0", // 成交金额(标的数量)
@@ -2573,10 +2560,9 @@ timestamp         | LONG   | YES      |
 	"side": "BUY", // 买卖方向
 	"positionSide": "SHORT", // 持仓方向
  	"status": "CANCELED", // 订单状态
- 	"stopPrice": "9300", // 触发价，对`TRAILING_STOP_MARKET`无效
+ 	"stopPrice": "9300", // 触发价,对`TRAILING_STOP_MARKET`无效
  	"closePosition": false,   // 是否条件全平仓
  	"symbol": "BTCUSD_200925", // 交易对
- 	"pair": "BTCUSD",	// 标的交易对
  	"pair": "BTCUSD",	// 标的交易对
  	"timeInForce": "GTC", // 有效方法
  	"origType": "TRAILING_STOP_MARKET",	// 触发前订单类型
@@ -2645,6 +2631,7 @@ timestamp  | LONG   | YES      |
 ```javascript
 [
 	{
+	 	"avgPrice": "0.0",				// 平均成交价
 	 	"clientOrderId": "myOrder1", // 用户自定义的订单号
 	 	"cumQty": "0",
 	 	"cumBase": "0", // 成交金额(标的数量)
@@ -2656,7 +2643,7 @@ timestamp  | LONG   | YES      |
 		"side": "BUY", // 买卖方向
 		"positionSide": "SHORT", // 持仓方向
 	 	"status": "CANCELED", // 订单状态
-	 	"stopPrice": "9300", // 触发价，对`TRAILING_STOP_MARKET`无效
+	 	"stopPrice": "9300", // 触发价,对`TRAILING_STOP_MARKET`无效
 	 	"closePosition": false,   // 是否条件全平仓
 	 	"symbol": "BTCUSD_200925", // 交易对
 	 	"pair": "BTCUSD",	// 标的交易对
@@ -2693,7 +2680,7 @@ origClientOrderIdList | LIST\<STRING\> | NO       | 用户自定义的订单号,
 recvWindow            | LONG           | NO       |
 timestamp             | LONG           | YES      |
 
-`orderIdList` 与 `origClientOrderIdList` 必须至少发送一个，不可同时发送
+`orderIdList` 与 `origClientOrderIdList` 必须至少发送一个,不可同时发送
 
 
 ## 倒计时撤销所有订单 (TRADE)
@@ -2702,14 +2689,14 @@ timestamp             | LONG           | YES      |
 
 ```javascript
 {
-	"symbol": "BTCUSDT", 
+	"symbol": "BTCUSD_200925", 
 	"countdownTime": "100000"
 }
 ```
 
 
 ``
-POST /fapi/v1/countdownCancelAll  (HMAC SHA256)
+POST /dapi/v1/countdownCancelAll  (HMAC SHA256)
 ``
 
 **权重:**
@@ -2724,14 +2711,14 @@ countdownTime | LONG | YES | 倒计时。 1000 表示 1 秒； 0 表示取消倒
 recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
-* 该接口可以被用于确保在发生故障时撤销指定symbol上的所有挂单。 在使用这个功能时，接口应像心跳一样在倒计时内被反复调用，以便可以取消既有的倒计时并开始新的倒数计时设置。
+* 该接口可以被用于确保在发生故障时撤销指定symbol上的所有挂单。 在使用这个功能时,接口应像心跳一样在倒计时内被反复调用,以便可以取消既有的倒计时并开始新的倒数计时设置。
 
 * 用法示例：
-	以30s的间隔重复此接口，每次倒计时countdownTime设置为120000（120s）。   
-	如果在120秒内未再次调用此接口，则您指定symbol上的所有挂单都会被自动撤销。   
-	如果在120秒内以将countdownTime设置为0，则倒数计时器将终止，自动撤单功能取消。
+	以30s的间隔重复此接口,每次倒计时countdownTime设置为120000（120s）。   
+	如果在120秒内未再次调用此接口,则您指定symbol上的所有挂单都会被自动撤销。   
+	如果在120秒内以将countdownTime设置为0,则倒数计时器将终止,自动撤单功能取消。
 	
-* 系统会**大约每10毫秒**检查一次所有倒计时情况，因此请注意，使用此功能时应考虑足够的冗余。    
+* 系统会**大约每10毫秒**检查一次所有倒计时情况,因此请注意,使用此功能时应考虑足够的冗余。    
 我们不建议将倒记时设置得太精确或太小。
 
 
@@ -2743,7 +2730,7 @@ timestamp | LONG | YES |
 ```javascript
 
 {
-  	"avgPrice": "0.00000",				// 平均成交价
+  	"avgPrice": "0.0",				// 平均成交价
   	"clientOrderId": "abc",				// 用户自定义的订单号
   	"cumBase": "0", 						// 成交金额(标的数量)
   	"executedQty": "0",					// 成交数量
@@ -2754,7 +2741,7 @@ timestamp | LONG | YES |
   	"reduceOnly": false,				// 是否仅减仓
   	"side": "BUY",						// 买卖方向
   	"status": "NEW",					// 订单状态
-  	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"stopPrice": "9300",					// 触发价,对`TRAILING_STOP_MARKET`无效
   	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200925",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
@@ -2789,7 +2776,7 @@ recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
 * `orderId` 与 `origClientOrderId` 中的一个为必填参数
-* 查询的订单如果已经成交或取消，将返回报错"Order does not exist."
+* 查询的订单如果已经成交或取消,将返回报错"Order does not exist."
 
 
 ## 查看当前全部挂单 (USER_DATA)
@@ -2799,7 +2786,7 @@ timestamp  | LONG   | YES      |
 ```javascript
 [
   {
-  	"avgPrice": "0.00000",				// 平均成交价
+  	"avgPrice": "0.0",				// 平均成交价
   	"clientOrderId": "abc",				// 用户自定义的订单号
   	"cumBase": "0", 						// 成交金额(标的数量)
   	"executedQty": "0",					// 成交数量
@@ -2811,7 +2798,7 @@ timestamp  | LONG   | YES      |
   	"side": "BUY",						// 买卖方向
   	"positionSide": "SHORT", // 持仓方向
   	"status": "NEW",					// 订单状态
-  	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"stopPrice": "9300",					// 触发价,对`TRAILING_STOP_MARKET`无效
   	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200925",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
@@ -2848,7 +2835,7 @@ pair 		 | STRING | NO		 | 标的交易对
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-* symbol或pair参数，必须传一个
+* symbol或pair参数,必须传一个
 
 
 
@@ -2860,7 +2847,7 @@ timestamp  | LONG   | YES      |
 ```javascript
 [
   {
-   	"avgPrice": "0.00000",				// 平均成交价
+   	"avgPrice": "0.0",				// 平均成交价
   	"clientOrderId": "abc",				// 用户自定义的订单号
   	"cumBase": "0", 						// 成交金额(标的数量)
   	"executedQty": "0",					// 成交数量
@@ -2872,7 +2859,7 @@ timestamp  | LONG   | YES      |
   	"side": "BUY",						// 买卖方向
   	"positionSide": "SHORT", 			// 持仓方向
   	"status": "NEW",					// 订单状态
-  	"stopPrice": "9300",					// 触发价，对`TRAILING_STOP_MARKET`无效
+  	"stopPrice": "9300",					// 触发价,对`TRAILING_STOP_MARKET`无效
   	"closePosition": false,   // 是否条件全平仓
   	"symbol": "BTCUSD_200925",				// 交易对
   	"pair": "BTCUSD",	// 标的交易对
@@ -2901,14 +2888,45 @@ GET /dapi/v1/allOrders (HMAC SHA256)
 ---------- | ------ | -------- | -----------------------------------------------
 symbol     | STRING | NO       | 交易对
 pair		 | STRING | NO 		 | 标的交易对
-orderId    | LONG   | NO       | 只返回此orderID及之后的订单，缺省返回最近的订单, 仅支持配合symbol使用
+orderId    | LONG   | NO       | 只返回此orderID及之后的订单,缺省返回最近的订单, 仅支持配合symbol使用
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 limit      | INT    | NO       | 返回的结果集数量 默认值:50 最大值:100
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-* symbol 或 pair 必须传一个，不能同时传
+* symbol 或 pair 必须传一个,不能同时传
+
+
+## 账户余额 (USER_DATA)
+
+> **响应:**
+
+```javascript
+[
+ 	{
+ 		"accountAlias": "SgsR",    // 账户唯一识别码
+ 		"asset": "BTC",		// 资产
+ 		"balance": "0.00250000",	// 余额
+ 		"withdrawAvailable": "0.00250000", // 最大可提款金额,同`GET /dapi/account`中“maxWithdrawAmount”
+	}
+]
+```
+
+``
+GET /dapi/v1/balance (HMAC SHA256)
+``
+
+**Weight:**
+1
+
+**Parameters:**
+
+名称 | 类型 | 是否必需 | 描述
+------------ | ------------ | ------------ | ------------
+recvWindow | LONG | NO |
+timestamp | LONG | YES
+
 
 
 
@@ -2949,7 +2967,9 @@ timestamp  | LONG   | YES      |
 		 	"leverage": "20", 
 		 	"initialMargin": "0.00", 
 		  	"maintMargin": "0.00",
-		   	"openOrderInitialMargin": "0.00", 		   	"positionInitialMargin": "0.00", 		   	"symbol": "BTCUSD_200925", 
+		   	"openOrderInitialMargin": "0.00",
+		   	"positionInitialMargin": "0.00", 
+		   	"symbol": "BTCUSD_200925", 
 		   	"unrealizedProfit": "0.00000000", 
 		   	"positionSide": "LONG", 
 		 },
@@ -2969,7 +2989,6 @@ timestamp  | LONG   | YES      |
 	 "canTrade": true, // 是否可以交易
 	 "canWithdraw": true, // 是否可以出金
 	 "feeTier": 2, // 手续费等级
-	 "maxWithdrawAmount": None,  // 请忽略
 	 "updateTime": 0
  }
 
@@ -3008,7 +3027,7 @@ timestamp  | LONG | YES      |
 POST /dapi/v1/leverage (HMAC SHA256)
 ``
 
-调整用户在指定symbol合约的开仓杠杆。不同持仓方向上使用相同杠杆倍数，共享允许的最大交易标的资产数量。
+调整用户在指定symbol合约的开仓杠杆。不同持仓方向上使用相同杠杆倍数,共享允许的最大交易标的资产数量。
 
 **权重:**
 1
@@ -3039,7 +3058,7 @@ POST /dapi/v1/marginType (HMAC SHA256)
 ``
 
 变换用户在指定symbol合约上的保证金模式：逐仓或全仓。   
-不同持仓方向上使用相同的保证金模式。双向持仓模式下的逐仓，`LONG` 与 `SHORT`使用独立的逐仓仓位。
+不同持仓方向上使用相同的保证金模式。双向持仓模式下的逐仓,`LONG` 与 `SHORT`使用独立的逐仓仓位。
 
 **权重:**
 1
@@ -3071,7 +3090,7 @@ timestamp  | LONG   | YES      |
 POST /dapi/v1/positionMargin (HMAC SHA256)
 ``
 
-针对逐仓模式下的仓位，调整其逐仓保证金资金。
+针对逐仓模式下的仓位,调整其逐仓保证金资金。
 
 **权重:**
 1
@@ -3081,9 +3100,9 @@ POST /dapi/v1/positionMargin (HMAC SHA256)
    名称    |  类型   | 是否必需 |                 描述
 ---------- | ------- | -------- | ------------------------------------
 symbol     | STRING  | YES      | 交易对
-positionSide| ENUM   | NO		  | 持仓方向，单向持仓模式下非必填，默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT` 
+positionSide| ENUM   | NO		  | 持仓方向,单向持仓模式下非必填,默认且仅可填`BOTH`;在双向持仓模式下必填,且仅可选择 `LONG` 或 `SHORT` 
 amount     | DECIMAL | YES      | 保证金资金
-type       | INT     | YES      | 调整方向 1: 增加逐仓保证金，2: 减少逐仓保证金
+type       | INT     | YES      | 调整方向 1: 增加逐仓保证金,2: 减少逐仓保证金
 recvWindow | LONG    | NO       |
 timestamp  | LONG    | YES      |
 
@@ -3109,7 +3128,7 @@ timestamp  | LONG    | YES      |
 	  	"asset": "BTC",
 	  	"symbol": "BTCUSD_200925",
 	  	"time": 1578047900425,
-	  	"type": 1，
+	  	"type": 1,
 	  	"positionSide": "LONG" 
 	}
 ]
@@ -3127,7 +3146,7 @@ GET /dapi/v1/positionMargin/history (HMAC SHA256)
    名称    |  类型  | 是否必需 |                 描述
 ---------- | ------ | -------- | ------------------------------------
 symbol     | STRING | YES      | 交易对
-type       | INT    | NO       | 调整方向 1: 增加逐仓保证金，2: 减少逐仓保证金
+type       | INT    | NO       | 调整方向 1: 增加逐仓保证金,2: 减少逐仓保证金
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 limit      | INT    | NO       | 返回的结果集数量 默认值: 50
@@ -3150,7 +3169,7 @@ timestamp  | LONG   | YES      |
   		"liquidationPrice": "0", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
   		"maxQty": "20000000", // 当前杠杆倍数允许的数量上限
-  		"positionAmt": "0.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
+  		"positionAmt": "0.000", // 头寸数量,符号代表多空方向, 正数为多,负数为空
   		"symbol": "BTCUSD_200925", // 交易对
   		"unRealizedProfit": "0.00000000", // 持仓未实现盈亏
   		"positionSide": "BOTH", // 持仓方向
@@ -3164,7 +3183,7 @@ timestamp  | LONG   | YES      |
   		"liquidationPrice": "5930.78", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
   		"maxQty": "20000000", // 当前杠杆倍数允许的名义价值上限
-  		"positionAmt": "20.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
+  		"positionAmt": "20.000", // 头寸数量,符号代表多空方向, 正数为多,负数为空
   		"symbol": "BTCUSD_200925", // 交易对
   		"unRealizedProfit": "2316.83423560" // 持仓未实现盈亏
   		"positionSide": "LONG", // 持仓方向
@@ -3178,7 +3197,7 @@ timestamp  | LONG   | YES      |
   		"liquidationPrice": "7189.95", // 参考强平价格
   		"markPrice": "6679.50671178",	// 当前标记价格
   		"maxQty": "20000000", // 当前杠杆倍数允许的名义价值上限
-  		"positionAmt": "-10.000", // 头寸数量，符号代表多空方向, 正数为多，负数为空
+  		"positionAmt": "-10.000", // 头寸数量,符号代表多空方向, 正数为多,负数为空
   		"symbol": "BTCUSD_200925", // 交易对
   		"unRealizedProfit": "-1156.46711780" // 持仓未实现盈亏
   		"positionSide": "SHORT", // 持仓方向
@@ -3191,6 +3210,11 @@ timestamp  | LONG   | YES      |
 GET /dapi/v1/positionRisk (HMAC SHA256)
 ``
 
+**权重:**
+1
+
+**参数:**
+
    名称    | 类型 | 是否必需 | 描述
 ---------- | ---- | -------- | ----
 marginAsset | STRING | NO	  | 
@@ -3202,7 +3226,7 @@ timestamp  | LONG | YES      |
 
 * marginAsset 和 pair 不要同时提供
 * marginAsset 和 pair 均不提供则返回所有上市状态和结算中的symbol   
-* 请与账户推送信息`ACCOUNT_UPDATE`配合使用，以满足您的及时性和准确性需求。
+* 请与账户推送信息`ACCOUNT_UPDATE`配合使用,以满足您的及时性和准确性需求。
 
 
 
@@ -3212,24 +3236,24 @@ timestamp  | LONG | YES      |
 
 ```javascript
 [
-  {
-  	"buyer": false,	// 是否是买方
-  	"commission": "-0.07819010", // 手续费
-  	"commissionAsset": "BTC", // 手续费计价单位
-  	"id": 698759, // 交易ID
-  	"maker": false,	// 是否是挂单方
-  	"orderId": 25851813, // 订单编号
-  	"price": "7819.01",	// 成交价
-  	"qty": "0.002",	// 成交数量
-  	"baseQty": "15.63802",	// 成交额(标的数量)
-  	"marginAsset": "BTC",  // 保证金币种
-  	"realizedPnl": "-0.91539999",	// 实现盈亏
-  	"side": "SELL",	// 买卖方向
-  	"positionSide": "SHORT",  // 持仓方向
-  	"symbol": "BTCUSD_200925", // 交易对
-  	"pair": "BTCUSD",	// 标的交易对
-  	"time": 1569514978020 // 时间
-  }
+	{
+		'symbol': 'BTCUSD_200626',		// 交易对
+	  	'id': 6,						// 交易ID
+	  	'orderId': 28,					// 订单ID
+	  	'pair': 'BTCUSD',				// 标的交易对
+	  	'side': 'SELL',					// 买卖方向
+	  	'price': '8800',				// 成交价
+	  	'qty': '1',						// 成交数量
+	  	'realizedPnl': '0',				// 实现盈亏
+	  	'marginAsset': 'BTC',			// 保证金币种
+	  	'baseQty': '0.01136364',		// 成交额（标的数量）
+	  	'commission': '0.00000454',	// 手续费
+	  	'commissionAsset': 'BTC',		// 手续费单位
+	  	'time': 1590743483586,			// 时间
+	  	'positionSide': 'BOTH',			// 持仓方向
+	  	'buyer': false,					// 是否是买方
+	  	'maker': false					// 是否是挂单方
+	}
 ]
 ```
 
@@ -3252,7 +3276,7 @@ symbol     | STRING | NO  		 | 交易对
 pair		 | STRING | NO 		 | 标的交易对
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
-fromId     | LONG   | NO       | 返回该fromId及之后的成交，缺省返回最近的成交, 仅支持配合symbol使用
+fromId     | LONG   | NO       | 返回该fromId及之后的成交,缺省返回最近的成交,仅支持配合symbol使用
 limit      | INT    | NO       | 返回的结果集数量 默认值:50 最大值:100.
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
@@ -3267,11 +3291,11 @@ timestamp  | LONG   | YES      |
 ```javascript
 [
 	{
-    	"symbol": "BTCUSD_200925", // 交易对，仅针对涉及交易对的资金流
+    	"symbol": "BTCUSD_200925", // 交易对,仅针对涉及交易对的资金流
     	"incomeType": "TRANSFER",	// 资金流类型
-    	"income": "-0.37500000", // 资金流数量，正数代表流入，负数代表流出
+    	"income": "-0.37500000", // 资金流数量,正数代表流入,负数代表流出
     	"asset": "BTC", // 资产内容
-    	"info":"", // 备注信息，取决于流水类型
+    	"info":"", // 备注信息,取决于流水类型
     	"time": 1570608000000, // 时间
 	},
 	{
@@ -3297,14 +3321,14 @@ GET /dapi/v1/income (HMAC SHA256)
    名称    |  类型  | 是否必需 |                                              描述
 ---------- | ------ | -------- | -----------------------------------------------------------------------------------------------
 symbol     | STRING | NO       | 交易对
-incomeType | STRING | NO       | 收益类型 "TRANSFER"，"WELCOME_BONUS", "REALIZED_PNL", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
+incomeType | STRING | NO       | 收益类型 "TRANSFER","WELCOME_BONUS", "REALIZED_PNL", "COMMISSION", "INSURANCE_CLEAR", **"DELIVERED_SETTELMENT"**
 startTime  | LONG   | NO       | 起始时间
 endTime    | LONG   | NO       | 结束时间
 limit      | INT    | NO       | 返回的结果集数量 默认值:100 最大值:1000
 recvWindow | LONG   | NO       |
 timestamp  | LONG   | YES      |
 
-* 如果`incomeType`没有发送，返回所有类型账户损益资金流水。
+* 如果`incomeType`没有发送,返回所有类型账户损益资金流水。
 
 
 
@@ -3321,10 +3345,10 @@ timestamp  | LONG   | YES      |
         "brackets": [
             {
                 "bracket": 1,   // 层级
-                "initialLeverage": 75,  // 该层允许的最高初始杠杆倍数
-                "qtyCap": 100,  // 该层对应的数量上限
+                "initialLeverage": 125,  // 该层允许的最高初始杠杆倍数
+                "qtyCap": 50,  // 该层对应的数量上限
                 "qtylFloor": 0,  // 该层对应的数量下限 
-                "maintMarginRatio": 0.0065 // 该层对应的维持保证金率
+                "maintMarginRatio": 0.004 // 该层对应的维持保证金率
             },
         ]
     }
@@ -3356,66 +3380,16 @@ timestamp|LONG|YES|
 # Websocket 账户信息推送
 
 
+
 * 本篇所列出REST接口的baseurl **https://dapi.binance.com**
 * 用于订阅账户数据的 `listenKey` 从创建时刻起有效期为60分钟
 * 可以通过`PUT`一个`listenKey`延长60分钟有效期
-* 可以通过`DELETE`一个 `listenKey` 立即关闭当前数据流，并使该`listenKey` 无效
+* 可以通过`DELETE`一个 `listenKey` 立即关闭当前数据流,并使该`listenKey` 无效
 * 在具有有效`listenKey`的帐户上执行`POST`将返回当前有效的`listenKey`并将其有效期延长60分钟
-
-
-# Websocket基本信息
-
+* 本篇所列出的websocket接口baseurl: **wss://dstream.binance.com**
 * 订阅账户数据流的stream名称为 **/ws/\<listenKey\>**
-* 每个链接有效期不超过24小时，请妥善处理断线重连。
+* 每个链接有效期不超过24小时,请妥善处理断线重连。
 * 账户数据流的消息**不保证**严格时间序; **请使用 E 字段进行排序**
-
-
-## 明文模式 
-
-* 明文信息的websocket接口baseurl: **wss://sdstream.binance.com**
-* 明文模式下服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
-* **包括PING消息在内的原始信息将以gzip方式压缩并推送**，请在收到推送信息后先解压缩
-* 用户端向服务端发送的内容**不需要**经过压缩
-
-
-### 明文模式下的连接心跳
-
-明文模式下，采用客户端手动心跳模式，服务端会通过消息体发送"PING"消息，客户端收到后应立即回复"PONG"消息。连续三次没有收到客户端的"PONG"消息，服务端会主动断开链接。"PONG"消息应当以JSON格式发送。
-
-**注意**
-
-* 这里的心跳消息，和 websocket协议中的ping帧或pong帧没有关系。
-
-
-> **ping message from server**
-
-```javascript
-{
-	"method": "PING",  	// 心跳PING
-	"E": 1562305380000 	// 心跳时间
-}
-```
-
-* 服务端发出的"PING"消息中会带有字段"E",表示心跳时间,它应在客户端做出的心跳响应"PONG"消息中被发回给服务端。
-
-> **pong messsage should be from client**
- 
-```javascript
-{
-	"method": "PONG",  	// 心跳确认PONG
-	"E": 1562305380000 	// 心跳时间，应与被响应的PING消息心跳时间一致
-}
-```
-
-* 客户端对心跳的响应格式应为  
-  
-	{  "method": "PONG",  	"E": 1562305380000 } , 
-	
-	其中 "E"字段返回的整型数值代表特定的心跳时间，应与对应相应的心跳"PING"消息中收到的心跳时间"E"一致。
-	
-	简单来说，用户可以直接将收到的"PING"消息中的 "method" 内容由 "PING" 改为 "PONG", 并立即将消息发还给服务端。
-
-
 
 
 
@@ -3434,7 +3408,7 @@ timestamp|LONG|YES|
 POST /dapi/v1/listenKey (HMAC SHA256)
 ``
 
-创建一个新的user data stream，返回值为一个listenKey，即websocket订阅的stream名称。如果该帐户具有有效的`listenKey`，则将返回该`listenKey`并将其有效期延长60分钟。
+创建一个新的user data stream,返回值为一个listenKey,即websocket订阅的stream名称。如果该帐户具有有效的`listenKey`,则将返回该`listenKey`并将其有效期延长60分钟。
 
 **权重:**
 1
@@ -3513,12 +3487,12 @@ timestamp | LONG | YES |
     "cw":"3.16812045",		// 除去逐仓仓位保证金的钱包余额, 仅在全仓 margin call 情况下推送此字段
     "p":[					// 涉及持仓
       {
-        "s":"BTCUSD",		// symbol
+        "s":"BTCUSD_200925",		// symbol
         "ps":"LONG",		// 持仓方向
-        "pa":"1.327",		// 仓位
+        "pa":"1",			// 仓位
         "mt":"CROSSED",		// 保证金模式
-        "iw":"0",			// 若为逐仓，仓位保证金
-        "mp":"187.17127",	// 标记价格
+        "iw":"0",			// 若为逐仓,仓位保证金
+        "mp":"9187.17127000",	// 标记价格
         "up":"-1.166074",	// 未实现盈亏
         "mm":"1.614445"		// 持仓需要的维持保证金
       }
@@ -3528,8 +3502,8 @@ timestamp | LONG | YES |
 ```
 
 
-* 当用户持仓风险过高，会推送此消息。
-* 此消息仅作为风险指导信息，不建议用于投资策略。
+* 当用户持仓风险过高,会推送此消息。
+* 此消息仅作为风险指导信息,不建议用于投资策略。
 * 在大波动市场行情下,不排除此消息发出的同时用户仓位已被强平的可能。
 
 
@@ -3563,19 +3537,19 @@ timestamp | LONG | YES |
        {
           "s":"BTCUSD_200925",          	// 交易对
           "pa":"0",               	// 仓位
-          "ep":"0.00000",            // 入仓价格
+          "ep":"0.0",            // 入仓价格
           "cr":"200",             	// (费前)累计实现损益
           "up":"0",						// 持仓未实现盈亏
           "mt":"isolated",				// 保证金模式
-          "iw":"0.00000000",			// 若为逐仓，仓位保证金
+          "iw":"0.00000000",			// 若为逐仓,仓位保证金
           "ps":"BOTH"					// 持仓方向
-       }，
+       },
        {
         	"s":"BTCUSD_200925",
         	"pa":"20",
-        	"ep":"6563.66500",
+        	"ep":"6563.6",
         	"cr":"0",
-        	"up":"2850.21200",
+        	"up":"2850.21200000",
         	"mt":"isolated",
         	"iw":"13200.70726908",
         	"ps":"LONG"
@@ -3583,9 +3557,9 @@ timestamp | LONG | YES |
        {
         	"s":"BTCUSD_200925",
         	"pa":"-10",
-        	"ep":"6563.86000",
+        	"ep":"6563.8",
         	"cr":"-45.04000000",
-        	"up":"-1423.15600",
+        	"up":"-1423.15600000",
         	"mt":"isolated",
         	"iw":"6570.42511771",
         	"ps":"SHORT"
@@ -3597,9 +3571,9 @@ timestamp | LONG | YES |
 
 账户更新事件的 event type 固定为 `ACCOUNT_UPDATE`
 
-* 仅当账户信息有变动时，才会推送此事件。
-* 订单状态变化没有引起账户和持仓变化的，不会推送此事件。
-* 每次推送的position 信息，仅包含当前持仓不为0或逐仓仓位保证金不为0的symbol position。
+* 仅当账户信息有变动时,才会推送此事件。
+* 订单状态变化没有引起账户和持仓变化的,不会推送此事件。
+* 每次推送的position 信息,仅包含当前持仓不为0或逐仓仓位保证金不为0的symbol position。
 
 
 ## 订单/交易 更新推送
@@ -3717,7 +3691,7 @@ event type统一为 `ORDER_TRADE_UPDATE`
 }
 ```
 
-错误由两部分组成：错误代码和消息。 代码是通用的，但是消息可能会有所不同。
+错误由两部分组成：错误代码和消息。 代码是通用的,但是消息可能会有所不同。
 
 
 ## 10xx - 常规服务器或网络问题
@@ -3739,9 +3713,9 @@ event type统一为 `ORDER_TRADE_UPDATE`
  * Too many requests; please use the websocket for live updates.
  * 请求权重过多； 请使用websocket获取最新更新。
  * Too many requests; current limit is %s requests per minute. Please use the websocket for live updates to avoid polling the API.
- * 请求权重过多； 当前限制为每分钟％s请求权重。 请使用websocket进行实时更新，以避免轮询API。
+ * 请求权重过多； 当前限制为每分钟％s请求权重。 请使用websocket进行实时更新,以避免轮询API。
  * Way too many requests; IP banned until %s. Please use the websocket for live updates to avoid bans.
- * 请求权重过多； IP被禁止，直到％s。 请使用websocket进行实时更新，以免被禁。
+ * 请求权重过多； IP被禁止,直到％s。 请使用websocket进行实时更新,以免被禁。
  
 ### -1004 DUPLICATE_IP
  * This IP is already on the white list
@@ -3809,11 +3783,11 @@ event type统一为 `ORDER_TRADE_UPDATE`
 
 ### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
  * A mandatory parameter was not sent, was empty/null, or malformed.
- * 未发送强制性参数，该参数为空/空或格式错误。
+ * 未发送强制性参数,该参数为空/空或格式错误。
  * Mandatory parameter '%s' was not sent, was empty/null, or malformed.
- * 强制参数`％s`未发送，为空/空或格式错误。
+ * 强制参数`％s`未发送,为空/空或格式错误。
  * Param '%s' or '%s' must be sent, but both were empty/null!
- * 必须发送参数`％s`或`％s`，但两者均为空！
+ * 必须发送参数`％s`或`％s`,但两者均为空！
 
 ### -1103 UNKNOWN_PARAM
  * An unknown parameter was sent.
@@ -3823,7 +3797,7 @@ event type统一为 `ORDER_TRADE_UPDATE`
  * Not all sent parameters were read.
  * 并非所有发送的参数都被读取。
  * Not all sent parameters were read; read '%s' parameter(s) but was sent '%s'.
- * 并非所有发送的参数都被读取； 读取了`％s`参数，但被发送了`％s`。
+ * 并非所有发送的参数都被读取； 读取了`％s`参数,但被发送了`％s`。
 
 ### -1105 PARAM_EMPTY
  * A parameter was empty.
@@ -3917,7 +3891,7 @@ event type统一为 `ORDER_TRADE_UPDATE`
 
 ### -2015 REJECTED_MBX_KEY
  * Invalid API-key, IP, or permissions for action.
- * 无效的API密钥，IP或操作权限。
+ * 无效的API密钥,IP或操作权限。
 
 ### -2016 NO_TRADING_WINDOW
  * No trading window could be found for the symbol. Try ticker/24hrs instead.
@@ -3958,6 +3932,14 @@ event type统一为 `ORDER_TRADE_UPDATE`
 ### -2026 REDUCE_ONLY_ORDER_TYPE_NOT_SUPPORTED
  * This OrderType is not supported when reduceOnly.
  * 当前订单类型不支持`reduceOnly`
+ 
+### -2027 MAX_LEVERAGE_RATIO
+ * Exceeded the maximum allowable position at current leverage.
+ * 挂单或持仓超出当前初始杠杆下的最大值
+
+### -2028 MIN_LEVERAGE_RATIO
+ * Leverage is smaller than permitted: insufficient margin balance.
+ * 调整初始杠杆过低，导致可用余额不足
  
 
 ## 40xx - Filters and other Issues
@@ -4123,11 +4105,11 @@ event type统一为 `ORDER_TRADE_UPDATE`
 
 ### -4047 THERE_EXISTS_OPEN_ORDERS
  * Margin type cannot be changed if there exists open orders.
- * 如果有挂单，仓位模式不能切换。
+ * 如果有挂单,仓位模式不能切换。
 
 ### -4048 THERE_EXISTS_QUANTITY
  * Margin type cannot be changed if there exists position.
- * 如果有仓位，仓位模式不能切换。
+ * 如果有仓位,仓位模式不能切换。
 
 ### -4049 ADD_ISOLATED_MARGIN_REJECT
  * Add margin only support for isolated position.
@@ -4157,14 +4139,14 @@ event type统一为 `ORDER_TRADE_UPDATE`
 
 
 ## Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
-交易系统返回错误后，将发送此代码。 以下消息将指示特定的错误：
+交易系统返回错误后,将发送此代码。 以下消息将指示特定的错误：
 
 错误信息                                                          |                                       解释
 --------------------------------------------------------------- | ------------------------------------------------------------------------------------------
 "Unknown order sent."                                           | 通过`orderId`, `clientOrderId`, `origClientOrderId`都无法找到订单。
 "Duplicate order sent."                                         | `clientOrderId`已经被使用。用户自定义的ID不可以重复。
 "Market is closed."                                             | 该交易对不在交易范围。
-"Account has insufficient balance for requested action."        | 资金不足，无法执行相关操作。
+"Account has insufficient balance for requested action."        | 资金不足,无法执行相关操作。
 "Market orders are not supported for this symbol."              | 此交易对不支持`MARKET`订单。
 "Stop loss orders are not supported for this symbol."           | 此交易对不支持`STOP_LOSS`。
 "Stop loss limit orders are not supported for this symbol."     | 此交易对不支持`STOP_LOSS_LIMIT`。
@@ -4173,15 +4155,15 @@ event type统一为 `ORDER_TRADE_UPDATE`
 "Price * QTY is zero or less."                                  | `price` * `quantity`太小。
 "This action disabled is on this account."                      | 联系客户支持； 该帐户已禁用了某些操作。
 "Unsupported order combination"                                 | 无法一起设置`orderType`, `timeInForce`, `stopPrice`来下单。
-"Order would trigger immediately."                              | 和最新的交易价格比起来, `stop price`不合理，有可能立刻被成交。
+"Order would trigger immediately."                              | 和最新的交易价格比起来, `stop price`不合理,有可能立刻被成交。
 "Cancel order is invalid. Check origClientOrderId and orderId." | `origClientOrderId`或者`orderId`没有设置。
-"Order would immediately match and take."                       | `GTX`的订单可能会立刻成交，这样就成为吃单方，这是不允许的。
+"Order would immediately match and take."                       | `GTX`的订单可能会立刻成交,这样就成为吃单方,这是不允许的。
 
 ## -9xxx 过滤器故障
 错误信息                            |                                                 解释
 --------------------------------- | ---------------------------------------------------------------------------------------------------------
-"Filter failure: PRICE_FILTER"    | `price`过高，过低和/或不遵循交易对的最小价格规则。
-"Filter failure: LOT_SIZE"        | `quantity`太高，太低和/或不遵循该交易对的步长规则。
+"Filter failure: PRICE_FILTER"    | `price`过高,过低和/或不遵循交易对的最小价格规则。
+"Filter failure: LOT_SIZE"        | `quantity`太高,太低和/或不遵循该交易对的步长规则。
 "Filter failure: MARKET_LOT_SIZE" | `MARKET`市价订单里`quantity`太高或者太低。通过`/dapi/v1/exchangeInfo`接口可以拿到相关信息。
 "Filter failure: MAX_NUM_ORDERS"  | 账户里面此交易对的挂单(`open orders`)太多。
 "Filter failure: PERCENT_PRICE"   | `price`比最近Y分钟的平均加权价格高X％或X％太低。
