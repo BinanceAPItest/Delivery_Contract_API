@@ -6,7 +6,7 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="images/favicon.ico" rel="icon" type="image/ico" />
-    <title>Binance API Documentation</title>
+    <title>Binance API 使用文档</title>
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -312,6 +312,9 @@
             <a href="#websocket" class="toc-h1 toc-link" data-title="Websocket 行情推送">Websocket 行情推送</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#3c863d56da" class="toc-h2 toc-link" data-title="实时订阅/取消数据流">实时订阅/取消数据流</a>
+                  </li>
+                  <li>
                     <a href="#b14c7e3649" class="toc-h2 toc-link" data-title="最新合约价格">最新合约价格</a>
                   </li>
                   <li>
@@ -377,6 +380,12 @@
             <a href="#93d49cc2e5" class="toc-h1 toc-link" data-title="账户和交易接口">账户和交易接口</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#1045de04a1" class="toc-h2 toc-link" data-title="划转">划转</a>
+                  </li>
+                  <li>
+                    <a href="#87a7130ac5" class="toc-h2 toc-link" data-title="获取划转历史">获取划转历史</a>
+                  </li>
+                  <li>
                     <a href="#trade" class="toc-h2 toc-link" data-title="更改持仓模式（TRADE）">更改持仓模式（TRADE）</a>
                   </li>
                   <li>
@@ -416,7 +425,10 @@
                     <a href="#user_data-5" class="toc-h2 toc-link" data-title="查询所有订单（包括历史订单） (USER_DATA)">查询所有订单（包括历史订单） (USER_DATA)</a>
                   </li>
                   <li>
-                    <a href="#user_data-6" class="toc-h2 toc-link" data-title="账户信息 (USER_DATA)">账户信息 (USER_DATA)</a>
+                    <a href="#user_data-6" class="toc-h2 toc-link" data-title="账户余额 (USER_DATA)">账户余额 (USER_DATA)</a>
+                  </li>
+                  <li>
+                    <a href="#user_data-7" class="toc-h2 toc-link" data-title="账户信息 (USER_DATA)">账户信息 (USER_DATA)</a>
                   </li>
                   <li>
                     <a href="#trade-9" class="toc-h2 toc-link" data-title="调整开仓杠杆 (TRADE)">调整开仓杠杆 (TRADE)</a>
@@ -434,13 +446,13 @@
                     <a href="#479ce129f6" class="toc-h2 toc-link" data-title="用户持仓风险">用户持仓风险</a>
                   </li>
                   <li>
-                    <a href="#user_data-7" class="toc-h2 toc-link" data-title="账户成交历史 (USER_DATA)">账户成交历史 (USER_DATA)</a>
+                    <a href="#user_data-8" class="toc-h2 toc-link" data-title="账户成交历史 (USER_DATA)">账户成交历史 (USER_DATA)</a>
                   </li>
                   <li>
-                    <a href="#user_data-8" class="toc-h2 toc-link" data-title="获取账户损益资金流水(USER_DATA)">获取账户损益资金流水(USER_DATA)</a>
+                    <a href="#user_data-9" class="toc-h2 toc-link" data-title="获取账户损益资金流水(USER_DATA)">获取账户损益资金流水(USER_DATA)</a>
                   </li>
                   <li>
-                    <a href="#user_data-9" class="toc-h2 toc-link" data-title="杠杆分层标准 (USER_DATA)">杠杆分层标准 (USER_DATA)</a>
+                    <a href="#user_data-10" class="toc-h2 toc-link" data-title="杠杆分层标准 (USER_DATA)">杠杆分层标准 (USER_DATA)</a>
                   </li>
               </ul>
           </li>
@@ -492,7 +504,7 @@
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='https://testnet.binancefuture.com/en/futures/'>Binance Future Testnet</a></li>
+            <li><a href='https://www.binance.com/cn/futures/'>Binance Futures</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -502,7 +514,7 @@
 <hr>
 <h1 id='b122f813d5'>基本信息</h1><h2 id='rest'>Rest 基本信息</h2>
 <ul>
-<li>本篇列出REST接口的baseurl <strong>https://testnet.binancefuture.com</strong></li>
+<li>本篇列出REST接口的 baseurl <strong>https://dapi.binance.com</strong></li>
 <li>所有接口的响应都是JSON格式</li>
 <li>响应中如有数组,数组元素以时间升序排列,越早的数据越提前。</li>
 <li>所有时间、时间戳均为UNIX时间,单位为毫秒</li>
@@ -534,6 +546,10 @@
 <li>在 <code>/dapi/v1/exchangeInfo</code>接口中<code>rateLimits</code>数组里包含有REST接口(不限于本篇的REST接口)的访问限制。包括带权重的访问频次限制、下单速率限制。本篇<code>枚举定义</code>章节有限制类型的进一步说明。</li>
 <li>违反上述任何一个访问限制都会收到HTTP 429,这是一个警告.</li>
 </ul>
+
+<aside class="notice">
+请注意，若用户被认定利用频繁挂撤单且故意低效交易意图发起攻击行为，Binance有权视具体情况进一步加强对其访问限制。
+</aside>
 <h3 id='ip'>IP 访问限制</h3>
 <ul>
 <li>每个请求将包含一个<code>X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)</code>的头,其中包含当前IP所有请求的已使用权重。</li>
@@ -545,7 +561,7 @@
 </ul>
 
 <aside class="notice">
-建议您尽可能多地使用websocket消息获取相应数据,以减少请求带来的访问限制压力。
+强烈建议您尽可能多地使用websocket消息获取相应数据,既可以保障消息的及时性，也可以减少请求带来的访问限制压力。
 </aside>
 <h3 id='b0ee61b8c8'>下单频率限制</h3>
 <ul>
@@ -684,13 +700,13 @@ apikey、secret仅供示范</p>
 <p><strong>HMAC SHA256 签名:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="nv">$ </span><span class="nb">echo</span> -n <span class="s2">"symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;quantity=1&amp;price=9000&amp;timeInForce=GTC&amp;recvWindow=5000&amp;timestamp=1591702613943"</span> | openssl dgst -sha256 -hmac <span class="s2">"2b5eb11e18796d12d88f13dc27dbbd02c2cc51ff7059765ed9821957d82bb4d9"</span>
-    <span class="o">(</span>stdin<span class="o">)=</span> 3c661234138461fcc7a7d8746c6558c9842d4e10870d2ecbedf7777cad694af9
+    <span class="o">(</span>stdin<span class="o">)=</span> 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a
 </code></pre>
 <blockquote>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83"</span> -X POST <span class="s1">'https://testnet.binancefuture.com/dapi/v1/order?symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;quantity=1&amp;price=9000&amp;timeInForce=GTC&amp;recvWindow=5000&amp;timestamp=1591702613943&amp;signature= 3c661234138461fcc7a7d8746c6558c9842d4e10870d2ecbedf7777cad694af9'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;quantity=1&amp;price=9000&amp;timeInForce=GTC&amp;recvWindow=5000&amp;timestamp=1591702613943&amp;signature= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'</span>
 </code></pre>
 <ul>
 <li><p><strong>queryString:</strong> </p>
@@ -717,7 +733,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83"</span> -X POST <span class="s1">'https://testnet.binancefuture.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;quantity=1&amp;price=9000&amp;timeInForce=GTC&amp;recvWindow=5000&amp;timestamp=1591702613943&amp;signature= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order'</span> -d <span class="s1">'symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;quantity=1&amp;price=9000&amp;timeInForce=GTC&amp;recvWindow=5000&amp;timestamp=1591702613943&amp;signature= 21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'</span>
 </code></pre>
 <ul>
 <li><p><strong>requestBody:</strong> </p>
@@ -744,7 +760,7 @@ apikey、secret仅供示范</p>
 <p><strong>curl 调用:</strong></p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code>    <span class="o">(</span>HMAC SHA256<span class="o">)</span>
-    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83"</span> -X POST <span class="s1">'https://testnet.binancefuture.com/dapi/v1/order?symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=9000&amp;recvWindow=5000&amp;timestamp=1591702613943&amp;signature=21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'</span>
+    <span class="nv">$ </span>curl -H <span class="s2">"X-MBX-APIKEY: dbefbc809e3e83c283a984c3a1459732ea7db1360ca80c5c2c8867408d28cc83"</span> -X POST <span class="s1">'https://dapi.binance.com/dapi/v1/order?symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC'</span> -d <span class="s1">'quantity=1&amp;price=9000&amp;recvWindow=5000&amp;timestamp=1591702613943&amp;signature=21fd819734bf0e5c68740eed892909414d693635c5f7fffab1313925ae13556a'</span>
 </code></pre>
 <ul>
 <li><strong>queryString:</strong> symbol=BTCUSD_200925&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC</li>
@@ -1093,7 +1109,7 @@ NONE</p>
             <span class="s2">"contractType"</span><span class="p">:</span> <span class="s2">"CURRENT_QUARTER"</span><span class="p">,</span>   <span class="c1">// 合约类型</span>
             <span class="s2">"deliveryDate"</span><span class="p">:</span> <span class="mi">1601020800000</span><span class="p">,</span>
             <span class="s2">"onboardDate"</span><span class="p">:</span> <span class="mi">1590739200000</span><span class="p">,</span>
-            <span class="s2">"contractStatus"</span><span class="p">:</span> <span class="s2">"LISTING"</span><span class="p">,</span> <span class="c1">// 交易对状态</span>
+            <span class="s2">"contractStatus"</span><span class="p">:</span> <span class="s2">"TRADING"</span><span class="p">,</span> <span class="c1">// 交易对状态</span>
             <span class="s2">"contractSize"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>     <span class="c1">//</span>
             <span class="s2">"quoteAsset"</span><span class="p">:</span> <span class="s2">"USD"</span><span class="p">,</span> <span class="c1">// 报价币种</span>
             <span class="s2">"baseAsset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>   
@@ -1612,8 +1628,9 @@ GET /dapi/v1/continuousKlines
 </code></pre>
 <p><code>
 GET /dapi/v1/indexPriceKlines
-</code>
-每根K线的开盘时间可视为唯一ID</p>
+</code></p>
+
+<p>每根K线的开盘时间可视为唯一ID</p>
 
 <p><strong>权重:</strong>
 1</p>
@@ -2023,14 +2040,127 @@ GET /dapi/v1/openInterest
 </tbody></table>
 <h1 id='websocket'>Websocket 行情推送</h1>
 <ul>
-<li>本篇所列出的所有wss接口的baseurl为: <strong>wss://dstream.binancefuture.com</strong></li>
+<li>本篇所列出的所有wss接口的baseurl为: <strong>wss://dstream.binance.com</strong></li>
 <li>订阅单一stream格式为 <strong>/ws/&lt;streamName&gt;</strong></li>
 <li>组合streams的URL格式为 <strong>/stream?streams=&lt;streamName1&gt;/&lt;streamName2&gt;/&lt;streamName3&gt;</strong></li>
 <li>订阅组合streams时,事件payload会以这样的格式封装 <strong>{&quot;stream&quot;:&quot;&lt;streamName&gt;&quot;,&quot;data&quot;:&lt;rawPayload&gt;}</strong></li>
 <li>stream名称中所有交易对,标的交易对,合约类型均为<strong>小写</strong></li>
-<li>每个到<strong>dstream.binancefuture.com</strong>的链接有效期不超过24小时,请妥善处理断线重连。</li>
+<li>每个到<strong>dstream.binance.com</strong>的链接有效期不超过24小时,请妥善处理断线重连。</li>
 <li>服务端会定时发送ping帧,客户端应当立即回复pong帧。如果服务器连续三次ping帧都没有收到任何pong帧,服务端会主动断开链接。允许客户端发送不成对的pong帧(即客户端可以以高于ping帧的频率发送pong帧保持链接)。</li>
 </ul>
+<h2 id='3c863d56da'>实时订阅/取消数据流</h2>
+<ul>
+<li>以下数据可以通过websocket发送以实现订阅或取消订阅数据流。示例如下。</li>
+<li>响应内容中的<code>id</code>是无符号整数，作为往来信息的唯一标识。</li>
+</ul>
+<h3 id='2a11d883e8'>订阅一个信息流</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><p><strong>请求</strong></p>
+
+<p>{<br>
+    &quot;method&quot;: &quot;SUBSCRIBE&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+    &quot;btcusd_200925@aggTrade&quot;,<br>
+    &quot;btcusd_200925@depth&quot;<br>
+    ],<br>
+    &quot;id&quot;: 1<br>
+}</p></li>
+</ul>
+<h3 id='122d1b11ee'>取消订阅一个信息流</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">312</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;UNSUBSCRIBE&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+      &quot;btcusd_200925@depth&quot;<br>
+    ],<br>
+    &quot;id&quot;: 312<br>
+  }</p>
+<h3 id='08abf89cc1'>已订阅信息流</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"btcusd_200925@aggTrade"</span>
+    <span class="p">],</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">3</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;LIST_SUBSCRIPTIONS&quot;,<br>
+    &quot;id&quot;: 3<br>
+  }     </p>
+<h3 id='e6bedc3d08'>设定属性</h3>
+<p>当前，唯一可以设置的属性是设置是否启用<code>combined</code>(“组合”)信息流。<br>
+当使用<code>/ws/</code>（“原始信息流”）进行连接时，combined属性设置为<code>false</code>，而使用 <code>/stream/</code>进行连接时则将属性设置为<code>true</code>。</p>
+
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">5</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;SET_PROPERTY&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+      &quot;combined&quot;,<br>
+      true<br>
+    ],<br>
+    &quot;id&quot;: 5<br>
+  }</p>
+<h3 id='d6190e3471'>检索属性</h3>
+<blockquote>
+<p><strong>响应</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>  <span class="p">{</span>
+    <span class="s2">"result"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Indicates that combined is set to true.</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>请求</strong></li>
+</ul>
+
+<p>{<br>
+    &quot;method&quot;: &quot;GET_PROPERTY&quot;,<br>
+    &quot;params&quot;:<br>
+    [<br>
+      &quot;combined&quot;<br>
+    ],<br>
+    &quot;id&quot;: 2<br>
+  }   </p>
 <h2 id='b14c7e3649'>最新合约价格</h2>
 <p>aggTrade中的价格&#39;p&#39;或ticker/miniTicker中的价格&#39;c&#39;均可以作为最新成交价。</p>
 <h2 id='1e66c0284e'>归集交易</h2>
@@ -2650,7 +2780,7 @@ GET /dapi/v1/openInterest
   <span class="p">]</span>
 <span class="p">}</span>
 </code></pre>
-<p>orderbook的变化部分,推送间隔250毫秒,500毫秒,100毫秒或实时更新（如有刷新）</p>
+<p>orderbook的变化部分,推送间隔250毫秒,500毫秒,100毫秒(如有刷新)</p>
 
 <p><strong>Stream 名称:</strong><br>
 <code>&lt;symbol&gt;@depth</code> OR <code>&lt;symbol&gt;@depth@500ms</code> OR <code>&lt;symbol&gt;@depth@100ms</code></p>
@@ -2658,16 +2788,154 @@ GET /dapi/v1/openInterest
 <p><strong>Update Speed:</strong> 250ms 或 500ms 或 100ms</p>
 <h2 id='orderbook'>如何正确在本地维护一个orderbook副本</h2>
 <ol>
-<li>订阅 <strong>wss://dstream.binancefuture.com/stream?streams=btcusd_200925@depth</strong></li>
+<li>订阅 <strong>wss://dstream.binance.com/stream?streams=btcusd_200925@depth</strong></li>
 <li>开始缓存收到的更新。同一个价位,后收到的更新覆盖前面的。</li>
-<li>访问Rest接口 <strong>https://testnet.binancefuture.com/dapi/v1/depth?symbol=BTCUSD_200925&amp;limit=1000</strong>获得一个1000档的深度快照</li>
+<li>访问Rest接口 <strong>https://dapi.binance.com/dapi/v1/depth?symbol=BTCUSD_200925&amp;limit=1000</strong>获得一个1000档的深度快照</li>
 <li>将目前缓存到的信息中<code>u</code>&lt; 步骤3中获取到的快照中的<code>lastUpdateId</code>的部分丢弃(丢弃更早的信息,已经过期)。</li>
 <li>将深度快照中的内容更新到本地orderbook副本中,并从websocket接收到的第一个<code>U</code> &lt;= <code>lastUpdateId</code> <strong>且</strong> <code>u</code> &gt;= <code>lastUpdateId</code> 的event开始继续更新本地副本。</li>
 <li>每一个新event的<code>pu</code>应该等于上一个event的<code>u</code>,否则可能出现了丢包,请从step3重新进行初始化。</li>
 <li>每一个event中的挂单量代表这个价格目前的挂单量<strong>绝对值</strong>,而不是相对变化。</li>
 <li>如果某个价格对应的挂单量为0,表示该价位的挂单已经撤单或者被吃,应该移除这个价位。</li>
 </ol>
-<h1 id='93d49cc2e5'>账户和交易接口</h1><h2 id='trade'>更改持仓模式（TRADE）</h2>
+<h1 id='93d49cc2e5'>账户和交易接口</h1><h2 id='1045de04a1'>划转</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"tranId"</span><span class="p">:</span> <span class="mi">100000001</span>    <span class="c1">// 划转 ID </span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+POST https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
+</code>
+* 请注意：这里不适用dapi base url</p>
+
+<p>执行现货账户与合约账户之间的划转</p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>asset</td>
+<td>STRING</td>
+<td>YES</td>
+<td>The asset being transferred, e.g., BTC</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>DECIMAL</td>
+<td>YES</td>
+<td>The amount to be transferred</td>
+</tr>
+<tr>
+<td>type</td>
+<td>INT</td>
+<td>YES</td>
+<td>3: 现货账户向交割合约账户划转 4: 交割合约账户向现货账户划转</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='87a7130ac5'>获取划转历史</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"rows"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"USDT"</span><span class="p">,</span>          <span class="c1">// 资产</span>
+      <span class="s2">"tranId"</span><span class="p">:</span> <span class="mi">100000001</span><span class="p">,</span>      <span class="c1">// 划转ID         </span>
+      <span class="s2">"amount"</span><span class="p">:</span> <span class="s2">"40.84624400"</span><span class="p">,</span>  <span class="c1">// 数量</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span>              <span class="c1">// 划转方向</span>
+      <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">1555056425000</span><span class="p">,</span>   <span class="c1">// 时间戳</span>
+      <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"CONFIRMED"</span>         <span class="c1">// PENDING (等待执行), CONFIRMED (成功划转), FAILED (执行失败);</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"total"</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>
+GET https://api.binance.com/sapi/v1/futures/transfer  (HMAC SHA256)
+</code>
+* 请注意：这里不适用dapi base url</p>
+
+<p><strong>权重:</strong>
+5</p>
+
+<p><strong>参数:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>asset</td>
+<td>STRING</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>current</td>
+<td>LONG</td>
+<td>NO</td>
+<td>Currently querying page. Start from 1. Default:1</td>
+</tr>
+<tr>
+<td>size</td>
+<td>LONG</td>
+<td>NO</td>
+<td>Default:10 Max:100</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='trade'>更改持仓模式（TRADE）</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -3815,7 +4083,50 @@ GET /dapi/v1/allOrders (HMAC SHA256)
 <ul>
 <li>symbol 或 pair 必须传一个,不能同时传</li>
 </ul>
-<h2 id='user_data-6'>账户信息 (USER_DATA)</h2>
+<h2 id='user_data-6'>账户余额 (USER_DATA)</h2>
+<blockquote>
+<p><strong>响应:</strong></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"accountAlias"</span><span class="p">:</span> <span class="s2">"SgsR"</span><span class="p">,</span>    <span class="c1">// 账户唯一识别码</span>
+        <span class="s2">"asset"</span><span class="p">:</span> <span class="s2">"BTC"</span><span class="p">,</span>     <span class="c1">// 资产</span>
+        <span class="s2">"balance"</span><span class="p">:</span> <span class="s2">"0.00250000"</span><span class="p">,</span>    <span class="c1">// 余额</span>
+        <span class="s2">"withdrawAvailable"</span><span class="p">:</span> <span class="s2">"0.00250000"</span><span class="p">,</span> <span class="c1">// 最大可提款金额,同`GET /dapi/account`中“maxWithdrawAmount”</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<p><code>
+GET /dapi/v1/balance (HMAC SHA256)
+</code></p>
+
+<p><strong>Weight:</strong>
+1</p>
+
+<p><strong>Parameters:</strong></p>
+
+<table><thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>是否必需</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>recvWindow</td>
+<td>LONG</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>LONG</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id='user_data-7'>账户信息 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -4269,7 +4580,7 @@ GET /dapi/v1/positionRisk (HMAC SHA256)
 <li>marginAsset 和 pair 均不提供则返回所有上市状态和结算中的symbol<br></li>
 <li>请与账户推送信息<code>ACCOUNT_UPDATE</code>配合使用,以满足您的及时性和准确性需求。</li>
 </ul>
-<h2 id='user_data-7'>账户成交历史 (USER_DATA)</h2>
+<h2 id='user_data-8'>账户成交历史 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -4368,7 +4679,7 @@ GET /dapi/v1/userTrades  (HMAC SHA256)
 <ul>
 <li>symbol 或 pair 其中一个必传</li>
 </ul>
-<h2 id='user_data-8'>获取账户损益资金流水(USER_DATA)</h2>
+<h2 id='user_data-9'>获取账户损益资金流水(USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -4455,7 +4766,7 @@ GET /dapi/v1/income (HMAC SHA256)
 <ul>
 <li>如果<code>incomeType</code>没有发送,返回所有类型账户损益资金流水。</li>
 </ul>
-<h2 id='user_data-9'>杠杆分层标准 (USER_DATA)</h2>
+<h2 id='user_data-10'>杠杆分层标准 (USER_DATA)</h2>
 <blockquote>
 <p><strong>响应:</strong></p>
 </blockquote>
@@ -4511,12 +4822,12 @@ GET /dapi/v1/leverageBracket
 </tbody></table>
 <h1 id='websocket-2'>Websocket 账户信息推送</h1>
 <ul>
-<li>本篇所列出REST接口的baseurl <strong>https://testnet.binancefuture.com</strong></li>
+<li>本篇所列出REST接口的baseurl <strong>https://dapi.binance.com</strong></li>
 <li>用于订阅账户数据的 <code>listenKey</code> 从创建时刻起有效期为60分钟</li>
 <li>可以通过<code>PUT</code>一个<code>listenKey</code>延长60分钟有效期</li>
 <li>可以通过<code>DELETE</code>一个 <code>listenKey</code> 立即关闭当前数据流,并使该<code>listenKey</code> 无效</li>
 <li>在具有有效<code>listenKey</code>的帐户上执行<code>POST</code>将返回当前有效的<code>listenKey</code>并将其有效期延长60分钟</li>
-<li>本篇所列出的websocket接口baseurl: <strong>wss://dstream.binancefuture.com</strong></li>
+<li>本篇所列出的websocket接口baseurl: <strong>wss://dstream.binance.com</strong></li>
 <li>订阅账户数据流的stream名称为 <strong>/ws/&lt;listenKey&gt;</strong></li>
 <li>每个链接有效期不超过24小时,请妥善处理断线重连。</li>
 <li>账户数据流的消息<strong>不保证</strong>严格时间序; <strong>请使用 E 字段进行排序</strong></li>
@@ -5139,6 +5450,16 @@ event type统一为 <code>ORDER_TRADE_UPDATE</code></p>
 <ul>
 <li>This OrderType is not supported when reduceOnly.</li>
 <li>当前订单类型不支持<code>reduceOnly</code></li>
+</ul>
+<h3 id='2027-max_leverage_ratio'>-2027 MAX_LEVERAGE_RATIO</h3>
+<ul>
+<li>Exceeded the maximum allowable position at current leverage.</li>
+<li>挂单或持仓超出当前初始杠杆下的最大值</li>
+</ul>
+<h3 id='2028-min_leverage_ratio'>-2028 MIN_LEVERAGE_RATIO</h3>
+<ul>
+<li>Leverage is smaller than permitted: insufficient margin balance.</li>
+<li>调整初始杠杆过低，导致可用余额不足</li>
 </ul>
 <h2 id='40xx-filters-and-other-issues'>40xx - Filters and other Issues</h2><h3 id='4000-invalid_order_status'>-4000 INVALID_ORDER_STATUS</h3>
 <ul>
